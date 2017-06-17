@@ -1,0 +1,50 @@
+apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'maven-publish'
+
+
+ext {
+    repoKey = version =~ /(?i)SNAPSHOT/ ?
+            'libs-snapshot-local' :
+            'libs-release-local'
+}
+
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+}
+
+
+artifactory {
+    if (project.hasProperty('artifactory_user') &&
+        project.hasProperty('artifactory_password') &&
+        project.hasProperty('artifactory_contextUrl'))
+    {
+        contextUrl = artifactory_contextUrl
+        publish {
+            repository {
+                repoKey = repoKey
+                username = "${artifactory_user}" // The publisher user name
+                password = "${artifactory_password}" // The publisher password
+                maven = true
+            }
+            defaults {
+                publications('mavenJava')
+                publishArtifacts = true
+                properties = ['qa.level': 'basic', 'dev.team': 'core']
+                publishPom = true
+            }
+        }
+        resolve {
+            repository {
+                repoKey = 'libs-release'
+            }
+            repository {
+                repoKey = 'libs-snapshot'
+            }
+        }
+    }
+}

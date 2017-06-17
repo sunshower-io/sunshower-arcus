@@ -1,0 +1,7 @@
+apply plugin: 'idea'
+
+idea {
+    module {
+        name = "${file(project.projectDir).parentFile.name}-${project.name}"
+    }
+}

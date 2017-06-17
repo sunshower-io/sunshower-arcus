@@ -1,0 +1,48 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>io.sunshower.arcus</groupId>
+        <artifactId>bom</artifactId>
+        <version>1.00.000.000-SNAPSHOT</version>
+        <relativePath>../</relativePath>
+    </parent>
+    <groupId>io.sunshower.arcus</groupId>
+    <artifactId>bom-exported</artifactId>
+    <version>1.00.000.000-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>Arcus Exported Bill-Of-Materials</name>
+    <url>http://www.sunshower.io</url>
+
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.sunshower.arcus</groupId>
+                <artifactId>annotations</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.sunshower.arcus</groupId>
+                <artifactId>lambda</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.sunshower.arcus</groupId>
+                <artifactId>lang</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>io.sunshower.arcus</groupId>
+                <artifactId>reflect</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>
