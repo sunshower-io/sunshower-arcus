@@ -1,0 +1,23 @@
+buildscript {
+    apply from: 'gradle/buildscript.gradle', to: buildscript
+}
+
+subprojects {
+    apply plugin: 'java'
+
+    apply from: "$rootDir/gradle/dependencies.gradle"
+    apply from: "$rootDir/gradle/idea.gradle"
+    apply from: "$rootDir/gradle/jacoco.gradle"
+    apply from: "$rootDir/gradle/publishing.gradle"
+    apply from: "$rootDir/gradle/test.gradle"
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.12'
+}
+
+apply from: "$rootDir/gradle/bom.gradle"
+
+defaultTasks "installBillOfMaterials", "clean", "build"
+
+

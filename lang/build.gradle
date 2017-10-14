@@ -1,0 +1,5 @@
+
+dependencies {
+    compile project(':lambda')
+    compile project(':annotations:305')
+}

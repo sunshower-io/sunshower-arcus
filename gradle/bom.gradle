@@ -1,0 +1,13 @@
+apply plugin: 'bom'
+
+bom {
+    mavenHome = System.getProperty('M2_HOME')
+}
+
+task releaseBom(dependsOn: [
+        'setBomVersion',
+        'installBillOfMaterials',
+        'uploadBom']
+) {
+    group = 'bill of materials'
+}
