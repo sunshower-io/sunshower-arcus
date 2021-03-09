@@ -25,7 +25,7 @@ pipeline {
         /**
          * current version
          */
-        CURRENT_VERSION = readMavenPom(file: 'sunshower-env/pom.xml').getVersion()
+        CURRENT_VERSION = readMavenPom(file: 'bom/pom.xml').getVersion()
 
         /**
          * base URL components
