@@ -47,19 +47,34 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
-            steps {
-                scmSkip(deleteBuild: true, skipPattern: '\\[released\\].*')
-            }
-
-        }
 
         stage('build env poms') {
 
             steps {
                 container('maven') {
+                    script {
+                        env.TARGET_REPOSITORY = "${env.REPOSITORY_BASE}/${env.MVN_SNAPSHOTS}"
+                    }
+
+                    /**
+                     * deploy boms
+                     */
                     sh """
                         mvn clean install deploy -f bom
+                    """
+
+
+                    sh """
+                        gradle \
+                        clean \
+                        build \
+                        spotlessApply \
+                        publishToMavenLocal \
+                        generateDocumentation \
+                        publish \
+                        -PmavenRepositoryUrl=${env.TARGET_REPOSITORY} \
+                        -PmavenRepositoryUsername=${env.MVN_REPO_USR} \
+                        -PmavenRepositoryPassword=${env.MVN_REPO_USR}
                     """
                 }
             }
@@ -82,8 +97,6 @@ pipeline {
                 branch 'master'
             }
             steps {
-                scmSkip(deleteBuild: true, skipPattern: '\\[released\\].*')
-
 
                 container('maven') {
                     script {
@@ -104,7 +117,6 @@ pipeline {
             }
 
             steps {
-                scmSkip(deleteBuild: true, skipPattern: '\\[released\\].*')
 
                 container('maven') {
 

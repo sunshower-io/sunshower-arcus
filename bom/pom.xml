@@ -10,13 +10,14 @@
     <parent>
         <groupId>io.sunshower.environment</groupId>
         <artifactId>parent</artifactId>
-        <version>1.0.1.Final</version>
+        <version>1.0.3.Final</version>
     </parent>
 
     <name>Sunshower Arcus Bill-Of-Materials</name>
     <url>http://maven.apache.org</url>
 
     <properties>
+        <environment.version>1.0.3.Final</environment.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -24,5 +25,17 @@
         <module>imported</module>
         <module>exported</module>
     </modules>
+
+    <repositories>
+        <repository>
+            <id>sunshower-snapshots</id>
+            <url>http://artifacts.sunshower.cloud/repository/sunshower-snapshots/</url>
+        </repository>
+
+        <repository>
+            <id>sunshower-releases</id>
+            <url>http://artifacts.sunshower.cloud/repository/sunshower-releases/</url>
+        </repository>
+    </repositories>
 
 </project>
