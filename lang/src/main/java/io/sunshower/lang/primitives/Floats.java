@@ -1,14 +1,9 @@
 package io.sunshower.lang.primitives;
 
-import java.nio.ByteBuffer;
-
 import static java.lang.Float.floatToIntBits;
-import static java.lang.Float.floatToRawIntBits;
 import static java.lang.Float.intBitsToFloat;
 
-/**
- * Created by haswell on 4/29/16.
- */
+/** Created by haswell on 4/29/16. */
 public class Floats {
 
     public static final byte[] toByteArray(float[] floats) {
@@ -27,15 +22,16 @@ public class Floats {
 
     public static final float[] fromByteArray(byte[] floats) {
         final int len = floats.length;
-        if(len % 4 != 0) {
+        if (len % 4 != 0) {
             throw new IllegalArgumentException("Byte array must be divisible by 4");
         }
         final float[] result = new float[len / 4];
-        for(int i = 0, j = 0; i < result.length; i++) {
-            int r = floats[j] << 24
-                    | (floats[j + 1] & 0xFF) << 16
-                    | (floats[j + 2] & 0xFF) << 8
-                    | (floats[j + 3] & 0xFF);
+        for (int i = 0, j = 0; i < result.length; i++) {
+            int r =
+                    floats[j] << 24
+                            | (floats[j + 1] & 0xFF) << 16
+                            | (floats[j + 2] & 0xFF) << 8
+                            | (floats[j + 3] & 0xFF);
             result[i] = intBitsToFloat(r);
             j += 4;
         }

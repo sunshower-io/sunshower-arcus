@@ -1,18 +1,16 @@
 package io.sunshower.lang.primitives;
 
-import org.junit.Test;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.BitSet;
-
 import static io.sunshower.lang.primitives.Bytes.fromByteArray;
 import static io.sunshower.lang.primitives.Bytes.toByteArray;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
-public class BytesTest {
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.BitSet;
+import org.junit.Test;
 
+public class BytesTest {
 
     @Test
     public void ensureToByteArrayProducesExpectedValues() {
@@ -20,15 +18,13 @@ public class BytesTest {
         assertThat(fromByteArray(bytes), is(45));
     }
 
-
-
     @Test(expected = UnsupportedOperationException.class)
     public void ensureBytesCannotBeConstructed() throws Throwable {
         final Constructor ctor = Bytes.class.getDeclaredConstructor();
         ctor.setAccessible(true);
         try {
             ctor.newInstance();
-        } catch(InvocationTargetException ex) {
+        } catch (InvocationTargetException ex) {
             throw ex.getTargetException();
         }
     }
@@ -48,7 +44,6 @@ public class BytesTest {
         assertThat(Bytes.get(bs, 17), is(0));
         assertThat(Bytes.get(bs, 18), is(1));
     }
-
 
     @Test
     public void ensureToBitStringWorks() {
@@ -73,7 +68,6 @@ public class BytesTest {
         assertThat(Bytes.get(bs, 18), is(1));
     }
 
-
     @Test
     public void ensureSettingFirstBitResultsInFirstBitBeingSet() {
         byte b = 0b0;
@@ -88,7 +82,6 @@ public class BytesTest {
         int expected = 0b0;
         assertThat(Bytes.clear(b, 0), is(expected));
     }
-
 
     @Test
     public void ensureSettingBitAtSecondPositionResultsInSecondBitBeingSet() {
@@ -106,13 +99,11 @@ public class BytesTest {
         assertThat(Bytes.clear(b, 0), is(f));
     }
 
-
     @Test
     public void ensureGettingBitAtFirstIndexInByteArrayProducesExpectedValue() {
         byte[] b = {0b1, 0b0};
         assertThat(Bytes.get(b, 0), is(1));
     }
-
 
     @Test
     public void ensureGettingBitAtSecondIndexInArrayProducesExpectedValue() {
@@ -125,19 +116,18 @@ public class BytesTest {
     public void ensureClearingBitsAtLocationsProducesExpectedResults() {
         byte b = 0b1111111;
         byte expected = 0b1010101;
-        for(int i = 0; i < 7; ++i) {
-            if(i % 2 == 1) {
+        for (int i = 0; i < 7; ++i) {
+            if (i % 2 == 1) {
                 b = (byte) Bytes.clear(b, i);
             }
         }
         assertThat(b, is(expected));
     }
 
-
     @Test
     public void ensureGettingBitAtIndexWorks() {
         final byte b = 0b1010101;
-        for(int i = 0; i < 8; ++i) {
+        for (int i = 0; i < 8; ++i) {
             assertThat(Bytes.get(b, i), is((i + 1) % 2));
         }
     }
@@ -145,19 +135,17 @@ public class BytesTest {
     @Test
     public void ensureSettingBitsProducesExpectedResults() {
         byte b = 0;
-        for(int i = 0; i < 8; ++i) {
-            if(i % 2 == 0) {
-                 b = (byte) Bytes.set(b, i);
+        for (int i = 0; i < 8; ++i) {
+            if (i % 2 == 0) {
+                b = (byte) Bytes.set(b, i);
             }
         }
-        for(int i = 0; i < 8; ++i) {
-            if(i % 2 == 0) {
+        for (int i = 0; i < 8; ++i) {
+            if (i % 2 == 0) {
                 assertThat(Bytes.get(b, i), is(1));
-            } else
-                assertThat(Bytes.get(b, i), is(0));
+            } else assertThat(Bytes.get(b, i), is(0));
         }
     }
-
 
     @Test
     public void ensureGettingBitsInByteArrayAtWeirdLocationProducesExpectedResults() {
@@ -168,11 +156,10 @@ public class BytesTest {
         assertThat(Bytes.get(bs, 1), is(0));
         assertThat(Bytes.get(bs, 0), is(1));
         assertThat(Bytes.get(bs, 10), is(1));
-        assertThat(Bytes.get(bs,11), is(0));
+        assertThat(Bytes.get(bs, 11), is(0));
         assertThat(Bytes.get(bs, 16), is(1));
         BitSet b = BitSet.valueOf(bs);
         assertThat(b.get(17), is(false));
         assertThat(Bytes.get(bs, 17), is(0));
     }
-
 }

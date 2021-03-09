@@ -1,43 +1,28 @@
 package io.sunshower.lang.common.hash;
 
-import org.junit.Test;
-
-import java.util.Arrays;
-import java.util.Random;
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
-/**
- * Created by haswell on 5/25/16.
- */
-public class MultihashTest {
+import java.util.Arrays;
+import java.util.Random;
+import org.junit.Test;
 
+/** Created by haswell on 5/25/16. */
+public class MultihashTest {
 
     @Test
     public void ensureDecodingEncodedMultiHashProducesExpectedResults() {
-        final byte[] data = {
-                (byte) Multihash.Type.SHA1.value,
-                2,
-                0,
-                1
-        };
+        final byte[] data = {(byte) Multihash.Type.SHA1.value, 2, 0, 1};
 
         Multihash multicode = Multihash.decode(data);
         assertThat(multicode.getType(), is(Multihash.Type.SHA1));
         assertThat(multicode.data[0], is((byte) 0));
         assertThat(multicode.data[1], is((byte) 1));
-        
     }
-    
+
     @Test
     public void ensureDecodingProducesExpectedResults() {
-        final byte[] data = {
-                (byte) Multihash.Type.SHA1.value,
-                2,
-                0,
-                1
-        };
+        final byte[] data = {(byte) Multihash.Type.SHA1.value, 2, 0, 1};
 
         Multihash multicode = Multihash.decode(data);
         byte[] d = Multihash.encode(multicode);
@@ -62,5 +47,4 @@ public class MultihashTest {
         random.nextBytes(data);
         return data;
     }
-
 }

@@ -15,6 +15,4 @@ public interface Iteratee<T, U> {
     boolean proceed();
 
     Iteratee<T, U> next(Iterator<T> iterator);
-
-
 }

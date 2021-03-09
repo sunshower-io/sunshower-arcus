@@ -3,9 +3,7 @@ package io.sunshower.lang.primitives;
 import static java.lang.Double.doubleToLongBits;
 import static java.lang.Double.longBitsToDouble;
 
-/**
- * Created by haswell on 4/29/16.
- */
+/** Created by haswell on 4/29/16. */
 public class Doubles {
 
     public static final byte[] toByteArray(double[] ds) {
@@ -28,19 +26,20 @@ public class Doubles {
 
     public static final double[] fromByteArray(byte[] floats) {
         final int len = floats.length;
-        if(len % 8 != 0) {
+        if (len % 8 != 0) {
             throw new IllegalArgumentException("Byte array must be divisible by 8");
         }
         final double[] result = new double[len / 8];
-        for(int i = 0, j = 0; i < result.length; i++) {
-            long r = (long) floats[j] << 56
-                    | (long) (floats[j + 1] & 0xFF) << 48
-                    | (long) (floats[j + 2] & 0xFF) << 40
-                    | (long) (floats[j + 3] & 0xFF) << 32
-                    | (long) (floats[j + 4] & 0xFF) << 24
-                    | (long) (floats[j + 5] & 0xFF) << 16
-                    | (long) (floats[j + 6] & 0xFF) << 8
-                    | (long) (floats[j + 7] & 0xFF);
+        for (int i = 0, j = 0; i < result.length; i++) {
+            long r =
+                    (long) floats[j] << 56
+                            | (long) (floats[j + 1] & 0xFF) << 48
+                            | (long) (floats[j + 2] & 0xFF) << 40
+                            | (long) (floats[j + 3] & 0xFF) << 32
+                            | (long) (floats[j + 4] & 0xFF) << 24
+                            | (long) (floats[j + 5] & 0xFF) << 16
+                            | (long) (floats[j + 6] & 0xFF) << 8
+                            | (long) (floats[j + 7] & 0xFF);
             result[i] = longBitsToDouble(r);
             j += 8;
         }

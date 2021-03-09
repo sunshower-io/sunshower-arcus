@@ -4,9 +4,7 @@ import java.io.File;
 import java.net.URI;
 import java.net.URL;
 
-/**
- * Created by haswell on 3/29/16.
- */
+/** Created by haswell on 3/29/16. */
 public interface Resource {
 
     long length();

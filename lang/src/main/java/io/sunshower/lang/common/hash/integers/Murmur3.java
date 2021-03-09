@@ -1,10 +1,7 @@
 package io.sunshower.lang.common.hash.integers;
 
-/**
- * Created by haswell on 4/4/16.
- */
+/** Created by haswell on 4/4/16. */
 public final class Murmur3 implements IntegerHashFunction {
-
 
     private static final int Constant1 = 0xcc9e2d51;
     private static final int Constant2 = 0x1b873593;
@@ -20,12 +17,10 @@ public final class Murmur3 implements IntegerHashFunction {
         return 32;
     }
 
-
     @Override
     public String toString() {
         return "Murmur3(blocksize: 32 bits)(" + seed + ")";
     }
-
 
     @Override
     public int hashCode() {
@@ -79,5 +74,4 @@ public final class Murmur3 implements IntegerHashFunction {
         }
         return mix(h1, 2 * sequence.length());
     }
-
 }

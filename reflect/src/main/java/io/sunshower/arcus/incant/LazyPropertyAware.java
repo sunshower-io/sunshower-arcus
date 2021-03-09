@@ -2,17 +2,14 @@ package io.sunshower.arcus.incant;
 
 import io.sunshower.lang.PropertyAware;
 import io.sunshower.lang.tuple.Pair;
-
-import javax.annotation.concurrent.ThreadSafe;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import javax.annotation.concurrent.ThreadSafe;
 
-/**
- * Created by haswell on 4/20/16.
- */
+/** Created by haswell on 4/20/16. */
 @ThreadSafe
 public class LazyPropertyAware implements PropertyAware {
 
@@ -20,7 +17,7 @@ public class LazyPropertyAware implements PropertyAware {
 
     @Override
     public boolean hasProperty(String key) {
-        if(properties == null || properties.isEmpty()) {
+        if (properties == null || properties.isEmpty()) {
             return false;
         }
         return properties.containsKey(key);
@@ -28,7 +25,7 @@ public class LazyPropertyAware implements PropertyAware {
 
     @Override
     public String getProperty(String key) {
-        if(properties == null) {
+        if (properties == null) {
             return null;
         }
         return properties.get(key);
@@ -36,12 +33,12 @@ public class LazyPropertyAware implements PropertyAware {
 
     @Override
     public Set<Pair<String, String>> getProperties() {
-        if(properties == null || properties.isEmpty()) {
+        if (properties == null || properties.isEmpty()) {
             return Collections.emptySet();
         }
-        return properties.entrySet().stream().map(
-                f -> Pair.of(f.getKey(), f.getValue())
-        ).collect(Collectors.toSet());
+        return properties.entrySet().stream()
+                .map(f -> Pair.of(f.getKey(), f.getValue()))
+                .collect(Collectors.toSet());
     }
 
     @Override
@@ -50,19 +47,18 @@ public class LazyPropertyAware implements PropertyAware {
         return properties.put(key, value) == null;
     }
 
-
     @Override
     public String removeProperty(String key) {
-        if(properties == null || properties.isEmpty()) {
+        if (properties == null || properties.isEmpty()) {
             return null;
         }
         return properties.remove(key);
     }
 
     private void check() {
-        if(properties == null) {
-            synchronized(this) {
-                if(properties == null) {
+        if (properties == null) {
+            synchronized (this) {
+                if (properties == null) {
                     properties = new HashMap<>();
                 }
             }

@@ -6,21 +6,17 @@ import javax.annotation.Nonnull;
 
 /**
  * Created by haswell on 3/31/16.
- * <p>
- * BitSet is too slow and forces a heap allocation generally
+ *
+ * <p>BitSet is too slow and forces a heap allocation generally
  */
 public class Bytes {
-
 
     private Bytes() {
         throw new UnsupportedOperationException("No Bytes for you!");
     }
 
     @InPlace
-    public static void set(
-            @Nonnull byte[] bytes,
-            @Nonnegative int index,
-            boolean value) {
+    public static void set(@Nonnull byte[] bytes, @Nonnegative int index, boolean value) {
         set(bytes, index, value ? 1 : 0);
     }
 
@@ -31,16 +27,11 @@ public class Bytes {
      * @param index the index to set
      */
     @InPlace
-    public static void set(
-            @Nonnull byte[] bytes,
-            @Nonnegative int index,
-            int value) {
+    public static void set(@Nonnull byte[] bytes, @Nonnegative int index, int value) {
         final int ind = index / 7;
         final int aind = index % 8;
         byte b = bytes[ind];
-        bytes[ind] = (value % 2 == 1) ?
-                (b |= 1 << aind) :
-                (b &= ~(1 << aind));
+        bytes[ind] = (value % 2 == 1) ? (b |= 1 << aind) : (b &= ~(1 << aind));
     }
 
     /**
@@ -50,23 +41,17 @@ public class Bytes {
      * @param index the index of the byte to get
      * @return the bit value at the given index (either 0 or 1)
      */
-
     @InPlace
-    public static int get(
-            @Nonnull byte[] bytes,
-            @Nonnegative int index
-    ) {
+    public static int get(@Nonnull byte[] bytes, @Nonnegative int index) {
         return (bytes[index / 7] >> (index % 8) & 1);
     }
 
     /**
-     *
      * @param bytes
      * @param startIndex
      * @param endIndex
      * @return
      */
-
 
     /**
      * Get the bit at position index
@@ -119,16 +104,13 @@ public class Bytes {
     }
 
     public static byte[] toByteArray(int value) {
-        return new byte[]{
-                (byte) (value >>> 24),
-                (byte) (value >>> 16),
-                (byte) (value >>> 8),
-                (byte) value};
+        return new byte[] {
+            (byte) (value >>> 24), (byte) (value >>> 16), (byte) (value >>> 8), (byte) value
+        };
     }
 
-
     public static int fromByteArray(byte[] bytes) {
-        if(bytes.length != 4) {
+        if (bytes.length != 4) {
             throw new IllegalArgumentException("There must be exactly 4 values in a byte array");
         }
         return bytes[0] << 24

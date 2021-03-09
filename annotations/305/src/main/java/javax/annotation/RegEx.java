@@ -5,16 +5,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
-
 import javax.annotation.meta.TypeQualifierNickname;
 import javax.annotation.meta.TypeQualifierValidator;
 import javax.annotation.meta.When;
 
-/**
- * This qualifier is used to denote String values that should be a Regular
- * expression.
- * 
- */
+/** This qualifier is used to denote String values that should be a Regular expression. */
 @Documented
 @Syntax("RegEx")
 @TypeQualifierNickname
@@ -25,8 +20,7 @@ public @interface RegEx {
     static class Checker implements TypeQualifierValidator<RegEx> {
 
         public When forConstantValue(RegEx annotation, Object value) {
-            if (!(value instanceof String))
-                return When.NEVER;
+            if (!(value instanceof String)) return When.NEVER;
 
             try {
                 Pattern.compile((String) value);
@@ -34,9 +28,6 @@ public @interface RegEx {
                 return When.NEVER;
             }
             return When.ALWAYS;
-
         }
-
     }
-
 }

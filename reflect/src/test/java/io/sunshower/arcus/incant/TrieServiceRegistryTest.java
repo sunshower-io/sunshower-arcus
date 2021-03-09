@@ -1,20 +1,16 @@
 package io.sunshower.arcus.incant;
 
-import org.junit.Before;
-import org.junit.Test;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import org.junit.Before;
+import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-
-
-/**
- * Created by haswell on 4/10/16.
- */
+/** Created by haswell on 4/10/16. */
 public class TrieServiceRegistryTest {
 
     private OperationScanner objectScanner;
@@ -31,11 +27,7 @@ public class TrieServiceRegistryTest {
                 return "a";
             }
         }
-        final TrieServiceRegistry registry =
-                new TrieServiceRegistry(
-                        objectScanner,
-                        init(A.class)
-                );
+        final TrieServiceRegistry registry = new TrieServiceRegistry(objectScanner, init(A.class));
         registry.refresh();
         final A instance = new A();
         ServiceDescriptor<A> service = registry.resolve("A");
@@ -55,29 +47,17 @@ public class TrieServiceRegistryTest {
             }
         }
 
-        final TrieServiceRegistry registry =
-                new TrieServiceRegistry(
-                        objectScanner,
-                        init(A.class)
-                );
+        final TrieServiceRegistry registry = new TrieServiceRegistry(objectScanner, init(A.class));
         registry.refresh();
         final A instance = new A();
         ServiceDescriptor<A> service = registry.resolve("A");
         assertThat(service.getIdentifier(), is("A"));
         assertThat(service.resolve("a").invoke(instance), is("a"));
-        assertThat(service.resolve("b",
-                String.class,
-                String.class,
-                String.class
-        ).invoke(instance, "a", "b", "c"), is("abc"));
+        assertThat(
+                service.resolve("b", String.class, String.class, String.class)
+                        .invoke(instance, "a", "b", "c"),
+                is("abc"));
     }
-
-
-
-
-
-
-
 
     static ServiceResolver init(Class<?> types) {
         return new TestServiceResolver(types);
@@ -87,15 +67,15 @@ public class TrieServiceRegistryTest {
 
         @Override
         public Set<ServiceDescriptor<?>> scan(Class<?> type) {
-            return Collections.singleton(new ServiceDescriptor<>(
-                    type, type.getSimpleName(),
-                    type.getDeclaredMethods()));
+            return Collections.singleton(
+                    new ServiceDescriptor<>(type, type.getSimpleName(), type.getDeclaredMethods()));
         }
     }
 
     static class TestServiceResolver implements ServiceResolver {
         final Set<Class<?>> types;
-        TestServiceResolver(Class<?>...types) {
+
+        TestServiceResolver(Class<?>... types) {
             this.types = new HashSet<>(Arrays.asList(types));
         }
 
@@ -104,6 +84,4 @@ public class TrieServiceRegistryTest {
             return types;
         }
     }
-
-
 }

@@ -1,7 +1,6 @@
 package io.sunshower.arcus.incant;
 
 import io.sunshower.arcus.reflect.Reflect;
-
 import java.lang.reflect.Field;
 import java.util.Objects;
 
@@ -15,10 +14,11 @@ public class Incant {
 
     @SuppressWarnings("unchecked")
     public static <T, U> U fieldValue(Class<T> type, T instance, String fieldName) {
-        final Field field = Reflect.collectOverHierarchy(
-                type, 
-                Fields::fields
-        ).filter(Fields.named(fieldName)).findFirst().get();
+        final Field field =
+                Reflect.collectOverHierarchy(type, Fields::fields)
+                        .filter(Fields.named(fieldName))
+                        .findFirst()
+                        .get();
         field.setAccessible(true);
         try {
             return (U) field.get(instance);

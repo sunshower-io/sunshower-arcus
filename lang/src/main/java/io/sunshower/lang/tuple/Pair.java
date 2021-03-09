@@ -3,9 +3,7 @@ package io.sunshower.lang.tuple;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-/**
- * Created by haswell on 4/6/16.
- */
+/** Created by haswell on 4/6/16. */
 public final class Pair<K, V> {
 
     public final K fst;
@@ -15,7 +13,6 @@ public final class Pair<K, V> {
         this.fst = fst;
         this.snd = snd;
     }
-
 
     public K fst() {
         return fst;
@@ -30,11 +27,10 @@ public final class Pair<K, V> {
     }
 
     public static <K, V> Stream<Pair<K, V>> bindFst(K k, V v) {
-        return k == null ?
-                Stream.empty() : Stream.of(of(k, v));
+        return k == null ? Stream.empty() : Stream.of(of(k, v));
     }
 
-    public <T, U>  Pair<T, U> map(Function<Pair<K, V>, Pair<T, U>> f) {
+    public <T, U> Pair<T, U> map(Function<Pair<K, V>, Pair<T, U>> f) {
         return f.apply(this);
     }
 
@@ -52,7 +48,6 @@ public final class Pair<K, V> {
 
         if (fst != null ? !fst.equals(pair.fst) : pair.fst != null) return false;
         return snd != null ? snd.equals(pair.snd) : pair.snd == null;
-
     }
 
     @Override

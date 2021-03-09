@@ -1,15 +1,12 @@
 package io.sunshower.lang.common.version;
 
-import org.junit.Test;
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
-/**
- * Created by haswell on 5/26/16.
- */
-public class VersionRangeTest {
+import org.junit.Test;
 
+/** Created by haswell on 5/26/16. */
+public class VersionRangeTest {
 
     @Test
     public void ensureVersionRangeParsesSingleVersionCorrectly() {
@@ -56,7 +53,6 @@ public class VersionRangeTest {
         assertThat(upperBound.isClosed(), is(true));
     }
 
-
     @Test
     public void ensureVersionRangeContainsValueThatsBetweenThem() {
 
@@ -70,5 +66,4 @@ public class VersionRangeTest {
         VersionRange range = VersionRange.parse("(1.0, 1.1]");
         assertThat(range.contains(new Version("1.0")), is(false));
     }
-
 }

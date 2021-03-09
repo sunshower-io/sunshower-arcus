@@ -1,22 +1,16 @@
 package io.sunshower.lambda;
 
-import org.junit.Test;
-
+import static io.sunshower.lambda.Option.none;
+import static io.sunshower.lambda.Option.some;
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import org.junit.Test;
 
-import static io.sunshower.lambda.Option.none;
-import static io.sunshower.lambda.Option.some;
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
-
-/**
- * Created by haswell on 3/23/16.
- */
+/** Created by haswell on 3/23/16. */
 public class OptionTest {
-
 
     @Test
     public void ensureSomeOfAnItemIsSome() {
@@ -27,7 +21,6 @@ public class OptionTest {
     public void ensureSomeIsNotNone() {
         assertThat(new Option.Some<>("hello").isNone(), is(false));
     }
-
 
     @Test
     public void ensureSizeOfSomeIs1() {
@@ -60,13 +53,12 @@ public class OptionTest {
 
         int count = 0;
         Object contents = null;
-        for(Object o : new Option.Some<>("hello")) {
+        for (Object o : new Option.Some<>("hello")) {
             count++;
             contents = o;
         }
         assertThat(count, is(1));
         assertThat(contents, is("hello"));
-
     }
 
     @Test
@@ -74,8 +66,8 @@ public class OptionTest {
         List<Object> results = new ArrayList<>();
         Object obj = new Object();
         Option<Object> o = new Option.Some<>(obj);
-        for(int i = 0; i < 5; ++i) {
-            for(Object a : o) {
+        for (int i = 0; i < 5; ++i) {
+            for (Object a : o) {
                 results.add(a);
             }
         }
@@ -112,15 +104,15 @@ public class OptionTest {
     }
 
     @Test
-    public void ensureToArrayOnSomeOnArrayOfSizeGreaterThanOneProducesArrayWithElementAtPositionOneEqualToNull() {
+    public void
+            ensureToArrayOnSomeOnArrayOfSizeGreaterThanOneProducesArrayWithElementAtPositionOneEqualToNull() {
         Option.Some<String> a = new Option.Some<>("a");
-        String[] ar = new String[]{"1", "2"};
+        String[] ar = new String[] {"1", "2"};
         String[] results = a.toArray(ar);
         assertThat(results[0], is("a"));
         assertThat(results[1], is(nullValue()));
         assertTrue(ar == results);
     }
-
 
     @Test
     public void ensureSomeCanAddStructurallyEquivalentObject() {
@@ -132,7 +124,6 @@ public class OptionTest {
         String o = "a";
         assertTrue(new Option.Some<>(o).add(o));
     }
-
 
     @Test
     public void ensureRemoveReturnsFalseForStructurallyDifferentObjects() {
@@ -357,7 +348,6 @@ public class OptionTest {
     @Test
     public void ensureOptionTestWorks() {
         new OptionTest();
-
     }
 
     @Test
@@ -369,7 +359,6 @@ public class OptionTest {
     public void ensureSomeIsNotEqualToObject() {
         assertFalse(some("a").equals(new Object()));
     }
-
 
     @Test
     public void ensureSomeCanBeUsedAsAKeyForASet() {
@@ -397,12 +386,11 @@ public class OptionTest {
 
     @Test
     public void ensureFlatMapMakesSense() {
-        List<String> c = Option.of("a").stream().flatMap(a ->
-                Option.bind("b", "c")).collect(Collectors.toList());
+        List<String> c =
+                Option.of("a").stream()
+                        .flatMap(a -> Option.bind("b", "c"))
+                        .collect(Collectors.toList());
         assertThat(c.size(), is(2));
         assertThat(c.contains("b"), is(true));
-
     }
-
-
 }

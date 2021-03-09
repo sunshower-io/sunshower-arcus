@@ -10,16 +10,12 @@ public class TrieServiceRegistry implements InvocationContext {
     private final ServiceResolver serviceResolver;
     private final Map<String, ServiceDescriptor<?>> serviceDescriptors;
 
-
     public TrieServiceRegistry(
-            final OperationScanner scanner,
-            final ServiceResolver serviceResolver
-    ) {
+            final OperationScanner scanner, final ServiceResolver serviceResolver) {
         this.scanner = scanner;
         this.serviceResolver = serviceResolver;
         this.serviceDescriptors = new HashMap<>();
     }
-
 
     @Override
     @SuppressWarnings("unchecked")
@@ -34,17 +30,15 @@ public class TrieServiceRegistry implements InvocationContext {
     }
 
     private void scan() {
-        final Set<Class<?>> serviceTypes =
-                serviceResolver.resolveServiceTypes();
-        for(Class<?> serviceType : serviceTypes) {
+        final Set<Class<?>> serviceTypes = serviceResolver.resolveServiceTypes();
+        for (Class<?> serviceType : serviceTypes) {
             register(serviceType);
         }
     }
 
     private void register(Class<?> serviceType) {
-        final Set<ServiceDescriptor<?>>
-                registeredServices = scanner.scan(serviceType);
-        for(ServiceDescriptor<?> descriptor : registeredServices) {
+        final Set<ServiceDescriptor<?>> registeredServices = scanner.scan(serviceType);
+        for (ServiceDescriptor<?> descriptor : registeredServices) {
             this.serviceDescriptors.put(descriptor.getIdentifier(), descriptor);
         }
     }

@@ -1,19 +1,15 @@
 package io.sunshower.lang.common.hash.ints;
 
-import io.sunshower.lang.common.hash.HashFunction;
-import io.sunshower.lang.common.hash.integers.Murmur3;
-import io.sunshower.lang.common.hash.integers.StringHash;
-import org.junit.Test;
-
-import java.util.Random;
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
 
-/**
- * Created by haswell on 4/4/16.
- */
+import io.sunshower.lang.common.hash.HashFunction;
+import io.sunshower.lang.common.hash.integers.Murmur3;
+import java.util.Random;
+import org.junit.Test;
+
+/** Created by haswell on 4/4/16. */
 public class Murmur3Test {
 
     @Test
@@ -25,7 +21,7 @@ public class Murmur3Test {
 
     @Test
     public void testPerformance() {
-        for(int k = 0; k < 5; ++k) {
+        for (int k = 0; k < 5; ++k) {
             final Murmur3 murmur3 = (Murmur3) HashFunction.murmur3(1341234);
             String testString = generate(100000);
             long t1 = System.currentTimeMillis();
@@ -45,7 +41,6 @@ public class Murmur3Test {
 
             System.out.println("Average time millis: " + (t2 - t1));
         }
-
     }
 
     int hashCode(char[] value) {
@@ -59,16 +54,14 @@ public class Murmur3Test {
         return h;
     }
 
-
     private String generate(int length) {
         final char[] chs = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOP".toCharArray();
         final Random rand = new Random();
 
         StringBuilder b = new StringBuilder(length);
-        for(int i = 0; i < length; ++i) {
+        for (int i = 0; i < length; ++i) {
             b.append(chs[rand.nextInt(i == 0 ? 1 : i) % chs.length]);
         }
         return b.toString();
     }
-
 }

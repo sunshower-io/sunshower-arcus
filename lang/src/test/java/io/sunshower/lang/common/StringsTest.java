@@ -1,9 +1,9 @@
 package io.sunshower.lang.common;
 
-import org.junit.Test;
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
+
+import org.junit.Test;
 
 public class StringsTest {
 
@@ -11,5 +11,4 @@ public class StringsTest {
     public void ensureEmptyStringIsEmpty() {
         assertThat(Strings.isBlank(""), is(true));
     }
-
 }

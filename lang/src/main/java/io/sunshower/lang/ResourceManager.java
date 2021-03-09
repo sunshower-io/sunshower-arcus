@@ -1,11 +1,7 @@
 package io.sunshower.lang;
 
-
-/**
- * Created by haswell on 3/29/16.
- */
+/** Created by haswell on 3/29/16. */
 public interface ResourceManager {
-
 
     boolean exists(String s);
 
@@ -19,10 +15,7 @@ public interface ResourceManager {
 
     <T> Class<T> getClass(String name, boolean load);
 
-
     default Package[] getPackages() {
         return Package.getPackages();
     }
-
-
 }

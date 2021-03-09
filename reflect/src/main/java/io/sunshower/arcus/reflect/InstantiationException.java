@@ -1,12 +1,9 @@
 package io.sunshower.arcus.reflect;
 
-/**
- * Created by haswell on 3/23/16.
- */
+/** Created by haswell on 3/23/16. */
 public class InstantiationException extends ReflectionException {
 
-    public InstantiationException() {
-    }
+    public InstantiationException() {}
 
     public InstantiationException(String message) {
         super(message);
@@ -20,7 +17,11 @@ public class InstantiationException extends ReflectionException {
         super(cause);
     }
 
-    public InstantiationException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    public InstantiationException(
+            String message,
+            Throwable cause,
+            boolean enableSuppression,
+            boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 }

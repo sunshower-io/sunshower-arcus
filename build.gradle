@@ -34,6 +34,11 @@ subprojects {
         useJUnitPlatform()
     }
 
+    spotless {
+        java {
+            googleJavaFormat('1.8').aosp()
+        }
+    }
     plugins.withType(JavaPlugin) {
 
 

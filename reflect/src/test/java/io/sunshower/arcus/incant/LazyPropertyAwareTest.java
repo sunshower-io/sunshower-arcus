@@ -1,22 +1,17 @@
 package io.sunshower.arcus.incant;
 
-import io.sunshower.lang.PropertyAware;
-import io.sunshower.lang.tuple.Pair;
-import org.junit.Test;
-
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.*;
 
-/**
- * Created by haswell on 4/20/16.
- */
-public class LazyPropertyAwareTest {
+import io.sunshower.lang.PropertyAware;
+import io.sunshower.lang.tuple.Pair;
+import java.util.Collections;
+import java.util.Set;
+import org.junit.Test;
 
+/** Created by haswell on 4/20/16. */
+public class LazyPropertyAwareTest {
 
     @Test
     public void ensurePropertyAwareHasPropertyReturnsFalseWhenNoPropertyIsAdded() {
@@ -24,7 +19,7 @@ public class LazyPropertyAwareTest {
     }
 
     @Test
-    public void ensureHasPropertyReturnsFalseWhenPropertiesIsEmpty () {
+    public void ensureHasPropertyReturnsFalseWhenPropertiesIsEmpty() {
 
         PropertyAware aware = new LazyPropertyAware();
         aware.addProperty("whatever", "whatever");
@@ -46,7 +41,6 @@ public class LazyPropertyAwareTest {
         aware.addProperty("whatever", "whatever");
         assertThat(aware.getProperty("whatever"), is("whatever"));
     }
-
 
     @Test
     public void ensureGetPropertiesReturnsEmptySetWhenNoPropertiesHaveBeenAdded() {

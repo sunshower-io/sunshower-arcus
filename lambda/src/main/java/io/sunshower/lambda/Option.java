@@ -7,11 +7,9 @@ import java.util.stream.*;
 
 public abstract class Option<T> implements Collection<T>, Serializable {
 
-    private Option() {
+    private Option() {}
 
-    }
-
-    public static final class Some<T> extends Option<T>  {
+    public static final class Some<T> extends Option<T> {
         final T item;
 
         public Some(T item) {
@@ -44,17 +42,17 @@ public abstract class Option<T> implements Collection<T>, Serializable {
 
         @Override
         public Object[] toArray() {
-            return new Object[]{item};
+            return new Object[] {item};
         }
 
         @Override
         @SuppressWarnings("unchecked")
         public <T1> T1[] toArray(final T1[] a) {
-            if(a.length < 1) {
+            if (a.length < 1) {
                 return (T1[]) Arrays.copyOf(toArray(), 1, a.getClass());
             }
-            System.arraycopy(new Object[]{item}, 0, a, 0, 1);
-            if(a.length > 1) {
+            System.arraycopy(new Object[] {item}, 0, a, 0, 1);
+            if (a.length > 1) {
                 a[1] = null;
             }
             return a;
@@ -92,7 +90,8 @@ public abstract class Option<T> implements Collection<T>, Serializable {
 
         @Override
         public void clear() {
-            throw new UnsupportedOperationException("Some.clear() is not supported as Some() is immutable");
+            throw new UnsupportedOperationException(
+                    "Some.clear() is not supported as Some() is immutable");
         }
 
         @Override
@@ -120,12 +119,10 @@ public abstract class Option<T> implements Collection<T>, Serializable {
             return Option.some(f.apply(item));
         }
 
-
         @Override
         public <U> Option<U> fmap(Function<T, U> f) {
             return lift(f);
         }
-
 
         public int hashCode() {
             return item == null ? 0 : item.hashCode();
@@ -140,6 +137,7 @@ public abstract class Option<T> implements Collection<T>, Serializable {
         private static class SomeIterator<T> implements Iterator<T> {
             private final T item;
             private boolean advanced;
+
             SomeIterator(T k) {
                 this.item = k;
                 this.advanced = false;
@@ -152,7 +150,7 @@ public abstract class Option<T> implements Collection<T>, Serializable {
 
             @Override
             public T next() {
-                if(!advanced) {
+                if (!advanced) {
                     advanced = true;
                     return item;
                 }
@@ -160,7 +158,6 @@ public abstract class Option<T> implements Collection<T>, Serializable {
             }
         }
     }
-
 
     public static final class None<T> extends Option<T> {
         static final Option<?> NONE = new None<>();
@@ -276,7 +273,6 @@ public abstract class Option<T> implements Collection<T>, Serializable {
         }
     }
 
-
     public abstract T get();
 
     public abstract boolean isSome();
@@ -291,23 +287,21 @@ public abstract class Option<T> implements Collection<T>, Serializable {
 
     public abstract <U> Option<U> fmap(Function<T, U> f);
 
-
     public static <T> Option<T> some(T u) {
         return new Some<>(u);
     }
 
     @SafeVarargs
-    public static <T> Stream<T> bind(T...items) {
-        return (items == null || items.length == 0) ?
-                Stream.empty() :
-                Arrays.stream(items).flatMap(i ->
-                        i == null ? Stream.empty() : Stream.of(i));
+    public static <T> Stream<T> bind(T... items) {
+        return (items == null || items.length == 0)
+                ? Stream.empty()
+                : Arrays.stream(items).flatMap(i -> i == null ? Stream.empty() : Stream.of(i));
     }
 
     @SafeVarargs
-    public static <T> Stream<T> stream(Optional<T>...options) {
-        return Arrays.stream(options).flatMap(
-                opt -> opt.isPresent() ? Stream.of(opt.get()) : Stream.empty());
+    public static <T> Stream<T> stream(Optional<T>... options) {
+        return Arrays.stream(options)
+                .flatMap(opt -> opt.isPresent() ? Stream.of(opt.get()) : Stream.empty());
     }
 
     @SuppressWarnings("unchecked")
@@ -315,12 +309,7 @@ public abstract class Option<T> implements Collection<T>, Serializable {
         return (Option<T>) None.NONE;
     }
 
-
     public static <T> Option<T> of(T t) {
         return t == null ? none() : some(t);
     }
-
-
-
-
 }
