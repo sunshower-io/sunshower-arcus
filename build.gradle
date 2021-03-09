@@ -1,5 +1,7 @@
 
 plugins {
+    id 'groovy'
+    id 'java-library'
     id "io.spring.dependency-management" version "1.0.11.RELEASE"
 }
 
@@ -23,6 +25,7 @@ allprojects {
 
 subprojects {
     apply plugin: 'java'
+    apply plugin: 'groovy'
     apply plugin: 'java-library'
 
     test {
@@ -31,7 +34,12 @@ subprojects {
 
     plugins.withType(JavaPlugin) {
 
+
         dependencies {
+
+
+            testImplementation 'org.spockframework:spock-core'
+
             [
                     'api',
                     'engine'

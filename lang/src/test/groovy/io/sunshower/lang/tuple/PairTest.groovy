@@ -4,9 +4,8 @@ import spock.lang.Specification
 import spock.lang.Unroll
 
 import static io.sunshower.lang.tuple.Pair.*;
-/**
- * Created by haswell on 4/6/16.
- */
+
+
 class PairTest extends Specification {
 
     @Unroll
