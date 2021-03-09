@@ -1,3 +1,5 @@
+import org.gradle.api.publish.maven.MavenPublication
+
 plugins {
     id 'pmd'
     id 'groovy'
@@ -10,6 +12,7 @@ plugins {
 
 
 allprojects {
+    apply plugin: 'maven-publish'
     apply plugin: 'io.spring.dependency-management'
 
     repositories {
@@ -23,6 +26,7 @@ allprojects {
             mavenBom "io.sunshower.arcus:bom-imported:$version"
         }
     }
+
 
 }
 
@@ -67,6 +71,34 @@ subprojects {
     task generateDocumentation(type: Javadoc) {
         source = sourceSets.main.allJava
         classpath = sourceSets.main.compileClasspath + sourceSets.main.runtimeClasspath
+    }
+
+
+
+    publishing {
+
+        repositories {
+            mavenLocal()
+
+            maven {
+                credentials {
+                    username "$mavenRepositoryUsername"
+                    password "$mavenRepositoryPassword"
+                }
+                url "$mavenRepositoryUrl"
+            }
+        }
+
+
+
+        publications {
+            maven(MavenPublication) {
+                groupId = project.group
+                artifactId = project.name
+                version = project.version
+                from components.java
+            }
+        }
     }
 
 
