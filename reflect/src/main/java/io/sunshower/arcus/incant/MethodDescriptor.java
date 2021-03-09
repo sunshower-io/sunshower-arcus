@@ -4,15 +4,12 @@ import java.lang.reflect.Method;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.Arrays;
-import java.util.Map;
 
-/** Created by haswell on 4/10/16. */
 public final class MethodDescriptor<U, T> extends LazyPropertyAware
         implements PrivilegedAction<Void> {
 
     private final Method method;
     private final Class<U> owner;
-    private Map<String, String> properties;
     private volatile Class<?>[] parameterTypes;
 
     public MethodDescriptor(final Class<U> owner, final Method method) {
@@ -51,7 +48,7 @@ public final class MethodDescriptor<U, T> extends LazyPropertyAware
     }
 
     public boolean matches(Method m) {
-        if (m == method) return true;
+        if (m.equals(method)) return true;
         loadParameterTypes();
         final Class<?>[] theirParameterTypes = m.getParameterTypes();
         final Class<?> theirHolderType = m.getDeclaringClass();

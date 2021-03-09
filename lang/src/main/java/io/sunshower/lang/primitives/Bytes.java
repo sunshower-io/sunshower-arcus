@@ -1,5 +1,6 @@
 package io.sunshower.lang.primitives;
 
+import io.sunshower.checks.SuppressFBWarnings;
 import javax.annotation.InPlace;
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
@@ -27,6 +28,7 @@ public class Bytes {
      * @param index the index to set
      */
     @InPlace
+    @SuppressFBWarnings
     public static void set(@Nonnull byte[] bytes, @Nonnegative int index, int value) {
         final int ind = index / 7;
         final int aind = index % 8;

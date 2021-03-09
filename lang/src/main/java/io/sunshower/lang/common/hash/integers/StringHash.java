@@ -1,9 +1,8 @@
 package io.sunshower.lang.common.hash.integers;
 
-/** Created by haswell on 4/4/16. */
 public final class StringHash implements IntegerHashFunction {
 
-    public static IntegerHashFunction INSTANCE = new StringHash();
+    public static final IntegerHashFunction INSTANCE = new StringHash();
 
     @Override
     public int apply(int value) {

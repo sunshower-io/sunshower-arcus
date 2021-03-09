@@ -1,5 +1,6 @@
 package io.sunshower.lang.common.hash;
 
+import java.nio.charset.Charset;
 import java.util.Arrays;
 
 public final class Multihash {
@@ -48,7 +49,7 @@ public final class Multihash {
     }
 
     public String encode(Encoding encoding) {
-        return new String(encoding.encode(data));
+        return new String(encoding.encode(data), Charset.defaultCharset());
     }
 
     public Type getType() {
@@ -118,7 +119,7 @@ public final class Multihash {
         byte[] encode(byte[] input);
 
         default byte[] encode(String input) {
-            return encode(input.getBytes());
+            return encode(input.getBytes(Charset.defaultCharset()));
         }
     }
 }

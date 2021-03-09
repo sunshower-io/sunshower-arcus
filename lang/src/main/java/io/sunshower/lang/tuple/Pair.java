@@ -3,7 +3,7 @@ package io.sunshower.lang.tuple;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-/** Created by haswell on 4/6/16. */
+@SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
 public final class Pair<K, V> {
 
     public final K fst;

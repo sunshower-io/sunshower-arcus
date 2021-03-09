@@ -12,7 +12,7 @@ import javax.annotation.concurrent.ThreadSafe;
 @ThreadSafe
 public class LazyPropertyAware implements PropertyAware {
 
-    private Map<String, String> properties;
+    private volatile Map<String, String> properties;
 
     @Override
     public boolean hasProperty(String key) {
@@ -55,9 +55,11 @@ public class LazyPropertyAware implements PropertyAware {
     }
 
     private void check() {
-        if (properties == null) {
+        var props = properties;
+        if (props == null) {
             synchronized (this) {
-                if (properties == null) {
+                props = properties;
+                if (props == null) {
                     properties = new HashMap<>();
                 }
             }

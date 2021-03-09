@@ -21,7 +21,8 @@ public class TakeWhile<T> implements Spliterator<T> {
         return conditionHolds
                 && source.tryAdvance(
                         e -> {
-                            if (conditionHolds = condition.test(e)) {
+                            conditionHolds = condition.test(e);
+                            if (conditionHolds) {
                                 action.accept(e);
                             }
                         });

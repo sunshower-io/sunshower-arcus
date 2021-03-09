@@ -10,6 +10,7 @@ public abstract class Option<T> implements Collection<T>, Serializable {
     private Option() {}
 
     public static final class Some<T> extends Option<T> {
+
         final T item;
 
         public Some(T item) {
@@ -46,7 +47,7 @@ public abstract class Option<T> implements Collection<T>, Serializable {
         }
 
         @Override
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings({"unchecked", "PMD.AvoidLiteralsInIfCondition"})
         public <T1> T1[] toArray(final T1[] a) {
             if (a.length < 1) {
                 return (T1[]) Arrays.copyOf(toArray(), 1, a.getClass());
@@ -160,6 +161,7 @@ public abstract class Option<T> implements Collection<T>, Serializable {
     }
 
     public static final class None<T> extends Option<T> {
+        @SuppressWarnings("PMD.AvoidFieldNameMatchingTypeName")
         static final Option<?> NONE = new None<>();
 
         private None() {}
@@ -265,7 +267,7 @@ public abstract class Option<T> implements Collection<T>, Serializable {
         }
 
         public boolean equals(Object o) {
-            return o == NONE;
+            return Objects.equals(o, NONE);
         }
 
         public int hashCode() {

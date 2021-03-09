@@ -26,6 +26,10 @@ public final class Murmur3 implements IntegerHashFunction {
         return getClass().hashCode() ^ seed;
     }
 
+    public boolean equals(Object o) {
+        return o != null && (Murmur3.class.equals(o.getClass()) && ((Murmur3) o).seed == seed);
+    }
+
     private static int createK(int k) {
         k *= Constant1;
         k = (k << 15) | (k >>> 15);

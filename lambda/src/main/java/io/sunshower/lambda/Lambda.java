@@ -9,7 +9,7 @@ import java.util.stream.StreamSupport;
 public class Lambda {
 
     public static class StreamBuilder<T> {
-        final Spliterator<T> spliterator;
+        final transient Spliterator<T> spliterator;
 
         StreamBuilder(final Spliterator<T> stream) {
             this.spliterator = stream;
