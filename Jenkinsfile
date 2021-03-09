@@ -1,7 +1,7 @@
 pipeline {
     agent {
         kubernetes {
-            yamlFile 'deployments/agent/template.yaml'
+            yamlFile 'agent/template.yaml'
         }
     }
     environment {
