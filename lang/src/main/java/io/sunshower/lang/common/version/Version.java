@@ -1,6 +1,5 @@
 package io.sunshower.lang.common.version;
 
-/** Created by haswell on 5/26/16. */
 public final class Version implements Comparable<Version> {
     private final String value;
     private final boolean closed;

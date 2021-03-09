@@ -1,26 +1,23 @@
 package io.sunshower.lang.common.hash.ints;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import io.sunshower.lang.common.hash.HashFunction;
 import io.sunshower.lang.common.hash.integers.Murmur3;
 import java.util.Random;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-/** Created by haswell on 4/4/16. */
-public class Murmur3Test {
+class Murmur3Test {
 
     @Test
-    public void ensureHashingNonCollidingDifferentStringsProducesDifferentValues() {
+    void ensureHashingNonCollidingDifferentStringsProducesDifferentValues() {
         final String fst = "Hello";
         final String snd = "World";
-        assertThat(HashFunction.murmur3(3).apply(fst), is(not(snd)));
+        assertNotEquals(HashFunction.murmur3(3).apply(fst), snd);
     }
 
     @Test
-    public void testPerformance() {
+    void testPerformance() {
         for (int k = 0; k < 5; ++k) {
             final Murmur3 murmur3 = (Murmur3) HashFunction.murmur3(1341234);
             String testString = generate(100000);

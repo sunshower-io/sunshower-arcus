@@ -1,35 +1,34 @@
 package io.sunshower.lambda;
 
 import static io.sunshower.lambda.Lazy.takeWhile;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-/** Created by haswell on 3/23/16. */
-public class LazyTest {
+class LazyTest {
 
     @Test
-    public void ensureTakeWhileHoldsForFiniteStream() {
+    void ensureTakeWhileHoldsForFiniteStream() {
         List<Object> o = takeWhile(Stream.empty(), t -> true).collect(Collectors.toList());
-        assertThat(o.isEmpty(), is(true));
+        assertTrue(o.isEmpty());
     }
 
     @Test
-    public void ensureTakeWhileHoldsForInfiniteStream() {
+    void ensureTakeWhileHoldsForInfiniteStream() {
         List<Integer> is =
                 takeWhile(Stream.iterate(0, i -> i + 1), i -> i < 10).collect(Collectors.toList());
-        assertThat(is.size(), is(10));
+        assertEquals(is.size(), 10);
     }
 
     @Test
-    public void ensureComparatorWorks() {
+    void ensureComparatorWorks() {
         Optional<Integer> is =
                 takeWhile(Stream.iterate(0, i -> i + 1), i -> i < 10).min(Integer::max);
-        assertThat(is.get(), is(9));
+        assertEquals(is.get(), 9);
     }
 }

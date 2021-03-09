@@ -1,5 +1,0 @@
-
-dependencies {
-    compile "junit:junit"
-    compile "org.hamcrest:hamcrest-core"
-}

@@ -2,54 +2,52 @@ package io.sunshower.lambda;
 
 import static io.sunshower.lambda.Option.none;
 import static io.sunshower.lambda.Option.some;
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-/** Created by haswell on 3/23/16. */
-public class OptionTest {
+class OptionTest {
 
     @Test
-    public void ensureSomeOfAnItemIsSome() {
-        assertThat(new Option.Some<>("hello").isSome(), is(true));
+    void ensureSomeOfAnItemIsSome() {
+        assertEquals(new Option.Some<>("hello").isSome(), (true));
     }
 
     @Test
-    public void ensureSomeIsNotNone() {
-        assertThat(new Option.Some<>("hello").isNone(), is(false));
+    void ensureSomeIsNotNone() {
+        assertEquals(new Option.Some<>("hello").isNone(), (false));
     }
 
     @Test
-    public void ensureSizeOfSomeIs1() {
-        assertThat(new Option.Some<>("l").size(), is(1));
+    void ensureSizeOfSomeIs1() {
+        assertEquals(new Option.Some<>("l").size(), (1));
     }
 
     @Test
-    public void ensureSomeIsNotEmpty() {
-        assertThat(new Option.Some<>("").isEmpty(), is(false));
+    void ensureSomeIsNotEmpty() {
+        assertEquals(new Option.Some<>("").isEmpty(), (false));
     }
 
     @Test
-    public void ensureSomeDoesNotContainAnItemThatIsNotItsItem() {
-        assertThat(new Option.Some<>("1").contains("2"), is(false));
+    void ensureSomeDoesNotContainAnItemThatIsNotItsItem() {
+        assertEquals(new Option.Some<>("1").contains("2"), (false));
     }
 
     @Test
-    public void ensureSomeContainsAnItemThatIsStructurallyItsItem() {
-        assertThat(new Option.Some<>("1").contains("1"), is(true));
+    void ensureSomeContainsAnItemThatIsStructurallyItsItem() {
+        assertEquals(new Option.Some<>("1").contains("1"), (true));
     }
 
     @Test
-    public void ensureSomeContainsAnItemThatIsReferentiallyItsItem() {
+    void ensureSomeContainsAnItemThatIsReferentiallyItsItem() {
         Object o = new Object();
-        assertThat(new Option.Some<>(o).contains(o), is(true));
+        assertEquals(new Option.Some<>(o).contains(o), (true));
     }
 
     @Test
-    public void ensureIteratorIteratesOnceOverSome() {
+    void ensureIteratorIteratesOnceOverSome() {
 
         int count = 0;
         Object contents = null;
@@ -57,12 +55,12 @@ public class OptionTest {
             count++;
             contents = o;
         }
-        assertThat(count, is(1));
-        assertThat(contents, is("hello"));
+        assertEquals(count, (1));
+        assertEquals(contents, ("hello"));
     }
 
     @Test
-    public void ensureIterationIsItempotent() {
+    void ensureIterationIsItempotent() {
         List<Object> results = new ArrayList<>();
         Object obj = new Object();
         Option<Object> o = new Option.Some<>(obj);
@@ -71,229 +69,229 @@ public class OptionTest {
                 results.add(a);
             }
         }
-        assertThat(results.size(), is(5));
+        assertEquals(results.size(), (5));
     }
 
     @Test
-    public void ensureToArrayProducesObject() {
+    void ensureToArrayProducesObject() {
         Option.Some<String> a = new Option.Some<>("a");
         Object[] o = a.toArray();
-        assertThat(o.length, is(1));
-        assertThat(o[0], is("a"));
+        assertEquals(o.length, (1));
+        assertEquals(o[0], ("a"));
     }
 
     @Test
-    public void ensureToArrayOnEmptyArrayProducesCorrectArray() {
+    void ensureToArrayOnEmptyArrayProducesCorrectArray() {
         Option.Some<String> a = new Option.Some<>("a");
         String[] ar = new String[0];
         String[] o = a.toArray(ar);
-        assertThat(o.length, is(1));
-        assertThat(o[0], is("a"));
-        assertThat(ar, is(not(o)));
+        assertEquals(o.length, (1));
+        assertEquals(o[0], ("a"));
+        assertNotEquals(ar, (o));
     }
 
     @Test
-    public void ensureToArrayOnArrayOfSizeOneProducesSameArray() {
+    void ensureToArrayOnArrayOfSizeOneProducesSameArray() {
 
         Option.Some<String> a = new Option.Some<>("a");
         String[] ar = new String[1];
         String[] o = a.toArray(ar);
-        assertThat(o.length, is(1));
-        assertThat(o[0], is("a"));
+        assertEquals(o.length, (1));
+        assertEquals(o[0], ("a"));
         assertTrue(o == ar);
     }
 
     @Test
-    public void
+    void
             ensureToArrayOnSomeOnArrayOfSizeGreaterThanOneProducesArrayWithElementAtPositionOneEqualToNull() {
         Option.Some<String> a = new Option.Some<>("a");
         String[] ar = new String[] {"1", "2"};
         String[] results = a.toArray(ar);
-        assertThat(results[0], is("a"));
-        assertThat(results[1], is(nullValue()));
+        assertEquals(results[0], ("a"));
+        assertNull(results[1]);
         assertTrue(ar == results);
     }
 
     @Test
-    public void ensureSomeCanAddStructurallyEquivalentObject() {
+    void ensureSomeCanAddStructurallyEquivalentObject() {
         assertTrue(new Option.Some<>("a").add("a"));
     }
 
     @Test
-    public void ensureSomeCanAddReferentiallyEquivalentObject() {
+    void ensureSomeCanAddReferentiallyEquivalentObject() {
         String o = "a";
         assertTrue(new Option.Some<>(o).add(o));
     }
 
     @Test
-    public void ensureRemoveReturnsFalseForStructurallyDifferentObjects() {
+    void ensureRemoveReturnsFalseForStructurallyDifferentObjects() {
         assertFalse(new Option.Some<>(new Object()).remove(new Object()));
     }
 
     @Test
-    public void ensureRemoveReturnsFalseForStructurallyEquivalentObjects() {
+    void ensureRemoveReturnsFalseForStructurallyEquivalentObjects() {
         assertFalse(new Option.Some<>("a").remove("a"));
     }
 
     @Test
-    public void ensureRemoveReturnsFalseForReferentiallyEquivalentObjects() {
+    void ensureRemoveReturnsFalseForReferentiallyEquivalentObjects() {
         String a = "a";
         assertFalse(new Option.Some<>(a).remove(a));
     }
 
     @Test
-    public void ensureSomeContainsAllOfASingletonCollectionOfAStructurallyEquivalentObject() {
+    void ensureSomeContainsAllOfASingletonCollectionOfAStructurallyEquivalentObject() {
         assertTrue(new Option.Some<>("a").containsAll(Collections.singleton("a")));
     }
 
     @Test
-    public void ensureSomeContainsAllOfASingletonCollectionOfAReferentiallyEquivalentObject() {
+    void ensureSomeContainsAllOfASingletonCollectionOfAReferentiallyEquivalentObject() {
         String a = "a";
         assertTrue(new Option.Some<>(a).containsAll(Collections.singleton(a)));
     }
 
     @Test
-    public void ensureSomeContainsNoneOfAnEmptyCollection() {
+    void ensureSomeContainsNoneOfAnEmptyCollection() {
         assertFalse(new Option.Some<>("a").containsAll(Collections.emptyList()));
     }
 
     @Test
-    public void ensureSomeContainsNonOfANonEmptyCollectionWithMoreThanOneElement() {
+    void ensureSomeContainsNonOfANonEmptyCollectionWithMoreThanOneElement() {
         assertFalse(new Option.Some<>("a").containsAll(Arrays.asList("1", "a")));
     }
 
     @Test
-    public void ensureRemoveAllReturnsFalse() {
+    void ensureRemoveAllReturnsFalse() {
         assertFalse(new Option.Some<>("a").removeAll(Arrays.asList("a")));
     }
 
     @Test
-    public void ensureRetainAllReturnsFalseForSetWithMoreThanOneElement() {
+    void ensureRetainAllReturnsFalseForSetWithMoreThanOneElement() {
         assertFalse(new Option.Some<>("a").removeAll(Arrays.asList("a", "b")));
     }
 
     @Test
-    public void ensureRetainAllReturnsTrueForSingleElementContainingItsItem() {
+    void ensureRetainAllReturnsTrueForSingleElementContainingItsItem() {
         assertTrue(new Option.Some<>("a").retainAll(Arrays.asList("a")));
     }
 
-    @Test(expected = UnsupportedOperationException.class)
-    public void ensureClearThrowsUnsupportedOperationException() {
-        new Option.Some<>("a").clear();
+    @Test
+    void ensureClearOnSomeResultsInNone() {
+        assertThrows(UnsupportedOperationException.class, () -> new Option.Some<>("a").clear());
     }
 
     @Test
-    public void ensureToOptionalProducesCorrectOptional() {
+    void ensureToOptionalProducesCorrectOptional() {
         Optional<String> a = new Option.Some<>("a").toOptional();
-        assertThat(a.get(), is("a"));
+        assertEquals(a.get(), ("a"));
     }
 
     @Test
-    public void ensureGetOrElsReturnsItemOnSome() {
-        assertThat(new Option.Some<>("a").getOrElse(() -> "b"), is("a"));
+    void ensureGetOrElsReturnsItemOnSome() {
+        assertEquals(new Option.Some<>("a").getOrElse(() -> "b"), ("a"));
     }
 
     @Test
-    public void ensureLiftMapsItemCorrectly() {
+    void ensureLiftMapsItemCorrectly() {
         Option<Integer> a = some("1").lift(Integer::parseInt);
-        assertThat(a.isSome(), is(true));
-        assertThat(a.get(), is(1));
+        assertEquals(a.isSome(), (true));
+        assertEquals(a.get(), (1));
     }
 
     @Test
-    public void ensureFmapMapsItemCorrectly() {
+    void ensureFmapMapsItemCorrectly() {
 
         Option<Integer> a = some("1").fmap(Integer::parseInt);
-        assertThat(a.isSome(), is(true));
-        assertThat(a.get(), is(1));
+        assertEquals(a.isSome(), (true));
+        assertEquals(a.get(), (1));
     }
 
     @Test
-    public void ensureSomeReturnsSome() {
+    void ensureSomeReturnsSome() {
         assertTrue(some("a").isSome());
     }
 
     @Test
-    public void ensureNoneReturnsNone() {
-        assertTrue(none().isNone());
-    }
-
-    @Test(expected = NoSuchElementException.class)
-    public void ensureNoneGetThrowsNoSuchElementException() {
-        none().get();
-    }
-
-    @Test
-    public void ensureNoneIsNone() {
+    void ensureNoneReturnsNone() {
         assertTrue(none().isNone());
     }
 
     @Test
-    public void ensureToOptionalReturnsNone() {
+    void ensureNoneGetThrowsNoSuchElementException() {
+        assertThrows(NoSuchElementException.class, () -> none().get());
+    }
+
+    @Test
+    void ensureNoneIsNone() {
+        assertTrue(none().isNone());
+    }
+
+    @Test
+    void ensureToOptionalReturnsNone() {
         Optional<Integer> a = Option.<Integer>none().toOptional();
-        assertThat(a.isPresent(), is(false));
+        assertEquals(a.isPresent(), (false));
     }
 
     @Test
-    public void ensureGetOrElseNullReturnsNull() {
-        assertThat(none().getOrElse(null), is(nullValue()));
+    void ensureGetOrElseNullReturnsNull() {
+        assertNull(none().getOrElse(null), "must be null");
     }
 
     @Test
-    public void ensureGetOrElseWithSupplierReturnsSupplierValue() {
+    void ensureGetOrElseWithSupplierReturnsSupplierValue() {
         Object a = "a";
-        assertThat(none().getOrElse(() -> a), is(a));
+        assertEquals(none().getOrElse(() -> a), (a));
     }
 
     @Test
-    public void ensureNoneIsLiftedToNone() {
-        assertThat(none().lift(t -> "a").isNone(), is(true));
+    void ensureNoneIsLiftedToNone() {
+        assertEquals(none().lift(t -> "a").isNone(), (true));
     }
 
     @Test
-    public void ensureNoneIsFMappedToNone() {
-        assertThat(none().fmap(t -> "a").isNone(), is(true));
+    void ensureNoneIsFMappedToNone() {
+        assertEquals(none().fmap(t -> "a").isNone(), (true));
     }
 
     @Test
-    public void ensureNoneHasZeroSize() {
-        assertThat(none().size(), is(0));
+    void ensureNoneHasZeroSize() {
+        assertEquals(none().size(), (0));
     }
 
     @Test
-    public void ensureNoneIsEmpty() {
-        assertThat(none().isEmpty(), is(true));
+    void ensureNoneIsEmpty() {
+        assertEquals(none().isEmpty(), (true));
     }
 
     @Test
-    public void ensureNoneContainsNothing() {
-        assertThat(none().contains("a"), is(false));
+    void ensureNoneContainsNothing() {
+        assertEquals(none().contains("a"), (false));
     }
 
     @Test
-    public void ensureIteratorHasNoNExt() {
-        assertThat(none().iterator().hasNext(), is(false));
-    }
-
-    @Test(expected = NoSuchElementException.class)
-    public void ensureNoneIteratorNextThrowsException() {
-        none().iterator().next();
+    void ensureIteratorHasNoNExt() {
+        assertEquals(none().iterator().hasNext(), (false));
     }
 
     @Test
-    public void ensureToArrayReturnsArray() {
+    void ensureNoneIteratorNextThrowsException() {
+        assertThrows(NoSuchElementException.class, () -> none().iterator().next());
+    }
+
+    @Test
+    void ensureToArrayReturnsArray() {
         String[] a = {"h"};
         String[] strings = none().toArray(a);
-        assertThat(strings, is(a));
+        assertEquals(strings, (a));
     }
 
     @Test
-    public void ensureToArrayReturnsEmptyArray() {
-        assertThat(none().toArray().length, is(0));
+    void ensureToArrayReturnsEmptyArray() {
+        assertEquals(none().toArray().length, (0));
     }
 
     @Test
-    public void ensureSetOperationsAllReturnFalse() {
+    void ensureSetOperationsAllReturnFalse() {
         assertFalse(none().add("a"));
         assertFalse(none().remove("a"));
         assertFalse(none().containsAll(Arrays.asList("a")));
@@ -302,95 +300,100 @@ public class OptionTest {
         assertFalse(none().retainAll(Arrays.asList("a")));
     }
 
-    @Test(expected = UnsupportedOperationException.class)
-    public void ensureNoneClearThrowsUnsupportedOperationException() {
-        none().clear();
+    @Test
+    void ensureClearOnNoneDoesNothing() {
+        assertThrows(UnsupportedOperationException.class, () -> none().clear());
     }
 
     @Test
-    public void ensureOfOnNullReturnsNull() {
+    void ensureOfOnNullReturnsNull() {
         assertTrue(Option.of(null).isNone());
     }
 
     @Test
-    public void ensureOptionOfNonNullReturnsSome() {
-        assertThat(Option.of("a").isSome(), is(true));
+    void ensureOptionOfNonNullReturnsSome() {
+        assertEquals(Option.of("a").isSome(), (true));
     }
 
     @Test
-    public void ensureSomeReferentialEqualityWorks() {
+    void ensureSomeReferentialEqualityWorks() {
         Option<String> a = some("a");
         assertTrue(a.equals(a));
     }
 
     @Test
-    public void ensureStructuralEqualityOnSomeHolds() {
-        assertThat(some("a"), is(some("a")));
+    void ensureStructuralEqualityOnSomeHolds() {
+        assertEquals(some("a"), (some("a")));
     }
 
     @Test
-    public void ensureSomeIsNotEqualIfContentsAreNotEqual() {
-        assertThat(some("a"), is(not(some("b"))));
+    void ensureSomeIsNotEqualIfContentsAreNotEqual() {
+        assertNotEquals(some("a"), some("b"));
     }
 
     @Test
-    public void ensureContainsAllWorksOnSome() {
+    void ensureContainsAllWorksOnSome() {
         some("a").addAll(Arrays.asList("a"));
     }
 
-    @Test(expected = NoSuchElementException.class)
-    public void ensureSomeIteratorThrowsNoSuchElementExceptionWhenCalledTooManyTimes() {
+    @Test
+    void ensureSomeIteratorThrowsNoSuchElementExceptionWhenCalledTooManyTimes() {
         Iterator<String> a = some("a").iterator();
         a.next();
-        a.next();
+        assertThrows(
+                NoSuchElementException.class,
+                () -> {
+                    a.next();
+                },
+                "must throw an exception");
     }
 
     @Test
-    public void ensureOptionTestWorks() {
+    void ensureOptionTestWorks() {
         new OptionTest();
     }
 
     @Test
-    public void ensureSomeIsNotEqualToNull() {
+    void ensureSomeIsNotEqualToNull() {
         assertFalse(some("a").equals(null));
     }
 
     @Test
-    public void ensureSomeIsNotEqualToObject() {
+    void ensureSomeIsNotEqualToObject() {
         assertFalse(some("a").equals(new Object()));
     }
 
     @Test
-    public void ensureSomeCanBeUsedAsAKeyForASet() {
+    void ensureSomeCanBeUsedAsAKeyForASet() {
         final Set<Object> os = new HashSet<>();
         os.add(some("cool"));
         assertTrue(os.contains(some("cool")));
     }
 
     @Test
-    public void ensureNoneIsEqualToNone() {
-        assertThat(none(), is(none()));
+    void ensureNoneIsEqualToNone() {
+        assertEquals(none(), (none()));
     }
 
     @Test
-    public void ensureNoneCanBeUsedAsKeyForSet() {
+    void ensureNoneCanBeUsedAsKeyForSet() {
         final Set<Object> o = new HashSet<>();
         o.add(none());
         assertTrue(o.contains(none()));
     }
 
     @Test
-    public void ensureNoneIsNotSome() {
+    void ensureNoneIsNotSome() {
         assertFalse(none().isSome());
     }
 
     @Test
-    public void ensureFlatMapMakesSense() {
+    void ensureFlatMapMakesSense() {
         List<String> c =
                 Option.of("a").stream()
                         .flatMap(a -> Option.bind("b", "c"))
                         .collect(Collectors.toList());
-        assertThat(c.size(), is(2));
-        assertThat(c.contains("b"), is(true));
+        assertEquals(c.size(), (2));
+        assertEquals(c.contains("b"), (true));
     }
 }

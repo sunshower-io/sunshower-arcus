@@ -1,14 +1,13 @@
 package io.sunshower.lang.primitives;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-/** Created by haswell on 4/29/16. */
 public class DoublesTest {
 
     @Test
-    public void ensureDoublesArrayIsCopiedCorrectly() {
+    void ensureDoublesArrayIsCopiedCorrectly() {
         double[] d =
                 new double[] {
                     0.0d, 4.0d, 99.45d, 113414123451234.4d, Double.MAX_VALUE, Double.MIN_VALUE

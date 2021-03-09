@@ -261,7 +261,7 @@ public abstract class Option<T> implements Collection<T>, Serializable {
 
         @Override
         public void clear() {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperationException("Cannot clear immutable none()");
         }
 
         public boolean equals(Object o) {

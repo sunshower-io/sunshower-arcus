@@ -1,11 +1,10 @@
 package io.sunshower.lang.primitives;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 import java.util.Arrays;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-/** Created by haswell on 4/29/16. */
 public class FloatsTest {
 
     @Test

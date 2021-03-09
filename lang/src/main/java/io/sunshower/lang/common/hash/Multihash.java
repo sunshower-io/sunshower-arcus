@@ -2,7 +2,6 @@ package io.sunshower.lang.common.hash;
 
 import java.util.Arrays;
 
-/** Created by haswell on 5/25/16. */
 public final class Multihash {
 
     public enum Type {

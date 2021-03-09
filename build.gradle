@@ -1,5 +1,7 @@
+import org.gradle.api.tasks.javadoc.Javadoc
 
 plugins {
+    id 'pmd'
     id 'groovy'
     id 'java-library'
     id "io.freefair.lombok" version "5.3.0"
@@ -42,8 +44,13 @@ subprojects {
             googleJavaFormat('1.8').aosp()
         }
     }
-    plugins.withType(JavaPlugin) {
 
+    task generateDocumentation(type: Javadoc)  {
+        source = sourceSets.main.allJava
+    }
+
+
+    plugins.withType(JavaPlugin) {
 
         dependencies {
 
@@ -62,3 +69,10 @@ subprojects {
     }
 }
 
+
+defaultTasks(
+        'clean',
+        'build',
+        'spotlessApply',
+        'generateDocumentation'
+)

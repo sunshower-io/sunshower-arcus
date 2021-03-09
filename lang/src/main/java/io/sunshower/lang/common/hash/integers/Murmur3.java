@@ -1,6 +1,5 @@
 package io.sunshower.lang.common.hash.integers;
 
-/** Created by haswell on 4/4/16. */
 public final class Murmur3 implements IntegerHashFunction {
 
     private static final int Constant1 = 0xcc9e2d51;
