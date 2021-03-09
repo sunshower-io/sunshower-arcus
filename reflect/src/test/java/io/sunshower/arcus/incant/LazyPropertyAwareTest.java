@@ -1,21 +1,19 @@
 package io.sunshower.arcus.incant;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import io.sunshower.lang.PropertyAware;
 import io.sunshower.lang.tuple.Pair;
 import java.util.Collections;
 import java.util.Set;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-/** Created by haswell on 4/20/16. */
 public class LazyPropertyAwareTest {
 
     @Test
     public void ensurePropertyAwareHasPropertyReturnsFalseWhenNoPropertyIsAdded() {
-        assertThat(new LazyPropertyAware().hasProperty("hello"), is(false));
+        assertEquals(new LazyPropertyAware().hasProperty("hello"), (false));
     }
 
     @Test
@@ -24,7 +22,7 @@ public class LazyPropertyAwareTest {
         PropertyAware aware = new LazyPropertyAware();
         aware.addProperty("whatever", "whatever");
         aware.removeProperty("whatever");
-        assertThat(aware.hasProperty("whatever"), is(false));
+        assertEquals(aware.hasProperty("whatever"), (false));
     }
 
     @Test
@@ -32,21 +30,21 @@ public class LazyPropertyAwareTest {
 
         PropertyAware aware = new LazyPropertyAware();
         aware.addProperty("whatever", "whatever");
-        assertThat(aware.hasProperty("whatever"), is(true));
+        assertEquals(aware.hasProperty("whatever"), (true));
     }
 
     @Test
     public void ensureGetPropertyReturnsPropertyWhenPropertyExists() {
         PropertyAware aware = new LazyPropertyAware();
         aware.addProperty("whatever", "whatever");
-        assertThat(aware.getProperty("whatever"), is("whatever"));
+        assertEquals(aware.getProperty("whatever"), ("whatever"));
     }
 
     @Test
     public void ensureGetPropertiesReturnsEmptySetWhenNoPropertiesHaveBeenAdded() {
 
         PropertyAware aware = new LazyPropertyAware();
-        assertThat(aware.getProperties().isEmpty(), is(true));
+        assertEquals(aware.getProperties().isEmpty(), (true));
     }
 
     @Test
@@ -54,16 +52,16 @@ public class LazyPropertyAwareTest {
         PropertyAware aware = new LazyPropertyAware();
         aware.addProperty("whatever", "whatever");
         Set<Pair<String, String>> results = Collections.singleton(Pair.of("whatever", "whatever"));
-        assertThat(aware.getProperties(), is(results));
+        assertEquals(aware.getProperties(), (results));
     }
 
     @Test
     public void ensureGettingNonExistantPropertyReturnsNothing() {
-        assertThat(new LazyPropertyAware().getProperty("whatever"), is(nullValue()));
+        assertNull(new LazyPropertyAware().getProperty("whatever"));
     }
 
     @Test
     public void ensureRemovingNonExistantPropertyReturnsNull() {
-        assertThat(new LazyPropertyAware().removeProperty("whatever"), is(nullValue()));
+        assertNull(new LazyPropertyAware().removeProperty("whatever"));
     }
 }

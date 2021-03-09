@@ -9,7 +9,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import javax.annotation.concurrent.ThreadSafe;
 
-/** Created by haswell on 4/20/16. */
 @ThreadSafe
 public class LazyPropertyAware implements PropertyAware {
 

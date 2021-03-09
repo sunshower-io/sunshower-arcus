@@ -1,27 +1,25 @@
 package io.sunshower.arcus.incant;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-/** Created by haswell on 4/10/16. */
 public class TrieServiceRegistryTest {
 
     private OperationScanner objectScanner;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         objectScanner = new OpScanner();
     }
 
     @Test
-    public void ensureScanningSimpleClassWithSingleMethodProducesExpectedResults() {
+    void ensureScanningSimpleClassWithSingleMethodProducesExpectedResults() {
         class A {
             String a() {
                 return "a";
@@ -31,8 +29,8 @@ public class TrieServiceRegistryTest {
         registry.refresh();
         final A instance = new A();
         ServiceDescriptor<A> service = registry.resolve("A");
-        assertThat(service.getIdentifier(), is("A"));
-        assertThat(service.resolve("a").invoke(instance), is("a"));
+        assertEquals(service.getIdentifier(), "A");
+        assertEquals(service.resolve("a").invoke(instance), "a");
     }
 
     @Test
@@ -51,12 +49,12 @@ public class TrieServiceRegistryTest {
         registry.refresh();
         final A instance = new A();
         ServiceDescriptor<A> service = registry.resolve("A");
-        assertThat(service.getIdentifier(), is("A"));
-        assertThat(service.resolve("a").invoke(instance), is("a"));
-        assertThat(
+        assertEquals(service.getIdentifier(), ("A"));
+        assertEquals(service.resolve("a").invoke(instance), ("a"));
+        assertEquals(
                 service.resolve("b", String.class, String.class, String.class)
                         .invoke(instance, "a", "b", "c"),
-                is("abc"));
+                ("abc"));
     }
 
     static ServiceResolver init(Class<?> types) {

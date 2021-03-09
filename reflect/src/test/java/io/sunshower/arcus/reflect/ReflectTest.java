@@ -1,6 +1,7 @@
 package io.sunshower.arcus.reflect;
 
 import static io.sunshower.arcus.reflect.Reflect.instantiate;
+import static org.junit.jupiter.api.Assertions.*;
 
 import io.sunshower.lambda.Option;
 import java.lang.annotation.Annotation;
@@ -12,11 +13,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.hamcrest.CoreMatchers;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-/** Created by haswell on 3/23/16. */
 public class ReflectTest {
 
     @Test
@@ -26,9 +24,7 @@ public class ReflectTest {
             ctor.setAccessible(true);
             ctor.newInstance();
         } catch (InvocationTargetException ex) {
-            Assert.assertThat(
-                    ex.getTargetException().getMessage().startsWith("No reflect"),
-                    CoreMatchers.is(true));
+            assertTrue(ex.getTargetException().getMessage().startsWith("No reflect"));
         }
     }
 
@@ -36,10 +32,10 @@ public class ReflectTest {
     public void ensureStreamCollectsSingleType() {
         class A {}
         List<Class<?>> types = Reflect.linearSupertypes(A.class).collect(Collectors.toList());
-        Assert.assertThat(types.contains(A.class), CoreMatchers.is(true));
-        Assert.assertThat(types.size(), CoreMatchers.is(2));
-        Assert.assertThat(types.contains(Object.class), CoreMatchers.is(true));
-        Assert.assertThat(types.contains(A.class), CoreMatchers.is(true));
+        assertEquals(types.contains(A.class), (true));
+        assertEquals(types.size(), (2));
+        assertEquals(types.contains(Object.class), (true));
+        assertEquals(types.contains(A.class), (true));
     }
 
     @Test
@@ -51,7 +47,7 @@ public class ReflectTest {
                 Reflect.mapOverHierarchy(
                                 A.class, i -> Option.of(i.getAnnotation(Uninherited.class)))
                         .collect(Collectors.toList());
-        Assert.assertThat(a.size(), CoreMatchers.is(1));
+        assertEquals(a.size(), (1));
     }
 
     @Test
@@ -64,7 +60,7 @@ public class ReflectTest {
                 Reflect.mapOverHierarchy(
                                 B.class, i -> Option.of(i.getAnnotation(Uninherited.class)))
                         .collect(Collectors.toCollection(HashSet::new));
-        Assert.assertThat(collect.size(), CoreMatchers.is(1));
+        assertEquals(collect.size(), (1));
     }
 
     @Test
@@ -75,7 +71,7 @@ public class ReflectTest {
                 Reflect.mapOverHierarchy(
                                 A.class, i -> Option.of(i.getAnnotation(Uninherited.class)))
                         .collect(Collectors.toCollection(HashSet::new));
-        Assert.assertThat(collect.size(), CoreMatchers.is(1));
+        assertEquals(collect.size(), (1));
     }
 
     @Test
@@ -88,7 +84,7 @@ public class ReflectTest {
                 Reflect.mapOverHierarchy(
                                 B.class, i -> Option.of(i.getAnnotation(Uninherited.class)))
                         .collect(Collectors.toCollection(HashSet::new));
-        Assert.assertThat(collect.size(), CoreMatchers.is(1));
+        assertEquals(collect.size(), (1));
     }
 
     @Test
@@ -105,18 +101,18 @@ public class ReflectTest {
                                 B.class, i -> Option.of(i.getAnnotation(Uninherited.class)))
                         .map(Uninherited::value)
                         .collect(Collectors.toList());
-        Assert.assertThat(collect, CoreMatchers.is(Arrays.asList("b", "", "a", "", "test")));
+        assertEquals(collect, (Arrays.asList("b", "", "a", "", "test")));
     }
 
-    @Test(expected = InstantiationException.class)
+    @Test
     public void ensureReflectCannotInstantiateNonStaticClass() {
         class A {}
-        instantiate(A.class);
+        assertThrows(InstantiationException.class, () -> instantiate(A.class));
     }
 
-    @Test(expected = InstantiationException.class)
+    @Test
     public void ensureAttemptingToInstantiateNonInnerClassWithPrivateMethodThrowsException() {
-        instantiate(PrivateConstructor.class);
+        assertThrows(InstantiationException.class, () -> instantiate(PrivateConstructor.class));
     }
 
     @Test
@@ -124,13 +120,17 @@ public class ReflectTest {
         try {
             instantiate(ConstructorThrowsException.class);
         } catch (InstantiationException e) {
-            Assert.assertThat(e.getCause().getMessage(), CoreMatchers.is("woah"));
+            assertEquals(e.getCause().getMessage(), ("woah"));
         }
     }
 
-    @Test(expected = InstantiationException.class)
+    @Test
     public void ensureInstantiatingInterfaceFails() {
-        instantiate(AbstractClass.class);
+        assertThrows(
+                InstantiationException.class,
+                () -> {
+                    instantiate(AbstractClass.class);
+                });
     }
 
     @Uninherited("test")
