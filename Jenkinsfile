@@ -61,7 +61,6 @@ pipeline {
                     sh """
                         mvn clean install deploy -f bom
                     """
-
                 }
             }
         }
