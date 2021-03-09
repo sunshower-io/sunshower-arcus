@@ -2,6 +2,7 @@
 plugins {
     id 'groovy'
     id 'java-library'
+    id "io.freefair.lombok" version "5.3.0"
     id "com.diffplug.spotless" version "5.11.0"
     id "io.spring.dependency-management" version "1.0.11.RELEASE"
 }
@@ -28,6 +29,8 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'groovy'
     apply plugin: 'java-library'
+
+    apply plugin: 'io.freefair.lombok'
     apply plugin: "com.diffplug.spotless"
 
     test {
