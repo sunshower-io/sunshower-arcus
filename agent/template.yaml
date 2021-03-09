@@ -1,0 +1,12 @@
+apiVersion: "v1"
+kind: "Pod"
+spec:
+  imagePullSecrets:
+    - name: regcred
+  containers:
+    - name: maven
+      image: 'artifacts.sunshower.cloud:5001/sunshower-base'
+      command:
+        - cat
+      tty: true
+
