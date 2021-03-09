@@ -1,6 +1,6 @@
 include(
-        'annotations:305',
-        'lambda',
         'lang',
-        'reflect'
+        'lambda',
+        'reflect',
+        'annotations:305',
 )

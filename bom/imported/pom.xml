@@ -1,14 +1,3 @@
-<!--
-    Hasli uses Maven Bill-of-Materials dependency management because it's widely used and understood and can
-    be consumed by Ivy, Gradle, or Maven.
-
-
-    This Bill-of-Materials pom enumerates all of Hasli's imported libraries.  Nothing may be used by Hasli unless
-    it is approved and appears in this file.
-
-    Josiah
--->
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
@@ -30,28 +19,23 @@
     <properties>
         <mockito.version>2.9.0</mockito.version>
         <junit.version>4.12</junit.version>
-        <hamcrest.version>1.3</hamcrest.version>
         <jaxrs-api.version>2.1</jaxrs-api.version>
         <jeromq.version>0.3.5</jeromq.version>
-        <bytebuddy.version>1.7.5</bytebuddy.version>
+        <bytebuddy.version>1.10.21</bytebuddy.version>
         <jsr-330.version>1</jsr-330.version>
-        <spring.version>5.0.0.RELEASE</spring.version>
-        <spock.version>1.0-groovy-2.4</spock.version>
+        <spring.version>5.3.4</spring.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
 
-
-
-
             <!--
                 API Dependencies
             -->
             <dependency>
-                <groupId>javax.ws.rs</groupId>
-                <artifactId>javax.ws.rs-api</artifactId>
-                <version>${jaxrs-api.version}</version>
+                <groupId>org.jboss.resteasy</groupId>
+                <artifactId>jaxrs-api</artifactId>
+                <version>3.0.12.Final</version>
             </dependency>
 
             <dependency>
@@ -73,12 +57,6 @@
             </dependency>
 
 
-            <dependency>
-                <groupId>org.hamcrest</groupId>
-                <artifactId>hamcrest-core</artifactId>
-                <version>${hamcrest.version}</version>
-                <scope>test</scope>
-            </dependency>
 
             <dependency>
                 <groupId>org.mockito</groupId>
@@ -102,11 +80,6 @@
                 Library dependencies
             -->
 
-            <dependency>
-                <groupId>org.zeromq</groupId>
-                <artifactId>jeromq</artifactId>
-                <version>${jeromq.version}</version>
-            </dependency>
 
             <dependency>
                 <groupId>net.bytebuddy</groupId>
@@ -115,11 +88,20 @@
             </dependency>
 
             <dependency>
-                <groupId>org.spockframework</groupId>
-                <artifactId>spock-core</artifactId>
-                <version>${spock.version}</version>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-engine</artifactId>
+                <version>5.7.1</version>
                 <scope>test</scope>
             </dependency>
+
+
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-api</artifactId>
+                <version>5.7.1</version>
+                <scope>test</scope>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 

@@ -1,14 +1,11 @@
 
-
 dependencies {
-    compile project(':lang')
-    compile project(':lambda')
 
-
-
-    compile 'net.bytebuddy:byte-buddy', optional
-
-
-
-    testCompile 'junit:junit'
+    [
+            project(':lang'),
+            project(':lambda'),
+            'net.bytebuddy:byte-buddy',
+    ].each { dependency ->
+        implementation dependency
+    }
 }

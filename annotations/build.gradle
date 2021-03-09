@@ -1,5 +1,0 @@
-artifactoryPublish.skip=true
-
-subprojects {
-    group='io.sunshower.arcus.annotations'
-}

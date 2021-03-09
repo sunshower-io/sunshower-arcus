@@ -5,13 +5,7 @@ import java.util.*;
 import java.util.function.*;
 import java.util.stream.*;
 
-/**
- * Created by haswell on 3/23/16.
- *
- * Because Java 8's Optional type is stupid
- */
 public abstract class Option<T> implements Collection<T>, Serializable {
-
 
     private Option() {
 

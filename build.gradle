@@ -1,23 +1,46 @@
-buildscript {
-    apply from: 'gradle/buildscript.gradle', to: buildscript
+
+plugins {
+    id "io.spring.dependency-management" version "1.0.11.RELEASE"
+}
+
+
+allprojects {
+    apply plugin: 'io.spring.dependency-management'
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+
+
+    dependencyManagement {
+        imports {
+            mavenBom "io.sunshower.arcus:bom-imported:$version"
+        }
+    }
+
 }
 
 subprojects {
     apply plugin: 'java'
+    apply plugin: 'java-library'
 
-    apply from: "$rootDir/gradle/dependencies.gradle"
-    apply from: "$rootDir/gradle/idea.gradle"
-    apply from: "$rootDir/gradle/jacoco.gradle"
-    apply from: "$rootDir/gradle/publishing.gradle"
-    apply from: "$rootDir/gradle/test.gradle"
+    test {
+        useJUnitPlatform()
+    }
+
+    plugins.withType(JavaPlugin) {
+
+        dependencies {
+            [
+                    'api',
+                    'engine'
+
+            ].each {dep ->
+                testImplementation "org.junit.jupiter:junit-jupiter-$dep"
+            }
+        }
+
+    }
 }
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '2.12'
-}
-
-apply from: "$rootDir/gradle/bom.gradle"
-
-defaultTasks "installBillOfMaterials", "clean", "build"
-
 
