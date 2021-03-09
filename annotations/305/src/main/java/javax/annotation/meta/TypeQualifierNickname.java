@@ -10,9 +10,6 @@ import java.lang.annotation.Target;
  * same meaning as applying all of annotations of X (other than QualifierNickname) to Y.
  *
  * <p>Thus, you might define a qualifier SocialSecurityNumber as follows: <code>
- * @Documented
- * @TypeQualifierNickname @Pattern("[0-9]{3}-[0-9]{2}-[0-9]{4}")
- * @Retention(RetentionPolicy.RUNTIME)
  * public @interface SocialSecurityNumber {
  * }
  * </code>

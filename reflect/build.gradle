@@ -8,4 +8,6 @@ dependencies {
     ].each { dependency ->
         implementation dependency
     }
+
+    compileOnly project(':annotations:305')
 }

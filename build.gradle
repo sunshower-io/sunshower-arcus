@@ -47,13 +47,13 @@ subprojects {
 
     task generateDocumentation(type: Javadoc)  {
         source = sourceSets.main.allJava
+        classpath = sourceSets.main.compileClasspath + sourceSets.main.runtimeClasspath
     }
 
 
     plugins.withType(JavaPlugin) {
 
         dependencies {
-
 
             testImplementation 'org.spockframework:spock-core'
 

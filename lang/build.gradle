@@ -1,5 +1,5 @@
 
 dependencies {
-    compile project(':lambda')
-    compile project(':annotations:305')
+    implementation project(':lambda')
+    compileOnly project(':annotations:305')
 }

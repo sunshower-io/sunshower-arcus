@@ -16,10 +16,6 @@ import java.lang.annotation.RetentionPolicy;
  * {@literal @Foo(Color.Red)} or {@literal @Foo(Color.Blue)}, then the value must be
  * {@literal @Foo(Color.Green)}. And if you know it is {@literal @Foo(Color.Green)}, you know it
  * cannot be {@literal @Foo(Color.Red)} or {@literal @Foo(Color.Blue)} <code>
- * @TypeQualifier  @interface Foo {
- *     enum Color {RED, BLUE, GREEN};
- *     @Exhaustive Color value();
- *     }
  *  </code>
  */
 @Documented
