@@ -2,12 +2,12 @@
 dependencies {
 
     [
-            project(':lang'),
-            project(':lambda'),
+            project(':arcus-lang'),
+            project(':arcus-lambda'),
             'net.bytebuddy:byte-buddy',
     ].each { dependency ->
         implementation dependency
     }
 
-    compileOnly project(':annotations:305')
+    compileOnly project(':annotations:arcus-jsr-305')
 }

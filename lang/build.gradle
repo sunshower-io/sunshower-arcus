@@ -1,5 +1,0 @@
-
-dependencies {
-    implementation project(':lambda')
-    compileOnly project(':annotations:305')
-}

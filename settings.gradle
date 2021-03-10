@@ -1,6 +1,6 @@
 include(
-        'lang',
-        'lambda',
-        'reflect',
-        'annotations:305',
+        'arcus-lang',
+        'arcus-lambda',
+        'arcus-reflect',
+        'annotations:arcus-jsr-305',
 )

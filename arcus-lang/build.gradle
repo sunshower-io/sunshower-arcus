@@ -1,0 +1,5 @@
+
+dependencies {
+    implementation project(':arcus-lambda')
+    compileOnly project(':annotations:arcus-jsr-305')
+}
