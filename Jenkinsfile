@@ -103,6 +103,32 @@ pipeline {
                         env.NEXT_VERSION = "${segs.join('.')}-${env.BUILD_NUMBER}-SNAPSHOT"
                     }
 
+//                    sh """
+//                        wget https://raw.githubusercontent.com/sunshower-io/sunshower-env/master/settings/settings.xml
+//                    """
+
+                    sh """
+                        mvn versions:set \
+                        -DnewVersion="${env.NEXT_VERSION}"
+                    """
+
+                    sh """
+                        mvn clean install deploy
+                    """
+
+                    sh """
+
+                        gradle \
+                        clean \
+                        build \
+                        spotlessApply \
+                        publishToMavenLocal \
+                        publish \
+                        -Pversion=${env.NEXT_VERSION} \
+                        -PmavenRepositoryUrl=${env.TARGET_REPOSITORY} \
+                        -PmavenRepositoryUsername=${env.MVN_REPO_USR} \
+                        -PmavenRepositoryPassword=${env.MVN_REPO_PSW}
+                    """
                 }
             }
         }
