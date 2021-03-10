@@ -103,10 +103,6 @@ pipeline {
                         env.NEXT_VERSION = "${segs.join('.')}-${env.BUILD_NUMBER}-SNAPSHOT"
                     }
 
-//                    sh """
-//                        wget https://raw.githubusercontent.com/sunshower-io/sunshower-env/master/settings/settings.xml
-//                    """
-
                     sh """
                         mvn versions:set \
                         -f bom \
@@ -118,7 +114,6 @@ pipeline {
                     """
 
                     sh """
-
                         gradle \
                         clean \
                         build \
@@ -147,6 +142,8 @@ pipeline {
                 container('maven') {
 
                     script {
+                        env.RELEASE_REPOSITORY = "${env.REPOSITORY_BASE}/${env.MVN_SNAPSHOTS}"
+                        env.SNAPSHOT_REPOSITORY = "${env.REPOSITORY_BASE}/${env.MVN_RELEASES}"
                         /**
                          * strip the leading "release/" prefix
                          */
@@ -207,6 +204,100 @@ pipeline {
 
                     sh """
                         git remote set-url origin https://${GITHUB_PSW}@github.com/sunshower-io/sunshower-devops
+                    """
+
+
+                    /**
+                     * release BOM POM
+                     */
+                    sh """
+                        mvn versions:set \
+                        -f bom \
+                        -DnewVersion=${env.RELEASED_VERSION} 
+                    """
+
+                    sh """
+                        mvn clean install deploy -f bom
+                    """
+
+                    /**
+                     * increment gradle build to next released version and deploy
+                     */
+                    sh """
+                        find . -name gradle.properties | xargs \
+                        sed -i 's/version=${env.CURRENT_VERSION}/version=${env.RELEASED_VERSION}/g'
+                    """
+
+
+                    sh """
+                        gradle \
+                        clean \
+                        build \
+                        spotlessApply \
+                        publishToMavenLocal \
+                        publish \
+                        -PmavenRepositoryUrl=${env.RELEASE_REPOSITORY} \
+                        -PmavenRepositoryUsername=${env.MVN_REPO_USR} \
+                        -PmavenRepositoryPassword=${env.MVN_REPO_PSW}
+                    """
+
+
+                    sh """
+                        git tag "v${env.RELEASED_VERSION}" \
+                        -m "[released] Tagging: ${env.RELEASED_VERSION} (from ${env.TAG_NAME})"
+                    """
+
+                    sh """
+                        git push origin "v${env.RELEASED_VERSION}"
+                    """
+
+
+                    /**
+                     * increment to next snapshot
+                     */
+
+                    sh """
+                        mvn versions:set \
+                        -f bom \
+                        -DnewVersion=${env.NEXT_VERSION} 
+                    """
+
+                    sh """
+                        mvn clean install deploy -f bom
+                    """
+
+                    sh """
+                        find . -name gradle.properties | xargs \
+                        sed -i 's/version=${env.RELEASED_VERSION}/version=${env.NEXT_VERSION}/g'
+                    """
+
+                    sh """
+                        gradle \
+                        clean \
+                        build \
+                        spotlessApply \
+                        publishToMavenLocal \
+                        publish \
+                        -PmavenRepositoryUrl=${env.SNAPSHOT_REPOSITORY} \
+                        -PmavenRepositoryUsername=${env.MVN_REPO_USR} \
+                        -PmavenRepositoryPassword=${env.MVN_REPO_PSW}
+                    """
+
+
+                    sh """
+                        git commit -am "[released] ${env.TAG_NAME} -> ${env.RELEASED_VERSION}"
+                    """
+
+                    sh """
+                        git checkout -b master
+                    """
+
+                    sh """
+                        git pull --rebase origin master
+                    """
+
+                    sh """
+                        git push -u origin master
                     """
                 }
             }
