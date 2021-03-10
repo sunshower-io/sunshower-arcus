@@ -20,27 +20,27 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>io.sunshower.arcus</groupId>
-                <artifactId>annotations</artifactId>
+                <groupId>io.sunshower.arcus.annotations</groupId>
+                <artifactId>arcus-jsr-305</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>io.sunshower.arcus</groupId>
-                <artifactId>lambda</artifactId>
+                <artifactId>arcus-lambda</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>io.sunshower.arcus</groupId>
-                <artifactId>lang</artifactId>
+                <artifactId>arcus-lang</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
 
             <dependency>
                 <groupId>io.sunshower.arcus</groupId>
-                <artifactId>reflect</artifactId>
+                <artifactId>arcus-reflect</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>
