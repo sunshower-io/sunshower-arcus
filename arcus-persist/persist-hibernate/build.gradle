@@ -1,15 +1,15 @@
 dependencies {
 
-    api project(':common:common-config')
-    api project(':persist:persist-jpa')
-    api project(':persist:persist-core')
+//    api project(':common:common-config')
+//    api project(':persist:persist-jpa')
+//    api project(':persist:persist-core')
 
     api 'org.hibernate.validator:hibernate-validator'
     api 'org.hibernate.validator:hibernate-validator'
 
 
 
-    testImplementation project(':test:test-persist')
+//    testImplementation project(':test:test-persist')
 
 
     [

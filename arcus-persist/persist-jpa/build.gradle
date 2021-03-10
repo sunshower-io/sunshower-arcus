@@ -1,11 +1,11 @@
 dependencies {
 
 
-    api project(':persist:persist-api')
-    api project(':persist:persist-core')
+//    api project(':persist:persist-api')
+//    api project(':persist:persist-core')
     api 'org.hibernate.validator:hibernate-validator'
     
-    implementation project(':common:common-log')
+//    implementation project(':common:common-log')
     implementation 'org.flywaydb:flyway-core'
 
 
@@ -16,5 +16,5 @@ dependencies {
     testImplementation 'org.postgresql:postgresql'
     testImplementation 'org.springframework:spring-test'
 
-    testImplementation project(':test:test-common')
+//    testImplementation project(':test:test-common')
 }

@@ -1,4 +1,4 @@
-package io.sunshower.lang.common;
+package io.sunshower.lang.primitives;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
