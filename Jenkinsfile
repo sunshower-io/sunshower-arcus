@@ -109,11 +109,12 @@ pipeline {
 
                     sh """
                         mvn versions:set \
+                        -f bom \
                         -DnewVersion="${env.NEXT_VERSION}"
                     """
 
                     sh """
-                        mvn clean install deploy
+                        mvn clean install deploy -f bom
                     """
 
                     sh """
