@@ -204,7 +204,7 @@ pipeline {
                     """
 
                     sh """
-                        git remote set-url origin https://${GITHUB_PSW}@github.com/sunshower-io/sunshower-devops
+                        git remote set-url origin https://${GITHUB_PSW}@github.com/sunshower-io/sunshower-arcus
                     """
 
 
