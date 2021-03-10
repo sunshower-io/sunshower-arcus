@@ -30,7 +30,7 @@ pipeline {
         /**
          * base URL components
          */
-        REPOSITORY_BASE = "http://artifacts.sunshower.cloud/repository/"
+        REPOSITORY_BASE = "http://artifacts.sunshower.cloud/repository"
 
 
         /**
@@ -142,8 +142,9 @@ pipeline {
                 container('maven') {
 
                     script {
-                        env.RELEASE_REPOSITORY = "${env.REPOSITORY_BASE}/${env.MVN_SNAPSHOTS}"
-                        env.SNAPSHOT_REPOSITORY = "${env.REPOSITORY_BASE}/${env.MVN_RELEASES}"
+                        env.RELEASE_REPOSITORY = "${env.REPOSITORY_BASE}/${env.MVN_RELEASES}"
+
+                        env.SNAPSHOT_REPOSITORY = "${env.REPOSITORY_BASE}/${env.MVN_SNAPSHOTS}"
                         /**
                          * strip the leading "release/" prefix
                          */
