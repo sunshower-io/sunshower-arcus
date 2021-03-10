@@ -5,12 +5,12 @@
     <parent>
         <groupId>io.sunshower.arcus</groupId>
         <artifactId>bom</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.1-SNAPSHOT</version>
         <relativePath>../</relativePath>
     </parent>
     <groupId>io.sunshower.arcus</groupId>
     <artifactId>bom-imported</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Arcus Imported Bill-Of-Materials</name>
