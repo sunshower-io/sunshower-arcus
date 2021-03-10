@@ -70,7 +70,6 @@ pipeline {
                         build \
                         spotlessApply \
                         publishToMavenLocal \
-                        generateDocumentation \
                         publish \
                         -PmavenRepositoryUrl=${env.TARGET_REPOSITORY} \
                         -PmavenRepositoryUsername=${env.MVN_REPO_USR} \
