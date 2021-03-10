@@ -73,7 +73,7 @@ pipeline {
                         publish \
                         -PmavenRepositoryUrl=${env.TARGET_REPOSITORY} \
                         -PmavenRepositoryUsername=${env.MVN_REPO_USR} \
-                        -PmavenRepositoryPassword=${env.MVN_REPO_USR}
+                        -PmavenRepositoryPassword=${env.MVN_REPO_PSW}
                     """
                 }
             }
