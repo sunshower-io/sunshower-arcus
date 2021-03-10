@@ -3,4 +3,9 @@ include(
         'arcus-lambda',
         'arcus-reflect',
         'annotations:arcus-jsr-305',
+        'arcus-persist:persist-api',
+        'arcus-persist:persist-jpa',
+        'arcus-persist:persist-core',
+        'arcus-persist:persist-ignite',
+        'arcus-persist:persist-hibernate',
 )

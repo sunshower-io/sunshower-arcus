@@ -1,0 +1,59 @@
+# gradle build dirs
+**/build
+
+bom/publish.properties
+**/export
+**/target
+**/pom.xml.versionsBackup
+**/publish.properties
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+## File-based project format:
+*.iws
+/out/
+
+# mpeltonen/sbt-idea plugin
+.idea_modules/
+com_crashlytics_export_strings.xml
+crashlytics.properties
+crashlytics-build.properties
+fabric.properties
+**/*.iml
+.idea/*
+
+
+### macOS ###
+*.DS_Store
+.AppleDouble
+.LSOverride
+
+### Java ###
+*.class
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+### Gradle ###
+.gradle
+/build/
+
+# Ignore Gradle GUI config
+gradle-app.setting
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
+
+# Cache of project
+.gradletasknamecache
+
+

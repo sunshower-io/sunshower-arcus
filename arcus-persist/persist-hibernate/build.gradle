@@ -1,0 +1,41 @@
+dependencies {
+
+    api project(':common:common-config')
+    api project(':persist:persist-jpa')
+    api project(':persist:persist-core')
+
+    api 'org.hibernate.validator:hibernate-validator'
+    api 'org.hibernate.validator:hibernate-validator'
+
+
+
+    testImplementation project(':test:test-persist')
+
+
+    [
+            'spring-orm',
+            'spring-jdbc'
+    ].each {
+        implementation "org.springframework:$it"
+    }
+
+    implementation 'org.glassfish:javax.el'
+    implementation 'org.aspectj:aspectjrt'
+    implementation 'org.aspectj:aspectjweaver'
+    implementation 'org.springframework:spring-aop'
+
+    implementation 'org.jboss.narayana.jta:jta'
+    implementation 'org.jboss.narayana.jta:jdbc'
+    implementation 'org.jboss:jboss-transaction-spi'
+    implementation 'org.jboss.narayana.jta:narayana-jta'
+    implementation 'org.jboss.narayana.jts:narayana-jts-integration'
+
+
+    [
+            'infinispan-core',
+            'infinispan-hibernate-cache-v53'
+    ].each {
+        api "org.infinispan:$it:9.4.14.Final"
+    }
+
+}

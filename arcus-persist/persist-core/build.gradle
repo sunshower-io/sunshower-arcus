@@ -1,0 +1,13 @@
+
+dependencies {
+
+    api 'com.zaxxer:HikariCP'
+    api 'org.springframework:spring-jdbc'
+
+    implementation project(':common:core')
+    implementation project(':common:common-config')
+    implementation project(':persist:persist-api')
+
+    testImplementation project(':test:test-persist')
+
+}

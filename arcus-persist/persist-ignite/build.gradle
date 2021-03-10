@@ -1,0 +1,22 @@
+dependencies {
+
+    implementation 'javax.inject:javax.inject'
+    implementation 'org.hibernate:hibernate-core'
+    api 'org.hibernate:hibernate-entitymanager'
+    api 'org.springframework:spring-context'
+    api 'org.springframework:spring-orm'
+
+
+    implementation project(':common:common-config')
+
+
+    implementation 'org.hibernate.validator:hibernate-validator'
+    testImplementation 'org.springframework:spring-test'
+    
+    testImplementation project(':test:test-common')
+
+    ['ignite-core', 'ignite-spring', 'ignite-indexing', 'ignite-hibernate-core'].each {
+        implementation("org.apache.ignite:$it")
+    }
+
+}
