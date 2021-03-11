@@ -4,6 +4,7 @@ import static io.sunshower.arcus.config.ConfigurationLoader.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import io.sunshower.arcus.logging.Logging;
+import java.io.File;
 import java.io.StringReader;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -33,5 +34,11 @@ public class ConfigurationLoaderTest {
 
         val result = load(Cfg.class, new StringReader(cfg), "application/x-yaml");
         assertEquals(result.value, "hello!");
+    }
+
+    @Test
+    void ensureDetectingMimeTypeWorksForYamlFile() throws Exception {
+        val file = new File(ClassLoader.getSystemResource("test-mimetype.yaml").getFile());
+        assertEquals(load(Cfg.class, file).value, "hello");
     }
 }

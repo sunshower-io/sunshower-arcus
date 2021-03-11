@@ -29,8 +29,15 @@ dependencies {
 
 
 
+
     /**
      * test implementation dependencies
      */
-    testImplementation 'org.springframework:spring-test'
+    [
+            project(':arcus-config:config-yaml'),
+            project(':arcus-config:config-core'),
+            'org.springframework:spring-test'
+    ].each { dependency ->
+        testImplementation dependency
+    }
 }

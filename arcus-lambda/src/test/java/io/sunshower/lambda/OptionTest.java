@@ -1,14 +1,40 @@
 package io.sunshower.lambda;
 
+import static io.sunshower.lambda.Option.from;
 import static io.sunshower.lambda.Option.none;
+import static io.sunshower.lambda.Option.of;
 import static io.sunshower.lambda.Option.some;
+import static io.sunshower.lambda.Option.to;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import lombok.val;
 import org.junit.jupiter.api.Test;
 
 class OptionTest {
+
+    @Test
+    void ensureFlatMapWorksForNullValue() {
+        assertEquals(of(null).flatMap(f -> of(null)), of(null));
+    }
+
+    @Test
+    void ensureFlatMapWorksForNonNullValue() {
+        assertEquals(of("1").flatMap(t -> Exceptions.fromExceptional(t, Integer::parseInt)), of(1));
+    }
+
+    @Test
+    void ensureFromIsPreserving() {
+        val value = of(1);
+        assertEquals(from(to(value)), value);
+    }
+
+    @Test
+    void ensureToIsPreserving() {
+        val value = Optional.of(1);
+        assertEquals(to(from(value)), value);
+    }
 
     @Test
     void ensureSomeOfAnItemIsSome() {
@@ -307,12 +333,12 @@ class OptionTest {
 
     @Test
     void ensureOfOnNullReturnsNull() {
-        assertTrue(Option.of(null).isNone());
+        assertTrue(of(null).isNone());
     }
 
     @Test
     void ensureOptionOfNonNullReturnsSome() {
-        assertEquals(Option.of("a").isSome(), (true));
+        assertEquals(of("a").isSome(), (true));
     }
 
     @Test
@@ -390,9 +416,7 @@ class OptionTest {
     @Test
     void ensureFlatMapMakesSense() {
         List<String> c =
-                Option.of("a").stream()
-                        .flatMap(a -> Option.bind("b", "c"))
-                        .collect(Collectors.toList());
+                of("a").stream().flatMap(a -> Option.bind("b", "c")).collect(Collectors.toList());
         assertEquals(c.size(), (2));
         assertEquals(c.contains("b"), (true));
     }

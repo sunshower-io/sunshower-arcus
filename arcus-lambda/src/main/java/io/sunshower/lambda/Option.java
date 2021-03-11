@@ -4,10 +4,25 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.function.*;
 import java.util.stream.*;
+import javax.annotation.Nullable;
 
 public abstract class Option<T> implements Collection<T>, Serializable {
 
     private Option() {}
+
+    public static <T> Option<T> from(@Nullable Optional<T> value) {
+        return Optional.ofNullable(value).flatMap(u -> u).map(Option::of).orElseGet(Option::none);
+    }
+
+    public static <T> Optional<T> to(@Nullable Option<T> value) {
+        return of(value).flatMap(f -> f).fmap(Optional::ofNullable).getOrElse(Optional::empty);
+    }
+
+    public abstract <U> Option<U> flatMap(Function<T, Option<U>> f);
+
+    public abstract <U extends RuntimeException> T orElseThrow(Supplier<U> u) throws U;
+
+    public abstract <U extends Throwable> T orElseThrowChecked(Supplier<U> u) throws U;
 
     public static final class Some<T> extends Option<T> {
 
@@ -17,8 +32,31 @@ public abstract class Option<T> implements Collection<T>, Serializable {
             this.item = item;
         }
 
+        @Override
+        public <U> Option<U> flatMap(Function<T, Option<U>> f) {
+            return f.apply(item);
+        }
+
+        @Override
+        public <U extends RuntimeException> T orElseThrow(Supplier<U> u) throws U {
+            return item;
+        }
+
+        @Override
+        public <U extends Throwable> T orElseThrowChecked(Supplier<U> u) throws U {
+            return item;
+        }
+
         public T get() {
             return item;
+        }
+
+        @Override
+        public Option<T> filter(Predicate<T> f) {
+            if (f.test(item)) {
+                return this;
+            }
+            return none();
         }
 
         @Override
@@ -167,8 +205,28 @@ public abstract class Option<T> implements Collection<T>, Serializable {
         private None() {}
 
         @Override
+        public <U> Option<U> flatMap(Function<T, Option<U>> f) {
+            return none();
+        }
+
+        @Override
+        public <U extends RuntimeException> T orElseThrow(Supplier<U> u) throws U {
+            throw u.get();
+        }
+
+        @Override
+        public <U extends Throwable> T orElseThrowChecked(Supplier<U> u) throws U {
+            throw u.get();
+        }
+
+        @Override
         public T get() {
             throw new NoSuchElementException("None() has nothing to get");
+        }
+
+        @Override
+        public Option<T> filter(Predicate<T> f) {
+            return this;
         }
 
         @Override
@@ -275,7 +333,14 @@ public abstract class Option<T> implements Collection<T>, Serializable {
         }
     }
 
+    /** @return the value (if it exists), otherwise throw NoSuchElementException */
     public abstract T get();
+
+    /**
+     * @param f the predicate to apply
+     * @return some if the predicate matches, none if not
+     */
+    public abstract Option<T> filter(Predicate<T> f);
 
     public abstract boolean isSome();
 

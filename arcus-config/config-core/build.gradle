@@ -1,5 +1,9 @@
 dependencies {
+    api project(':arcus-lang')
+
+
     implementation project(':arcus-log')
+    implementation project(':arcus-lambda')
 
 
     [
