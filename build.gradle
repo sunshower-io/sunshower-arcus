@@ -1,4 +1,3 @@
-
 plugins {
     id 'pmd'
     id 'groovy'
@@ -27,7 +26,6 @@ allprojects {
             mavenBom "io.sunshower.arcus:bom-imported:$version"
         }
     }
-
 
 
 }
@@ -72,7 +70,6 @@ subprojects {
     }
 
 
-
     publishing {
 
         repositories {
@@ -114,7 +111,14 @@ subprojects {
 
                 artifact javadocJar
 
-
+                versionMapping {
+                    usage('java-api') {
+                        fromResolutionOf('runtimeClasspath')
+                    }
+                    usage('java-runtime') {
+                        fromResolutionResult()
+                    }
+                }
             }
         }
     }
