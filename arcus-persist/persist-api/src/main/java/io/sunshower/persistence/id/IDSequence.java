@@ -1,5 +1,6 @@
 package io.sunshower.persistence.id;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.net.InetAddress;
 import java.nio.ByteBuffer;
 import java.time.Clock;
@@ -62,6 +63,7 @@ final class IDSequence implements Sequence<Identifier>, NodeAware, TimeBased {
         }
     }
 
+    @SuppressFBWarnings
     private void increment() {
         currentTime = clock.millis();
 
@@ -71,8 +73,18 @@ final class IDSequence implements Sequence<Identifier>, NodeAware, TimeBased {
         } else if (sequence == SEQUENCE_MAXIMUM) {
             if (applyBackpressure) {
                 try {
-                    Thread.sleep(1);
-                    increment();
+                    while (sequence == SEQUENCE_MAXIMUM) {
+                        Thread.sleep(1);
+                        if (currentTime != previousTime) {
+                            sequence = 0;
+                            previousTime = currentTime;
+                            return;
+                        } else {
+                            synchronized (this) {
+                                sequence++;
+                            }
+                        }
+                    }
                 } catch (InterruptedException ex) {
                 }
             }
