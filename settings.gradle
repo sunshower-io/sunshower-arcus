@@ -1,11 +1,16 @@
 include(
         'arcus-lang',
+        'arcus-log',
         'arcus-lambda',
+        'arcus-config:config-core',
+        'arcus-config:config-jaxb',
+        'arcus-config:config-xml',
+        'arcus-config:config-json',
+        'arcus-config:config-yaml',
         'arcus-reflect',
         'annotations:arcus-jsr-305',
         'arcus-persist:persist-api',
-        'arcus-persist:persist-jpa',
         'arcus-persist:persist-core',
-        'arcus-persist:persist-ignite',
-        'arcus-persist:persist-hibernate',
+        'arcus-persist:persist-jpa',
+        'arcus-persist:persist-hibernate'
 )

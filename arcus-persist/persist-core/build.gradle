@@ -1,13 +1,36 @@
-
 dependencies {
 
-    api 'com.zaxxer:HikariCP'
-    api 'org.springframework:spring-jdbc'
 
-//    implementation project(':common:core')
-//    implementation project(':common:common-config')
-//    implementation project(':arcus-persis:persist-api')
+    /**
+     * API dependencies
+     */
+    [
+            project(':arcus-lang'),
+            project(':arcus-persist:persist-api'),
+            'org.springframework:spring-beans',
+            'org.springframework:spring-context',
 
-//    testImplementation project(':test:test-persist')
+    ].each{
+        api it
+    }
 
+
+    /**
+     * implementation dependencies
+     */
+
+    [
+            'org.hibernate:hibernate-core',
+            'org.hibernate:hibernate-entitymanager',
+            'org.springframework.data:spring-data-jpa'
+    ].each {
+        implementation it
+    }
+
+
+
+    /**
+     * test implementation dependencies
+     */
+    testImplementation 'org.springframework:spring-test'
 }

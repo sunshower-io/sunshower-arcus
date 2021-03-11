@@ -2,6 +2,7 @@ package io.sunshower.persistence.id;
 
 
 
+import java.math.BigInteger;
 import java.time.Clock;
 
 /**
@@ -42,5 +43,9 @@ public class Identifiers {
      */
     public static byte[] getBytes(Identifier id) {
         return id.id;
+    }
+
+    public static BigInteger toNumeric(Identifier id) {
+        return new BigInteger(id.id);
     }
 }

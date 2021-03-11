@@ -1,0 +1,10 @@
+dependencies {
+
+    [
+            project(':arcus-config:config-core'),
+            project(':arcus-config:config-jaxb'),
+            'com.fasterxml.jackson.core:jackson-databind'
+    ].each { dependency ->
+        implementation dependency
+    }
+}

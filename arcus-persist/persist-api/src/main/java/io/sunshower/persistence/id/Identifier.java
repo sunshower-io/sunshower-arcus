@@ -1,53 +1,29 @@
 package io.sunshower.persistence.id;
 
+import io.sunshower.lang.common.encodings.Base58;
+import io.sunshower.lang.common.encodings.Encoding;
 
-import io.sunshower.encodings.Base58;
-import io.sunshower.encodings.Encoding;
-import io.sunshower.persist.internal.jaxb.Base58ByteArrayConverter;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.UUID;
 
-import static io.sunshower.encodings.Base58.Alphabets.Default;
+import static io.sunshower.lang.common.encodings.Base58.Alphabets.Default;
 import static java.lang.String.format;
 
+public class Identifier implements Comparable<Identifier>, Serializable {
 
-/**
- * Created by haswell on 7/17/17.
- */
+    static final transient Encoding base58 = Base58.getInstance(Default);
 
-@XmlRootElement(name = "id")
-@XmlAccessorType(XmlAccessType.NONE)
-public class Identifier implements
-        Comparable<Identifier>,
-        Serializable {
-
-    static final transient Encoding base58 = Base58.getInstance(
-            Default
-    );
-    
     static final transient Sequence<Identifier> randomSequence = Identifiers.randomSequence();
 
-
-    @XmlAttribute
-    @XmlJavaTypeAdapter(Base58ByteArrayConverter.class)
     volatile byte[] id;
 
-    protected Identifier() {
+    protected Identifier() {}
 
-    }
-    
     public byte[] value() {
         return id;
     }
-
 
     public static Identifier valueOf(UUID id) {
         final ByteBuffer bb = ByteBuffer.allocate(16);
@@ -62,13 +38,10 @@ public class Identifier implements
 
     Identifier(byte[] id) {
         if (id == null || id.length != 16) {
-            throw new IllegalArgumentException(
-                    "Argument cannot possibly be a valid identifier"
-            );
+            throw new IllegalArgumentException("Argument cannot possibly be a valid identifier");
         }
         this.id = id;
     }
-
 
     @Override
     public int compareTo(Identifier o) {
@@ -98,13 +71,12 @@ public class Identifier implements
         if (o == this) {
             return true;
         }
-        
-        if(o.getClass().equals(Identifier.class)) {
+
+        if (o.getClass().equals(Identifier.class)) {
             final Identifier other = (Identifier) o;
             return Arrays.equals(id, other.id);
         }
         return false;
-
     }
 
     @Override
@@ -112,31 +84,26 @@ public class Identifier implements
         return id == null ? 0 : Arrays.hashCode(id);
     }
 
-
     @Override
     public String toString() {
         return toString(Default);
     }
 
-    
     public static final Identifier random() {
         return randomSequence.next();
     }
 
     public String toString(Base58.Alphabets alphabet) {
-        if(id == null) {
+        if (id == null) {
             return "id[null]";
         }
         switch (alphabet) {
             case Default:
                 return base58.encode(Arrays.copyOf(id, id.length));
             default:
-                return Base58
-                        .getInstance(alphabet)
-                        .encode(Arrays.copyOf(id, id.length));
+                return Base58.getInstance(alphabet).encode(Arrays.copyOf(id, id.length));
         }
     }
-
 
     public static Identifier valueOf(String id) {
         if (id == null) {
@@ -155,22 +122,20 @@ public class Identifier implements
 
     public static boolean isIdentifier(String id) {
         byte[] decode = base58.decode(id);
-        return id != null &&
-                decode.length == 16 &&
-                base58.test(id);
+        return id != null && decode.length == 16 && base58.test(id);
     }
 
     public static Identifier decode(String s) {
-        if(isIdentifier(s)) {
+        if (isIdentifier(s)) {
             return new Identifier(base58.decode(s));
         }
         throw new IllegalArgumentException(format("Invalid identifier: '%s'", s));
     }
-    
+
     public void setId(String id) {
         this.id = base58.decode(id);
     }
-    
+
     public byte[] getId() {
         return id;
     }

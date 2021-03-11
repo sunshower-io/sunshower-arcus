@@ -1,7 +1,6 @@
 package io.sunshower.persistence.id;
 
 
-import io.sunshower.common.Identifier;
 
 import java.net.InetAddress;
 import java.nio.ByteBuffer;

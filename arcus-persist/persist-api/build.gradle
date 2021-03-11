@@ -1,15 +1,21 @@
 dependencies {
+    api project(':arcus-lang')
 
-//    api project(':common:core')
+//    implementation 'org.junit.jupiter:junit-jupiter:5.4.2'
 
-    api 'javax:javaee-api'
-    api 'javax.inject:javax.inject'
+//    api 'javax:javaee-api'
+//    api 'javax.inject:javax.inject'
+//    api 'org.springframework:spring-context'
+//    api 'org.hibernate:hibernate-search-orm'
+//    api 'javax.persistence:javax.persistence-api'
+//
+//
+//
+//    api 'org.springframework.security:spring-security-core'
+
+
+    api 'org.springframework:spring-beans'
     api 'org.springframework:spring-context'
-    api 'org.hibernate:hibernate-search-orm'
-    api 'javax.persistence:javax.persistence-api'
-    api 'org.springframework.security:spring-security-core'
 
-
-//    testImplementation project(':test:test-common')
-
+    testImplementation 'org.springframework:spring-test'
 }

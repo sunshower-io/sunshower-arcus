@@ -1,8 +1,0 @@
-jdbc:
-  baseline: true
-  version: 0
-  username: sa
-  jndiPath: coolbeans
-  url: jdbc:h2:mem:test
-  password: none
-  driverClass: org.h2.Driver

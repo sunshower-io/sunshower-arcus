@@ -1,0 +1,13 @@
+dependencies {
+    implementation project(':arcus-log')
+
+
+    [
+            project(':arcus-config:config-jaxb'),
+            project(':arcus-config:config-json'),
+            project(':arcus-config:config-yaml'),
+            'com.fasterxml.jackson.module:jackson-module-jaxb-annotations'
+    ].each { dependency ->
+        testImplementation dependency
+    }
+}

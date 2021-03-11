@@ -1,5 +1,7 @@
 package io.sunshower.persistence.id;
 
+import io.sunshower.lang.common.hash.Hashes;
+
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -8,9 +10,6 @@ import java.nio.ByteBuffer;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
-/**
- * Created by haswell on 7/17/17.
- */
 public class Nodes {
 
     private static final Object lock = new Object();
@@ -23,13 +22,11 @@ public class Nodes {
 
     private static final AtomicReference<UUID> fallbackNodeId;
 
-
     static {
         addressCache = new HashMap<>();
         fallbackNodeId = new AtomicReference<>(UUID.randomUUID());
         clock = new Random(System.currentTimeMillis()).nextLong();
     }
-
 
     public static InetAddress localAddress() {
         if (localAddress == null) {
@@ -46,14 +43,13 @@ public class Nodes {
         return localAddress;
     }
 
-
     public static Set<NetworkInterface> getLocalInterfaces() {
         try {
             Enumeration<NetworkInterface> networkInterfaces =
                     NetworkInterface.getNetworkInterfaces();
             final Set<NetworkInterface> results = new HashSet<>();
 
-            while(networkInterfaces.hasMoreElements()) {
+            while (networkInterfaces.hasMoreElements()) {
                 results.add(networkInterfaces.nextElement());
             }
             return results;
@@ -62,15 +58,18 @@ public class Nodes {
         }
     }
 
-
     public static NetworkInterface getIdentifiableInterface() {
-        return getLocalInterfaces().stream().filter(t -> {
-            try {
-                return t.isUp() && !t.isLoopback();
-            } catch(SocketException e) {
-                return false;
-            }
-        }).findAny().get();
+        return getLocalInterfaces().stream()
+                .filter(
+                        t -> {
+                            try {
+                                return t.isUp() && !t.isLoopback();
+                            } catch (SocketException e) {
+                                return false;
+                            }
+                        })
+                .findAny()
+                .get();
     }
 
     public static byte[] getIdentifiableNodeHardwareAddress() {
@@ -81,7 +80,7 @@ public class Nodes {
         try {
             return getIdentifiableInterface().getHardwareAddress();
         } catch (SocketException e) {
-            if(noFail) {
+            if (noFail) {
                 final ByteBuffer buffer = ByteBuffer.allocate(16);
                 UUID uuid = fallbackNodeId.get();
                 long lsb = uuid.getLeastSignificantBits();
@@ -98,17 +97,9 @@ public class Nodes {
         return getIdentifiableInterface().getInetAddresses().nextElement();
     }
 
-
-
-
     public static long localIdentity() {
-        return localIdentity(
-                getIdentifiableInterface()
-                .getInetAddresses()
-                .nextElement()
-        );
+        return localIdentity(getIdentifiableInterface().getInetAddresses().nextElement());
     }
-
 
     public static long localIdentity(InetAddress address) {
         long lsb = 0;
@@ -119,14 +110,14 @@ public class Nodes {
         return lsb;
     }
 
-
     private static long localIdentityForAddress(InetAddress address) {
         if (addressCache.containsKey(address)) {
             return addressCache.get(address);
         }
 
-        byte[] hash = Hashes.hashCode(Hashes.Algorithm.MD5).digest(
-                ByteBuffer.wrap(address.toString().getBytes()));
+        byte[] hash =
+                Hashes.hashCode(Hashes.Algorithm.MD5)
+                        .digest(ByteBuffer.wrap(address.toString().getBytes()));
         long node = 0;
         for (int i = 0; i < Math.min(6, hash.length); i++) {
             node |= (0x00000000000000ff & (long) hash[i]) << (5 - i) * 8;
@@ -134,6 +125,4 @@ public class Nodes {
         addressCache.put(address, node);
         return node;
     }
-
-
 }
