@@ -1,15 +1,15 @@
 package io.sunshower.persistence.id;
 
+import static io.sunshower.lang.common.encodings.Base58.Alphabets.Default;
+import static java.lang.String.format;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.sunshower.lang.common.encodings.Base58;
 import io.sunshower.lang.common.encodings.Encoding;
-
 import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.UUID;
-
-import static io.sunshower.lang.common.encodings.Base58.Alphabets.Default;
-import static java.lang.String.format;
 
 public class Identifier implements Comparable<Identifier>, Serializable {
 
@@ -21,6 +21,7 @@ public class Identifier implements Comparable<Identifier>, Serializable {
 
     protected Identifier() {}
 
+    @SuppressFBWarnings
     public byte[] value() {
         return id;
     }
@@ -63,6 +64,7 @@ public class Identifier implements Comparable<Identifier>, Serializable {
     }
 
     @Override
+    @SuppressFBWarnings
     public boolean equals(Object o) {
         if (o == null) {
             return false;
@@ -136,6 +138,7 @@ public class Identifier implements Comparable<Identifier>, Serializable {
         this.id = base58.decode(id);
     }
 
+    @SuppressFBWarnings
     public byte[] getId() {
         return id;
     }

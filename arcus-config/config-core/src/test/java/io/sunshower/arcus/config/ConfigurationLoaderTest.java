@@ -19,7 +19,7 @@ public class ConfigurationLoaderTest {
     }
 
     static {
-      Logging.setLevel("io.sunshower.arcus.config", Level.ALL);
+        Logging.setLevel("io.sunshower.arcus.config", Level.ALL);
     }
 
     @Test

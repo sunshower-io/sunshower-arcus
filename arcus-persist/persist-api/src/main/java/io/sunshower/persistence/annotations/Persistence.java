@@ -9,15 +9,15 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Persistence {
 
-  int order() default -1;
+    int order() default -1;
 
-  String id() default "";
+    String id() default "";
 
-  String schema() default "";
+    String schema() default "";
 
-  String[] scannedPackages() default {};
+    String[] scannedPackages() default {};
 
-  Class<?>[] entities() default {};
+    Class<?>[] entities() default {};
 
-  String[] migrationLocations() default {};
+    String[] migrationLocations() default {};
 }

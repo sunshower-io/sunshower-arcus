@@ -8,12 +8,12 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CacheMode {
 
-  Mode value() default Mode.Local;
+    Mode value() default Mode.Local;
 
-  enum Mode {
-    Local,
-    None,
-    Grid,
-    Container
-  }
+    enum Mode {
+        Local,
+        None,
+        Grid,
+        Container
+    }
 }

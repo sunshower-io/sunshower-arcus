@@ -1,6 +1,5 @@
 package io.sunshower.persistence.id;
 
-
 import java.nio.ByteBuffer;
 import java.util.UUID;
 

@@ -1,13 +1,9 @@
 package io.sunshower.persistence.id;
 
-
-
 import java.math.BigInteger;
 import java.time.Clock;
 
-/**
- * Created by haswell on 7/18/17.
- */
+/** Created by haswell on 7/18/17. */
 public class Identifiers {
 
     public static Sequence<Identifier> randomSequence() {
@@ -22,22 +18,18 @@ public class Identifiers {
         return newSequence(Clock.systemUTC(), backpressure);
     }
 
-    public static Sequence<Identifier> newSequence(
-            Clock clock,
-            boolean applyBackpressure
-    ) {
+    public static Sequence<Identifier> newSequence(Clock clock, boolean applyBackpressure) {
         return new IDSequence(
                 clock,
                 Nodes.getIdentifiableNodeHardwareAddress(),
                 Nodes.getIdentifiableNetworkAddress(),
-                applyBackpressure
-        );
+                applyBackpressure);
     }
 
-
     /**
-     * Used to expose an ID's byte value without copying.  Do not use unless you really
-     * know what you're doing
+     * Used to expose an ID's byte value without copying. Do not use unless you really know what
+     * you're doing
+     *
      * @param id
      * @return
      */

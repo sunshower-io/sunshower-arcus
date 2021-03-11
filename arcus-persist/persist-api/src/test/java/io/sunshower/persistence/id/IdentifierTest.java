@@ -1,7 +1,3 @@
 package io.sunshower.persistence.id;
 
-
-class IdentifierTest {
-
-
-}
+class IdentifierTest {}

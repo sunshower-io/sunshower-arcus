@@ -1,10 +1,10 @@
 package io.sunshower.persistence.id;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class IDSequenceTest {
 
