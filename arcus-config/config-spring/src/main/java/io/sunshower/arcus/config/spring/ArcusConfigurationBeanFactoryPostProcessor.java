@@ -155,6 +155,7 @@ public class ArcusConfigurationBeanFactoryPostProcessor
     }
   }
 
+  @SuppressWarnings("unchecked")
   private void defineConfiguration(
       Class<?> configurationType,
       Object configuration,
