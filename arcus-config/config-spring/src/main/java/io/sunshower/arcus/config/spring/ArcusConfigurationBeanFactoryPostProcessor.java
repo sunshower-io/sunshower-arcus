@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import lombok.val;
 import org.apache.logging.log4j.Level;
@@ -110,7 +111,7 @@ public class ArcusConfigurationBeanFactoryPostProcessor implements BeanFactoryPo
   }
 
   private void process(AnnotatedBeanDefinition def, ConfigurableListableBeanFactory beanFactory) {
-    val metadata = def.getMetadata().getAllAnnotationAttributes(CONFIGURATIONS_CLASS_NAME);
+    var metadata = def.getMetadata().getAllAnnotationAttributes(CONFIGURATIONS_CLASS_NAME);
     if (metadata != null) {
       for (val value : metadata.get("value")) {
         if (value instanceof LinkedHashMap<?, ?>[] annotations) {
@@ -121,6 +122,10 @@ public class ArcusConfigurationBeanFactoryPostProcessor implements BeanFactoryPo
       }
     }
 
+    var singleMetadata = def.getMetadata().getAnnotationAttributes(CONFIGURE_CLASS_NAME);
+    if(singleMetadata instanceof Map annotation) {
+      processConfiguration(annotation, beanFactory);
+    }
   }
 
   /**
@@ -133,7 +138,7 @@ public class ArcusConfigurationBeanFactoryPostProcessor implements BeanFactoryPo
    *                   and bail
    */
 
-  private void processConfiguration(LinkedHashMap<?, ?> annotation,
+  private void processConfiguration(Map<?, ?> annotation,
       ConfigurableListableBeanFactory beanFactory) {
     val definedName = (String) annotation.get("name");
     val configurationType = (Class<?>) annotation.get("value");
