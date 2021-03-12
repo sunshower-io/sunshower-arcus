@@ -47,6 +47,7 @@ public class ConfigurationLoaderTest {
   void ensureComplexValuesAreLoaded() throws Exception {
     val file = new File(ClassLoader.getSystemResource("test-complex.yaml").getFile());
     val result = load(Persistence.class, file);
+    assertEquals(result.datasources.size(), 2);
 
 
   }
