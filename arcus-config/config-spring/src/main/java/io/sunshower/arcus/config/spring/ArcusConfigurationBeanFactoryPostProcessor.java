@@ -57,23 +57,6 @@ public class ArcusConfigurationBeanFactoryPostProcessor
     registerExtensions(classLoader);
   }
 
-  static String snakeCase(String name) {
-    val result = new StringBuilder(name.length());
-
-    for (int i = 0; i < name.length(); i++) {
-      char ch = name.charAt(i);
-      if (Character.isUpperCase(ch)) {
-        if (i > 0) {
-          result.append("-");
-        }
-        result.append(Character.toLowerCase(ch));
-      } else {
-        result.append(ch);
-      }
-    }
-    return result.toString();
-  }
-
   @Override
   public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory)
       throws BeansException {
@@ -240,5 +223,22 @@ public class ArcusConfigurationBeanFactoryPostProcessor
         log.debug("\t {}", ext);
       }
     }
+  }
+
+  static String snakeCase(String name) {
+    val result = new StringBuilder(name.length());
+
+    for (int i = 0; i < name.length(); i++) {
+      char ch = name.charAt(i);
+      if (Character.isUpperCase(ch)) {
+        if (i > 0) {
+          result.append("-");
+        }
+        result.append(Character.toLowerCase(ch));
+      } else {
+        result.append(ch);
+      }
+    }
+    return result.toString();
   }
 }
