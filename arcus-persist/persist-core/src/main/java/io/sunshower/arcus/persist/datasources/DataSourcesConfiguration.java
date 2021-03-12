@@ -22,6 +22,4 @@ public class DataSourcesConfiguration {
   public DataSourcesConfiguration() {
     datasources = new ArrayList<>();
   }
-
-
 }

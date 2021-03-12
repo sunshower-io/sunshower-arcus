@@ -14,6 +14,4 @@ public @interface Location {
   String property() default "__auto__";
 
   String environment() default "__auto__";
-
-
 }
