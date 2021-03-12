@@ -137,6 +137,18 @@ subprojects {
         }
     }
 
+    tasks.withType(JavaCompile) {
+        options.compilerArgs += '--enable-preview'
+    }
+
+
+    tasks.withType(Test) {
+        jvmArgs += '--enable-preview'
+    }
+
+    tasks.withType(JavaExec) {
+        jvmArgs += '--enable-preview'
+    }
 }
 
 
@@ -149,3 +161,4 @@ defaultTasks(
 dependencies {
     implementation 'org.junit.jupiter:junit-jupiter:5.4.2'
 }
+

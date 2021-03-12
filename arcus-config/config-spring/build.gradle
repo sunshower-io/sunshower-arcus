@@ -1,0 +1,18 @@
+dependencies {
+
+
+    [
+            'org.springframework:spring-core',
+            'org.springframework:spring-context',
+            'org.springframework:spring-beans',
+            project(':arcus-config:config-core')
+    ].each {
+        api it
+    }
+
+    implementation project(':arcus-log')
+    implementation 'javax.inject:javax.inject'
+
+    testImplementation 'org.springframework:spring-test'
+    testImplementation project(':arcus-config:config-yaml')
+}

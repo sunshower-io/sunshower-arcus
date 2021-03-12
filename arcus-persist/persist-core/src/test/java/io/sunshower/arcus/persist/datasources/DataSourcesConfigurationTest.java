@@ -2,7 +2,7 @@ package io.sunshower.arcus.persist.datasources;
 
 import org.junit.jupiter.api.Test;
 
-class DataSourcePropertiesTest {
+class DataSourcesConfigurationTest {
 
   @Test
   void test() {}

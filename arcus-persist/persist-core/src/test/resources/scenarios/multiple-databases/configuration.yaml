@@ -1,14 +1,11 @@
-
 persistence:
   data-sources:
-    - data-source:
-        modes:
-          - read
+    - modes:
+        - read
         name: first-datasource
         url: jdbc:hd:mem:first
-    - data-source:
-        modes:
-          - read
-          - write
+    - modes:
+        - read
+        - write
         name: first-datasource
         url: jdbc:hd:mem:first
