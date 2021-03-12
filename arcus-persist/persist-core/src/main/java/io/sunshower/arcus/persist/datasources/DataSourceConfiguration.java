@@ -21,21 +21,14 @@ public class DataSourceConfiguration {
   @XmlElement(name = "modes")
   private Set<Mode> modes;
 
-  @Getter
-  @Setter
-  @XmlAttribute
-  private String url;
+  @Getter @Setter @XmlAttribute private String url;
 
   @Getter
   @Setter
   @XmlAttribute(name = "name")
   private String name;
 
-
-
-
   public DataSourceConfiguration() {
     this.modes = new HashSet<>();
   }
-
 }

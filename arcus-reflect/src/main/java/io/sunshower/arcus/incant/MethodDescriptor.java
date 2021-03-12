@@ -47,6 +47,7 @@ public final class MethodDescriptor<U, T> extends LazyPropertyAware
     return (Class<T>) method.getReturnType();
   }
 
+  @SuppressWarnings("PMD.CompareObjectsWithEquals")
   public boolean matches(Method m) {
     if (m.equals(method)) return true;
     loadParameterTypes();
