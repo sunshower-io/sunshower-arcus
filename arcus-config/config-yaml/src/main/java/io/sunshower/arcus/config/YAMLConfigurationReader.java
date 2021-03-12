@@ -1,7 +1,7 @@
 package io.sunshower.arcus.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 import io.sunshower.lang.tuple.Pair;
 import java.io.Reader;
@@ -32,8 +32,8 @@ public class YAMLConfigurationReader implements ConfigurationReader {
     return objectMapper().readerFor(type).readValue(reader);
   }
 
-  private ObjectMapper objectMapper() {
-    val mapper = new ObjectMapper(new YAMLFactory());
+  static ObjectMapper objectMapper() {
+    val mapper = new YAMLMapper();
     mapper.registerModule(new JaxbAnnotationModule());
     return mapper;
   }
