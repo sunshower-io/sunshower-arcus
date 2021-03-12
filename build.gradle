@@ -90,6 +90,11 @@ subprojects {
             archiveClassifier = 'javadoc'
         }
 
+        javadoc.options {
+            addStringOption('-release', '15')
+            addBooleanOption('-enable-preview', true)
+        }
+
 
         publications {
             mavenJava(MavenPublication) {

@@ -57,6 +57,23 @@ public class ArcusConfigurationBeanFactoryPostProcessor
     registerExtensions(classLoader);
   }
 
+  static String snakeCase(String name) {
+    val result = new StringBuilder(name.length());
+
+    for (int i = 0; i < name.length(); i++) {
+      char ch = name.charAt(i);
+      if (Character.isUpperCase(ch)) {
+        if (i > 0) {
+          result.append("-");
+        }
+        result.append(Character.toLowerCase(ch));
+      } else {
+        result.append(ch);
+      }
+    }
+    return result.toString();
+  }
+
   @Override
   public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory)
       throws BeansException {
@@ -114,10 +131,12 @@ public class ArcusConfigurationBeanFactoryPostProcessor
 
   /**
    * @param annotation the actual configuration class that must be bound to a configuration file we
-   *     must check all the available extensions from ConfigurationLoader, then search in
-   *     classpath:/configurations/{bean-name:snake-case}.{ext}
-   *     <p>we bind the first extension we encounter at the location. If no files with any of the
-   *     extensions are encountered, with throw a ConfigurationException and bail
+   *                   must check all the available extensions from ConfigurationLoader, then search
+   *                   in classpath:/configurations/{bean-name:snake-case}.{ext}
+   *                   <p>we bind the first extension we encounter at the location. If no files
+   *                   with
+   *                   any of the extensions are encountered, with throw a ConfigurationException
+   *                   and bail
    */
   private void processConfiguration(
       Map<?, ?> annotation, ConfigurableListableBeanFactory beanFactory) {
@@ -148,7 +167,7 @@ public class ArcusConfigurationBeanFactoryPostProcessor
         .registerBeanDefinition(
             actualName,
             BeanDefinitionBuilder.genericBeanDefinition(
-                    (Class) configurationType, () -> configuration)
+                (Class) configurationType, () -> configuration)
                 .getBeanDefinition());
   }
 
@@ -161,12 +180,46 @@ public class ArcusConfigurationBeanFactoryPostProcessor
     }
 
     for (val extension : knownExtensions) {
-      val configuration = loadFromClassloader(extension, actualName, configurationType);
+      var configuration = loadFromSystemProperties(extension, actualName, configurationType);
+
+      if (configuration != null) {
+        return configuration;
+      }
+
+      configuration = loadFromEnvironment(extension, actualName, configurationType);
+      if (configuration != null) {
+        return configuration;
+      }
+
+      configuration = loadFromClassloader(extension, actualName, configurationType);
       if (configuration != null) {
         return configuration;
       }
     }
     return null;
+  }
+
+  private Object loadFromEnvironment(String extension, String actualName,
+      Class<?> configurationType) {
+    return null;
+  }
+
+  private Object loadFromSystemProperties(String extension, String actualName,
+      Class<?> configurationType) {
+
+    val expectedProperty = "configuration.%s.%s".formatted(actualName, extension);
+    log.debug("Checking system properties for {}", expectedProperty);
+    val prop = System.getProperty(expectedProperty);
+
+    if(prop == null) {
+      log.info("No system property named '{}'", expectedProperty);
+      return null;
+    }
+    return null;
+
+
+
+
   }
 
   private Object loadFromClassloader(
@@ -223,22 +276,5 @@ public class ArcusConfigurationBeanFactoryPostProcessor
         log.debug("\t {}", ext);
       }
     }
-  }
-
-  static String snakeCase(String name) {
-    val result = new StringBuilder(name.length());
-
-    for (int i = 0; i < name.length(); i++) {
-      char ch = name.charAt(i);
-      if (Character.isUpperCase(ch)) {
-        if (i > 0) {
-          result.append("-");
-        }
-        result.append(Character.toLowerCase(ch));
-      } else {
-        result.append(ch);
-      }
-    }
-    return result.toString();
   }
 }
