@@ -15,14 +15,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {
-    TestConfiguration.class,
-    ConfigurationTestConfiguration.class
-})
+@ContextConfiguration(classes = {TestConfiguration.class, ConfigurationTestConfiguration.class})
 class ClassPathRepeatedTest {
 
-  @Inject
-  private SampleConfiguration configuration;
+  @Inject private SampleConfiguration configuration;
 
   @Test
   void ensureClasspathConfigurationIsInjected() {
@@ -34,26 +30,18 @@ class ClassPathRepeatedTest {
     assertEquals(configuration.name, "hello");
   }
 
-
   @ContextConfiguration
   @Configure(SampleConfiguration.class)
   @Configure(SampleConfiguration2.class)
-  static class TestConfiguration {
-
-  }
+  static class TestConfiguration {}
 
   static class SampleConfiguration2 {
 
-    @Getter
-    @Setter
-    private String value;
+    @Getter @Setter private String value;
   }
 
   static class SampleConfiguration {
 
-    @Getter
-    @Setter
-    private String name;
+    @Getter @Setter private String name;
   }
-
 }

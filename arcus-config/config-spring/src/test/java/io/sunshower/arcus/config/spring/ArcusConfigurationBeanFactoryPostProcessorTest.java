@@ -7,8 +7,4 @@ import org.junit.platform.suite.api.SuiteDisplayName;
 @Suite
 @SelectPackages("io.sunshower.arcus.config.spring.postprocessorsuite")
 @SuiteDisplayName("Arcus Bean Factory Post Processor Test Suite")
-class ArcusConfigurationBeanFactoryPostProcessorTest {
-
-
-
-}
+class ArcusConfigurationBeanFactoryPostProcessorTest {}

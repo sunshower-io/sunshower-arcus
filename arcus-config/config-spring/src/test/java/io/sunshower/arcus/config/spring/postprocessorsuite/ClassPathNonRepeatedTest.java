@@ -1,6 +1,5 @@
 package io.sunshower.arcus.config.spring.postprocessorsuite;
 
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -16,14 +15,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {
-    TestConfiguration.class,
-    ConfigurationTestConfiguration.class
-})
+@ContextConfiguration(classes = {TestConfiguration.class, ConfigurationTestConfiguration.class})
 class ClassPathNonRepeatedTest {
 
-  @Inject
-  private SampleConfiguration configuration;
+  @Inject private SampleConfiguration configuration;
 
   @Test
   void ensureClasspathConfigurationIsInjected() {
@@ -35,19 +30,12 @@ class ClassPathNonRepeatedTest {
     assertEquals(configuration.name, "hello");
   }
 
-
   @ContextConfiguration
   @Configure(SampleConfiguration.class)
-  static class TestConfiguration {
-
-  }
-
+  static class TestConfiguration {}
 
   static class SampleConfiguration {
 
-    @Getter
-    @Setter
-    private String name;
+    @Getter @Setter private String name;
   }
 }
-

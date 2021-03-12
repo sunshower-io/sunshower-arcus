@@ -1,11 +1,13 @@
 package io.sunshower.arcus.config.spring;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.sunshower.arcus.config.ConfigurationException;
 import io.sunshower.arcus.config.ConfigurationLoader;
 import io.sunshower.arcus.config.Configurations;
 import io.sunshower.arcus.config.Configure;
 import io.sunshower.arcus.logging.Logging;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -23,8 +25,8 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 
-public class ArcusConfigurationBeanFactoryPostProcessor implements BeanFactoryPostProcessor,
-    AutoCloseable {
+public class ArcusConfigurationBeanFactoryPostProcessor
+    implements BeanFactoryPostProcessor, AutoCloseable {
 
   static final Logger log = LogManager.getLogger(ArcusConfigurationBeanFactoryPostProcessor.class);
 
@@ -61,7 +63,7 @@ public class ArcusConfigurationBeanFactoryPostProcessor implements BeanFactoryPo
     for (int i = 0; i < name.length(); i++) {
       char ch = name.charAt(i);
       if (Character.isUpperCase(ch)) {
-        if(i > 0) {
+        if (i > 0) {
           result.append("-");
         }
         result.append(Character.toLowerCase(ch));
@@ -71,7 +73,6 @@ public class ArcusConfigurationBeanFactoryPostProcessor implements BeanFactoryPo
     }
     return result.toString();
   }
-
 
   @Override
   public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory)
@@ -84,7 +85,6 @@ public class ArcusConfigurationBeanFactoryPostProcessor implements BeanFactoryPo
     }
     log.info("Successfully scanned for configurations");
   }
-
 
   /**
    * we need to ensure that we're not holding a reference to a classloader, or that may prevent
@@ -110,6 +110,7 @@ public class ArcusConfigurationBeanFactoryPostProcessor implements BeanFactoryPo
     log.info("Scanned bean definition '{}'", beanName);
   }
 
+  @SuppressFBWarnings
   private void process(AnnotatedBeanDefinition def, ConfigurableListableBeanFactory beanFactory) {
     var metadata = def.getMetadata().getAllAnnotationAttributes(CONFIGURATIONS_CLASS_NAME);
     if (metadata != null) {
@@ -123,23 +124,20 @@ public class ArcusConfigurationBeanFactoryPostProcessor implements BeanFactoryPo
     }
 
     var singleMetadata = def.getMetadata().getAnnotationAttributes(CONFIGURE_CLASS_NAME);
-    if(singleMetadata instanceof Map annotation) {
+    if (singleMetadata instanceof Map annotation) {
       processConfiguration(annotation, beanFactory);
     }
   }
 
   /**
    * @param annotation the actual configuration class that must be bound to a configuration file we
-   *                   must check all the available extensions from ConfigurationLoader, then search
-   *                   in classpath:/configurations/{bean-name:snake-case}.{ext}
-   *                   <p>
-   *                   we bind the first extension we encounter at the location.  If no files with
-   *                   any of the extensions are encountered, with throw a ConfigurationException
-   *                   and bail
+   *     must check all the available extensions from ConfigurationLoader, then search in
+   *     classpath:/configurations/{bean-name:snake-case}.{ext}
+   *     <p>we bind the first extension we encounter at the location. If no files with any of the
+   *     extensions are encountered, with throw a ConfigurationException and bail
    */
-
-  private void processConfiguration(Map<?, ?> annotation,
-      ConfigurableListableBeanFactory beanFactory) {
+  private void processConfiguration(
+      Map<?, ?> annotation, ConfigurableListableBeanFactory beanFactory) {
     val definedName = (String) annotation.get("name");
     val configurationType = (Class<?>) annotation.get("value");
     val actualName = extractName(definedName, configurationType);
@@ -157,15 +155,24 @@ public class ArcusConfigurationBeanFactoryPostProcessor implements BeanFactoryPo
     }
   }
 
-  private void defineConfiguration(Class<?> configurationType, Object configuration,
-      String actualName, ConfigurableListableBeanFactory beanFactory) {
-    ((BeanDefinitionRegistry) beanFactory).registerBeanDefinition(actualName, BeanDefinitionBuilder
-        .genericBeanDefinition((Class) configurationType, () -> configuration).getBeanDefinition());
+  private void defineConfiguration(
+      Class<?> configurationType,
+      Object configuration,
+      String actualName,
+      ConfigurableListableBeanFactory beanFactory) {
+    ((BeanDefinitionRegistry) beanFactory)
+        .registerBeanDefinition(
+            actualName,
+            BeanDefinitionBuilder.genericBeanDefinition(
+                    (Class) configurationType, () -> configuration)
+                .getBeanDefinition());
   }
 
   private Object loadConfiguration(String actualName, Class<?> configurationType) {
     if (log.isEnabled(Level.DEBUG)) {
-      log.info("Attempting to load configuration named '{}' with extensions: [{}]", actualName,
+      log.info(
+          "Attempting to load configuration named '{}' with extensions: [{}]",
+          actualName,
           knownExtensions);
     }
 
@@ -178,27 +185,27 @@ public class ArcusConfigurationBeanFactoryPostProcessor implements BeanFactoryPo
     return null;
   }
 
-  private Object loadFromClassloader(String extension, String actualName,
-      Class<?> configurationType) {
+  private Object loadFromClassloader(
+      String extension, String actualName, Class<?> configurationType) {
 
     val location = "%s/%s.%s".formatted(CLASSLOADER_PREFIX, actualName, extension);
-    var resource = classLoader
-        .getResourceAsStream(location);
+    var resource = classLoader.getResourceAsStream(location);
 
-    if(resource == null) {
+    if (resource == null) {
       resource = classLoader.getResourceAsStream("/" + location);
     }
-
 
     if (resource == null) {
       log.info("No classpath resource for extension '{}' at '{}'", extension, location);
       return null;
     } else {
-      try (val reader = new InputStreamReader(resource)) {
-        return ConfigurationLoader
-            .loadByExtension(classLoader, configurationType, reader, extension);
+      try (val reader = new InputStreamReader(resource, StandardCharsets.UTF_8)) {
+        return ConfigurationLoader.loadByExtension(
+            classLoader, configurationType, reader, extension);
       } catch (Exception e) {
-        log.warn("Encountered error '{}' while loading configuration from '{}'", e.getMessage(),
+        log.warn(
+            "Encountered error '{}' while loading configuration from '{}'",
+            e.getMessage(),
             location);
         throw new ConfigurationException(e);
       }
@@ -219,8 +226,8 @@ public class ArcusConfigurationBeanFactoryPostProcessor implements BeanFactoryPo
   }
 
   private void registerExtensions(ClassLoader classLoader) {
-    knownExtensions = new ArrayList<>(ConfigurationLoader.detectSupportedConfigurationFormats(
-        classLoader));
+    knownExtensions =
+        new ArrayList<>(ConfigurationLoader.detectSupportedConfigurationFormats(classLoader));
     Collections.sort(knownExtensions);
     logExtensions();
   }
@@ -233,5 +240,4 @@ public class ArcusConfigurationBeanFactoryPostProcessor implements BeanFactoryPo
       }
     }
   }
-
 }
