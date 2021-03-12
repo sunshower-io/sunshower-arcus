@@ -8,7 +8,7 @@ import java.lang.annotation.RetentionPolicy;
 @Documented
 @Retention(RetentionPolicy.SOURCE)
 public @interface Between {
-    int end();
+  int end();
 
-    int begin();
+  int begin();
 }

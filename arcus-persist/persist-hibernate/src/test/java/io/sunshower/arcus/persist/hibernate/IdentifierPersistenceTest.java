@@ -9,6 +9,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ContextConfiguration(classes = TestPersistenceConfiguration.class)
 public class IdentifierPersistenceTest {
 
-    @Test
-    void test() {}
+  @Test
+  void test() {}
 }

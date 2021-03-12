@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Test;
 
 public class StringsTest {
 
-    @Test
-    void ensureEmptyStringIsEmpty() {
-        assertEquals(Strings.isBlank(""), true);
-    }
+  @Test
+  void ensureEmptyStringIsEmpty() {
+    assertEquals(Strings.isBlank(""), true);
+  }
 }

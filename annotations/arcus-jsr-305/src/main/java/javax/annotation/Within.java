@@ -8,7 +8,7 @@ import java.lang.annotation.RetentionPolicy;
 @Documented
 @Retention(RetentionPolicy.SOURCE)
 public @interface Within {
-    int and();
+  int and();
 
-    int value();
+  int value();
 }

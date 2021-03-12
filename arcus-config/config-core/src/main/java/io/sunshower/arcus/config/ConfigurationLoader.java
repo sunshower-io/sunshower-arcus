@@ -18,137 +18,131 @@ import org.apache.logging.log4j.Logger;
  * used to load configuration values into instances
  */
 public class ConfigurationLoader {
-    static final Logger log = LogManager.getLogger(ConfigurationLoader.class);
+  static final Logger log = LogManager.getLogger(ConfigurationLoader.class);
 
-    /**
-     * @param type the type to map the configuration file to
-     * @param file the file to try to load from
-     * @param <T> the type-parameter of the configuration type
-     * @return an instance of T populated by the configuration parameters according to the
-     *     first-matched ConfigurationReader
-     * @throws Exception if the file can't be found, or if the file's contents are invalid, or if
-     *     the mime-type of the file couldn't be determined
-     */
-    public static <T> T load(Class<T> type, File file) throws Exception {
-        return load(
-                type,
-                file,
-                detectMimeType(
-                        Thread.currentThread().getContextClassLoader(), file.getAbsolutePath()));
+  /**
+   * @param type the type to map the configuration file to
+   * @param file the file to try to load from
+   * @param <T> the type-parameter of the configuration type
+   * @return an instance of T populated by the configuration parameters according to the
+   *     first-matched ConfigurationReader
+   * @throws Exception if the file can't be found, or if the file's contents are invalid, or if the
+   *     mime-type of the file couldn't be determined
+   */
+  public static <T> T load(Class<T> type, File file) throws Exception {
+    return load(
+        type,
+        file,
+        detectMimeType(Thread.currentThread().getContextClassLoader(), file.getAbsolutePath()));
+  }
+
+  /**
+   * @param type the type to map the configuration file to
+   * @param file the file to try to load from
+   * @param <T> the type-parameter of the configuration type
+   * @param classLoader the classloader to search for ConfigurationReaders
+   * @return an instance of T populated by the configuration parameters according to the
+   *     first-matched ConfigurationReader
+   * @throws Exception if the file can't be found, or if the file's contents are invalid, or if the
+   *     mime-type of the file couldn't be determined
+   */
+  public static <T> T load(ClassLoader classLoader, Class<T> type, File file) throws Exception {
+    return load(type, file, detectMimeType(classLoader, file.getAbsolutePath()));
+  }
+
+  /**
+   * @param type the type to map the configuration file to
+   * @param file the file to try to load from
+   * @param <T> the type-parameter of the configuration type
+   * @param mimetype the mime-type of the content to load.
+   * @return an instance of T populated by the configuration parameters according to the
+   *     first-matched ConfigurationReader
+   * @throws Exception if the file can't be found, or if the file's contents are invalid, or if the
+   *     mime-type of the file couldn't be determined
+   */
+  public static <T> T load(Class<T> type, File file, String mimetype) throws Exception {
+    try (val reader = new FileReader(file, StandardCharsets.UTF_8)) {
+      return load(type, reader, mimetype);
+    }
+  }
+
+  /**
+   * @param type the type to map the configuration file to
+   * @param reader a reader backed by the content of the configuration. This method does not close
+   *     the the reader when complete
+   * @param <T> the type-parameter of the configuration type
+   * @param mimetype the mime-type of the content to load.
+   * @return an instance of T populated by the configuration parameters according to the
+   *     first-matched ConfigurationReader
+   * @throws Exception if the file can't be found, or if the file's contents are invalid, or if the
+   *     mime-type of the file couldn't be determined
+   */
+  public static <T> T load(Class<T> type, @WillNotClose Reader reader, String mimetype)
+      throws Exception {
+    return load(Thread.currentThread().getContextClassLoader(), type, reader, mimetype);
+  }
+
+  /**
+   * @param type the type to map the configuration file to
+   * @param reader a reader backed by the content of the configuration. This method does not close
+   *     the the reader when complete
+   * @param <T> the type-parameter of the configuration type
+   * @param mimeType the mime-type of the content to load.
+   * @param classLoader the classloader to attempt to load ConfigurationLoaders from
+   * @return an instance of T populated by the configuration parameters according to the
+   *     first-matched ConfigurationReader
+   * @throws Exception if the file can't be found, or if the file's contents are invalid, or if the
+   *     mime-type of the file couldn't be determined
+   */
+  public static <T> T load(
+      ClassLoader classLoader, Class<T> type, @WillNotClose Reader reader, String mimeType)
+      throws Exception {
+    log.info("Attempting to load reader for format '{}' (type={})", mimeType, type);
+    val loader = ServiceLoader.load(ConfigurationReader.class, classLoader).iterator();
+    while (loader.hasNext()) {
+      val next = loader.next();
+      log.info("Located configuration reader: {} ", next);
+      if (next.handles(mimeType)) {
+        log.info("Successfully located configuration reader applicable to {}: {}", mimeType, next);
+        return next.read(type, reader);
+      } else {
+        log.info("Reader {} was not applicable to {}", next, mimeType);
+      }
+    }
+    log.error("Failed to locate any reader for format: {}", mimeType);
+    throw new NoSuchElementException("Failed to resolve service of type: ");
+  }
+
+  static String detectMimeType(ClassLoader classLoader, String path) {
+    log.info("Attempting to detect mime-type from path: '{}'", path);
+
+    val mimetype = URLConnection.getFileNameMap().getContentTypeFor(path);
+    if (mimetype != null) {
+      log.info("Successfully detected mime-type '{}' for path '{}'", mimetype, path);
+      return mimetype;
     }
 
-    /**
-     * @param type the type to map the configuration file to
-     * @param file the file to try to load from
-     * @param <T> the type-parameter of the configuration type
-     * @param classLoader the classloader to search for ConfigurationReaders
-     * @return an instance of T populated by the configuration parameters according to the
-     *     first-matched ConfigurationReader
-     * @throws Exception if the file can't be found, or if the file's contents are invalid, or if
-     *     the mime-type of the file couldn't be determined
-     */
-    public static <T> T load(ClassLoader classLoader, Class<T> type, File file) throws Exception {
-        return load(type, file, detectMimeType(classLoader, file.getAbsolutePath()));
-    }
-
-    /**
-     * @param type the type to map the configuration file to
-     * @param file the file to try to load from
-     * @param <T> the type-parameter of the configuration type
-     * @param mimetype the mime-type of the content to load.
-     * @return an instance of T populated by the configuration parameters according to the
-     *     first-matched ConfigurationReader
-     * @throws Exception if the file can't be found, or if the file's contents are invalid, or if
-     *     the mime-type of the file couldn't be determined
-     */
-    public static <T> T load(Class<T> type, File file, String mimetype) throws Exception {
-        try (val reader = new FileReader(file, StandardCharsets.UTF_8)) {
-            return load(type, reader, mimetype);
+    val extension =
+        Files.getExtension(path)
+            .orElseThrow(
+                () -> {
+                  log.info(
+                      "Path '{}' has no extension--cannot determine the mime-type from it", path);
+                  throw new NoSuchElementException("Unable to locate extension for " + path);
+                });
+    for (val reader : ServiceLoader.load(ConfigurationReader.class, classLoader)) {
+      val knownTypes = reader.knownFileTypes();
+      for (val types : knownTypes) {
+        if (types.fst.equals(extension)) {
+          log.info(
+              "Successfully resolved mime-type '{}' for path: {} (extension: '{}')",
+              types.snd,
+              path,
+              extension);
+          return types.snd;
         }
+      }
     }
-
-    /**
-     * @param type the type to map the configuration file to
-     * @param reader a reader backed by the content of the configuration. This method does not close
-     *     the the reader when complete
-     * @param <T> the type-parameter of the configuration type
-     * @param mimetype the mime-type of the content to load.
-     * @return an instance of T populated by the configuration parameters according to the
-     *     first-matched ConfigurationReader
-     * @throws Exception if the file can't be found, or if the file's contents are invalid, or if
-     *     the mime-type of the file couldn't be determined
-     */
-    public static <T> T load(Class<T> type, @WillNotClose Reader reader, String mimetype)
-            throws Exception {
-        return load(Thread.currentThread().getContextClassLoader(), type, reader, mimetype);
-    }
-
-    /**
-     * @param type the type to map the configuration file to
-     * @param reader a reader backed by the content of the configuration. This method does not close
-     *     the the reader when complete
-     * @param <T> the type-parameter of the configuration type
-     * @param mimeType the mime-type of the content to load.
-     * @param classLoader the classloader to attempt to load ConfigurationLoaders from
-     * @return an instance of T populated by the configuration parameters according to the
-     *     first-matched ConfigurationReader
-     * @throws Exception if the file can't be found, or if the file's contents are invalid, or if
-     *     the mime-type of the file couldn't be determined
-     */
-    public static <T> T load(
-            ClassLoader classLoader, Class<T> type, @WillNotClose Reader reader, String mimeType)
-            throws Exception {
-        log.info("Attempting to load reader for format '{}' (type={})", mimeType, type);
-        val loader = ServiceLoader.load(ConfigurationReader.class, classLoader).iterator();
-        while (loader.hasNext()) {
-            val next = loader.next();
-            log.info("Located configuration reader: {} ", next);
-            if (next.handles(mimeType)) {
-                log.info(
-                        "Successfully located configuration reader applicable to {}: {}",
-                        mimeType,
-                        next);
-                return next.read(type, reader);
-            } else {
-                log.info("Reader {} was not applicable to {}", next, mimeType);
-            }
-        }
-        log.error("Failed to locate any reader for format: {}", mimeType);
-        throw new NoSuchElementException("Failed to resolve service of type: ");
-    }
-
-    static String detectMimeType(ClassLoader classLoader, String path) {
-        log.info("Attempting to detect mime-type from path: '{}'", path);
-
-        val mimetype = URLConnection.getFileNameMap().getContentTypeFor(path);
-        if (mimetype != null) {
-            log.info("Successfully detected mime-type '{}' for path '{}'", mimetype, path);
-            return mimetype;
-        }
-
-        val extension =
-                Files.getExtension(path)
-                        .orElseThrow(
-                                () -> {
-                                    log.info(
-                                            "Path '{}' has no extension--cannot determine the mime-type from it",
-                                            path);
-                                    throw new NoSuchElementException(
-                                            "Unable to locate extension for " + path);
-                                });
-        for (val reader : ServiceLoader.load(ConfigurationReader.class, classLoader)) {
-            val knownTypes = reader.knownFileTypes();
-            for (val types : knownTypes) {
-                if (types.fst.equals(extension)) {
-                    log.info(
-                            "Successfully resolved mime-type '{}' for path: {} (extension: '{}')",
-                            types.snd,
-                            path,
-                            extension);
-                    return types.snd;
-                }
-            }
-        }
-        throw new NoSuchElementException("Could not locate handler for file " + path);
-    }
+    throw new NoSuchElementException("Could not locate handler for file " + path);
+  }
 }

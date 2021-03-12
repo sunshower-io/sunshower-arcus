@@ -7,25 +7,25 @@ import java.net.URL;
 /** Created by haswell on 3/29/16. */
 public interface Resource {
 
-    long length();
+  long length();
 
-    Resource get(String relativePath);
+  Resource get(String relativePath);
 
-    boolean exists();
+  boolean exists();
 
-    String getDescription();
+  String getDescription();
 
-    File getFile();
+  File getFile();
 
-    String getFilename();
+  String getFilename();
 
-    URI getURI();
+  URI getURI();
 
-    URL getURL();
+  URL getURL();
 
-    boolean isOpen();
+  boolean isOpen();
 
-    boolean isReadable();
+  boolean isReadable();
 
-    long lastModified();
+  long lastModified();
 }

@@ -7,11 +7,11 @@ import org.apache.logging.log4j.core.config.Configurator;
 
 public class Logging {
 
-    static final Logger logger = LogManager.getLogger(Logging.class);
+  static final Logger logger = LogManager.getLogger(Logging.class);
 
-    public static void setLevel(String name, Level level) {
-        logger.info("Setting logging for package: {} to level {}", name, level);
-        Configurator.setLevel(name, level);
-        logger.info("Successfully set level for package: {} to level {}", name, level);
-    }
+  public static void setLevel(String name, Level level) {
+    logger.info("Setting logging for package: {} to level {}", name, level);
+    Configurator.setLevel(name, level);
+    logger.info("Successfully set level for package: {} to level {}", name, level);
+  }
 }

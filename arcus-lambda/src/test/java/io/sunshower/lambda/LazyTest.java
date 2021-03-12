@@ -12,23 +12,22 @@ import org.junit.jupiter.api.Test;
 
 class LazyTest {
 
-    @Test
-    void ensureTakeWhileHoldsForFiniteStream() {
-        List<Object> o = takeWhile(Stream.empty(), t -> true).collect(Collectors.toList());
-        assertTrue(o.isEmpty());
-    }
+  @Test
+  void ensureTakeWhileHoldsForFiniteStream() {
+    List<Object> o = takeWhile(Stream.empty(), t -> true).collect(Collectors.toList());
+    assertTrue(o.isEmpty());
+  }
 
-    @Test
-    void ensureTakeWhileHoldsForInfiniteStream() {
-        List<Integer> is =
-                takeWhile(Stream.iterate(0, i -> i + 1), i -> i < 10).collect(Collectors.toList());
-        assertEquals(is.size(), 10);
-    }
+  @Test
+  void ensureTakeWhileHoldsForInfiniteStream() {
+    List<Integer> is =
+        takeWhile(Stream.iterate(0, i -> i + 1), i -> i < 10).collect(Collectors.toList());
+    assertEquals(is.size(), 10);
+  }
 
-    @Test
-    void ensureComparatorWorks() {
-        Optional<Integer> is =
-                takeWhile(Stream.iterate(0, i -> i + 1), i -> i < 10).min(Integer::max);
-        assertEquals(is.get(), 9);
-    }
+  @Test
+  void ensureComparatorWorks() {
+    Optional<Integer> is = takeWhile(Stream.iterate(0, i -> i + 1), i -> i < 10).min(Integer::max);
+    assertEquals(is.get(), 9);
+  }
 }

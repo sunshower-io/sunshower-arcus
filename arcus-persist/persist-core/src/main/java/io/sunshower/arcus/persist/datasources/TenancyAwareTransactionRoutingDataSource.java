@@ -4,8 +4,8 @@ import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
 public class TenancyAwareTransactionRoutingDataSource extends AbstractRoutingDataSource {
 
-    @Override
-    protected Object determineCurrentLookupKey() {
-        return null;
-    }
+  @Override
+  protected Object determineCurrentLookupKey() {
+    return null;
+  }
 }

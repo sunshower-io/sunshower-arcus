@@ -6,15 +6,15 @@ import java.io.OutputStream;
 /** Created by haswell on 7/17/17. */
 public interface Encoding {
 
-    boolean test(byte[] input);
+  boolean test(byte[] input);
 
-    boolean test(String input);
+  boolean test(String input);
 
-    void encode(byte[] input, OutputStream os) throws IOException;
+  void encode(byte[] input, OutputStream os) throws IOException;
 
-    String encode(byte[] input);
+  String encode(byte[] input);
 
-    byte[] decode(String input);
+  byte[] decode(String input);
 
-    String encode(String input);
+  String encode(String input);
 }
