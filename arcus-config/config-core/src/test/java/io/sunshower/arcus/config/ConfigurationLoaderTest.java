@@ -3,8 +3,6 @@ package io.sunshower.arcus.config;
 import static io.sunshower.arcus.config.ConfigurationLoader.load;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import io.sunshower.arcus.logging.Logging;
 import java.io.File;
 import java.io.StringReader;
@@ -13,7 +11,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlRootElement;
 import lombok.val;
@@ -48,8 +45,6 @@ public class ConfigurationLoaderTest {
     val file = new File(ClassLoader.getSystemResource("test-complex.yaml").getFile());
     val result = load(Persistence.class, file);
     assertEquals(result.datasources.size(), 2);
-
-
   }
 
   enum Mode {
@@ -57,7 +52,6 @@ public class ConfigurationLoaderTest {
     Read,
     @XmlEnumValue("write")
     Write
-
   }
 
   @XmlRootElement(name = "persistence")
@@ -66,23 +60,17 @@ public class ConfigurationLoaderTest {
 
     @XmlElement(name = "data-sources")
     private List<DataSource> datasources;
-
   }
 
   @XmlRootElement(name = "data-source")
   static class DataSource {
 
-    @JsonInclude
     @XmlElement(type = Mode.class)
     private List<Mode> modes;
 
-    @JsonInclude
-    @XmlElement
-    private String name;
+    @XmlElement private String name;
 
-    @JsonInclude
-    @XmlAttribute
-    private String url;
+    @XmlAttribute private String url;
   }
 
   @XmlRootElement(name = "snake-case")
