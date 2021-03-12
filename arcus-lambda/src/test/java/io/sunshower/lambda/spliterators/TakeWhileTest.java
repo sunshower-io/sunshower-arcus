@@ -10,10 +10,10 @@ import org.junit.jupiter.api.Test;
 
 class TakeWhileTest {
 
-    @Test
-    void ensureTakeWhileWorks() {
-        val set = List.of(1, 2, 3, 4, 5, 6);
-        val result = Lambda.stream(set).takeWhile(t -> t < 5).collect(Collectors.toList());
-        assertEquals(result, List.of(1, 2, 3, 4), "Must produce correct list");
-    }
+  @Test
+  void ensureTakeWhileWorks() {
+    val set = List.of(1, 2, 3, 4, 5, 6);
+    val result = Lambda.stream(set).takeWhile(t -> t < 5).collect(Collectors.toList());
+    assertEquals(result, List.of(1, 2, 3, 4), "Must produce correct list");
+  }
 }

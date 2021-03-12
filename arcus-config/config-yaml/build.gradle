@@ -1,0 +1,13 @@
+dependencies {
+
+    [
+            project(':arcus-log'),
+            project(':arcus-config:config-core'),
+            project(':arcus-config:config-jaxb'),
+            'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml',
+            'com.fasterxml.jackson.dataformat:jackson-dataformat-xml',
+            'com.fasterxml.jackson.module:jackson-module-jaxb-annotations',
+    ].each { dependency ->
+        implementation dependency
+    }
+}

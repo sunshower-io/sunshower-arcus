@@ -12,124 +12,124 @@ import org.junit.jupiter.api.Test;
 
 class MethodDescriptorTest {
 
-    @Test
-    @SuppressWarnings("unchecked")
-    void ensureAssignmentMatches() throws NoSuchMethodException {
+  @Test
+  @SuppressWarnings("unchecked")
+  void ensureAssignmentMatches() throws NoSuchMethodException {
 
-        class A {
-            public void m(List<String> m) {}
-        }
-
-        final MethodDescriptor descriptor =
-                new MethodDescriptor(A.class, A.class.getMethod("m", List.class));
-        assertEquals(descriptor.matches(new Class[] {ArrayList.class}, "m"), (true));
+    class A {
+      public void m(List<String> m) {}
     }
 
-    @Test
-    void ensureNullaryMethodWithNoArgumentsCanBeInvokedAndAssigned() throws Exception {
-        class A {
-            void m() {}
-        }
+    final MethodDescriptor descriptor =
+        new MethodDescriptor(A.class, A.class.getMethod("m", List.class));
+    assertEquals(descriptor.matches(new Class[] {ArrayList.class}, "m"), (true));
+  }
 
-        final MethodDescriptor<A, Void> methodDescriptor =
-                new MethodDescriptor<>(A.class, A.class.getDeclaredMethod("m"));
-        Void a = methodDescriptor.invoke(new A());
-        assertNull(a);
+  @Test
+  void ensureNullaryMethodWithNoArgumentsCanBeInvokedAndAssigned() throws Exception {
+    class A {
+      void m() {}
     }
 
-    @Test
-    void ensureNullaryMethodReturningAValueCanBeInvokedAndAssigned() throws Exception {
-        class A {
-            String m() {
-                return "Frapper";
-            }
-        }
+    final MethodDescriptor<A, Void> methodDescriptor =
+        new MethodDescriptor<>(A.class, A.class.getDeclaredMethod("m"));
+    Void a = methodDescriptor.invoke(new A());
+    assertNull(a);
+  }
 
-        final MethodDescriptor<A, String> methodDescriptor =
-                new MethodDescriptor<>(A.class, A.class.getDeclaredMethod("m"));
-        String a = methodDescriptor.invoke(new A());
-        assertEquals(a, ("Frapper"));
+  @Test
+  void ensureNullaryMethodReturningAValueCanBeInvokedAndAssigned() throws Exception {
+    class A {
+      String m() {
+        return "Frapper";
+      }
     }
 
-    @Test
-    void ensureInvokingMethodReturningNothingOnParametersProducesExpectedResults()
-            throws NoSuchMethodException {
-        class A {
-            String s;
+    final MethodDescriptor<A, String> methodDescriptor =
+        new MethodDescriptor<>(A.class, A.class.getDeclaredMethod("m"));
+    String a = methodDescriptor.invoke(new A());
+    assertEquals(a, ("Frapper"));
+  }
 
-            void m(String s) {
-                this.s = s;
-            }
-        }
+  @Test
+  void ensureInvokingMethodReturningNothingOnParametersProducesExpectedResults()
+      throws NoSuchMethodException {
+    class A {
+      String s;
 
-        final MethodDescriptor<A, String> methodDescriptor =
-                new MethodDescriptor<>(A.class, A.class.getDeclaredMethod("m", String.class));
-        A a = new A();
-        methodDescriptor.invoke(a, new Object[] {"Bean"});
-        assertEquals(a.s, ("Bean"));
+      void m(String s) {
+        this.s = s;
+      }
     }
 
-    @Test
-    void ensureMethodDescriptorReturnsCorrectValueForNonVoidMethodWithParameters()
-            throws NoSuchMethodException {
+    final MethodDescriptor<A, String> methodDescriptor =
+        new MethodDescriptor<>(A.class, A.class.getDeclaredMethod("m", String.class));
+    A a = new A();
+    methodDescriptor.invoke(a, new Object[] {"Bean"});
+    assertEquals(a.s, ("Bean"));
+  }
 
-        class A {
-            String m(String s) {
-                return "M(" + s + ")";
-            }
-        }
+  @Test
+  void ensureMethodDescriptorReturnsCorrectValueForNonVoidMethodWithParameters()
+      throws NoSuchMethodException {
 
-        final MethodDescriptor<A, String> methodDescriptor =
-                new MethodDescriptor<>(A.class, A.class.getDeclaredMethod("m", String.class));
-        A a = new A();
-        String s = methodDescriptor.invoke(a, new Object[] {"Bean"});
-        assertEquals(s, ("M(Bean)"));
+    class A {
+      String m(String s) {
+        return "M(" + s + ")";
+      }
     }
 
-    @Test
-    void ensureMethodMatchesSameMethod() throws NoSuchMethodException {
-        class A {
-            String m(String s) {
-                return "M(" + s + ")";
-            }
-        }
+    final MethodDescriptor<A, String> methodDescriptor =
+        new MethodDescriptor<>(A.class, A.class.getDeclaredMethod("m", String.class));
+    A a = new A();
+    String s = methodDescriptor.invoke(a, new Object[] {"Bean"});
+    assertEquals(s, ("M(Bean)"));
+  }
 
-        Method m = A.class.getDeclaredMethod("m", String.class);
-        final MethodDescriptor<A, String> methodDescriptor = new MethodDescriptor<>(A.class, m);
-        assertEquals(methodDescriptor.matches(m), (true));
+  @Test
+  void ensureMethodMatchesSameMethod() throws NoSuchMethodException {
+    class A {
+      String m(String s) {
+        return "M(" + s + ")";
+      }
     }
 
-    @Test
-    void ensureMethodDescriptorsAreEquivalentWhenTheirBackingMethodsAreEquivalent()
-            throws NoSuchMethodException {
-        class A {
-            String m(String s) {
-                return "M(" + s + ")";
-            }
-        }
+    Method m = A.class.getDeclaredMethod("m", String.class);
+    final MethodDescriptor<A, String> methodDescriptor = new MethodDescriptor<>(A.class, m);
+    assertEquals(methodDescriptor.matches(m), (true));
+  }
 
-        Method m = A.class.getDeclaredMethod("m", String.class);
-        final MethodDescriptor<A, String> methodDescriptor = new MethodDescriptor<>(A.class, m);
-
-        final MethodDescriptor<A, String> b = new MethodDescriptor<>(A.class, m);
-        assertEquals(b.equals(methodDescriptor), (true));
+  @Test
+  void ensureMethodDescriptorsAreEquivalentWhenTheirBackingMethodsAreEquivalent()
+      throws NoSuchMethodException {
+    class A {
+      String m(String s) {
+        return "M(" + s + ")";
+      }
     }
 
-    @Test
-    void ensureMethodDescriptorCanBeUsedAsAKeyInAMap() throws NoSuchMethodException {
+    Method m = A.class.getDeclaredMethod("m", String.class);
+    final MethodDescriptor<A, String> methodDescriptor = new MethodDescriptor<>(A.class, m);
 
-        class A {
-            String m(String s) {
-                return "M(" + s + ")";
-            }
-        }
+    final MethodDescriptor<A, String> b = new MethodDescriptor<>(A.class, m);
+    assertEquals(b.equals(methodDescriptor), (true));
+  }
 
-        Method m = A.class.getDeclaredMethod("m", String.class);
-        final MethodDescriptor<A, String> methodDescriptor = new MethodDescriptor<>(A.class, m);
+  @Test
+  void ensureMethodDescriptorCanBeUsedAsAKeyInAMap() throws NoSuchMethodException {
 
-        final MethodDescriptor<A, String> b = new MethodDescriptor<>(A.class, m);
-        final Map<MethodDescriptor<?, ?>, Boolean> descriptors = new HashMap<>();
-        descriptors.put(methodDescriptor, true);
-        assertEquals(descriptors.containsKey(b), (true));
+    class A {
+      String m(String s) {
+        return "M(" + s + ")";
+      }
     }
+
+    Method m = A.class.getDeclaredMethod("m", String.class);
+    final MethodDescriptor<A, String> methodDescriptor = new MethodDescriptor<>(A.class, m);
+
+    final MethodDescriptor<A, String> b = new MethodDescriptor<>(A.class, m);
+    final Map<MethodDescriptor<?, ?>, Boolean> descriptors = new HashMap<>();
+    descriptors.put(methodDescriptor, true);
+    assertEquals(descriptors.containsKey(b), (true));
+  }
 }

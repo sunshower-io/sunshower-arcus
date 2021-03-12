@@ -10,5 +10,5 @@ import javax.annotation.meta.When;
 @TypeQualifier
 @Retention(RetentionPolicy.SOURCE)
 public @interface Untainted {
-    When when() default When.ALWAYS;
+  When when() default When.ALWAYS;
 }

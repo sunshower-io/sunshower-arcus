@@ -1,0 +1,43 @@
+dependencies {
+
+
+    /**
+     * API dependencies
+     */
+    [
+            project(':arcus-lang'),
+            project(':arcus-config:config-yaml'),
+            project(':arcus-config:config-core'),
+            project(':arcus-persist:persist-api'),
+            'org.springframework:spring-beans',
+            'org.springframework:spring-context',
+
+    ].each{
+        api it
+    }
+
+
+    /**
+     * implementation dependencies
+     */
+
+    [
+            'org.hibernate:hibernate-core',
+            'org.hibernate:hibernate-entitymanager',
+            'org.springframework.data:spring-data-jpa'
+    ].each {
+        implementation it
+    }
+
+
+
+
+    /**
+     * test implementation dependencies
+     */
+    [
+            'org.springframework:spring-test'
+    ].each { dependency ->
+        testImplementation dependency
+    }
+}

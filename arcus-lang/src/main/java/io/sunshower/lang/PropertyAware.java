@@ -6,13 +6,13 @@ import java.util.Set;
 /** Created by haswell on 4/20/16. */
 public interface PropertyAware {
 
-    boolean hasProperty(String key);
+  boolean hasProperty(String key);
 
-    String getProperty(String key);
+  String getProperty(String key);
 
-    String removeProperty(String key);
+  String removeProperty(String key);
 
-    Set<Pair<String, String>> getProperties();
+  Set<Pair<String, String>> getProperties();
 
-    boolean addProperty(String key, String value);
+  boolean addProperty(String key, String value);
 }

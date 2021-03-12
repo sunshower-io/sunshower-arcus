@@ -11,57 +11,57 @@ import org.junit.jupiter.api.Test;
 
 public class LazyPropertyAwareTest {
 
-    @Test
-    public void ensurePropertyAwareHasPropertyReturnsFalseWhenNoPropertyIsAdded() {
-        assertEquals(new LazyPropertyAware().hasProperty("hello"), (false));
-    }
+  @Test
+  public void ensurePropertyAwareHasPropertyReturnsFalseWhenNoPropertyIsAdded() {
+    assertEquals(new LazyPropertyAware().hasProperty("hello"), (false));
+  }
 
-    @Test
-    public void ensureHasPropertyReturnsFalseWhenPropertiesIsEmpty() {
+  @Test
+  public void ensureHasPropertyReturnsFalseWhenPropertiesIsEmpty() {
 
-        PropertyAware aware = new LazyPropertyAware();
-        aware.addProperty("whatever", "whatever");
-        aware.removeProperty("whatever");
-        assertEquals(aware.hasProperty("whatever"), (false));
-    }
+    PropertyAware aware = new LazyPropertyAware();
+    aware.addProperty("whatever", "whatever");
+    aware.removeProperty("whatever");
+    assertEquals(aware.hasProperty("whatever"), (false));
+  }
 
-    @Test
-    public void ensureHasPropertyReturnsTrueWhenPropertyExists() {
+  @Test
+  public void ensureHasPropertyReturnsTrueWhenPropertyExists() {
 
-        PropertyAware aware = new LazyPropertyAware();
-        aware.addProperty("whatever", "whatever");
-        assertEquals(aware.hasProperty("whatever"), (true));
-    }
+    PropertyAware aware = new LazyPropertyAware();
+    aware.addProperty("whatever", "whatever");
+    assertEquals(aware.hasProperty("whatever"), (true));
+  }
 
-    @Test
-    public void ensureGetPropertyReturnsPropertyWhenPropertyExists() {
-        PropertyAware aware = new LazyPropertyAware();
-        aware.addProperty("whatever", "whatever");
-        assertEquals(aware.getProperty("whatever"), ("whatever"));
-    }
+  @Test
+  public void ensureGetPropertyReturnsPropertyWhenPropertyExists() {
+    PropertyAware aware = new LazyPropertyAware();
+    aware.addProperty("whatever", "whatever");
+    assertEquals(aware.getProperty("whatever"), ("whatever"));
+  }
 
-    @Test
-    public void ensureGetPropertiesReturnsEmptySetWhenNoPropertiesHaveBeenAdded() {
+  @Test
+  public void ensureGetPropertiesReturnsEmptySetWhenNoPropertiesHaveBeenAdded() {
 
-        PropertyAware aware = new LazyPropertyAware();
-        assertEquals(aware.getProperties().isEmpty(), (true));
-    }
+    PropertyAware aware = new LazyPropertyAware();
+    assertEquals(aware.getProperties().isEmpty(), (true));
+  }
 
-    @Test
-    public void ensureGetPropertiesReturnsPropertiesWhenPropertiesExist() {
-        PropertyAware aware = new LazyPropertyAware();
-        aware.addProperty("whatever", "whatever");
-        Set<Pair<String, String>> results = Collections.singleton(Pair.of("whatever", "whatever"));
-        assertEquals(aware.getProperties(), (results));
-    }
+  @Test
+  public void ensureGetPropertiesReturnsPropertiesWhenPropertiesExist() {
+    PropertyAware aware = new LazyPropertyAware();
+    aware.addProperty("whatever", "whatever");
+    Set<Pair<String, String>> results = Collections.singleton(Pair.of("whatever", "whatever"));
+    assertEquals(aware.getProperties(), (results));
+  }
 
-    @Test
-    public void ensureGettingNonExistantPropertyReturnsNothing() {
-        assertNull(new LazyPropertyAware().getProperty("whatever"));
-    }
+  @Test
+  public void ensureGettingNonExistantPropertyReturnsNothing() {
+    assertNull(new LazyPropertyAware().getProperty("whatever"));
+  }
 
-    @Test
-    public void ensureRemovingNonExistantPropertyReturnsNull() {
-        assertNull(new LazyPropertyAware().removeProperty("whatever"));
-    }
+  @Test
+  public void ensureRemovingNonExistantPropertyReturnsNull() {
+    assertNull(new LazyPropertyAware().removeProperty("whatever"));
+  }
 }

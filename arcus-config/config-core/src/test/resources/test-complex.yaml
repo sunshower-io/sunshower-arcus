@@ -1,0 +1,11 @@
+
+data-sources:
+  - name: first-datasource
+    url: jdbc:j2:mem:first
+    modes:
+      - read
+      - write
+  - name: second-datasource
+    url: jdbc:j2:mem:first
+    modes:
+      - read

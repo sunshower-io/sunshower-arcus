@@ -1,4 +1,3 @@
-
 plugins {
     id 'pmd'
     id 'groovy'
@@ -27,7 +26,6 @@ allprojects {
             mavenBom "io.sunshower.arcus:bom-imported:$version"
         }
     }
-
 
 
 }
@@ -67,10 +65,9 @@ subprojects {
 
     spotless {
         java {
-            googleJavaFormat('1.8').aosp()
+            googleJavaFormat('1.8')
         }
     }
-
 
 
     publishing {
@@ -114,7 +111,14 @@ subprojects {
 
                 artifact javadocJar
 
-
+                versionMapping {
+                    usage('java-api') {
+                        fromResolutionOf('runtimeClasspath')
+                    }
+                    usage('java-runtime') {
+                        fromResolutionResult()
+                    }
+                }
             }
         }
     }
@@ -124,6 +128,7 @@ subprojects {
 
 
         testImplementation 'org.spockframework:spock-core'
+        testImplementation 'org.junit.platform:junit-platform-suite-engine'
         [
                 'api',
                 'engine'
@@ -133,6 +138,18 @@ subprojects {
         }
     }
 
+    tasks.withType(JavaCompile) {
+        options.compilerArgs += '--enable-preview'
+    }
+
+
+    tasks.withType(Test) {
+        jvmArgs += '--enable-preview'
+    }
+
+    tasks.withType(JavaExec) {
+        jvmArgs += '--enable-preview'
+    }
 }
 
 
@@ -141,3 +158,8 @@ defaultTasks(
         'build',
         'spotlessApply'
 )
+
+dependencies {
+    implementation 'org.junit.jupiter:junit-jupiter:5.4.2'
+}
+

@@ -7,9 +7,9 @@ import java.util.stream.StreamSupport;
 
 public class Lazy {
 
-    private Lazy() {}
+  private Lazy() {}
 
-    public static <T> Stream<T> takeWhile(Stream<T> stream, Predicate<T> f) {
-        return StreamSupport.stream(new TakeWhile<>(stream.spliterator(), f), false);
-    }
+  public static <T> Stream<T> takeWhile(Stream<T> stream, Predicate<T> f) {
+    return StreamSupport.stream(new TakeWhile<>(stream.spliterator(), f), false);
+  }
 }

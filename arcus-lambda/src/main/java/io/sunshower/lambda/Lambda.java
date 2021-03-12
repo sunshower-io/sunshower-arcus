@@ -8,28 +8,28 @@ import java.util.stream.StreamSupport;
 
 public class Lambda {
 
-    public static class StreamBuilder<T> {
-        final transient Spliterator<T> spliterator;
+  public static class StreamBuilder<T> {
+    final transient Spliterator<T> spliterator;
 
-        StreamBuilder(final Spliterator<T> stream) {
-            this.spliterator = stream;
-        }
-
-        /**
-         * @param test the predicate to apply
-         * @return a stream that continues so long as the predicate returns true
-         */
-        public Stream<T> takeWhile(Predicate<T> test) {
-            return StreamSupport.stream(new TakeWhile<T>(spliterator, test), false);
-        }
+    StreamBuilder(final Spliterator<T> stream) {
+      this.spliterator = stream;
     }
 
     /**
-     * @param iterable the iterable to take over
-     * @param <T> the type of the element produced by the iterator
-     * @return a stream-builder that allows additional composition/transformation of the stream
+     * @param test the predicate to apply
+     * @return a stream that continues so long as the predicate returns true
      */
-    public static <T> StreamBuilder<T> stream(Iterable<T> iterable) {
-        return new StreamBuilder<T>(iterable.spliterator());
+    public Stream<T> takeWhile(Predicate<T> test) {
+      return StreamSupport.stream(new TakeWhile<T>(spliterator, test), false);
     }
+  }
+
+  /**
+   * @param iterable the iterable to take over
+   * @param <T> the type of the element produced by the iterator
+   * @return a stream-builder that allows additional composition/transformation of the stream
+   */
+  public static <T> StreamBuilder<T> stream(Iterable<T> iterable) {
+    return new StreamBuilder<T>(iterable.spliterator());
+  }
 }

@@ -9,5 +9,5 @@ import java.security.Permission;
 @Documented
 @Retention(RetentionPolicy.SOURCE)
 public @interface Privileged {
-    Class<? extends Permission> value();
+  Class<? extends Permission> value();
 }

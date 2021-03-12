@@ -11,42 +11,40 @@ import java.util.stream.Stream;
 /** Created by haswell on 3/23/16. */
 public class Reflect {
 
-    private Reflect() {
-        throw new RuntimeException("No reflect instances for you!");
-    }
+  private Reflect() {
+    throw new RuntimeException("No reflect instances for you!");
+  }
 
-    public static <T> Stream<T> collectOverHierarchy(
-            Class<?> clazz, Function<Class<?>, Stream<T>> f) {
-        return linearSupertypes(clazz)
-                .flatMap(i -> Stream.concat(Stream.of(i), Arrays.stream(i.getInterfaces())))
-                .flatMap(i -> f.apply(i));
-    }
+  public static <T> Stream<T> collectOverHierarchy(
+      Class<?> clazz, Function<Class<?>, Stream<T>> f) {
+    return linearSupertypes(clazz)
+        .flatMap(i -> Stream.concat(Stream.of(i), Arrays.stream(i.getInterfaces())))
+        .flatMap(i -> f.apply(i));
+  }
 
-    public static <T> Stream<T> mapOverHierarchy(Class<?> type, Function<Class<?>, Option<T>> f) {
-        return collectOverHierarchy(type, cl -> f.apply(cl).stream());
-    }
+  public static <T> Stream<T> mapOverHierarchy(Class<?> type, Function<Class<?>, Option<T>> f) {
+    return collectOverHierarchy(type, cl -> f.apply(cl).stream());
+  }
 
-    @SuppressWarnings("unchecked")
-    public static Stream<Class<?>> linearSupertypes(Class<?> a) {
-        return Lazy.takeWhile(Stream.iterate(a, Class::getSuperclass), i -> i != null);
-    }
+  @SuppressWarnings("unchecked")
+  public static Stream<Class<?>> linearSupertypes(Class<?> a) {
+    return Lazy.takeWhile(Stream.iterate(a, Class::getSuperclass), i -> i != null);
+  }
 
-    @SuppressWarnings("unchecked")
-    public static <R> R instantiate(Class<R> aClass) {
-        try {
-            final Constructor<R> ctor = aClass.getDeclaredConstructor();
-            return ctor.newInstance();
-        } catch (NoSuchMethodException e) {
-            throw new InstantiationException("Class must declare a public, no-arg constructor");
-        } catch (IllegalAccessException e) {
-            throw new InstantiationException("Constructor must be public");
-        } catch (InvocationTargetException e) {
-            throw new InstantiationException("Constructor threw exception", e.getTargetException());
-        } catch (java.lang.InstantiationException e) {
-            throw new InstantiationException(
-                    "Failed to instantiate class.  "
-                            + "Did you pass an interface or abstract class?",
-                    e);
-        }
+  @SuppressWarnings("unchecked")
+  public static <R> R instantiate(Class<R> aClass) {
+    try {
+      final Constructor<R> ctor = aClass.getDeclaredConstructor();
+      return ctor.newInstance();
+    } catch (NoSuchMethodException e) {
+      throw new InstantiationException("Class must declare a public, no-arg constructor");
+    } catch (IllegalAccessException e) {
+      throw new InstantiationException("Constructor must be public");
+    } catch (InvocationTargetException e) {
+      throw new InstantiationException("Constructor threw exception", e.getTargetException());
+    } catch (java.lang.InstantiationException e) {
+      throw new InstantiationException(
+          "Failed to instantiate class.  " + "Did you pass an interface or abstract class?", e);
     }
+  }
 }
