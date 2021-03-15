@@ -47,6 +47,10 @@ public interface Environment {
    */
   String getEnvironmentVariable(@Nonnull ClassLoader classLoader, String key, String defaultValue);
 
+  default String getEnvironmentVariable(@Nonnull ClassLoader classLoader, String key) {
+    return getEnvironmentVariable(classLoader, key, null);
+  }
+
   /**
    * @param key the environment variable key
    * @param defaultValue the default value

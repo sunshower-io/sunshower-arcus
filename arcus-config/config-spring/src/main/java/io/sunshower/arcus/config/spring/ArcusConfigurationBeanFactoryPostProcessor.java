@@ -6,6 +6,7 @@ import io.sunshower.arcus.config.ConfigurationLoader;
 import io.sunshower.arcus.config.Configurations;
 import io.sunshower.arcus.config.Configure;
 import io.sunshower.arcus.logging.Logging;
+import io.sunshower.lang.Environment;
 import java.io.File;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -45,6 +46,7 @@ public class ArcusConfigurationBeanFactoryPostProcessor
   }
 
   private ClassLoader classLoader;
+  private Environment environment;
   private List<String> knownExtensions;
 
   public ArcusConfigurationBeanFactoryPostProcessor() {
@@ -132,10 +134,11 @@ public class ArcusConfigurationBeanFactoryPostProcessor
 
   /**
    * @param annotation the actual configuration class that must be bound to a configuration file we
-   *     must check all the available extensions from ConfigurationLoader, then search in
-   *     classpath:/configurations/{bean-name:snake-case}.{ext}
-   *     <p>we bind the first extension we encounter at the location. If no files with any of the
-   *     extensions are encountered, with throw a ConfigurationException and bail
+   *                   must check all the available extensions from ConfigurationLoader, then search
+   *                   in classpath:/configurations/{bean-name:snake-case}.{ext}
+   *                   <p>we bind the first extension we encounter at the location. If no files with
+   *                   any of the
+   *                   extensions are encountered, with throw a ConfigurationException and bail
    */
   private void processConfiguration(
       Map<?, ?> annotation, ConfigurableListableBeanFactory beanFactory) {
@@ -166,7 +169,7 @@ public class ArcusConfigurationBeanFactoryPostProcessor
         .registerBeanDefinition(
             actualName,
             BeanDefinitionBuilder.genericBeanDefinition(
-                    (Class) configurationType, () -> configuration)
+                (Class) configurationType, () -> configuration)
                 .getBeanDefinition());
   }
 
@@ -177,6 +180,7 @@ public class ArcusConfigurationBeanFactoryPostProcessor
           actualName,
           knownExtensions);
     }
+    environment = Environment.getDefault();
 
     for (val extension : knownExtensions) {
       var configuration = loadFromSystemProperties(extension, actualName, configurationType);
@@ -198,14 +202,32 @@ public class ArcusConfigurationBeanFactoryPostProcessor
     return null;
   }
 
+  static String toEnvironmentVariable(String propertyKey) {
+    StringBuilder b = new StringBuilder(propertyKey.length()).append("ARCUS_");
+    for(int i = 0; i < propertyKey.length(); i++) {
+      char ch = propertyKey.charAt(i);
+      if(Character.isUpperCase(ch)) {
+        if(i > 0) {
+          b.append("_").append(ch);
+        } else {
+          b.append(ch);
+        }
+      } else {
+        b.append(Character.toUpperCase(ch));
+      }
+    }
+    return b.toString();
+  }
+
   private Object loadFromEnvironment(
       String extension, String actualName, Class<?> configurationType) {
-    val expectedProperty = "configuration.%s.%s".formatted(actualName, extension);
-    log.debug("Checking environment for {}", expectedProperty);
-    val prop = System.getProperty(expectedProperty);
+
+    val environmentVariable = toEnvironmentVariable(actualName);
+    log.debug("Checking environment for {}", environmentVariable);
+    val prop = environment.getEnvironmentVariable(classLoader, environmentVariable);
 
     if (prop == null) {
-      log.info("No environment variable named '{}'", expectedProperty);
+      log.info("No environment variable named '{}'", environmentVariable);
       return null;
     }
 
@@ -213,19 +235,19 @@ public class ArcusConfigurationBeanFactoryPostProcessor
 
     if (!file.exists()) {
       log.error(
-          "Environment variable '{}' specified, but '{}' does not exist", expectedProperty, prop);
+          "Environment variable '{}' specified, but '{}' does not exist", environmentVariable, prop);
       throw new ConfigurationException("Error: file '%s' does not exist".formatted(prop));
     }
 
     if (file.isDirectory()) {
       log.error(
           "Expected file for environment variable '{}' but got a directory ({})",
-          expectedProperty,
+          environmentVariable,
           prop);
 
       throw new ConfigurationException(
           "Error: Expected file for environment variable '%s' but got a directory (%s)"
-              .formatted(expectedProperty, prop));
+              .formatted(environmentVariable, prop));
     }
 
     checkAccess(file);
@@ -250,7 +272,7 @@ public class ArcusConfigurationBeanFactoryPostProcessor
 
     val expectedProperty = "configuration.%s.%s".formatted(actualName, extension);
     log.debug("Checking system properties for {}", expectedProperty);
-    val prop = System.getProperty(expectedProperty);
+    val prop = environment.getSystemProperty(classLoader, expectedProperty);
 
     if (prop == null) {
       log.info("No system property named '{}'", expectedProperty);
