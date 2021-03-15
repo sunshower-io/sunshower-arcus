@@ -1,5 +1,6 @@
 
 dependencies {
+    implementation project(':arcus-log')
     implementation project(':arcus-lambda')
     compileOnly project(':annotations:arcus-jsr-305')
 }

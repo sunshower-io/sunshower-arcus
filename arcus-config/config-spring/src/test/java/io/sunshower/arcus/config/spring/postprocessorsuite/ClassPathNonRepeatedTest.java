@@ -30,6 +30,9 @@ class ClassPathNonRepeatedTest {
     assertEquals(configuration.name, "hello");
   }
 
+  @Test
+  void ensureRetrievingConfigurationFromEnvironmentVariableWorks() {}
+
   @ContextConfiguration
   @Configure(SampleConfiguration.class)
   static class TestConfiguration {}

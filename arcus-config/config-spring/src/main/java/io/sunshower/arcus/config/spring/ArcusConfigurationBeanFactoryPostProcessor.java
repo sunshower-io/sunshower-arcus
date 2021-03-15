@@ -6,6 +6,7 @@ import io.sunshower.arcus.config.ConfigurationLoader;
 import io.sunshower.arcus.config.Configurations;
 import io.sunshower.arcus.config.Configure;
 import io.sunshower.arcus.logging.Logging;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -131,12 +132,10 @@ public class ArcusConfigurationBeanFactoryPostProcessor
 
   /**
    * @param annotation the actual configuration class that must be bound to a configuration file we
-   *                   must check all the available extensions from ConfigurationLoader, then search
-   *                   in classpath:/configurations/{bean-name:snake-case}.{ext}
-   *                   <p>we bind the first extension we encounter at the location. If no files
-   *                   with
-   *                   any of the extensions are encountered, with throw a ConfigurationException
-   *                   and bail
+   *     must check all the available extensions from ConfigurationLoader, then search in
+   *     classpath:/configurations/{bean-name:snake-case}.{ext}
+   *     <p>we bind the first extension we encounter at the location. If no files with any of the
+   *     extensions are encountered, with throw a ConfigurationException and bail
    */
   private void processConfiguration(
       Map<?, ?> annotation, ConfigurableListableBeanFactory beanFactory) {
@@ -167,7 +166,7 @@ public class ArcusConfigurationBeanFactoryPostProcessor
         .registerBeanDefinition(
             actualName,
             BeanDefinitionBuilder.genericBeanDefinition(
-                (Class) configurationType, () -> configuration)
+                    (Class) configurationType, () -> configuration)
                 .getBeanDefinition());
   }
 
@@ -199,27 +198,91 @@ public class ArcusConfigurationBeanFactoryPostProcessor
     return null;
   }
 
-  private Object loadFromEnvironment(String extension, String actualName,
-      Class<?> configurationType) {
-    return null;
+  private Object loadFromEnvironment(
+      String extension, String actualName, Class<?> configurationType) {
+    val expectedProperty = "configuration.%s.%s".formatted(actualName, extension);
+    log.debug("Checking environment for {}", expectedProperty);
+    val prop = System.getProperty(expectedProperty);
+
+    if (prop == null) {
+      log.info("No environment variable named '{}'", expectedProperty);
+      return null;
+    }
+
+    val file = new File(prop);
+
+    if (!file.exists()) {
+      log.error(
+          "Environment variable '{}' specified, but '{}' does not exist", expectedProperty, prop);
+      throw new ConfigurationException("Error: file '%s' does not exist".formatted(prop));
+    }
+
+    if (file.isDirectory()) {
+      log.error(
+          "Expected file for environment variable '{}' but got a directory ({})",
+          expectedProperty,
+          prop);
+
+      throw new ConfigurationException(
+          "Error: Expected file for environment variable '%s' but got a directory (%s)"
+              .formatted(expectedProperty, prop));
+    }
+
+    checkAccess(file);
+
+    try {
+      return ConfigurationLoader.load(configurationType, file);
+    } catch (Exception ex) {
+      throw createConfigurationError(file.getAbsolutePath(), ex);
+    }
   }
 
-  private Object loadFromSystemProperties(String extension, String actualName,
-      Class<?> configurationType) {
+  private void checkAccess(File file) {
+    if (!file.canRead()) {
+      log.error("Error: file '{}' exists, but permission to read it doesn't", file);
+      throw new ConfigurationException(
+          "Error: file '%s' exists, but permission to read it doesn't".formatted(file));
+    }
+  }
+
+  private Object loadFromSystemProperties(
+      String extension, String actualName, Class<?> configurationType) {
 
     val expectedProperty = "configuration.%s.%s".formatted(actualName, extension);
     log.debug("Checking system properties for {}", expectedProperty);
     val prop = System.getProperty(expectedProperty);
 
-    if(prop == null) {
+    if (prop == null) {
       log.info("No system property named '{}'", expectedProperty);
       return null;
     }
-    return null;
 
+    val file = new File(prop);
 
+    if (!file.exists()) {
+      log.error(
+          "Configuration property '{}' specified, but '{}' does not exist", expectedProperty, prop);
+      throw new ConfigurationException("Error: file '%s' does not exist".formatted(prop));
+    }
 
+    if (file.isDirectory()) {
+      log.error(
+          "Expected file for configuration property '{}' but got a directory ({})",
+          expectedProperty,
+          prop);
 
+      throw new ConfigurationException(
+          "Error: Expected file for configuration property '%s' but got a directory (%s)"
+              .formatted(expectedProperty, prop));
+    }
+
+    checkAccess(file);
+
+    try {
+      return ConfigurationLoader.load(configurationType, file);
+    } catch (Exception ex) {
+      throw createConfigurationError(file.getAbsolutePath(), ex);
+    }
   }
 
   private Object loadFromClassloader(
@@ -236,17 +299,23 @@ public class ArcusConfigurationBeanFactoryPostProcessor
       log.info("No classpath resource for extension '{}' at '{}'", extension, location);
       return null;
     } else {
-      try (val reader = new InputStreamReader(resource, StandardCharsets.UTF_8)) {
-        return ConfigurationLoader.loadByExtension(
-            classLoader, configurationType, reader, extension);
-      } catch (Exception e) {
-        log.warn(
-            "Encountered error '{}' while loading configuration from '{}'",
-            e.getMessage(),
-            location);
-        throw new ConfigurationException(e);
-      }
+      return loadConfiguration(extension, configurationType, location, resource);
     }
+  }
+
+  private Object loadConfiguration(
+      String extension, Class<?> configurationType, String location, java.io.InputStream resource) {
+    try (val reader = new InputStreamReader(resource, StandardCharsets.UTF_8)) {
+      return ConfigurationLoader.loadByExtension(classLoader, configurationType, reader, extension);
+    } catch (Exception e) {
+      throw createConfigurationError(location, e);
+    }
+  }
+
+  private RuntimeException createConfigurationError(String location, Exception e) {
+    log.warn(
+        "Encountered error '{}' while loading configuration from '{}'", e.getMessage(), location);
+    return new ConfigurationException(e);
   }
 
   private String extractName(String definedName, Class<?> configurationType) {
