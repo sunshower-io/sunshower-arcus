@@ -85,6 +85,11 @@ subprojects {
         }
 
 
+        task testJar(type: Jar) {
+            archiveClassifier = 'tests'
+            from sourceSets.test.output
+        }
+
         task javadocJar(type: Jar) {
             from javadoc
             archiveClassifier = 'javadoc'
@@ -114,6 +119,7 @@ subprojects {
                  * included artifacts
                  */
 
+                artifact testJar
                 artifact javadocJar
 
                 versionMapping {

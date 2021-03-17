@@ -19,7 +19,8 @@ class ArcusConfigurationBeanFactoryPostProcessorTest {
 
   @Test
   void ensureEnvironmentCaseIsCorrect() {
-    assertEquals(ArcusConfigurationBeanFactoryPostProcessor.toEnvironmentVariable("HelloWorld"),
+    assertEquals(
+        ArcusConfigurationBeanFactoryPostProcessor.toEnvironmentVariable("HelloWorld"),
         "ARCUS_HELLO_WORLD");
   }
 }

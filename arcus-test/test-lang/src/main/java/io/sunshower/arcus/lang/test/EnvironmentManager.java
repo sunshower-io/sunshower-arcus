@@ -1,5 +1,7 @@
-package io.sunshower.lang;
+package io.sunshower.arcus.lang.test;
 
+import io.sunshower.lang.Environment;
+import io.sunshower.lang.OperatingSystems;
 import java.lang.reflect.Field;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
@@ -56,9 +58,9 @@ public class EnvironmentManager {
   }
 
   /** we're in a privileged context now */
+  @SuppressWarnings("PMD.MissingBreakInSwitch")
   private static Object runUnconditionally(
       Map<String, String> replacement, Consumer<Environment> environment) {
-
     try {
 
       val os = OperatingSystems.getCurrent();

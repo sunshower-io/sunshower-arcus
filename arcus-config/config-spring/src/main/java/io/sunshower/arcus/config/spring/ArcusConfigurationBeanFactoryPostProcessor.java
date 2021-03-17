@@ -134,11 +134,10 @@ public class ArcusConfigurationBeanFactoryPostProcessor
 
   /**
    * @param annotation the actual configuration class that must be bound to a configuration file we
-   *                   must check all the available extensions from ConfigurationLoader, then search
-   *                   in classpath:/configurations/{bean-name:snake-case}.{ext}
-   *                   <p>we bind the first extension we encounter at the location. If no files with
-   *                   any of the
-   *                   extensions are encountered, with throw a ConfigurationException and bail
+   *     must check all the available extensions from ConfigurationLoader, then search in
+   *     classpath:/configurations/{bean-name:snake-case}.{ext}
+   *     <p>we bind the first extension we encounter at the location. If no files with any of the
+   *     extensions are encountered, with throw a ConfigurationException and bail
    */
   private void processConfiguration(
       Map<?, ?> annotation, ConfigurableListableBeanFactory beanFactory) {
@@ -169,7 +168,7 @@ public class ArcusConfigurationBeanFactoryPostProcessor
         .registerBeanDefinition(
             actualName,
             BeanDefinitionBuilder.genericBeanDefinition(
-                (Class) configurationType, () -> configuration)
+                    (Class) configurationType, () -> configuration)
                 .getBeanDefinition());
   }
 
@@ -204,10 +203,10 @@ public class ArcusConfigurationBeanFactoryPostProcessor
 
   static String toEnvironmentVariable(String propertyKey) {
     StringBuilder b = new StringBuilder(propertyKey.length()).append("ARCUS_");
-    for(int i = 0; i < propertyKey.length(); i++) {
+    for (int i = 0; i < propertyKey.length(); i++) {
       char ch = propertyKey.charAt(i);
-      if(Character.isUpperCase(ch)) {
-        if(i > 0) {
+      if (Character.isUpperCase(ch)) {
+        if (i > 0) {
           b.append("_").append(ch);
         } else {
           b.append(ch);
@@ -235,7 +234,9 @@ public class ArcusConfigurationBeanFactoryPostProcessor
 
     if (!file.exists()) {
       log.error(
-          "Environment variable '{}' specified, but '{}' does not exist", environmentVariable, prop);
+          "Environment variable '{}' specified, but '{}' does not exist",
+          environmentVariable,
+          prop);
       throw new ConfigurationException("Error: file '%s' does not exist".formatted(prop));
     }
 

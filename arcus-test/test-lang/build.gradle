@@ -1,0 +1,17 @@
+dependencies {
+
+    api 'org.spockframework:spock-core'
+    api 'org.junit-pioneer:junit-pioneer'
+    api 'org.junit.platform:junit-platform-suite-engine'
+    [
+            'api',
+            'engine'
+
+    ].each { dep ->
+        api "org.junit.jupiter:junit-jupiter-$dep"
+    }
+
+    api project(':arcus-lang')
+    implementation project(':arcus-log')
+    testImplementation project(':arcus-lang')
+}

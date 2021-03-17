@@ -1,4 +1,4 @@
-package io.sunshower.lang;
+package io.sunshower.arcus.lang.test;
 
 import org.junit.jupiter.api.Test;
 

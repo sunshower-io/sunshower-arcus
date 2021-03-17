@@ -1,5 +1,6 @@
-package io.sunshower.lang;
+package io.sunshower.arcus.lang.test;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.nio.file.Path;
@@ -37,9 +38,7 @@ public class Tests {
     return locateDirectoryPath(directories, rest).toFile();
   }
 
-  /**
-   * @return the project directory as a path
-   */
+  /** @return the project directory as a path */
   public static Path projectPath() {
     return projectDirectory().toPath();
   }
@@ -49,9 +48,9 @@ public class Tests {
    * or a target directory, or a build.gradle, or a pom.xml
    *
    * @return the project directory
-   * @throws ClassNotFoundException   if something whack happens
    * @throws IllegalArgumentException if there is no marker directory
    */
+  @SuppressFBWarnings
   public static File projectDirectory() {
 
     val callerElement = externalStackTraceElement();
@@ -83,6 +82,10 @@ public class Tests {
       }
     }
     throw new IllegalStateException("Never escaped this class for some reason");
+  }
+
+  public static Tests getInstance() {
+    return Holder.INSTANCE;
   }
 
   public enum Directories {
@@ -121,7 +124,15 @@ public class Tests {
     }
   }
 
-  static record KnownFile(String name, Type type) implements FilenameFilter {
+  static class KnownFile implements FilenameFilter {
+
+    private final String name;
+    private final Type type;
+
+    KnownFile(String name, Type type) {
+      this.name = name;
+      this.type = type;
+    }
 
     public boolean matches(File file) {
       return file.getName().equals(name) && file.exists() && type.matches(file);
@@ -131,5 +142,10 @@ public class Tests {
     public boolean accept(File dir, String name) {
       return matches(new File(dir, name));
     }
+  }
+
+  static final class Holder {
+
+    static final Tests INSTANCE = new Tests();
   }
 }

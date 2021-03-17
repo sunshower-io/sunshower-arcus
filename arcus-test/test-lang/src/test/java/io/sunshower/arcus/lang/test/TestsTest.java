@@ -1,8 +1,8 @@
-package io.sunshower.lang;
+package io.sunshower.arcus.lang.test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import io.sunshower.lang.Tests.Directories;
+import io.sunshower.arcus.lang.test.Tests.Directories;
 import org.junit.jupiter.api.Test;
 
 class TestsTest {

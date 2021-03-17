@@ -11,8 +11,12 @@ dependencies {
     }
 
     implementation project(':arcus-log')
+    implementation project(':arcus-lang')
     implementation 'javax.inject:javax.inject'
 
     testImplementation 'org.springframework:spring-test'
+
+    testImplementation project(':arcus-test:test-lang')
     testImplementation project(':arcus-config:config-yaml')
+
 }
