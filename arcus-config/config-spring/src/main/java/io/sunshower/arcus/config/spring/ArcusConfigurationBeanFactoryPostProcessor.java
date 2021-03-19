@@ -205,7 +205,7 @@ public class ArcusConfigurationBeanFactoryPostProcessor
     StringBuilder b = new StringBuilder(propertyKey.length()).append("ARCUS_");
     for (int i = 0; i < propertyKey.length(); i++) {
       char ch = propertyKey.charAt(i);
-      if(ch == '-') {
+      if (ch == '-') {
         b.append('_');
       } else if (Character.isUpperCase(ch)) {
         if (i > 0) {
