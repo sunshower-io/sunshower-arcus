@@ -10,14 +10,14 @@
     <parent>
         <groupId>io.sunshower.environment</groupId>
         <artifactId>parent</artifactId>
-        <version>1.0.3.Final</version>
+        <version>1.0.4.Final</version>
     </parent>
 
     <name>Sunshower Arcus Bill-Of-Materials</name>
     <url>http://maven.apache.org</url>
 
     <properties>
-        <environment.version>1.0.3.Final</environment.version>
+        <environment.version>1.0.4.Final</environment.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 

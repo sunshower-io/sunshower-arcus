@@ -5,6 +5,7 @@ import io.sunshower.lambda.Option;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -19,7 +20,7 @@ public class Reflect {
       Class<?> clazz, Function<Class<?>, Stream<T>> f) {
     return linearSupertypes(clazz)
         .flatMap(i -> Stream.concat(Stream.of(i), Arrays.stream(i.getInterfaces())))
-        .flatMap(i -> f.apply(i));
+        .flatMap(f::apply);
   }
 
   public static <T> Stream<T> mapOverHierarchy(Class<?> type, Function<Class<?>, Option<T>> f) {
@@ -28,7 +29,7 @@ public class Reflect {
 
   @SuppressWarnings("unchecked")
   public static Stream<Class<?>> linearSupertypes(Class<?> a) {
-    return Lazy.takeWhile(Stream.iterate(a, Class::getSuperclass), i -> i != null);
+    return Lazy.takeWhile(Stream.iterate(a, Class::getSuperclass), Objects::nonNull);
   }
 
   @SuppressWarnings("unchecked")

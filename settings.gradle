@@ -9,11 +9,11 @@ include(
         'arcus-config:config-yaml',
         'arcus-config:config-spring',
         'arcus-reflect',
+        'arcus-test:test-lang',
         'annotations:arcus-jsr-305',
         'arcus-persist:persist-api',
         'arcus-persist:persist-core',
         'arcus-persist:persist-jpa',
         'arcus-persist:persist-hibernate'
 )
-include 'config-spring'
 
