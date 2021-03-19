@@ -23,37 +23,49 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ContextConfiguration(classes = {TestConfiguration.class, ConfigurationTestConfiguration.class})
 class ClassPathRepeatedTest {
 
-  @Inject
-  private SampleConfiguration configuration;
+  @Inject private SampleConfiguration configuration;
 
   @Test
   void ensureConfigurationCanBeLoadedFromEnvironmentVariable() {
-    EnvironmentManager.env().key("ARCUS_SAMPLE_CONFIGURATION").value(Tests.locateDirectoryPath(
-        Directories.TestResources, "env/sample-configuration.yaml").toString()).with(e -> {
-      val cfg = new AnnotationConfigApplicationContext(TestConfiguration.class,
-          ConfigurationTestConfiguration.class);
-      try {
-        val scfg = cfg.getBean(SampleConfiguration.class);
-        assertEquals("environment!", scfg.name);
-      } finally {
-        cfg.close();
-      }
-    });
+    EnvironmentManager.env()
+        .key("ARCUS_SAMPLE_CONFIGURATION")
+        .value(
+            Tests.locateDirectoryPath(Directories.TestResources, "env/sample-configuration.yaml")
+                .toString())
+        .with(
+            e -> {
+              val cfg =
+                  new AnnotationConfigApplicationContext(
+                      TestConfiguration.class, ConfigurationTestConfiguration.class);
+              try {
+                val scfg = cfg.getBean(SampleConfiguration.class);
+                assertEquals("environment!", scfg.name);
+              } finally {
+                cfg.close();
+              }
+            });
   }
 
   @Test
   void ensureConfigurationCanBeLoadedFromSystemProperty() {
-    EnvironmentManager.props().key("configuration.sample-configuration").value(Tests.locateDirectoryPath(
-        Directories.TestResources, "properties/sample-configuration.yaml").toString()).with(e -> {
-      val cfg = new AnnotationConfigApplicationContext(TestConfiguration.class,
-          ConfigurationTestConfiguration.class);
-      try {
-        val scfg = cfg.getBean(SampleConfiguration.class);
-        assertEquals("properties!", scfg.name);
-      } finally {
-        cfg.close();
-      }
-    });
+    EnvironmentManager.props()
+        .key("configuration.sample-configuration")
+        .value(
+            Tests.locateDirectoryPath(
+                    Directories.TestResources, "properties/sample-configuration.yaml")
+                .toString())
+        .with(
+            e -> {
+              val cfg =
+                  new AnnotationConfigApplicationContext(
+                      TestConfiguration.class, ConfigurationTestConfiguration.class);
+              try {
+                val scfg = cfg.getBean(SampleConfiguration.class);
+                assertEquals("properties!", scfg.name);
+              } finally {
+                cfg.close();
+              }
+            });
   }
 
   @Test
@@ -67,27 +79,20 @@ class ClassPathRepeatedTest {
   }
 
   @Test
-  void ensureLoadingSampleConfigurationWorks() {
-  }
+  void ensureLoadingSampleConfigurationWorks() {}
 
   @ContextConfiguration
   @Configure(SampleConfiguration.class)
   @Configure(SampleConfiguration2.class)
-  static class TestConfiguration {
-
-  }
+  static class TestConfiguration {}
 
   static class SampleConfiguration2 {
 
-    @Getter
-    @Setter
-    private String value;
+    @Getter @Setter private String value;
   }
 
   static class SampleConfiguration {
 
-    @Getter
-    @Setter
-    private String name;
+    @Getter @Setter private String name;
   }
 }
