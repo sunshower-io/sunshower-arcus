@@ -53,6 +53,7 @@ subprojects {
     }
 
     pmd {
+        toolVersion = '6.27.0'
         sourceSets = [sourceSets.main]
         ruleSets = [
                 "${project.rootDir}/check/pmd/rules/errorprone.xml"

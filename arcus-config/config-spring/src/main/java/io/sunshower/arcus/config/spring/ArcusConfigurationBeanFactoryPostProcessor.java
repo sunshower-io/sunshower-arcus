@@ -205,7 +205,9 @@ public class ArcusConfigurationBeanFactoryPostProcessor
     StringBuilder b = new StringBuilder(propertyKey.length()).append("ARCUS_");
     for (int i = 0; i < propertyKey.length(); i++) {
       char ch = propertyKey.charAt(i);
-      if (Character.isUpperCase(ch)) {
+      if(ch == '-') {
+        b.append('_');
+      } else if (Character.isUpperCase(ch)) {
         if (i > 0) {
           b.append("_").append(ch);
         } else {
@@ -271,7 +273,7 @@ public class ArcusConfigurationBeanFactoryPostProcessor
   private Object loadFromSystemProperties(
       String extension, String actualName, Class<?> configurationType) {
 
-    val expectedProperty = "configuration.%s.%s".formatted(actualName, extension);
+    val expectedProperty = "configuration.%s".formatted(actualName);
     log.debug("Checking system properties for {}", expectedProperty);
     val prop = environment.getSystemProperty(classLoader, expectedProperty);
 
@@ -283,9 +285,9 @@ public class ArcusConfigurationBeanFactoryPostProcessor
     val file = new File(prop);
 
     if (!file.exists()) {
-      log.error(
+      log.info(
           "Configuration property '{}' specified, but '{}' does not exist", expectedProperty, prop);
-      throw new ConfigurationException("Error: file '%s' does not exist".formatted(prop));
+      return null;
     }
 
     if (file.isDirectory()) {
