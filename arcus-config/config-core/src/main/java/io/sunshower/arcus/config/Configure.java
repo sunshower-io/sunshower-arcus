@@ -32,5 +32,5 @@ public @interface Configure {
    *
    * @return the location overrides
    */
-  Location from() default @Location();
+  Location from() default @Location("__default__");
 }

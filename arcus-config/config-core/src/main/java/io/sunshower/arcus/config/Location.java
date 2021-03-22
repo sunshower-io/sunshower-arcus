@@ -11,7 +11,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Location {
 
-  String property() default "__auto__";
+  String value();
 
-  String environment() default "__auto__";
 }

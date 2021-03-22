@@ -156,7 +156,7 @@ public class ConfigurationLoader {
     return result;
   }
 
-  static String detectMimeType(ClassLoader classLoader, String path) {
+  public static String detectMimeType(ClassLoader classLoader, String path) {
     log.info("Attempting to detect mime-type from path: '{}'", path);
 
     val mimetype = URLConnection.getFileNameMap().getContentTypeFor(path);
