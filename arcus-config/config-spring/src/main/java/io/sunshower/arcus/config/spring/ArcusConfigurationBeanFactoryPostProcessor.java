@@ -201,7 +201,7 @@ public class ArcusConfigurationBeanFactoryPostProcessor
         throw new ConfigurationException("No classpath resource for overridden value '%s' at '%s'"
             .formatted(location, classpathLocation));
       }
-      try (val reader = new InputStreamReader(resource)) {
+      try (val reader = new InputStreamReader(resource, StandardCharsets.UTF_8)) {
         val mimeType = ConfigurationLoader.detectMimeType(classLoader, classpathLocation);
         return ConfigurationLoader.load(classLoader, configurationType, reader, mimeType);
       } catch (Exception ex) {
