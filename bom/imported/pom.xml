@@ -19,7 +19,7 @@
 
   <properties>
     <mockito.version>2.9.0</mockito.version>
-    <junit.version>4.12</junit.version>
+    <junit.version>4.13.1</junit.version>
     <jaxrs-api.version>2.1</jaxrs-api.version>
     <jeromq.version>0.3.5</jeromq.version>
     <bytebuddy.version>1.10.21</bytebuddy.version>
