@@ -153,11 +153,10 @@ public class ArcusConfigurationBeanFactoryPostProcessor
 
   /**
    * @param annotation the actual configuration class that must be bound to a configuration file we
-   *                   must check all the available extensions from ConfigurationLoader, then search
-   *                   in classpath:/configurations/{bean-name:snake-case}.{ext}
-   *                   <p>we bind the first extension we encounter at the location. If no files
-   *                   with any of the extensions are encountered, with throw a
-   *                   ConfigurationException and bail
+   *     must check all the available extensions from ConfigurationLoader, then search in
+   *     classpath:/configurations/{bean-name:snake-case}.{ext}
+   *     <p>we bind the first extension we encounter at the location. If no files with any of the
+   *     extensions are encountered, with throw a ConfigurationException and bail
    */
   private void processConfiguration(
       Map<?, ?> annotation, ConfigurableListableBeanFactory beanFactory) {
@@ -176,8 +175,8 @@ public class ArcusConfigurationBeanFactoryPostProcessor
     if (from instanceof Map<?, ?> value && !DEFAULT_VALUE.equals(value.get("value"))) {
       val overrideConfiguration = value.get("value");
       log.info("Overriding defaults with location '{}'", overrideConfiguration);
-      val configuration = loadOverrideConfiguration(configurationType,
-          (String) overrideConfiguration);
+      val configuration =
+          loadOverrideConfiguration(configurationType, (String) overrideConfiguration);
       defineConfiguration(configurationType, configuration, actualName, beanFactory);
     } else {
       val configuration = loadConfiguration(actualName, configurationType);
@@ -196,10 +195,11 @@ public class ArcusConfigurationBeanFactoryPostProcessor
         resource = classLoader.getResourceAsStream("/" + location);
       }
       if (resource == null) {
-        log.error("No classpath resource for overridden value '{}' at '{}'", location,
-            classpathLocation);
-        throw new ConfigurationException("No classpath resource for overridden value '%s' at '%s'"
-            .formatted(location, classpathLocation));
+        log.error(
+            "No classpath resource for overridden value '{}' at '{}'", location, classpathLocation);
+        throw new ConfigurationException(
+            "No classpath resource for overridden value '%s' at '%s'"
+                .formatted(location, classpathLocation));
       }
       try (val reader = new InputStreamReader(resource, StandardCharsets.UTF_8)) {
         val mimeType = ConfigurationLoader.detectMimeType(classLoader, classpathLocation);
@@ -207,7 +207,6 @@ public class ArcusConfigurationBeanFactoryPostProcessor
       } catch (Exception ex) {
         throw createConfigurationError(classpathLocation, ex);
       }
-
 
     } else if (normalized.startsWith("file:")) {
       val fileLocation = normalized.substring("file:".length());
@@ -228,7 +227,7 @@ public class ArcusConfigurationBeanFactoryPostProcessor
         .registerBeanDefinition(
             actualName,
             BeanDefinitionBuilder.genericBeanDefinition(
-                (Class) configurationType, () -> configuration)
+                    (Class) configurationType, () -> configuration)
                 .getBeanDefinition());
   }
 
@@ -283,19 +282,14 @@ public class ArcusConfigurationBeanFactoryPostProcessor
     }
   }
 
-
   /**
    * @param propertyName the name of the property or environment variable
-   * @param filePath     the actual path of the file to attempt to load
-   * @param msgPrefix    a logging prefix
+   * @param filePath the actual path of the file to attempt to load
+   * @param msgPrefix a logging prefix
    * @return the populated configuration object, or null if the file either does not exist, cannot
-   * be read, or is a directory
+   *     be read, or is a directory
    */
-  private File checkFile(
-      String propertyName,
-      String filePath,
-      String msgPrefix
-  ) {
+  private File checkFile(String propertyName, String filePath, String msgPrefix) {
     val file = new File(filePath);
     if (!file.exists()) {
       log.info("{} '{}' specified, but '{}' does not exist", msgPrefix, propertyName, filePath);
@@ -303,8 +297,8 @@ public class ArcusConfigurationBeanFactoryPostProcessor
     }
 
     if (file.isDirectory()) {
-      log.error("Expected file for {} '{}', but got a directory ({})", msgPrefix, propertyName,
-          filePath);
+      log.error(
+          "Expected file for {} '{}', but got a directory ({})", msgPrefix, propertyName, filePath);
 
       throw new ConfigurationException(
           "Error: Expected file for %s '%s' but got a directory (%s)"
@@ -328,8 +322,8 @@ public class ArcusConfigurationBeanFactoryPostProcessor
     return loadFromFile(configurationType, expectedProperty, prop, "Configuration property");
   }
 
-  private Object loadFromFile(Class<?> configurationType, String expectedProperty, String prop,
-      String s) {
+  private Object loadFromFile(
+      Class<?> configurationType, String expectedProperty, String prop, String s) {
     val file = checkFile(s, prop, expectedProperty);
     if (file == null) {
       return null;

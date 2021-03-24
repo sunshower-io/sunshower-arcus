@@ -10,8 +10,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.ContextConfiguration;
 
 @ContextConfiguration
-@Configure(value = PersistenceStubConfiguration.class,
-    from = @Location(classpath = "scenarios/multiple-databases/configuration.yaml"))
+@Configure(
+    value = PersistenceStubConfiguration.class,
+    from = @Location("classpath:scenarios/multiple-databases/configuration.yaml"))
 public class PersistenceCoreTestConfiguration {
 
   @Bean
@@ -24,5 +25,4 @@ public class PersistenceCoreTestConfiguration {
     @XmlElement(name = "data-sources")
     DataSourcesConfiguration configuration;
   }
-
 }

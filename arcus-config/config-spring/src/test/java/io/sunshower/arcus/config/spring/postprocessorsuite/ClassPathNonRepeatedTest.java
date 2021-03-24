@@ -24,8 +24,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ContextConfiguration(classes = {TestConfiguration.class, ConfigurationTestConfiguration.class})
 class ClassPathNonRepeatedTest {
 
-  @Inject
-  private SampleConfiguration configuration;
+  @Inject private SampleConfiguration configuration;
 
   @Test
   void ensureClasspathConfigurationIsInjected() {
@@ -43,14 +42,13 @@ class ClassPathNonRepeatedTest {
         .key("configuration.sample-configuration")
         .value(
             Tests.locateDirectoryPath(
-                Directories.TestResources, "properties/sample-configuration.yaml")
+                    Directories.TestResources, "properties/sample-configuration.yaml")
                 .toString())
         .with(
             e -> {
               val cfg =
                   new AnnotationConfigApplicationContext(
-                      ClassPathNonRepeatedTest
-                          .TestConfiguration.class,
+                      ClassPathNonRepeatedTest.TestConfiguration.class,
                       ConfigurationTestConfiguration.class);
               try {
                 val scfg = cfg.getBean(ClassPathNonRepeatedTest.SampleConfiguration.class);
@@ -61,33 +59,28 @@ class ClassPathNonRepeatedTest {
             });
   }
 
-
   @Test
   void ensureLoadingSampleConfigurationWorks() {
-    try (val cfg = new AnnotationConfigApplicationContext(TestConfiguration2.class,
-        ConfigurationTestConfiguration.class)) {
+    try (val cfg =
+        new AnnotationConfigApplicationContext(
+            TestConfiguration2.class, ConfigurationTestConfiguration.class)) {
       val actualConfiguration = cfg.getBean(SampleConfiguration.class);
       assertEquals("properties!", actualConfiguration.name);
     }
   }
 
-
   @ContextConfiguration
-  @Configure(value = SampleConfiguration.class, from = @Location("classpath:properties/sample-configuration.yaml"))
-  static class TestConfiguration2 {
-
-  }
+  @Configure(
+      value = SampleConfiguration.class,
+      from = @Location("classpath:properties/sample-configuration.yaml"))
+  static class TestConfiguration2 {}
 
   @ContextConfiguration
   @Configure(SampleConfiguration.class)
-  static class TestConfiguration {
-
-  }
+  static class TestConfiguration {}
 
   static class SampleConfiguration {
 
-    @Getter
-    @Setter
-    private String name;
+    @Getter @Setter private String name;
   }
 }

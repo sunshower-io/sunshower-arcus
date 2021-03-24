@@ -1,5 +1,6 @@
 dependencies {
 
+    implementation 'javax.inject:javax.inject'
 
     /**
      * API dependencies
