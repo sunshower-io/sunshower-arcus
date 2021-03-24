@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import io.sunshower.arcus.config.Configure;
+import io.sunshower.arcus.config.Location;
 import io.sunshower.arcus.config.spring.ConfigurationTestConfiguration;
 import io.sunshower.arcus.config.spring.postprocessorsuite.ClassPathRepeatedTest.TestConfiguration;
 import io.sunshower.arcus.lang.test.EnvironmentManager;
@@ -79,7 +80,25 @@ class ClassPathRepeatedTest {
   }
 
   @Test
-  void ensureLoadingSampleConfigurationWorks() {}
+  void ensureLoadingSampleConfigurationWorks() {
+    try (val cfg =
+        new AnnotationConfigApplicationContext(
+            TestConfiguration2.class, ConfigurationTestConfiguration.class)) {
+      val actualConfiguration = cfg.getBean(SampleConfiguration.class);
+      val act2 = cfg.getBean(SampleConfiguration2.class);
+      assertEquals("properties!", actualConfiguration.name);
+      assertEquals(act2.value, "hello");
+    }
+  }
+
+  @ContextConfiguration
+  @Configure(
+      value = SampleConfiguration.class,
+      from = @Location("classpath:properties/sample-configuration.yaml"))
+  @Configure(
+      value = SampleConfiguration2.class,
+      from = @Location("classpath:properties/sampleconfigurationwhatever.yaml"))
+  static class TestConfiguration2 {}
 
   @ContextConfiguration
   @Configure(SampleConfiguration.class)

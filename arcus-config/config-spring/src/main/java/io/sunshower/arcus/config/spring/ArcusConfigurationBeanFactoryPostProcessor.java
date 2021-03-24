@@ -77,6 +77,25 @@ public class ArcusConfigurationBeanFactoryPostProcessor
     return result.toString();
   }
 
+  static String toEnvironmentVariable(String propertyKey) {
+    StringBuilder b = new StringBuilder(propertyKey.length()).append("ARCUS_");
+    for (int i = 0; i < propertyKey.length(); i++) {
+      char ch = propertyKey.charAt(i);
+      if (ch == '-') {
+        b.append('_');
+      } else if (Character.isUpperCase(ch)) {
+        if (i > 0) {
+          b.append("_").append(ch);
+        } else {
+          b.append(ch);
+        }
+      } else {
+        b.append(Character.toUpperCase(ch));
+      }
+    }
+    return b.toString();
+  }
+
   @Override
   public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory)
       throws BeansException {
@@ -152,10 +171,50 @@ public class ArcusConfigurationBeanFactoryPostProcessor
               .formatted(actualName));
     }
 
-    val configuration = loadConfiguration(actualName, configurationType);
-    if (configuration != null) {
+    val from = annotation.get("from");
+    if (from instanceof Map<?, ?> value && !DEFAULT_VALUE.equals(value.get("value"))) {
+      val overrideConfiguration = value.get("value");
+      log.info("Overriding defaults with location '{}'", overrideConfiguration);
+      val configuration =
+          loadOverrideConfiguration(configurationType, (String) overrideConfiguration);
       defineConfiguration(configurationType, configuration, actualName, beanFactory);
+    } else {
+      val configuration = loadConfiguration(actualName, configurationType);
+      if (configuration != null) {
+        defineConfiguration(configurationType, configuration, actualName, beanFactory);
+      }
     }
+  }
+
+  private Object loadOverrideConfiguration(Class<?> configurationType, String location) {
+    val normalized = location.trim();
+    if (normalized.startsWith("classpath:")) {
+      val classpathLocation = normalized.substring("classpath:".length());
+      var resource = classLoader.getResourceAsStream(classpathLocation);
+      if (resource == null) {
+        resource = classLoader.getResourceAsStream("/" + location);
+      }
+      if (resource == null) {
+        log.error(
+            "No classpath resource for overridden value '{}' at '{}'", location, classpathLocation);
+        throw new ConfigurationException(
+            "No classpath resource for overridden value '%s' at '%s'"
+                .formatted(location, classpathLocation));
+      }
+      try (val reader = new InputStreamReader(resource, StandardCharsets.UTF_8)) {
+        val mimeType = ConfigurationLoader.detectMimeType(classLoader, classpathLocation);
+        return ConfigurationLoader.load(classLoader, configurationType, reader, mimeType);
+      } catch (Exception ex) {
+        throw createConfigurationError(classpathLocation, ex);
+      }
+
+    } else if (normalized.startsWith("file:")) {
+      val fileLocation = normalized.substring("file:".length());
+      return loadFromFile(configurationType, "override location", fileLocation, normalized);
+    }
+    throw new ConfigurationException(
+        "Error: configuration type associated with path '%s' is unrecognized.  "
+            + "Known schemes: [file, classpath]");
   }
 
   @SuppressWarnings("unchecked")
@@ -201,25 +260,6 @@ public class ArcusConfigurationBeanFactoryPostProcessor
     return null;
   }
 
-  static String toEnvironmentVariable(String propertyKey) {
-    StringBuilder b = new StringBuilder(propertyKey.length()).append("ARCUS_");
-    for (int i = 0; i < propertyKey.length(); i++) {
-      char ch = propertyKey.charAt(i);
-      if (ch == '-') {
-        b.append('_');
-      } else if (Character.isUpperCase(ch)) {
-        if (i > 0) {
-          b.append("_").append(ch);
-        } else {
-          b.append(ch);
-        }
-      } else {
-        b.append(Character.toUpperCase(ch));
-      }
-    }
-    return b.toString();
-  }
-
   private Object loadFromEnvironment(
       String extension, String actualName, Class<?> configurationType) {
 
@@ -231,35 +271,7 @@ public class ArcusConfigurationBeanFactoryPostProcessor
       log.info("No environment variable named '{}'", environmentVariable);
       return null;
     }
-
-    val file = new File(prop);
-
-    if (!file.exists()) {
-      log.error(
-          "Environment variable '{}' specified, but '{}' does not exist",
-          environmentVariable,
-          prop);
-      throw new ConfigurationException("Error: file '%s' does not exist".formatted(prop));
-    }
-
-    if (file.isDirectory()) {
-      log.error(
-          "Expected file for environment variable '{}' but got a directory ({})",
-          environmentVariable,
-          prop);
-
-      throw new ConfigurationException(
-          "Error: Expected file for environment variable '%s' but got a directory (%s)"
-              .formatted(environmentVariable, prop));
-    }
-
-    checkAccess(file);
-
-    try {
-      return ConfigurationLoader.load(configurationType, file);
-    } catch (Exception ex) {
-      throw createConfigurationError(file.getAbsolutePath(), ex);
-    }
+    return loadFromFile(configurationType, "Environment variable", prop, environmentVariable);
   }
 
   private void checkAccess(File file) {
@@ -268,6 +280,31 @@ public class ArcusConfigurationBeanFactoryPostProcessor
       throw new ConfigurationException(
           "Error: file '%s' exists, but permission to read it doesn't".formatted(file));
     }
+  }
+
+  /**
+   * @param propertyName the name of the property or environment variable
+   * @param filePath the actual path of the file to attempt to load
+   * @param msgPrefix a logging prefix
+   * @return the populated configuration object, or null if the file either does not exist, cannot
+   *     be read, or is a directory
+   */
+  private File checkFile(String propertyName, String filePath, String msgPrefix) {
+    val file = new File(filePath);
+    if (!file.exists()) {
+      log.info("{} '{}' specified, but '{}' does not exist", msgPrefix, propertyName, filePath);
+      return null;
+    }
+
+    if (file.isDirectory()) {
+      log.error(
+          "Expected file for {} '{}', but got a directory ({})", msgPrefix, propertyName, filePath);
+
+      throw new ConfigurationException(
+          "Error: Expected file for %s '%s' but got a directory (%s)"
+              .formatted(msgPrefix, propertyName, filePath));
+    }
+    return file;
   }
 
   private Object loadFromSystemProperties(
@@ -282,25 +319,15 @@ public class ArcusConfigurationBeanFactoryPostProcessor
       return null;
     }
 
-    val file = new File(prop);
+    return loadFromFile(configurationType, expectedProperty, prop, "Configuration property");
+  }
 
-    if (!file.exists()) {
-      log.info(
-          "Configuration property '{}' specified, but '{}' does not exist", expectedProperty, prop);
+  private Object loadFromFile(
+      Class<?> configurationType, String expectedProperty, String prop, String s) {
+    val file = checkFile(s, prop, expectedProperty);
+    if (file == null) {
       return null;
     }
-
-    if (file.isDirectory()) {
-      log.error(
-          "Expected file for configuration property '{}' but got a directory ({})",
-          expectedProperty,
-          prop);
-
-      throw new ConfigurationException(
-          "Error: Expected file for configuration property '%s' but got a directory (%s)"
-              .formatted(expectedProperty, prop));
-    }
-
     checkAccess(file);
 
     try {
