@@ -1,9 +1,11 @@
 package io.sunshower.arcus.reflect;
 
 import static io.sunshower.arcus.reflect.Reflect.instantiate;
+import static io.sunshower.arcus.reflect.Reflect.isCompatible;
 import static org.junit.jupiter.api.Assertions.*;
 
 import io.sunshower.lambda.Option;
+import io.sunshower.lang.tuple.Pair;
 import java.lang.annotation.Annotation;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -13,6 +15,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.val;
 import org.junit.jupiter.api.Test;
 
 public class ReflectTest {
@@ -26,6 +29,101 @@ public class ReflectTest {
     } catch (InvocationTargetException ex) {
       assertTrue(ex.getTargetException().getMessage().startsWith("No reflect"));
     }
+  }
+
+  static class CtorTestClass {
+    int snd;
+    String fst;
+
+    public CtorTestClass(String fst, int snd) {
+      this.fst = fst;
+      this.snd = snd;
+    }
+  }
+
+  @Test
+  void ensureIsCompatibleWorksForByte() {
+    assertTrue(isCompatible(Byte.class, byte.class));
+    assertTrue(isCompatible(byte.class, byte.class));
+    assertTrue(isCompatible(byte.class, Byte.class));
+    assertTrue(isCompatible(Byte.class, byte.class));
+    assertFalse(isCompatible(Byte.class, Object.class));
+    assertTrue(isCompatible(Object.class, Byte.class));
+  }
+
+  @Test
+  void ensureIsCompatibleWorksForCharacter() {
+    assertTrue(isCompatible(Character.class, char.class));
+    assertTrue(isCompatible(char.class, char.class));
+    assertTrue(isCompatible(char.class, Character.class));
+    assertTrue(isCompatible(Character.class, char.class));
+    assertFalse(isCompatible(Character.class, Object.class));
+    assertTrue(isCompatible(Object.class, Character.class));
+  }
+
+  @Test
+  void ensureIsCompatibleWorksForShort() {
+    assertTrue(isCompatible(Short.class, short.class));
+    assertTrue(isCompatible(short.class, short.class));
+    assertTrue(isCompatible(short.class, Short.class));
+    assertTrue(isCompatible(Short.class, short.class));
+    assertFalse(isCompatible(Short.class, Object.class));
+    assertTrue(isCompatible(Object.class, Short.class));
+  }
+
+  @Test
+  void ensureIsCompatibleWorksForLong() {
+    assertTrue(isCompatible(Long.class, long.class));
+    assertTrue(isCompatible(long.class, long.class));
+    assertTrue(isCompatible(long.class, Long.class));
+    assertTrue(isCompatible(Long.class, long.class));
+    assertFalse(isCompatible(Long.class, Object.class));
+    assertTrue(isCompatible(Object.class, Long.class));
+  }
+
+  @Test
+  void ensureIsCompatibleWorksForDouble() {
+    assertTrue(isCompatible(Double.class, double.class));
+    assertTrue(isCompatible(double.class, double.class));
+    assertTrue(isCompatible(double.class, Double.class));
+    assertTrue(isCompatible(Double.class, double.class));
+    assertFalse(isCompatible(Double.class, Object.class));
+    assertTrue(isCompatible(Object.class, Double.class));
+  }
+
+  @Test
+  void ensureIsCompatibleWorksForInteger() {
+    assertTrue(isCompatible(Integer.class, int.class));
+    assertTrue(isCompatible(int.class, int.class));
+    assertTrue(isCompatible(int.class, Integer.class));
+    assertTrue(isCompatible(Integer.class, Integer.class));
+    assertFalse(isCompatible(Integer.class, Object.class));
+    assertTrue(isCompatible(Object.class, Integer.class));
+  }
+
+  @Test
+  void ensureIsCompatibleWorksForFloat() {
+    assertTrue(isCompatible(Float.class, float.class));
+    assertTrue(isCompatible(float.class, float.class));
+    assertTrue(isCompatible(float.class, Float.class));
+    assertTrue(isCompatible(Float.class, Float.class));
+    assertFalse(isCompatible(Float.class, Object.class));
+    assertTrue(isCompatible(Object.class, Float.class));
+  }
+
+  @Test
+  void ensureTypedConstructorIsInvokable() {
+    val instance =
+        Reflect.instantiate(
+            CtorTestClass.class, Pair.of(String.class, "hello"), Pair.of(int.class, 200));
+    assertEquals("hello", instance.fst);
+    assertEquals(200, instance.snd);
+  }
+
+  @Test
+  void ensureTypedConstructorIsRetrievable() {
+    val o = Reflect.findConstructor(CtorTestClass.class, String.class, int.class);
+    assertTrue(o.isSome());
   }
 
   @Test
