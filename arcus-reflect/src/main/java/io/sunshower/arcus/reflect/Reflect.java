@@ -2,38 +2,157 @@ package io.sunshower.arcus.reflect;
 
 import io.sunshower.lambda.Lazy;
 import io.sunshower.lambda.Option;
+import io.sunshower.lang.tuple.Pair;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Stream;
+import javax.annotation.Nonnull;
+import lombok.val;
 
-/** Created by haswell on 3/23/16. */
+/** utility class for Reflective operations */
 public class Reflect {
 
+  /** can't create an instance */
   private Reflect() {
     throw new RuntimeException("No reflect instances for you!");
   }
 
   public static <T> Stream<T> collectOverHierarchy(
-      Class<?> clazz, Function<Class<?>, Stream<T>> f) {
+      @Nonnull Class<?> clazz, @Nonnull Function<Class<?>, Stream<T>> f) {
     return linearSupertypes(clazz)
         .flatMap(i -> Stream.concat(Stream.of(i), Arrays.stream(i.getInterfaces())))
         .flatMap(f::apply);
   }
 
-  public static <T> Stream<T> mapOverHierarchy(Class<?> type, Function<Class<?>, Option<T>> f) {
+  public static <T> Stream<T> mapOverHierarchy(
+      @Nonnull Class<?> type, @Nonnull Function<Class<?>, Option<T>> f) {
     return collectOverHierarchy(type, cl -> f.apply(cl).stream());
   }
 
+  /**
+   * gather all of the linear supertypes of the current class. None of the supertypes will be
+   * interfaces (use collectOverHierarchy)
+   *
+   * @param a the type to gather the supertypes of
+   * @return the list of supertypes
+   */
   @SuppressWarnings("unchecked")
-  public static Stream<Class<?>> linearSupertypes(Class<?> a) {
+  public static Stream<Class<?>> linearSupertypes(@Nonnull Class<?> a) {
     return Lazy.takeWhile(Stream.iterate(a, Class::getSuperclass), Objects::nonNull);
   }
 
+  public static <R> Option<Constructor<R>> findConstructor(
+      @Nonnull Class<R> type, @Nonnull Class<?>... constructorArguments) {
+    try {
+      return Option.of(type.getConstructor(constructorArguments));
+    } catch (Exception e) {
+      return Option.none();
+    }
+  }
+
+  public static <R> R instantiate(
+      @Nonnull Class<R> type, @Nonnull Pair<Class<?>, Object>... constructorArguments) {
+    val ctorTypes = Stream.of(constructorArguments).map(t -> t.fst).toArray(Class<?>[]::new);
+    val ctorArgs = Stream.of(constructorArguments).map(t -> t.snd).toArray();
+    validate(ctorTypes, ctorArgs);
+    try {
+      val ctor = type.getDeclaredConstructor(ctorTypes);
+      return ctor.newInstance(ctorArgs);
+    } catch (NoSuchMethodException e) {
+      throw new InstantiationException("Class must declare a public, no-arg constructor");
+    } catch (IllegalAccessException e) {
+      throw new InstantiationException("Constructor must be public");
+    } catch (InvocationTargetException e) {
+      throw new InstantiationException("Constructor threw exception", e.getTargetException());
+    } catch (java.lang.InstantiationException e) {
+      throw new InstantiationException(
+          "Failed to instantiate class.  " + "Did you pass an interface or abstract class?", e);
+    }
+  }
+
+  private static void validate(Class<?>[] types, Object[] args) {
+    for (int i = 0; i < types.length; i++) {
+      val nextType = types[i];
+      val nextInstance = args[i];
+      if (nextInstance != null) {
+        if (!isCompatible(nextType, nextInstance.getClass())) {
+          throw new InstantiationException(
+              "Error: type-mismatch.  Instance of type '%s' is not assignable to type '%s'"
+                  .formatted(nextInstance.getClass(), nextInstance.getClass()));
+        }
+      }
+    }
+  }
+
+  /**
+   * determine if classes are compatible accounting for boxing
+   *
+   * @param nextType the comparative class
+   * @param t the type to check for compatibility with nextType
+   * @return true if they're compatible, false otherwise
+   */
+  public static boolean isCompatible(Class<?> nextType, Class<?> t) {
+
+    if (nextType.isAssignableFrom(t)) {
+      return true;
+    }
+    if (nextType.isPrimitive() || t.isPrimitive()) {
+      if ((nextType == Float.class || nextType == float.class)
+          && (t == float.class || t == Float.class)) {
+        return true;
+      }
+
+      if ((nextType == Integer.class || nextType == int.class)
+          && (t == Integer.class || t == int.class)) {
+        return true;
+      }
+
+      if ((nextType == Double.class || nextType == double.class)
+          && (t == Double.class || t == double.class)) {
+        return true;
+      }
+
+      if ((nextType == Long.class || nextType == long.class)
+          && (t == Long.class || t == long.class)) {
+        return true;
+      }
+
+      if ((nextType == Short.class || nextType == short.class)
+          && (t == Short.class || t == short.class)) {
+        return true;
+      }
+
+      if ((nextType == Character.class || nextType == char.class)
+          && (t == Character.class || t == char.class)) {
+        return true;
+      }
+
+      if ((nextType == Byte.class || nextType == byte.class)
+          && (t == Byte.class || t == byte.class)) {
+        return true;
+      }
+
+      if ((nextType == Boolean.class || nextType == boolean.class)
+          && (t == Boolean.class || t == boolean.class)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * instantiate a class using its default, no-arg constructor
+   *
+   * @param aClass the class to instantiate
+   * @param <R> the generic type of the class
+   * @return a new instance
+   * @throws InstantiationException wrapping any thrown reflectiveoperation exception
+   */
   @SuppressWarnings("unchecked")
-  public static <R> R instantiate(Class<R> aClass) {
+  public static <R> R instantiate(@Nonnull Class<R> aClass) {
     try {
       final Constructor<R> ctor = aClass.getDeclaredConstructor();
       return ctor.newInstance();
