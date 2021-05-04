@@ -6,6 +6,4 @@ import java.lang.annotation.RetentionPolicy;
 
 @Documented
 @Retention(RetentionPolicy.SOURCE)
-public @interface PreservesOrder {
-
-}
+public @interface PreservesOrder {}
