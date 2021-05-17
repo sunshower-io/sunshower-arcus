@@ -27,6 +27,7 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 
+@SuppressWarnings("PMD")
 public class ArcusConfigurationBeanFactoryPostProcessor
     implements BeanFactoryPostProcessor, AutoCloseable {
 
@@ -36,6 +37,7 @@ public class ArcusConfigurationBeanFactoryPostProcessor
   static final String CLASSLOADER_PREFIX;
   static final String CONFIGURE_CLASS_NAME;
   static final String CONFIGURATIONS_CLASS_NAME;
+  public static final String VALUE = "value";
 
   static {
     DEFAULT_VALUE = "__default__";
@@ -136,7 +138,7 @@ public class ArcusConfigurationBeanFactoryPostProcessor
   private void process(AnnotatedBeanDefinition def, ConfigurableListableBeanFactory beanFactory) {
     var metadata = def.getMetadata().getAllAnnotationAttributes(CONFIGURATIONS_CLASS_NAME);
     if (metadata != null) {
-      for (val value : metadata.get("value")) {
+      for (val value : metadata.get(VALUE)) {
         if (value instanceof LinkedHashMap<?, ?>[] annotations) {
           for (val annotationHolder : annotations) {
             processConfiguration(annotationHolder, beanFactory);
