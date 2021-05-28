@@ -15,7 +15,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -40,10 +42,14 @@ public class ReflectTest {
   }
 
   @Test
+  void ensureIsCompatibleWorksForCollections() {
+    assertTrue(Reflect.isCompatible(Collection.class, ArrayList.class));
+  }
+
+  @Test
   void ensureHasMethodWorks() {
 
     class A {
-
       void b(List<String> list) {}
     }
     assertTrue(Reflect.hasMethod(A.class, "b", List.class));
