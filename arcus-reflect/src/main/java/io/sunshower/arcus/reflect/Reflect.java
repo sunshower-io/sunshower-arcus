@@ -1,10 +1,15 @@
 package io.sunshower.arcus.reflect;
 
+import io.sunshower.arcus.incant.MethodDescriptor;
 import io.sunshower.lambda.Lazy;
 import io.sunshower.lambda.Option;
 import io.sunshower.lang.tuple.Pair;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.function.Function;
@@ -14,6 +19,8 @@ import lombok.val;
 
 /** utility class for Reflective operations */
 public class Reflect {
+
+  static final String PARAMETERIZED_TYPE_METHOD_NAME = "parameterizedType";
 
   /** can't create an instance */
   private Reflect() {
@@ -166,5 +173,76 @@ public class Reflect {
       throw new InstantiationException(
           "Failed to instantiate class.  " + "Did you pass an interface or abstract class?", e);
     }
+  }
+
+  /**
+   * @param type the type to check for a matching method
+   * @param methodName the method name to check for
+   * @param argumentTypes the parameter types to check
+   * @return true if a matching method is found
+   */
+  public static boolean hasMethod(
+      @Nonnull Class<?> type, @Nonnull String methodName, Class<?>... argumentTypes) {
+    val declaredMethods = type.getDeclaredMethods();
+    for (val method : declaredMethods) {
+      if (methodName.equals(method.getName())) {
+        return Arrays.equals(argumentTypes, method.getParameterTypes());
+      }
+    }
+    return false;
+  }
+
+  /**
+   * @param parameter the parameter to get the parameterized types of
+   * @return the type-parameters, if any
+   */
+  public static Option<Type[]> getTypeParametersOfParameter(Parameter parameter) {
+    val types = parameter.getParameterizedType();
+    if (types instanceof ParameterizedType t) {
+      return Option.some(t.getActualTypeArguments());
+    }
+    return Option.none();
+  }
+
+  /**
+   * return a method matching the provided criteria
+   *
+   * @param host the host-class to search
+   * @param methodName the method-name
+   * @param argumentTypes the argument-types
+   * @return an option containing the matching method, or none if it does not exist
+   */
+  public static Option<Method> getMethod(
+      Class<?> host, String methodName, Class<?>... argumentTypes) {
+    val declaredMethods = host.getDeclaredMethods();
+    for (val method : declaredMethods) {
+      if (methodName.equals(method.getName())) {
+        if (Arrays.equals(argumentTypes, method.getParameterTypes())) {
+          return Option.some(method);
+        }
+      }
+    }
+    return Option.none();
+  }
+
+  /**
+   * @param type the type to search for a matching method
+   * @param methodName the name of the method
+   * @param argumentTypes the argument types of the method
+   * @param <T> the generic type of the class
+   * @param <U> the result-type of the method
+   * @return an option containing a matching method-descriptor or none
+   */
+  public static <T, U> Option<MethodDescriptor<T, U>> getMethodDescriptor(
+      Class<T> type, String methodName, Class<?>... argumentTypes) {
+    val declaredMethods = type.getDeclaredMethods();
+    for (val method : declaredMethods) {
+      if (methodName.equals(method.getName())) {
+        if (Arrays.equals(argumentTypes, method.getParameterTypes())) {
+          return Option.some(new MethodDescriptor<T, U>(type, method));
+        }
+      }
+    }
+    return Option.none();
   }
 }

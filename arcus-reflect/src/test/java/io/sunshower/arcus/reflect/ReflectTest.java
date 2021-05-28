@@ -2,7 +2,11 @@ package io.sunshower.arcus.reflect;
 
 import static io.sunshower.arcus.reflect.Reflect.instantiate;
 import static io.sunshower.arcus.reflect.Reflect.isCompatible;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import io.sunshower.lambda.Option;
 import io.sunshower.lang.tuple.Pair;
@@ -12,13 +16,54 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 
 public class ReflectTest {
+
+  @Test
+  void ensureResolvingMethodParameterTypesWorks() {
+    class A {
+      void b(List<String> list) {}
+    }
+    val types =
+        Reflect.getMethod(A.class, "b", List.class)
+            .flatMap(t -> Reflect.getTypeParametersOfParameter(t.getParameters()[0]));
+    assertFalse(types.isNone());
+    val t = types.get()[0];
+    assertEquals(t, String.class);
+  }
+
+  @Test
+  void ensureHasMethodWorks() {
+
+    class A {
+
+      void b(List<String> list) {}
+    }
+    assertTrue(Reflect.hasMethod(A.class, "b", List.class));
+  }
+
+  @Test
+  void ensureGetMethodWorks() {
+    final AtomicBoolean variable = new AtomicBoolean(false);
+    class A {
+
+      void b(List<String> list) {
+        variable.set(true);
+        ;
+      }
+    }
+    val methodHandle = Reflect.getMethodDescriptor(A.class, "b", List.class);
+    assertNotNull(methodHandle);
+    methodHandle.get().invoke(new A(), Collections.emptyList());
+    assertTrue(variable.get());
+  }
 
   @Test
   public void ensureReflectConstructorIsInaccessible() throws Exception {
@@ -28,16 +73,6 @@ public class ReflectTest {
       ctor.newInstance();
     } catch (InvocationTargetException ex) {
       assertTrue(ex.getTargetException().getMessage().startsWith("No reflect"));
-    }
-  }
-
-  static class CtorTestClass {
-    int snd;
-    String fst;
-
-    public CtorTestClass(String fst, int snd) {
-      this.fst = fst;
-      this.snd = snd;
     }
   }
 
@@ -232,7 +267,25 @@ public class ReflectTest {
   @Uninherited
   interface UninheritedIface {}
 
+  @Retention(RetentionPolicy.RUNTIME)
+  @interface Uninherited {
+
+    String value() default "";
+  }
+
+  static class CtorTestClass {
+
+    int snd;
+    String fst;
+
+    public CtorTestClass(String fst, int snd) {
+      this.fst = fst;
+      this.snd = snd;
+    }
+  }
+
   abstract static class AbstractClass {
+
     public AbstractClass() {}
   }
 
@@ -244,11 +297,7 @@ public class ReflectTest {
   }
 
   public static class PrivateConstructor {
-    private PrivateConstructor() {}
-  }
 
-  @Retention(RetentionPolicy.RUNTIME)
-  @interface Uninherited {
-    String value() default "";
+    private PrivateConstructor() {}
   }
 }
