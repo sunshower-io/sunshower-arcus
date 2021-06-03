@@ -19,7 +19,11 @@ jobs:
       with:
         java-version: 15
     - name: Install Maven Dependencies
-      run: mvn install deploy -f bom --settings bom/settings/settings.xml -Dsunshower-repo.username=${{secrets.MAVEN_REPOSITORY_USERNAME}} -Dsunshower-repo.password=${{secrets.MAVEN_REPOSITORY_PASSWORD}}
+      run: >-
+        mvn install deploy -f bom
+        --settings bom/settings/settings.xml
+        -Dsunshower-repo.username=${{secrets.MAVEN_REPOSITORY_USERNAME}}
+        -Dsunshower-repo.password=${{secrets.MAVEN_REPOSITORY_PASSWORD}}
 
     - name: Build with Gradle
       uses: eskatos/gradle-command-action@v1
