@@ -169,10 +169,17 @@ jobs:
       - name: Increment Bills-of-Materials to Snapshots
         run: >-
           mvn versions:set -f bom
-          -DnewVersion=${{ steps.snapshotVersion.outputs.result }} &&
-          mvn versions:set-property -f bom
-          -Dproperty=arcus.version -DnewVersion=${{ steps.snapshotVersion.outputs.result }} &&
+          -DnewVersion=${{ steps.snapshotVersion.outputs.result }}
+          -Dmaven-repo.github.username=${{secrets.MAVEN_REPOSITORY_USERNAME}}
+          -Dmaven-repo.github.password=${{secrets.MAVEN_REPOSITORY_PASSWORD}}
+          && mvn versions:set-property -f bom
+          -Dproperty=arcus.version -DnewVersion=${{ steps.snapshotVersion.outputs.result }}
+          -Dmaven-repo.github.username=${{secrets.MAVEN_REPOSITORY_USERNAME}}
+          -Dmaven-repo.github.password=${{secrets.MAVEN_REPOSITORY_PASSWORD}}
+          &&
           mvn clean install -f bom
+          -Dmaven-repo.github.username=${{secrets.MAVEN_REPOSITORY_USERNAME}}
+          -Dmaven-repo.github.password=${{secrets.MAVEN_REPOSITORY_PASSWORD}}
 
       - name: Increment Arcus Build Number to Snapshot
         uses: eskatos/gradle-command-action@v1
