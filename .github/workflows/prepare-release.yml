@@ -1,4 +1,4 @@
-name: Prepare Zephyr Release
+name: Prepare Arcus Release
 on:
   push:
     tags:
@@ -69,10 +69,25 @@ jobs:
       - name: Increment Bills-of-Materials
         run: >-
           mvn versions:set -f bom
-          -DnewVersion=${{ steps.finalVersion.outputs.result }} &&
+          -DnewVersion=${{ steps.finalVersion.outputs.result }}
+          --settings bom/settings/settings.xml
+          -DnewVersion=${{ steps.snapshotVersion.outputs.result }}
+          -Dmaven-repo.github.username=${{secrets.MAVEN_REPOSITORY_USERNAME}}
+          -Dmaven-repo.github.password=${{secrets.MAVEN_REPOSITORY_PASSWORD}}
+          &&
           mvn versions:set-property -f bom
-          -Dproperty=arcus.version -DnewVersion=${{ steps.finalVersion.outputs.result }} &&
+          -Dproperty=arcus.version -DnewVersion=${{ steps.finalVersion.outputs.result }}
+          --settings bom/settings/settings.xml
+          -DnewVersion=${{ steps.snapshotVersion.outputs.result }}
+          -Dmaven-repo.github.username=${{secrets.MAVEN_REPOSITORY_USERNAME}}
+          -Dmaven-repo.github.password=${{secrets.MAVEN_REPOSITORY_PASSWORD}}
+          &&
           mvn clean install -f bom
+          -Dproperty=arcus.version -DnewVersion=${{ steps.finalVersion.outputs.result }}
+          --settings bom/settings/settings.xml
+          -DnewVersion=${{ steps.snapshotVersion.outputs.result }}
+          -Dmaven-repo.github.username=${{secrets.MAVEN_REPOSITORY_USERNAME}}
+          -Dmaven-repo.github.password=${{secrets.MAVEN_REPOSITORY_PASSWORD}}
 
 
 
