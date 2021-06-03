@@ -22,8 +22,8 @@ jobs:
       run: >-
         mvn install deploy -f bom
         --settings bom/settings/settings.xml
-        -Dsunshower-repo.username=${{secrets.MAVEN_REPOSITORY_USERNAME}}
-        -Dsunshower-repo.password=${{secrets.MAVEN_REPOSITORY_PASSWORD}}
+        -Dmaven-repo.github.username=${{secrets.MAVEN_REPOSITORY_USERNAME}}
+        -Dmaven-repo.github.password=${{secrets.MAVEN_REPOSITORY_PASSWORD}}
 
     - name: Build with Gradle
       uses: eskatos/gradle-command-action@v1
@@ -35,5 +35,5 @@ jobs:
 
 
     - name: Build Maven Plugin
-      run: mvn install -f tools/zephyr-maven-plugin --settings bom/settings/settings.xml -Dsunshower-repo.username=${{secrets.MAVEN_REPOSITORY_USERNAME}} -Dsunshower-repo.password=${{secrets.MAVEN_REPOSITORY_PASSWORD}}
+      run: mvn install -f tools/zephyr-maven-plugin --settings bom/settings/settings.xml -Dmaven-repo.github.username=${{secrets.MAVEN_REPOSITORY_USERNAME}} -Dmaven-repo.github.password=${{secrets.MAVEN_REPOSITORY_PASSWORD}}
 
