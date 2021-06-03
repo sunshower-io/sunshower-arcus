@@ -2,7 +2,7 @@ name: Prepare Zephyr Release
 on:
   push:
     tags:
-        - 't*'
+        - 'release/*'
 
 jobs:
   build:
@@ -24,7 +24,7 @@ jobs:
 
     #################   Overview of Build Process   #################
     #   Note:  this is documented fully at
-    #   https://github.com/sunshower-io/zephyr/build.md
+    #   https://github.com/sunshower-io/sunshower-arcus/build.md
     #
     #   Versions:  most/all component versions should be stored in
     #   bom/imported/pom.xml
@@ -32,9 +32,6 @@ jobs:
     #   Released versions:  All exported component versions should be
     #   stored in bom/exported/pom.xml
     #
-    #   Odd dependency notes:
-    #   Project path: tools/zephyr-bundle/native-packages/(windows,linux,mac)
-    #   Notes:  These projects depend on warp (https://github.com/dgiagio/warp/releases)
     #
     #
     #
@@ -74,18 +71,12 @@ jobs:
           mvn versions:set -f bom
           -DnewVersion=${{ steps.finalVersion.outputs.result }} &&
           mvn versions:set-property -f bom
-          -Dproperty=zephyr.version -DnewVersion=${{ steps.finalVersion.outputs.result }} &&
+          -Dproperty=arcus.version -DnewVersion=${{ steps.finalVersion.outputs.result }} &&
           mvn clean install -f bom
 
 
-      - name: Increment Zephyr Maven Plugin Version
-        run: >-
-          mvn versions:set
-          -DnewVersion=${{ steps.finalVersion.outputs.result }}
-          -f tools/zephyr-maven-plugin
-          --settings bom/settings/settings.xml
 
-      - name: Increment Zephyr Build Number
+      - name: Increment Arcus Build Number
         uses: eskatos/gradle-command-action@v1
         env:
           JAVA_TOOL_OPTIONS: -Duser.language=en -Duser.country=US
@@ -107,7 +98,7 @@ jobs:
 
 
 
-      - name: Build And Deploy Zephyr Projects
+      - name: Build And Deploy Arcus Projects
         uses: eskatos/gradle-command-action@v1
         env:
           JAVA_TOOL_OPTIONS: -Duser.language=en -Duser.country=US
@@ -120,20 +111,6 @@ jobs:
             -PmavenRepositoryUrl=${{secrets.MAVEN_RELEASE_URL}} --stacktrace
 
 
-      #################   Deploy Zephyr Maven Plugin #################
-      #
-      #   build and deploy the zephyr maven plugin.
-      #
-      #   Note:  This must happen after "Build Zephyr Projects" action
-      #
-      #################   Deploy Zephyr Maven Plugin #################
-
-      - name: Deploy Zephyr Maven Plugin
-        run: >-
-          mvn clean install deploy -f tools/zephyr-maven-plugin
-          --settings bom/settings/settings.xml
-          -Dsunshower-repo.username=${{secrets.MAVEN_REPOSITORY_USERNAME}}
-          -Dsunshower-repo.password=${{secrets.MAVEN_REPOSITORY_PASSWORD}} -e
 
 
       - name: get commit message
@@ -152,39 +129,18 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: zephyr-${{ env.final_version }}
-          release_name: Zephyr-r${{ env.final_version }}
+          tag_name: arcus-${{ env.final_version }}
+          release_name: Arcus-release-version-${{ env.final_version }}
 
           body: |
-            ** Changes in zephyr-${{ env.final_version }} **
+            ** Changes in arcus-${{ env.final_version }} **
 
             ${{ env.commitmsg }}
 
-            Tag: https://github.com/sunshower-io/zephyr/releases/tag/v${{ env.final_version }}.Final
+            Tag: https://github.com/sunshower-io/sunshower-arcus/releases/tag/v${{ env.final_version }}.Final
           draft: false
           prerelease: false
 
-      - name: Upload Release Asset Zip
-        id: upload-release-asset-zip
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: zephyr-main/build/distributions/zephyr-main.zip
-          asset_name: zephyr-main.zip
-          asset_content_type: application/zip
-
-      - name: Upload Release Asset Tar
-        id: upload-release-asset-tar
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: zephyr-main/build/distributions/zephyr-main.tar
-          asset_name: zephyr-main.tar
-          asset_content_type: application/x-tar
 
 
       - name: Commit Version Changes
@@ -215,15 +171,10 @@ jobs:
           mvn versions:set -f bom
           -DnewVersion=${{ steps.snapshotVersion.outputs.result }} &&
           mvn versions:set-property -f bom
-          -Dproperty=zephyr.version -DnewVersion=${{ steps.snapshotVersion.outputs.result }} &&
+          -Dproperty=arcus.version -DnewVersion=${{ steps.snapshotVersion.outputs.result }} &&
           mvn clean install -f bom
 
-      - name: Increment Zephyr Maven Plugin Version
-        run: >-
-          mvn versions:set -DnewVersion=${{ steps.snapshotVersion.outputs.result }}
-          -f tools/zephyr-maven-plugin
-
-      - name: Increment Zephyr Build Number to Snapshot
+      - name: Increment Arcus Build Number to Snapshot
         uses: eskatos/gradle-command-action@v1
         env:
           JAVA_TOOL_OPTIONS: -Duser.language=en -Duser.country=US
@@ -243,7 +194,7 @@ jobs:
 
 
 
-      - name: Build Zephyr Projects
+      - name: Build Arcus Projects
         uses: eskatos/gradle-command-action@v1
         env:
           JAVA_TOOL_OPTIONS: -Duser.language=en -Duser.country=US
@@ -256,12 +207,6 @@ jobs:
             -PmavenRepositoryUrl=${{secrets.MAVEN_REPOSITORY_URL}} --stacktrace
 
 
-      - name: Deploy Zephyr Maven Plugin
-        run: >-
-          mvn install deploy -f tools/zephyr-maven-plugin
-          --settings bom/settings/settings.xml
-          -Dsunshower-repo.username=${{secrets.MAVEN_REPOSITORY_USERNAME}}
-          -Dsunshower-repo.password=${{secrets.MAVEN_REPOSITORY_PASSWORD}} -e
 
       - name: Commit Version Changes and Release
         run: |
