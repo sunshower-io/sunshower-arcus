@@ -32,7 +32,7 @@ jobs:
       with:
         gradle-version: 6.7.1
         arguments: >-
-          assemble build pTML sA
+          assemble build pTML publish sA
           -i
           -PmavenRepositoryUsername=${{secrets.MAVEN_REPOSITORY_USERNAME}}
           -PmavenRepositoryPassword=${{secrets.MAVEN_REPOSITORY_PASSWORD}}
