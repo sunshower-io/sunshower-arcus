@@ -1,0 +1,16 @@
+name: Issue Creation Linting
+
+on:
+  issues:
+    types: [opened]
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  assign-new-issues-to-zephyr-development:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add to board
+        uses: srggrs/assign-one-project-github-action@1.1.0
+        with:
+          project: 'https://github.com/sunshower-io/zephyr/projects/1'

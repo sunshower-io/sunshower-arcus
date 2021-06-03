@@ -17,7 +17,7 @@
     <url>http://maven.apache.org</url>
 
     <properties>
-        <environment.version>1.0.4.Final</environment.version>
+        <environment.version>1.0.5.Final</environment.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -28,13 +28,9 @@
 
     <repositories>
         <repository>
-            <id>sunshower-snapshots</id>
-            <url>http://artifacts.sunshower.cloud/repository/sunshower-snapshots/</url>
-        </repository>
-
-        <repository>
-            <id>sunshower-releases</id>
-            <url>http://artifacts.sunshower.cloud/repository/sunshower-releases/</url>
+            <id>sunshower-github</id>
+            <name>Sunshower-env Github</name>
+            <url>https://maven.pkg.github.com/sunshower-io/sunshower-env</url>
         </repository>
     </repositories>
 
