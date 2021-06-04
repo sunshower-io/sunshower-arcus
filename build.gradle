@@ -19,6 +19,14 @@ allprojects {
         jcenter()
         mavenLocal()
         mavenCentral()
+
+        maven {
+            url "https://maven.pkg.github.com/sunshower-io/sunshower-env"
+            credentials {
+                username "$mavenRepositoryUsername"
+                password "$mavenRepositoryPassword"
+            }
+        }
     }
 
 
