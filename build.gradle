@@ -8,6 +8,7 @@ plugins {
     id "io.spring.dependency-management" version "1.0.11.RELEASE"
 }
 
+apply from: "$rootDir/tasks/revisions.gradle"
 
 allprojects {
     apply plugin: 'java'
