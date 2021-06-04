@@ -82,13 +82,6 @@ jobs:
           -Dmaven-repo.github.username=${{secrets.MAVEN_REPOSITORY_USERNAME}}
           -Dmaven-repo.github.password=${{secrets.MAVEN_REPOSITORY_PASSWORD}}
 
-      - name: Install POMs to local and remote for Gradle consumption
-        run: >-
-          mvn clean install deploy -f bom
-          --settings bom/settings/settings.xml
-          -Dmaven-repo.github.username=${{secrets.MAVEN_REPOSITORY_USERNAME}}
-          -Dmaven-repo.github.password=${{secrets.MAVEN_REPOSITORY_PASSWORD}}
-#
 
       - name: Increment Arcus Build Number
         uses: eskatos/gradle-command-action@v1
