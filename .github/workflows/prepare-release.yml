@@ -70,7 +70,7 @@ jobs:
           mvn versions:set -f bom
           -DnewVersion=${{ steps.finalVersion.outputs.result }}
           --settings bom/settings/settings.xml
-          -DnewVersion=${{ steps.snapshotVersion.outputs.result }}
+          -DnewVersion=${{ steps.finalVersion.outputs.result }}
           -Dmaven-repo.github.username=${{secrets.MAVEN_REPOSITORY_USERNAME}}
           -Dmaven-repo.github.password=${{secrets.MAVEN_REPOSITORY_PASSWORD}}
       - name: Increment Arcus Property version
@@ -78,16 +78,14 @@ jobs:
           mvn versions:set-property -f bom
           -Dproperty=arcus.version -DnewVersion=${{ steps.finalVersion.outputs.result }}
           --settings bom/settings/settings.xml
-          -DnewVersion=${{ steps.snapshotVersion.outputs.result }}
+          -DnewVersion=${{ steps.finalVersion.outputs.result }}
           -Dmaven-repo.github.username=${{secrets.MAVEN_REPOSITORY_USERNAME}}
           -Dmaven-repo.github.password=${{secrets.MAVEN_REPOSITORY_PASSWORD}}
 
       - name: Install POMs to local and remote for Gradle consumption
         run: >-
           mvn clean install deploy -f bom
-          -Dproperty=arcus.version -DnewVersion=${{ steps.finalVersion.outputs.result }}
           --settings bom/settings/settings.xml
-          -DnewVersion=${{ steps.snapshotVersion.outputs.result }}
           -Dmaven-repo.github.username=${{secrets.MAVEN_REPOSITORY_USERNAME}}
           -Dmaven-repo.github.password=${{secrets.MAVEN_REPOSITORY_PASSWORD}}
 #
