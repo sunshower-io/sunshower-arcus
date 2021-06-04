@@ -57,7 +57,14 @@ jobs:
           token: ${{ secrets.github_token }}
 
 
+      #################   Set Final Version Number #################
+      # generate the environment variable:
+      #     final_version
+      #
       # Accessible via ${{ steps.finalVersion.outputs.result }}
+      #
+      #################   Set Final Version Number #################
+
       - name: Set Final Version Number
         id: finalVersion
         run: |
