@@ -237,13 +237,13 @@ jobs:
         run: |
           git config --local user.email "build@sunshower.io"
           git config --local user.name "build"
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git remote set-url origin https://x-access-token:${{ secrets.PUSH_ENABLED_GITHUB_TOKEN }}@github.com/${{ github.repository }}
           git commit -am "Releasing new Snapshot [tag: snapshot]"
 
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.PUSH_ENABLED_GITHUB_TOKEN }}
 
       - name: Delete release tag
         run: |
