@@ -31,7 +31,7 @@
         <repository>
             <id>sunshower-github</id>
             <name>Sunshower-env Github</name>
-            <url>https://maven.pkg.github.com/sunshower-io/sunshower-env</url>
+            <url>https://maven.pkg.github.com/sunshower-io/*</url>
         </repository>
     </repositories>
 
