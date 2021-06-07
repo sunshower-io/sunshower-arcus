@@ -159,7 +159,7 @@ jobs:
 
       - name: Commit Version Changes
         run: |
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git remote set-url origin https://x-access-token:${{ secrets.PUSH_ENABLED_GITHUB_TOKEN }}@github.com/${{ github.repository }}
           git tag -a v${{ steps.finalVersion.outputs.result }} -m "Releasing ${{ steps.finalVersion.outputs.result }}"
           git push origin v${{ steps.finalVersion.outputs.result }}
 
