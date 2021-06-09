@@ -177,16 +177,13 @@ public class ArcusConfigurationBeanFactoryPostProcessor
     }
 
     val from = annotation.get("from");
-    if (from instanceof Map<?, ?>) {
-
+    if (from instanceof Map<?, ?> && !DEFAULT_VALUE.equals(((Map<?, ?>) from).get("value"))) {
       val value = (Map<?, ?>) from;
       val overrideConfiguration = value.get("value");
-      if (!DEFAULT_VALUE.equals(overrideConfiguration)) {
-        log.info("Overriding defaults with location '{}'", overrideConfiguration);
-        val configuration =
-            loadOverrideConfiguration(configurationType, (String) overrideConfiguration);
-        defineConfiguration(configurationType, configuration, actualName, beanFactory);
-      }
+      log.info("Overriding defaults with location '{}'", overrideConfiguration);
+      val configuration =
+          loadOverrideConfiguration(configurationType, (String) overrideConfiguration);
+      defineConfiguration(configurationType, configuration, actualName, beanFactory);
     } else {
       val configuration = loadConfiguration(actualName, configurationType);
       if (configuration != null) {
