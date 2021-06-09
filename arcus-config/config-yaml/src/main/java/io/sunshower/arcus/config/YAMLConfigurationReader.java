@@ -6,6 +6,7 @@ import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 import io.sunshower.lang.tuple.Pair;
 import java.io.Reader;
 import java.util.Set;
+import javax.annotation.WillNotClose;
 import lombok.val;
 
 public class YAMLConfigurationReader implements ConfigurationReader {
@@ -28,7 +29,8 @@ public class YAMLConfigurationReader implements ConfigurationReader {
   }
 
   @Override
-  public <T> T read(Class<T> type, Reader reader) throws Exception {
+  @SuppressWarnings("CloseResource")
+  public <T> T read(Class<T> type, @WillNotClose Reader reader) throws Exception {
     return objectMapper().readerFor(type).readValue(reader);
   }
 

@@ -1,5 +1,7 @@
 package io.sunshower.arcus.config.spring;
 
+import static java.lang.String.format;
+
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.sunshower.arcus.config.ConfigurationException;
 import io.sunshower.arcus.config.ConfigurationLoader;
@@ -31,13 +33,12 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 public class ArcusConfigurationBeanFactoryPostProcessor
     implements BeanFactoryPostProcessor, AutoCloseable {
 
+  public static final String VALUE = "value";
   static final Logger log = LogManager.getLogger(ArcusConfigurationBeanFactoryPostProcessor.class);
-
   static final String DEFAULT_VALUE;
   static final String CLASSLOADER_PREFIX;
   static final String CONFIGURE_CLASS_NAME;
   static final String CONFIGURATIONS_CLASS_NAME;
-  public static final String VALUE = "value";
 
   static {
     DEFAULT_VALUE = "__default__";
@@ -127,8 +128,8 @@ public class ArcusConfigurationBeanFactoryPostProcessor
 
     if (beanFactory.containsBeanDefinition(beanName)) {
       val definition = beanFactory.getBeanDefinition(beanName);
-      if (definition instanceof AnnotatedBeanDefinition def) {
-        process(def, beanFactory);
+      if (definition instanceof AnnotatedBeanDefinition) {
+        process((AnnotatedBeanDefinition) definition, beanFactory);
       }
     }
     log.info("Scanned bean definition '{}'", beanName);
@@ -139,7 +140,8 @@ public class ArcusConfigurationBeanFactoryPostProcessor
     var metadata = def.getMetadata().getAllAnnotationAttributes(CONFIGURATIONS_CLASS_NAME);
     if (metadata != null) {
       for (val value : metadata.get(VALUE)) {
-        if (value instanceof LinkedHashMap<?, ?>[] annotations) {
+        if (value instanceof LinkedHashMap<?, ?>[]) {
+          val annotations = (LinkedHashMap<?, ?>[]) value;
           for (val annotationHolder : annotations) {
             processConfiguration(annotationHolder, beanFactory);
           }
@@ -148,17 +150,18 @@ public class ArcusConfigurationBeanFactoryPostProcessor
     }
 
     var singleMetadata = def.getMetadata().getAnnotationAttributes(CONFIGURE_CLASS_NAME);
-    if (singleMetadata instanceof Map annotation) {
-      processConfiguration(annotation, beanFactory);
+    if (singleMetadata instanceof Map) {
+      processConfiguration((Map<?, ?>) singleMetadata, beanFactory);
     }
   }
 
   /**
    * @param annotation the actual configuration class that must be bound to a configuration file we
-   *     must check all the available extensions from ConfigurationLoader, then search in
-   *     classpath:/configurations/{bean-name:snake-case}.{ext}
-   *     <p>we bind the first extension we encounter at the location. If no files with any of the
-   *     extensions are encountered, with throw a ConfigurationException and bail
+   *                   must check all the available extensions from ConfigurationLoader, then search
+   *                   in classpath:/configurations/{bean-name:snake-case}.{ext}
+   *                   <p>we bind the first extension we encounter at the location. If no files with
+   *                   any of the
+   *                   extensions are encountered, with throw a ConfigurationException and bail
    */
   private void processConfiguration(
       Map<?, ?> annotation, ConfigurableListableBeanFactory beanFactory) {
@@ -169,17 +172,21 @@ public class ArcusConfigurationBeanFactoryPostProcessor
     if (beanFactory.containsBean(actualName)) {
       log.error("Error: Configuration duplicated for configuration named {}", actualName);
       throw new ConfigurationException(
-          "Error:  Configuration definition duplicated for configuration named '%s'"
-              .formatted(actualName));
+          format("Error:  Configuration definition duplicated for configuration named '%s'",
+              actualName));
     }
 
     val from = annotation.get("from");
-    if (from instanceof Map<?, ?> value && !DEFAULT_VALUE.equals(value.get("value"))) {
+    if (from instanceof Map<?, ?>) {
+
+      val value = (Map<?, ?>) from;
       val overrideConfiguration = value.get("value");
-      log.info("Overriding defaults with location '{}'", overrideConfiguration);
-      val configuration =
-          loadOverrideConfiguration(configurationType, (String) overrideConfiguration);
-      defineConfiguration(configurationType, configuration, actualName, beanFactory);
+      if (!DEFAULT_VALUE.equals(overrideConfiguration)) {
+        log.info("Overriding defaults with location '{}'", overrideConfiguration);
+        val configuration =
+            loadOverrideConfiguration(configurationType, (String) overrideConfiguration);
+        defineConfiguration(configurationType, configuration, actualName, beanFactory);
+      }
     } else {
       val configuration = loadConfiguration(actualName, configurationType);
       if (configuration != null) {
@@ -200,8 +207,8 @@ public class ArcusConfigurationBeanFactoryPostProcessor
         log.error(
             "No classpath resource for overridden value '{}' at '{}'", location, classpathLocation);
         throw new ConfigurationException(
-            "No classpath resource for overridden value '%s' at '%s'"
-                .formatted(location, classpathLocation));
+            format("No classpath resource for overridden value '%s' at '%s'",
+                location, classpathLocation));
       }
       try (val reader = new InputStreamReader(resource, StandardCharsets.UTF_8)) {
         val mimeType = ConfigurationLoader.detectMimeType(classLoader, classpathLocation);
@@ -229,7 +236,7 @@ public class ArcusConfigurationBeanFactoryPostProcessor
         .registerBeanDefinition(
             actualName,
             BeanDefinitionBuilder.genericBeanDefinition(
-                    (Class) configurationType, () -> configuration)
+                (Class) configurationType, () -> configuration)
                 .getBeanDefinition());
   }
 
@@ -280,16 +287,16 @@ public class ArcusConfigurationBeanFactoryPostProcessor
     if (!file.canRead()) {
       log.error("Error: file '{}' exists, but permission to read it doesn't", file);
       throw new ConfigurationException(
-          "Error: file '%s' exists, but permission to read it doesn't".formatted(file));
+          format("Error: file '%s' exists, but permission to read it doesn't", file));
     }
   }
 
   /**
    * @param propertyName the name of the property or environment variable
-   * @param filePath the actual path of the file to attempt to load
-   * @param msgPrefix a logging prefix
+   * @param filePath     the actual path of the file to attempt to load
+   * @param msgPrefix    a logging prefix
    * @return the populated configuration object, or null if the file either does not exist, cannot
-   *     be read, or is a directory
+   * be read, or is a directory
    */
   private File checkFile(String propertyName, String filePath, String msgPrefix) {
     val file = new File(filePath);
@@ -303,8 +310,8 @@ public class ArcusConfigurationBeanFactoryPostProcessor
           "Expected file for {} '{}', but got a directory ({})", msgPrefix, propertyName, filePath);
 
       throw new ConfigurationException(
-          "Error: Expected file for %s '%s' but got a directory (%s)"
-              .formatted(msgPrefix, propertyName, filePath));
+          format("Error: Expected file for %s '%s' but got a directory (%s)",
+              msgPrefix, propertyName, filePath));
     }
     return file;
   }
@@ -312,7 +319,7 @@ public class ArcusConfigurationBeanFactoryPostProcessor
   private Object loadFromSystemProperties(
       String extension, String actualName, Class<?> configurationType) {
 
-    val expectedProperty = "configuration.%s".formatted(actualName);
+    val expectedProperty = format("configuration.%s", actualName);
     log.debug("Checking system properties for {}", expectedProperty);
     val prop = environment.getSystemProperty(classLoader, expectedProperty);
 
@@ -342,7 +349,7 @@ public class ArcusConfigurationBeanFactoryPostProcessor
   private Object loadFromClassloader(
       String extension, String actualName, Class<?> configurationType) {
 
-    val location = "%s/%s.%s".formatted(CLASSLOADER_PREFIX, actualName, extension);
+    val location = format("%s/%s.%s",CLASSLOADER_PREFIX, actualName, extension);
     var resource = classLoader.getResourceAsStream(location);
 
     if (resource == null) {

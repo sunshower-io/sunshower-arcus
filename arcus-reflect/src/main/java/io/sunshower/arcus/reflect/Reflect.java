@@ -1,5 +1,7 @@
 package io.sunshower.arcus.reflect;
 
+import static java.lang.String.format;
+
 import io.sunshower.arcus.incant.MethodDescriptor;
 import io.sunshower.lambda.Lazy;
 import io.sunshower.lambda.Option;
@@ -87,8 +89,9 @@ public class Reflect {
       if (nextInstance != null) {
         if (!isCompatible(nextType, nextInstance.getClass())) {
           throw new InstantiationException(
-              "Error: type-mismatch.  Instance of type '%s' is not assignable to type '%s'"
-                  .formatted(nextInstance.getClass(), nextInstance.getClass()));
+              format(
+                  "Error: type-mismatch.  Instance of type '%s' is not assignable to type '%s'",
+                  nextInstance.getClass(), nextInstance.getClass()));
         }
       }
     }
@@ -198,7 +201,8 @@ public class Reflect {
    */
   public static Option<Type[]> getTypeParametersOfParameter(Parameter parameter) {
     val types = parameter.getParameterizedType();
-    if (types instanceof ParameterizedType t) {
+    if (types instanceof ParameterizedType) {
+      val t = (ParameterizedType) types;
       return Option.some(t.getActualTypeArguments());
     }
     return Option.none();

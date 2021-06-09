@@ -26,9 +26,7 @@ public class ConfigurationLoaderTest {
   @Test
   void ensureConfigurationLoaderCanLoadConfigurationFromYaml() throws Exception {
 
-    val cfg = """
-        value: "hello!"
-        """.stripIndent();
+    val cfg = "\n" + "value: \"hello!\"\n" + "";
 
     val result = load(Cfg.class, new StringReader(cfg), "application/x-yaml");
     assertEquals(result.value, "hello!");
