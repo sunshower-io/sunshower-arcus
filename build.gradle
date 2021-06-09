@@ -108,10 +108,6 @@ subprojects {
             archiveClassifier = 'javadoc'
         }
 
-        javadoc.options {
-            addStringOption('-release', '15')
-            addBooleanOption('-enable-preview', true)
-        }
 
 
         publications {
@@ -161,19 +157,6 @@ subprojects {
         ].each { dep ->
             testImplementation "org.junit.jupiter:junit-jupiter-$dep"
         }
-    }
-
-    tasks.withType(JavaCompile) {
-        options.compilerArgs += '--enable-preview'
-    }
-
-
-    tasks.withType(Test) {
-        jvmArgs += '--enable-preview'
-    }
-
-    tasks.withType(JavaExec) {
-        jvmArgs += '--enable-preview'
     }
 }
 
