@@ -1,5 +1,7 @@
 package io.sunshower.arcus.lang.test;
 
+import static java.lang.String.format;
+
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.File;
 import java.io.FilenameFilter;
@@ -67,10 +69,10 @@ public class Tests {
       }
     } catch (ClassNotFoundException ex) {
       throw new IllegalArgumentException(
-          "Error: class '%s' not found in classloader".formatted(callerElement.getClassName()));
+          format("Error: class '%s' not found in classloader", callerElement.getClassName()));
     }
     throw new IllegalArgumentException(
-        "Could not determine the location of a caller: %s".formatted(callerElement.getClassName()));
+        format("Could not determine the location of a caller: %s", callerElement.getClassName()));
   }
 
   static StackTraceElement externalStackTraceElement() {

@@ -157,11 +157,10 @@ public class ArcusConfigurationBeanFactoryPostProcessor
 
   /**
    * @param annotation the actual configuration class that must be bound to a configuration file we
-   *                   must check all the available extensions from ConfigurationLoader, then search
-   *                   in classpath:/configurations/{bean-name:snake-case}.{ext}
-   *                   <p>we bind the first extension we encounter at the location. If no files with
-   *                   any of the
-   *                   extensions are encountered, with throw a ConfigurationException and bail
+   *     must check all the available extensions from ConfigurationLoader, then search in
+   *     classpath:/configurations/{bean-name:snake-case}.{ext}
+   *     <p>we bind the first extension we encounter at the location. If no files with any of the
+   *     extensions are encountered, with throw a ConfigurationException and bail
    */
   private void processConfiguration(
       Map<?, ?> annotation, ConfigurableListableBeanFactory beanFactory) {
@@ -172,7 +171,8 @@ public class ArcusConfigurationBeanFactoryPostProcessor
     if (beanFactory.containsBean(actualName)) {
       log.error("Error: Configuration duplicated for configuration named {}", actualName);
       throw new ConfigurationException(
-          format("Error:  Configuration definition duplicated for configuration named '%s'",
+          format(
+              "Error:  Configuration definition duplicated for configuration named '%s'",
               actualName));
     }
 
@@ -207,7 +207,8 @@ public class ArcusConfigurationBeanFactoryPostProcessor
         log.error(
             "No classpath resource for overridden value '{}' at '{}'", location, classpathLocation);
         throw new ConfigurationException(
-            format("No classpath resource for overridden value '%s' at '%s'",
+            format(
+                "No classpath resource for overridden value '%s' at '%s'",
                 location, classpathLocation));
       }
       try (val reader = new InputStreamReader(resource, StandardCharsets.UTF_8)) {
@@ -236,7 +237,7 @@ public class ArcusConfigurationBeanFactoryPostProcessor
         .registerBeanDefinition(
             actualName,
             BeanDefinitionBuilder.genericBeanDefinition(
-                (Class) configurationType, () -> configuration)
+                    (Class) configurationType, () -> configuration)
                 .getBeanDefinition());
   }
 
@@ -293,10 +294,10 @@ public class ArcusConfigurationBeanFactoryPostProcessor
 
   /**
    * @param propertyName the name of the property or environment variable
-   * @param filePath     the actual path of the file to attempt to load
-   * @param msgPrefix    a logging prefix
+   * @param filePath the actual path of the file to attempt to load
+   * @param msgPrefix a logging prefix
    * @return the populated configuration object, or null if the file either does not exist, cannot
-   * be read, or is a directory
+   *     be read, or is a directory
    */
   private File checkFile(String propertyName, String filePath, String msgPrefix) {
     val file = new File(filePath);
@@ -310,7 +311,8 @@ public class ArcusConfigurationBeanFactoryPostProcessor
           "Expected file for {} '{}', but got a directory ({})", msgPrefix, propertyName, filePath);
 
       throw new ConfigurationException(
-          format("Error: Expected file for %s '%s' but got a directory (%s)",
+          format(
+              "Error: Expected file for %s '%s' but got a directory (%s)",
               msgPrefix, propertyName, filePath));
     }
     return file;
@@ -349,7 +351,7 @@ public class ArcusConfigurationBeanFactoryPostProcessor
   private Object loadFromClassloader(
       String extension, String actualName, Class<?> configurationType) {
 
-    val location = format("%s/%s.%s",CLASSLOADER_PREFIX, actualName, extension);
+    val location = format("%s/%s.%s", CLASSLOADER_PREFIX, actualName, extension);
     var resource = classLoader.getResourceAsStream(location);
 
     if (resource == null) {
