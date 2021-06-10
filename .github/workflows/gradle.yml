@@ -1,6 +1,10 @@
 name: Java CI
 
-on: [push]
+on:
+  push:
+    branches:
+      - '*'
+      - '!release/*'
 
 #################   Build Overview #################
 #
@@ -51,10 +55,18 @@ jobs:
     #
     #################   Install and Deploy  #################
 
-    - name: Install and Deploy
-      if: matrix.os == 'ubuntu-latest'
+    - name: Install and Deploy Maven POMs
+      if: matrix.platform == 'ubuntu-latest'
       run: >-
         mvn install deploy -f bom
+        --settings bom/settings/settings.xml
+        -Dmaven-repo.github.username=${{secrets.MAVEN_REPOSITORY_USERNAME}}
+        -Dmaven-repo.github.password=${{secrets.MAVEN_REPOSITORY_PASSWORD}}
+
+
+    - name: Install Maven POMs
+      run: >-
+        mvn install -f bom
         --settings bom/settings/settings.xml
         -Dmaven-repo.github.username=${{secrets.MAVEN_REPOSITORY_USERNAME}}
         -Dmaven-repo.github.password=${{secrets.MAVEN_REPOSITORY_PASSWORD}}
@@ -91,6 +103,7 @@ jobs:
 
     - name: Deploy from Ubuntu
       uses: eskatos/gradle-command-action@v1
+      if: matrix.platform == 'ubuntu-latest'
       env:
         JAVA_TOOL_OPTIONS: -Duser.language=en -Duser.country=US
       with:
