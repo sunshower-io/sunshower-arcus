@@ -4,7 +4,7 @@
 
     <groupId>io.sunshower.arcus</groupId>
     <artifactId>bom</artifactId>
-    <version>1.0.33-SNAPSHOT</version>
+    <version>1.0.35-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <parent>
@@ -18,7 +18,7 @@
 
     <properties>
         <environment.version>1.0.5.Final</environment.version>
-        <arcus.version>1.0.33-SNAPSHOT</arcus.version>
+        <arcus.version>1.0.35-SNAPSHOT</arcus.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
