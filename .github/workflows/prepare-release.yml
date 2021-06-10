@@ -80,6 +80,8 @@ jobs:
           -DnewVersion=${{ steps.finalVersion.outputs.result }}
           -Dmaven-repo.github.username=${{secrets.MAVEN_REPOSITORY_USERNAME}}
           -Dmaven-repo.github.password=${{secrets.MAVEN_REPOSITORY_PASSWORD}}
+
+
       - name: Increment Arcus Property version
         run: >-
           mvn versions:set-property -f bom
