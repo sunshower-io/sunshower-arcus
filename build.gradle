@@ -147,6 +147,7 @@ subprojects {
 
         testImplementation 'org.spockframework:spock-core'
         testImplementation 'org.junit-pioneer:junit-pioneer'
+        testImplementation 'org.mockito:mockito-junit-jupiter'
         testImplementation 'org.junit.platform:junit-platform-suite-engine'
         [
                 'api',

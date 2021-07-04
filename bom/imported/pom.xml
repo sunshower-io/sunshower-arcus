@@ -18,7 +18,7 @@
   <url>http://www.sunshower.io</url>
 
   <properties>
-    <mockito.version>2.9.0</mockito.version>
+    <mockito.version>3.11.2</mockito.version>
     <junit.version>4.13.1</junit.version>
     <jaxrs-api.version>2.1</jaxrs-api.version>
     <jeromq.version>0.3.5</jeromq.version>
@@ -33,6 +33,12 @@
         <groupId>org.hibernate</groupId>
         <artifactId>hibernate-search-orm</artifactId>
         <version>5.11.8.Final</version>
+      </dependency>
+      <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-junit-jupiter</artifactId>
+        <version>${mockito.version}</version>
+        <scope>test</scope>
       </dependency>
 
 
