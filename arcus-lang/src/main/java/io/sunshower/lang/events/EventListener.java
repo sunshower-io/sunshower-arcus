@@ -7,7 +7,7 @@ public interface EventListener<T> {
   final class Options {
 
     public static final int NONE = 1;
-    public static final int REMOVE_AFTER_DISPATCH = 1 << 1;
+    public static final int REMOVE_AFTER_DISPATCH = NONE << 1;
 
     public static boolean isSet(int option, int... flags) {
       for (val flag : flags) {
