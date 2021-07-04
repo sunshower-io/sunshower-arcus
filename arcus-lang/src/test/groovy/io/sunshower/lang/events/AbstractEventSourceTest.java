@@ -16,15 +16,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class AbstractEventSourceTest {
 
   private EventSource source;
-  @Mock
-  private EventListener eventListener;
+  @Mock private EventListener eventListener;
 
   @BeforeEach
   void setUp() {
     source = new AbstractEventSource();
-
   }
-
 
   @Test
   void ensureEventDispatcherCanContainMultipleTypesOfEvents() {
@@ -38,12 +35,10 @@ class AbstractEventSourceTest {
 
   @Test
   void ensureDispatchingEventWorks() {
-    EventType type =  () -> 0;
+    EventType type = () -> 0;
     val event = Events.create("hello");
     source.addEventListener(eventListener, type);
     source.dispatchEvent(type, event);
     verify(eventListener).onEvent(type, event);
-
   }
-
 }
