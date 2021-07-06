@@ -35,8 +35,7 @@ public class AbstractEventSource implements EventSource {
   }
 
   @Override
-  public <T> void addEventListener(
-      EventListener<T> listener, EventType... types) {
+  public <T> void addEventListener(EventListener<T> listener, EventType... types) {
     addEventListener(listener, EventListener.Options.NONE, types);
   }
 
