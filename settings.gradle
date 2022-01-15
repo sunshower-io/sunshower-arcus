@@ -1,4 +1,5 @@
 include(
+        'arcus-ast',
         'arcus-lang',
         'arcus-log',
         'arcus-lambda',

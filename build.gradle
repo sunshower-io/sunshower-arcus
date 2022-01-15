@@ -3,8 +3,7 @@ plugins {
     id 'groovy'
     id 'java-library'
     id "com.github.spotbugs" version "4.7.1"
-    id "io.freefair.lombok" version "6.0.0-m2"
-    id "com.diffplug.spotless" version "5.12.5"
+    id "com.diffplug.spotless" version "6.1.0"
     id "io.spring.dependency-management" version "1.0.11.RELEASE"
 }
 
@@ -43,13 +42,9 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'groovy'
     apply plugin: 'java-library'
-    apply plugin: 'io.freefair.lombok'
     apply plugin: "com.github.spotbugs"
     apply plugin: "com.diffplug.spotless"
 
-    lombok {
-        version = '1.18.20'
-    }
     spotbugsMain {
         reports {
             html {
@@ -76,7 +71,7 @@ subprojects {
 
     spotless {
         java {
-            googleJavaFormat('1.10.0')
+            googleJavaFormat('1.12.0')
         }
     }
 
@@ -143,7 +138,14 @@ subprojects {
 
 
     dependencies {
+        compileOnly 'com.google.code.findbugs:annotations'
+        testCompileOnly 'com.google.code.findbugs:annotations'
 
+
+        compileOnly 'org.projectlombok:lombok'
+        testCompileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
+        testAnnotationProcessor 'org.projectlombok:lombok'
 
         testImplementation 'org.spockframework:spock-core'
         testImplementation 'org.junit-pioneer:junit-pioneer'
@@ -165,8 +167,3 @@ defaultTasks(
         'build',
         'spotlessApply'
 )
-
-dependencies {
-    implementation 'org.junit.jupiter:junit-jupiter:5.4.2'
-}
-
