@@ -16,7 +16,7 @@
     <name>Arcus Exported Bill-Of-Materials</name>
     <url>http://www.sunshower.io</url>
     <properties>
-        <arcus.version>2.0.38-SNAPSHOT</arcus.version>
+        <arcus.version>1.0.38-SNAPSHOT</arcus.version>
     </properties>
 
 
