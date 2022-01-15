@@ -43,6 +43,38 @@
                 <artifactId>arcus-reflect</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
+
+            <!--
+                persistence libraries
+            -->
+            <dependency>
+                <groupId>io.sunshower.arcus.persist</groupId>
+                <artifactId>persist-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>io.sunshower.arcus.persist</groupId>
+                <artifactId>persist-jpa</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>io.sunshower.arcus.persist</groupId>
+                <artifactId>persist-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>io.sunshower.arcus.persist</groupId>
+                <artifactId>persist-hibernate</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 </project>
