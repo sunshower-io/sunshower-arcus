@@ -16,7 +16,7 @@
     <name>Arcus Exported Bill-Of-Materials</name>
     <url>http://www.sunshower.io</url>
     <properties>
-        <arcus.version>2.0.38.Final</arcus.version>
+        <arcus.version>2.0.38-SNAPSHOT</arcus.version>
     </properties>
 
 
@@ -41,6 +41,12 @@
                 <version>${arcus.version}</version>
             </dependency>
 
+
+            <dependency>
+                <groupId>io.sunshower.arcus</groupId>
+                <artifactId>arcus-log</artifactId>
+                <version>${arcus.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>io.sunshower.arcus</groupId>
