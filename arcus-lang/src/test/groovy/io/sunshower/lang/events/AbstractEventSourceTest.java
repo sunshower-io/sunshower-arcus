@@ -19,8 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class AbstractEventSourceTest {
 
   private EventSource source;
-  @Mock
-  private EventListener eventListener;
+  @Mock private EventListener eventListener;
 
   @BeforeEach
   void setUp() {
@@ -58,6 +57,5 @@ class AbstractEventSourceTest {
     source.dispatchEvent(type, event);
     verify(listener2, times(1)).onEvent(any(), any());
     verify(eventListener, times(1)).onEvent(any(), any());
-
   }
 }
