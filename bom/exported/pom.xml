@@ -5,12 +5,12 @@
     <parent>
         <groupId>io.sunshower.arcus</groupId>
         <artifactId>bom</artifactId>
-        <version>1.0.38-SNAPSHOT</version>
+        <version>1.0.40-SNAPSHOT</version>
         <relativePath>../</relativePath>
     </parent>
     <groupId>io.sunshower.arcus</groupId>
     <artifactId>bom-exported</artifactId>
-    <version>1.0.38-SNAPSHOT</version>
+    <version>1.0.40-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Arcus Exported Bill-Of-Materials</name>
@@ -43,6 +43,38 @@
                 <artifactId>arcus-reflect</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
+
+            <!--
+                persistence libraries
+            -->
+            <dependency>
+                <groupId>io.sunshower.arcus.persist</groupId>
+                <artifactId>persist-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>io.sunshower.arcus.persist</groupId>
+                <artifactId>persist-jpa</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>io.sunshower.arcus.persist</groupId>
+                <artifactId>persist-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>io.sunshower.arcus.persist</groupId>
+                <artifactId>persist-hibernate</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 </project>
