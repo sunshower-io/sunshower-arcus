@@ -26,10 +26,12 @@
     <jsr-330.version>1</jsr-330.version>
     <spring.version>5.3.15</spring.version>
     <lombok.version>1.18.22</lombok.version>
+<!--    <arcus.version>1.0.41.Final</arcus.version>-->
     <findbugs-annotations.version>3.0.1</findbugs-annotations.version>
   </properties>
 
   <dependencyManagement>
+
     <dependencies>
       <dependency>
         <groupId>org.hibernate</groupId>
