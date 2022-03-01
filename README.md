@@ -1,5 +1,9 @@
-# Sunshower-Arcus
+# Build
 
+![example workflow](https://github.com/sunshower-io/sunshower-arcus/actions/workflows/gradle.yml/badge.svg)
+
+
+# Sunshower-Arcus
 Sunshower-Arcus is the collection of common libraries underlying most of Sunshower.io. 
 Arcus provides utilities for:
 

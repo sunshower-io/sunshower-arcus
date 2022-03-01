@@ -5,43 +5,66 @@
     <parent>
         <groupId>io.sunshower.arcus</groupId>
         <artifactId>bom</artifactId>
-        <version>1.0.40-SNAPSHOT</version>
+        <version>1.0.38-SNAPSHOT</version>
         <relativePath>../</relativePath>
     </parent>
     <groupId>io.sunshower.arcus</groupId>
     <artifactId>bom-exported</artifactId>
-    <version>1.0.40-SNAPSHOT</version>
+    <version>1.0.38-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Arcus Exported Bill-Of-Materials</name>
     <url>http://www.sunshower.io</url>
+    <properties>
+        <arcus.version>1.0.38-SNAPSHOT</arcus.version>
+    </properties>
 
 
     <dependencyManagement>
         <dependencies>
+
+            <!--
+                annotations/arcus-jsr-305
+            -->
             <dependency>
                 <groupId>io.sunshower.arcus.annotations</groupId>
                 <artifactId>arcus-jsr-305</artifactId>
-                <version>${project.version}</version>
+                <version>${arcus.version}</version>
+            </dependency>
+
+            <!--
+                arcus-ast
+            -->
+            <dependency>
+                <groupId>io.sunshower.arcus</groupId>
+                <artifactId>arcus-ast</artifactId>
+                <version>${arcus.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>io.sunshower.arcus</groupId>
+                <artifactId>arcus-log</artifactId>
+                <version>${arcus.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>io.sunshower.arcus</groupId>
                 <artifactId>arcus-lambda</artifactId>
-                <version>${project.version}</version>
+                <version>${arcus.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>io.sunshower.arcus</groupId>
                 <artifactId>arcus-lang</artifactId>
-                <version>${project.version}</version>
+                <version>${arcus.version}</version>
             </dependency>
 
 
             <dependency>
                 <groupId>io.sunshower.arcus</groupId>
                 <artifactId>arcus-reflect</artifactId>
-                <version>${project.version}</version>
+                <version>${arcus.version}</version>
             </dependency>
 
 
@@ -51,29 +74,87 @@
             <dependency>
                 <groupId>io.sunshower.arcus.persist</groupId>
                 <artifactId>persist-api</artifactId>
-                <version>${project.version}</version>
+                <version>${arcus.version}</version>
             </dependency>
 
 
             <dependency>
                 <groupId>io.sunshower.arcus.persist</groupId>
                 <artifactId>persist-jpa</artifactId>
-                <version>${project.version}</version>
+                <version>${arcus.version}</version>
             </dependency>
 
 
             <dependency>
                 <groupId>io.sunshower.arcus.persist</groupId>
                 <artifactId>persist-core</artifactId>
-                <version>${project.version}</version>
+                <version>${arcus.version}</version>
             </dependency>
 
 
             <dependency>
                 <groupId>io.sunshower.arcus.persist</groupId>
                 <artifactId>persist-hibernate</artifactId>
-                <version>${project.version}</version>
+                <version>${arcus.version}</version>
             </dependency>
+
+
+            <!--
+                configuration subproject
+            -->
+
+            <dependency>
+                <groupId>io.sunshower.arcus.config</groupId>
+                <artifactId>config-core</artifactId>
+                <version>${arcus.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>io.sunshower.arcus.config</groupId>
+                <artifactId>config-jaxb</artifactId>
+                <version>${arcus.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.sunshower.arcus.config</groupId>
+                <artifactId>config-json</artifactId>
+                <version>${arcus.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.sunshower.arcus.config</groupId>
+                <artifactId>config-spring</artifactId>
+                <version>${arcus.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.sunshower.arcus.config</groupId>
+                <artifactId>config-xml</artifactId>
+                <version>${arcus.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.sunshower.arcus.config</groupId>
+                <artifactId>config-yaml</artifactId>
+                <version>${arcus.version}</version>
+            </dependency>
+
+            <!--
+                end config subproject
+            -->
+
+            <!--
+                test subproject
+            -->
+
+            <dependency>
+                <groupId>io.sunshower.arcus.test</groupId>
+                <artifactId>test-lang</artifactId>
+                <version>${arcus.version}</version>
+            </dependency>
+
+
 
         </dependencies>
     </dependencyManagement>
