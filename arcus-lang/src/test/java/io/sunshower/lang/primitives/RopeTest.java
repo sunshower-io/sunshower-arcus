@@ -12,5 +12,4 @@ public class RopeTest {
     val results = Longs.computeFibonacciUntil(7540113804746346429L);
     assertEquals(4660046610375530309L, results[results.length - 2]);
   }
-
 }

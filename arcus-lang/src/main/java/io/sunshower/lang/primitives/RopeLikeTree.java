@@ -18,7 +18,6 @@ public class RopeLikeTree extends AbstractRopeLike implements RopeLike {
     this.depth = Math.max(left.depth(), right.depth()) + 1;
   }
 
-
   @Override
   public Rope asRope() {
     return new Rope(this);

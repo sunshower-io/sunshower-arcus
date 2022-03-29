@@ -6,19 +6,16 @@ import lombok.val;
 
 public class RopeLikeOverCharSequence extends AbstractRopeLike {
 
-
   private final CharSequence delegate;
 
   public RopeLikeOverCharSequence(@NonNull CharSequence sequence) {
     this.delegate = sequence;
-
   }
 
   @Override
   public Rope asRope() {
     return new Rope(this);
   }
-
 
   @Override
   public int depth() {
@@ -34,7 +31,7 @@ public class RopeLikeOverCharSequence extends AbstractRopeLike {
   public char[] characters() {
     val len = length();
     val chars = new char[len];
-    for(int i = 0; i < len; i++) {
+    for (int i = 0; i < len; i++) {
       chars[i] = charAt(i);
     }
     return chars;
@@ -62,8 +59,8 @@ public class RopeLikeOverCharSequence extends AbstractRopeLike {
 
   @Override
   public int indexOf(char ch, int startIndex) {
-    for(int i = startIndex; i < length(); i++) {
-      if(charAt(i) == ch) {
+    for (int i = startIndex; i < length(); i++) {
+      if (charAt(i) == ch) {
         return i;
       }
     }

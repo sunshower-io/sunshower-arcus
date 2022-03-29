@@ -8,8 +8,6 @@ import org.junit.jupiter.api.Test;
 
 public class LongsTest {
 
-
-
   @Test
   void testFibonacci() {
     val c = Longs.computeFibonacciUntil(17);
@@ -18,10 +16,8 @@ public class LongsTest {
     val s = Longs.computeFibonacciUntil(7540113804746346429L);
     System.out.println(Arrays.toString(s));
 
-
     val s2 = Longs.compute2(7540113804746346429L);
     System.out.println(s2);
-
   }
 
   @Test

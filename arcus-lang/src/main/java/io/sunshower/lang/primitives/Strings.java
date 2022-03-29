@@ -6,15 +6,12 @@ import java.util.Arrays;
 import javax.annotation.Nullable;
 import lombok.val;
 
-/**
- * Created by haswell on 5/26/16.
- */
+/** Created by haswell on 5/26/16. */
 public class Strings {
 
   static final int ALPHABET_SIZE = 1 << 16;
 
-  private Strings() {
-  }
+  private Strings() {}
 
   public static boolean isBlank(@Nullable String value) {
     if (value == null) {
@@ -28,7 +25,6 @@ public class Strings {
     val bbuffer = charset.encode(cbuffer);
     return bbuffer.array();
   }
-
 
   public static int indexOf(char[] string, CharSequence pattern, int fromindex) {
     val len = pattern.length();
@@ -68,7 +64,6 @@ public class Strings {
       }
     }
     return -1;
-
   }
 
   public static int indexOf(CharSequence string, CharSequence pattern) {
@@ -131,7 +126,6 @@ public class Strings {
     return table;
   }
 
-
   private static int[] makeOffsetTable(CharSequence needle) {
     int len = needle.length();
     int[] table = new int[len];
@@ -177,7 +171,8 @@ public class Strings {
   private static int suffixLength(char[] search, int p) {
     int len = 0;
     for (int i = p, slen = search.length, j = slen - 1;
-        i >= 0 && search[i] == search[j]; --i, --j) {
+        i >= 0 && search[i] == search[j];
+        --i, --j) {
       len += 1;
     }
     return len;
@@ -195,7 +190,8 @@ public class Strings {
   private static int suffixLength(CharSequence search, int p) {
     int len = 0;
     for (int i = p, slen = search.length(), j = slen - 1;
-        i >= 0 && search.charAt(i) == search.charAt(j); --i, --j) {
+        i >= 0 && search.charAt(i) == search.charAt(j);
+        --i, --j) {
       len += 1;
     }
     return len;

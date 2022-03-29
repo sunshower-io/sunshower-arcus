@@ -11,8 +11,7 @@ public class RopeLikeOverString extends AbstractRopeLike implements RopeLike {
   private final int length;
   private final RopeLikeOverCharacterArray delegate;
 
-  public RopeLikeOverString(@NonNull RopeLikeOverCharacterArray delegate, int offset,
-      int length) {
+  public RopeLikeOverString(@NonNull RopeLikeOverCharacterArray delegate, int offset, int length) {
     checkBounds(delegate, offset, offset);
     this.offset = offset;
     this.length = length;

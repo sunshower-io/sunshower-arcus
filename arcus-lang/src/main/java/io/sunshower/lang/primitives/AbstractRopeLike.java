@@ -1,6 +1,5 @@
 package io.sunshower.lang.primitives;
 
-
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,7 +11,6 @@ public abstract class AbstractRopeLike implements RopeLike {
   public void writeTree(PrintWriter out) {
     writeTree(out, this, "", true);
   }
-
 
   public RopeLike append(final CharSequence sequence) {
     return Ropes.append(this, new RopeLikeOverCharSequence(sequence));
@@ -78,6 +76,4 @@ public abstract class AbstractRopeLike implements RopeLike {
     }
     return false;
   }
-
-
 }

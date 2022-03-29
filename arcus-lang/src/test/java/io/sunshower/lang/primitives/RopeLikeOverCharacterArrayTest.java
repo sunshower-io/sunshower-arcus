@@ -24,8 +24,11 @@ class RopeLikeOverCharacterArrayTest {
   @Test
   void ensureCharAtWorks() {
     val seg = "the quick brown fox jumped over the lazy dog";
-    val str = Arrays.stream(seg.split("\\s+")).map(
-        String::toCharArray).collect(Collectors.toList()).toArray(new char[0][0]);
+    val str =
+        Arrays.stream(seg.split("\\s+"))
+            .map(String::toCharArray)
+            .collect(Collectors.toList())
+            .toArray(new char[0][0]);
     val segs = String.join("", seg.split("\\s+"));
     val rope = new RopeLikeOverCharacterArray(str);
     assertEquals(segs.length(), rope.length());
@@ -33,5 +36,4 @@ class RopeLikeOverCharacterArrayTest {
       assertEquals(segs.charAt(i), rope.charAt(i));
     }
   }
-
 }

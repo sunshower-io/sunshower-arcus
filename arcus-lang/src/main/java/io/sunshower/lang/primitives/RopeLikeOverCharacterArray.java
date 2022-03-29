@@ -38,7 +38,6 @@ final class RopeLikeOverCharacterArray extends AbstractRopeLike {
     System.arraycopy(sequence, offset, characters, 0, length);
   }
 
-
   @Override
   public Rope asRope() {
     return null;
@@ -67,9 +66,7 @@ final class RopeLikeOverCharacterArray extends AbstractRopeLike {
   @Override
   public byte[] getBytes(@NonNull Charset charset) {
     return Strings.getBytes(characters, charset);
-
   }
-
 
   @Override
   public String substring(int offset, int length) {
@@ -98,7 +95,6 @@ final class RopeLikeOverCharacterArray extends AbstractRopeLike {
     }
     return -1;
   }
-
 
   /**
    * implementation of the Raita algorithm
@@ -129,8 +125,7 @@ final class RopeLikeOverCharacterArray extends AbstractRopeLike {
       return this;
     }
     if (end - start < 16) {
-      return new RopeLikeOverCharacterArray(characters, start,
-          end - start);
+      return new RopeLikeOverCharacterArray(characters, start, end - start);
     } else {
       return new RopeLikeOverString(this, start, end - start);
     }

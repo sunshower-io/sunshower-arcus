@@ -13,13 +13,9 @@ final class Ropes {
   static final RopeLike EMPTY = new RopeLikeOverCharacterArray();
 
   static final int combinedLength = 17;
-  static final long[] FIBONACCI_SEQUENCE = Longs.computeFibonacciUntil(
-      7540113804746346429l);
+  static final long[] FIBONACCI_SEQUENCE = Longs.computeFibonacciUntil(7540113804746346429l);
 
-  private Ropes() {
-
-  }
-
+  private Ropes() {}
 
   static RopeLike append(RopeLike left, RopeLike right) {
     if (left.isEmpty()) {
@@ -34,8 +30,10 @@ final class Ropes {
         val rightChild = right.getLeft();
         assert rightChild != null;
         if (left.length() + rightChild.length() < combinedLength) {
-          return rebalance(new RopeLikeTree(new RopeLikeOverCharacterArray(
-              left.characters(), right.characters()), right.getRight()));
+          return rebalance(
+              new RopeLikeTree(
+                  new RopeLikeOverCharacterArray(left.characters(), right.characters()),
+                  right.getRight()));
         }
       }
     }
@@ -44,8 +42,10 @@ final class Ropes {
       if (left.getType() == Type.Composite) {
         val leftChild = left.getRight();
         if (right.length() + leftChild.length() < combinedLength) {
-          return rebalance(new RopeLikeTree(left.getLeft(), new RopeLikeOverCharacterArray(
-              leftChild.characters(), right.characters())));
+          return rebalance(
+              new RopeLikeTree(
+                  left.getLeft(),
+                  new RopeLikeOverCharacterArray(leftChild.characters(), right.characters())));
         }
       }
     }
@@ -59,7 +59,6 @@ final class Ropes {
     }
     return FIBONACCI_SEQUENCE[depth + 2] <= r.length();
   }
-
 
   static RopeLike rebalance(RopeLike r) {
     if (r.depth() > MAX_DEPTH) {
@@ -84,7 +83,6 @@ final class Ropes {
     }
     return r;
   }
-
 
   static RopeLike merge(List<RopeLike> leaves, int start, int end) {
     int range = end - start;
@@ -111,15 +109,13 @@ final class Ropes {
     }
   }
 
-
   static void checkBounds(@NonNull final RopeLike rope, final int offset, final int length) {
     if (length < 0 || offset < 0 || offset + length > rope.length()) {
       throw new IllegalArgumentException(
-          "Bound (offset: %d,  length: %d) must be within [%d, %d]".formatted(offset, length, 0,
-              rope.length()));
+          "Bound (offset: %d,  length: %d) must be within [%d, %d]"
+              .formatted(offset, length, 0, rope.length()));
     }
   }
-
 
   static void checkBounds(@NonNull final char[] sequence, final int bound) {
     if (bound < 0 || bound > sequence.length) {
@@ -127,5 +123,4 @@ final class Ropes {
           "Bound (%d) must be within [%d, %d]".formatted(bound, 0, sequence.length));
     }
   }
-
 }

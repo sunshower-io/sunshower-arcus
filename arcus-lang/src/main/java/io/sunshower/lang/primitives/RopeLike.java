@@ -6,7 +6,6 @@ import lombok.NonNull;
 
 interface RopeLike extends CharSequence {
 
-
   Rope asRope();
 
   default RopeLike append(CharSequence sequence) {
@@ -14,15 +13,18 @@ interface RopeLike extends CharSequence {
   }
 
   enum Type {
-    Composite, Flat,
+    Composite,
+    Flat,
   }
 
   int depth();
+
   Type getType();
 
   char[] characters();
 
   byte[] getBytes();
+
   byte[] getBytes(Charset charset);
 
   default RopeLike getLeft() {
@@ -46,7 +48,4 @@ interface RopeLike extends CharSequence {
   }
 
   void writeTree(PrintWriter out);
-
-
-
 }

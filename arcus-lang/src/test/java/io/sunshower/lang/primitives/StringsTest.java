@@ -16,7 +16,6 @@ public class StringsTest {
     assertEquals(string.lastIndexOf("hello"), result);
   }
 
-
   @Test
   void ensureFastIndexOfWorks() {
     val search = "hello".toCharArray();

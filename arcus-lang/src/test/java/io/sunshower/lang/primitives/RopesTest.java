@@ -10,7 +10,6 @@ class RopesTest {
 
   private Rope rope;
 
-
   @Test
   void ensureRopeConstructorWorksForEmptyRope() {
     rope = new Rope();
@@ -45,12 +44,13 @@ class RopesTest {
 
   @Test
   void ensureRopeIsVisualizedCorrectly() {
-    val s = """
+    val s =
+        """
           @Override
           public void writeTree(PrintWriter out) {
             writeTree(out, this, "", true);
           }
-                
+
           private void writeTree(PrintWriter out, RopeLike node, String indent, boolean last) {
             if (node.equals(this)) {
               out.append(node).append("\\n");
@@ -65,7 +65,7 @@ class RopesTest {
             if (getRight() != null) {
               results.add(getRight());
             }
-                
+
             val iter = results.iterator();
             while (iter.hasNext()) {
               val child = iter.next();
@@ -73,7 +73,7 @@ class RopesTest {
               writeTree(out, child, indent, isLast);
             }
           }
-                
+
           @Override
           public int hashCode() {
             int h = 0;
@@ -83,7 +83,7 @@ class RopesTest {
             }
             return h;
           }
-                
+
           @Override
           public boolean equals(Object o) {
             if (o == null) {
@@ -92,7 +92,7 @@ class RopesTest {
             if (o == this) {
               return true;
             }
-                
+
             if (o instanceof CharSequence seq) {
               if (length() != seq.length()) {
                 return false;
@@ -106,7 +106,7 @@ class RopesTest {
             }
             return false;
           }
-                
+
         """;
 
     val rope = new Rope(s);

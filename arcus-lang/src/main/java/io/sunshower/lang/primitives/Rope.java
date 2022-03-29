@@ -6,7 +6,6 @@ import lombok.NonNull;
 
 public final class Rope implements CharSequence {
 
-
   final RopeLike base;
 
   protected Rope(@NonNull RopeLike base) {
@@ -34,7 +33,6 @@ public final class Rope implements CharSequence {
     }
     base = root;
   }
-
 
   public Rope(String s) {
     this(s.getBytes(), Charset.defaultCharset());
