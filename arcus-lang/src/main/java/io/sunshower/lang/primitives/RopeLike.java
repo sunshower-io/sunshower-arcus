@@ -1,5 +1,6 @@
 package io.sunshower.lang.primitives;
 
+import java.nio.charset.Charset;
 import lombok.NonNull;
 
 interface RopeLike extends CharSequence {
@@ -17,6 +18,7 @@ interface RopeLike extends CharSequence {
   char[] characters();
 
   byte[] getBytes();
+  byte[] getBytes(Charset charset);
 
   RopeLike getLeft();
 

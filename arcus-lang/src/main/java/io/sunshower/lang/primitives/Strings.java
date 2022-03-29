@@ -1,5 +1,8 @@
 package io.sunshower.lang.primitives;
 
+import java.nio.CharBuffer;
+import java.nio.charset.Charset;
+import java.util.Arrays;
 import javax.annotation.Nullable;
 import lombok.val;
 
@@ -20,6 +23,53 @@ public class Strings {
     return value.trim().isEmpty();
   }
 
+  public static byte[] getBytes(char[] chars, Charset charset) {
+    val cbuffer = CharBuffer.wrap(chars);
+    val bbuffer = charset.encode(cbuffer);
+    return bbuffer.array();
+  }
+
+
+  public static int indexOf(char[] string, CharSequence pattern, int fromindex) {
+    val len = pattern.length();
+    if (len == 0) {
+      return -1;
+    }
+    if (len == 1) {
+      char search = pattern.charAt(0);
+      for (int i = fromindex; i < string.length; i++) {
+        if (string[i] == search) {
+          return i;
+        }
+      }
+    }
+
+    val badCharShift = new int[ALPHABET_SIZE];
+    Arrays.fill(badCharShift, len);
+
+    for (int i = 0; i < len; i++) {
+      val c = pattern.charAt(i);
+      val l = c & 0xFF;
+      badCharShift[l] = Math.min(len - i - 1, badCharShift[l]);
+    }
+    val slen = string.length;
+    for (int i = fromindex + len + 1; i < slen; ) {
+      int x = i, y = len - 1;
+      while (true) {
+        if (pattern.charAt(y) != string[x]) {
+          i += badCharShift[(string[x] & 0xFF)];
+          break;
+        }
+        if (y == 0) {
+          return x;
+        }
+        x = x - 1;
+        y = y - 1;
+      }
+    }
+    return -1;
+
+  }
 
   public static int indexOf(CharSequence string, CharSequence pattern) {
     if (pattern.length() == 0) {

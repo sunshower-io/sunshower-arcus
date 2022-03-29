@@ -1,6 +1,5 @@
 package io.sunshower.lang.primitives;
 
-import io.sunshower.lang.primitives.RopeLike.Type;
 import lombok.NonNull;
 import lombok.val;
 
@@ -35,14 +34,15 @@ final class Ropes {
     }
     checkLengthSum(Integer.MAX_VALUE, left, right);
     return null;
+  }
 
-//    if (left.getType() != Type.Composite) {
-//      if (right.getType() == Type.Composite) {
-//        return rebalance(
-//            new CompositeRole(new FlatRope(left.characters(), right.getLeft().characters())))
-//      }
-//    }
-//
+
+  static void checkBounds(@NonNull final RopeLike rope, final int offset, final int length) {
+    if (length < 0 || offset < 0 || offset + length > rope.length()) {
+      throw new IllegalArgumentException(
+          "Bound (offset: %d,  length: %d) must be within [%d, %d]".formatted(offset, length, 0,
+              rope.length()));
+    }
   }
 
 
