@@ -94,8 +94,20 @@ public class RopeLikeTree extends AbstractRopeLike implements RopeLike {
   }
 
   @Override
-  public CharSequence subSequence(int i, int i1) {
-    return null;
+  public CharSequence subSequence(int start, int end) {
+    Ropes.checkBounds(this, start, end);
+    if (start == 0 && end == length()) {
+      return this;
+    }
+    int leftLength = left.length();
+    if (end <= leftLength) {
+      return left.subSequence(start, end);
+    }
+    if (start >= leftLength) {
+      return right.subSequence(start, leftLength);
+    }
+    return Ropes.append((RopeLike) left.subSequence(start, leftLength),
+        (RopeLike) right.subSequence(0, end - leftLength));
   }
 
   @Override

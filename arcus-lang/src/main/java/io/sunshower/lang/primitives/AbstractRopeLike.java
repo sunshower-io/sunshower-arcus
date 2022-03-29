@@ -16,34 +16,6 @@ public abstract class AbstractRopeLike implements RopeLike {
     return Ropes.append(this, new RopeLikeOverCharSequence(sequence));
   }
 
-  private void writeTree(PrintWriter out, RopeLike node, String indent, boolean last) {
-    if (node.equals(this)) {
-      out.append("rope[%s]".formatted(Arrays.toString(node.characters()))).append("\n");
-    } else {
-      out.append(indent)
-          .append(last ? "└╴" : "├╴")
-          .append("rope[%s]".formatted(Arrays.toString(node.characters())))
-          .append("\n");
-    }
-    indent = indent + (last ? "   " : "│  ");
-    val results = new ArrayList<RopeLike>();
-    val left = node.getLeft();
-    val right = node.getRight();
-    if (left != null) {
-      results.add(left);
-    }
-    if (right != null) {
-      results.add(right);
-    }
-
-    val iter = results.iterator();
-    while (iter.hasNext()) {
-      val child = iter.next();
-      val isLast = !iter.hasNext();
-      writeTree(out, child, indent, isLast);
-    }
-  }
-
   @Override
   public int hashCode() {
     int h = 0;
@@ -76,4 +48,34 @@ public abstract class AbstractRopeLike implements RopeLike {
     }
     return false;
   }
+
+
+  private void writeTree(PrintWriter out, RopeLike node, String indent, boolean last) {
+    if (node.equals(this)) {
+      out.append("rope[%s]".formatted(Arrays.toString(node.characters()))).append("\n");
+    } else {
+      out.append(indent)
+          .append(last ? "└╴" : "├╴")
+          .append("rope[%s]".formatted(Arrays.toString(node.characters())))
+          .append("\n");
+    }
+    indent = indent + (last ? "   " : "│  ");
+    val results = new ArrayList<RopeLike>();
+    val left = node.getLeft();
+    val right = node.getRight();
+    if (left != null) {
+      results.add(left);
+    }
+    if (right != null) {
+      results.add(right);
+    }
+
+    val iter = results.iterator();
+    while (iter.hasNext()) {
+      val child = iter.next();
+      val isLast = !iter.hasNext();
+      writeTree(out, child, indent, isLast);
+    }
+  }
+
 }

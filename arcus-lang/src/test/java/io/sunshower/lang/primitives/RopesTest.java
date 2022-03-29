@@ -36,6 +36,7 @@ class RopesTest {
   void ensureSmallConstructedRopeWorks() {
     val rope = new Rope("""
         this is a quick test--what do you think?
+        I think this is a pretty rad data-structure
         """);
     val writer = new PrintWriter(System.out);
     rope.base.writeTree(writer);
