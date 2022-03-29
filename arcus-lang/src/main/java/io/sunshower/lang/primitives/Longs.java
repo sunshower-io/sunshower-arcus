@@ -1,7 +1,20 @@
 package io.sunshower.lang.primitives;
 
-/** Created by haswell on 4/29/16. */
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import lombok.val;
+
+/**
+ * Created by haswell on 4/29/16.
+ */
 public class Longs {
+
+
+  static final long[] FIB_ROOT = new long[]
+      {
+          1, 1, 1, 0
+      };
 
   public static byte[] toByteArray(long[] longs) {
     final int length = longs.length;
@@ -30,16 +43,101 @@ public class Longs {
     for (int i = 0, j = 0; i < result.length; i++) {
       long r =
           (long) longs[j] << 56L
-              | (long) (longs[j + 1] & 0xFF) << 48
-              | (long) (longs[j + 2] & 0xFF) << 40
-              | (long) (longs[j + 3] & 0xFF) << 32
-              | (long) (longs[j + 4] & 0xFF) << 24
-              | (long) (longs[j + 5] & 0xFF) << 16
-              | (long) (longs[j + 6] & 0xFF) << 8
-              | (long) (longs[j + 7] & 0xFF);
+          | (long) (longs[j + 1] & 0xFF) << 48
+          | (long) (longs[j + 2] & 0xFF) << 40
+          | (long) (longs[j + 3] & 0xFF) << 32
+          | (long) (longs[j + 4] & 0xFF) << 24
+          | (long) (longs[j + 5] & 0xFF) << 16
+          | (long) (longs[j + 6] & 0xFF) << 8
+          | (long) (longs[j + 7] & 0xFF);
       result[i] = r;
       j += 8;
     }
     return result;
   }
+
+  public static List<Long> compute2(long l) {
+    List<Long> list = new ArrayList<>();
+    list.add(0l);
+    list.add(1l);
+    int count = 0;
+
+    while (list.get(list.size() - 1) < l) {
+      val s = list.size() - 1;
+      list.add(list.get(s) + list.get(s - 1));
+      count++;
+    }
+    System.out.println(count);
+    return list;
+  }
+
+  /**
+   * @param l a positive long such that L < Long.MAX_VALUE (2^64 -1)
+   * @return
+   */
+  public static long[] computeFibonacciUntil(long l) {
+    assert l >= 0;
+
+    var a = Arrays.copyOf(FIB_ROOT, FIB_ROOT.length);
+    var b = Arrays.copyOf(a, a.length);
+    long b11 = 1L;
+    int i = 0;
+
+    long[] result = new long[10];
+
+    for (; b11 < l && b11  >= 0;){
+      val a11 = a[0];
+      val a12 = a[1];
+      val a21 = a[2];
+      val a22 = a[3];
+
+      b11 = b[0];
+      val b12 = b[1];
+      val b21 = b[2];
+      val b22 = b[3];
+      val mult = new long[]{
+          a11 * b11 + a12 * b12,
+          a11 * b12 + a12 * b22,
+          a21 * b11 + a22 * b21,
+          a21 * b12 + a22 * b22
+      };
+      b = mult;
+
+      result = append(result, b, i);
+      i+=2;
+    }
+    System.out.println("Iterated: " + i + " times");
+    return trimLast(result);
+  }
+
+  private static long[] trimLast(long[] result) {
+    if (result[result.length - 1] > 0) {
+      return result;
+    }
+    int i = 1;
+    while (result[result.length - i] <= 0) {
+      i++;
+    }
+    val r = new long[result.length - i];
+    System.arraycopy(result, 0, r, 0, result.length - i);
+    return r;
+  }
+
+  private static long[] append(long[] result, long[] b, int i) {
+    if (i + 2 < result.length) {
+      result[i] = b[3];
+      result[i + 1] = b[1];
+      result[i + 2] = b[0];
+      return result;
+    } else {
+      val newresult = new long[(int) (result.length * 1.5)];
+      System.arraycopy(result, 0, newresult, 0, result.length);
+      newresult[i] = b[3];
+      newresult[i + 1] = b[1];
+      newresult[i + 2] = b[0];
+      return newresult;
+    }
+  }
+
+
 }
