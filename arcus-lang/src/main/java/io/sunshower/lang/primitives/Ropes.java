@@ -52,4 +52,8 @@ final class Ropes {
           "Bound (%d) must be within [%d, %d]".formatted(bound, 0, sequence.length));
     }
   }
+
+  public static int depth(Rope right) {
+    return 0;
+  }
 }
