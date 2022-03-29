@@ -5,7 +5,7 @@ import static io.sunshower.lang.primitives.Ropes.checkBounds;
 import java.nio.charset.Charset;
 import lombok.NonNull;
 
-public class RopeLikeOverString implements RopeLike {
+public class RopeLikeOverString extends AbstractRopeLike implements RopeLike {
 
   private final int offset;
   private final int length;

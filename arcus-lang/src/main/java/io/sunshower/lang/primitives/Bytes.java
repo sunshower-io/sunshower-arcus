@@ -1,9 +1,12 @@
 package io.sunshower.lang.primitives;
 
 import io.sunshower.checks.SuppressFBWarnings;
+import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 import javax.annotation.InPlace;
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
+import lombok.val;
 
 /**
  * Created by haswell on 3/31/16.
@@ -106,8 +109,8 @@ public class Bytes {
   }
 
   public static byte[] toByteArray(int value) {
-    return new byte[] {
-      (byte) (value >>> 24), (byte) (value >>> 16), (byte) (value >>> 8), (byte) value
+    return new byte[]{
+        (byte) (value >>> 24), (byte) (value >>> 16), (byte) (value >>> 8), (byte) value
     };
   }
 
@@ -116,5 +119,14 @@ public class Bytes {
       throw new IllegalArgumentException("There must be exactly 4 values in a byte array");
     }
     return bytes[0] << 24 | (bytes[1] & 0xFF) << 16 | (bytes[2] & 0xFF) << 8 | (bytes[3] & 0xFF);
+  }
+
+  public static char[] getCharacters(byte[] bytes, Charset charset) {
+    val result = ByteBuffer.wrap(bytes);
+    return charset.decode(result).array();
+  }
+
+  public static char[] getCharacters(byte[] bytes) {
+    return getCharacters(bytes, Charset.defaultCharset());
   }
 }

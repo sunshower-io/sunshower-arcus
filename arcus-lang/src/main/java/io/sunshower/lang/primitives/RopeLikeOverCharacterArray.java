@@ -10,8 +10,25 @@ final class RopeLikeOverCharacterArray extends AbstractRopeLike {
 
   final char[] characters;
 
+  RopeLikeOverCharacterArray(final String chars) {
+    this(chars.toCharArray());
+  }
+
   RopeLikeOverCharacterArray(@NonNull char[] characters) {
     this(characters, 0, characters.length);
+  }
+
+  RopeLikeOverCharacterArray(@NonNull char[]... segments) {
+    var length = 0;
+    for (char[] segment : segments) {
+      length += segment.length;
+    }
+    characters = new char[length];
+    var destinationPos = 0;
+    for (char[] segment : segments) {
+      System.arraycopy(segment, 0, characters, destinationPos, segment.length);
+      destinationPos += segment.length;
+    }
   }
 
   RopeLikeOverCharacterArray(@NonNull final char[] sequence, final int offset, final int length) {
@@ -53,15 +70,6 @@ final class RopeLikeOverCharacterArray extends AbstractRopeLike {
 
   }
 
-  @Override
-  public RopeLike getLeft() {
-    return null;
-  }
-
-  @Override
-  public RopeLike getRight() {
-    return null;
-  }
 
   @Override
   public String substring(int offset, int length) {
@@ -121,7 +129,7 @@ final class RopeLikeOverCharacterArray extends AbstractRopeLike {
       return this;
     }
     if (end - start < 16) {
-      return new io.sunshower.lang.primitives.RopeLikeOverCharacterArray(characters, start,
+      return new RopeLikeOverCharacterArray(characters, start,
           end - start);
     } else {
       return new RopeLikeOverString(this, start, end - start);

@@ -1,5 +1,6 @@
 package io.sunshower.lang.primitives;
 
+import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import lombok.NonNull;
 
@@ -7,6 +8,10 @@ interface RopeLike extends CharSequence {
 
 
   Rope asRope();
+
+  default RopeLike append(CharSequence sequence) {
+    return Ropes.append(this, new RopeLikeOverCharSequence(sequence));
+  }
 
   enum Type {
     Composite, Flat,
@@ -20,9 +25,13 @@ interface RopeLike extends CharSequence {
   byte[] getBytes();
   byte[] getBytes(Charset charset);
 
-  RopeLike getLeft();
+  default RopeLike getLeft() {
+    return null;
+  }
 
-  RopeLike getRight();
+  default RopeLike getRight() {
+    return null;
+  }
 
   String substring(int offset, int length);
 
@@ -35,5 +44,9 @@ interface RopeLike extends CharSequence {
   default int indexOf(@NonNull CharSequence rope) {
     return indexOf(rope, 0);
   }
+
+  void writeTree(PrintWriter out);
+
+
 
 }

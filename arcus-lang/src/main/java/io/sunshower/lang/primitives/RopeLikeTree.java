@@ -3,7 +3,7 @@ package io.sunshower.lang.primitives;
 import java.nio.charset.Charset;
 import lombok.NonNull;
 
-public class RopeLikeTree implements RopeLike {
+public class RopeLikeTree extends AbstractRopeLike implements RopeLike {
 
   private final int depth;
   private final int length;
@@ -21,17 +21,17 @@ public class RopeLikeTree implements RopeLike {
 
   @Override
   public Rope asRope() {
-    return null;
+    return new Rope(this);
   }
 
   @Override
   public int depth() {
-    return 0;
+    return depth;
   }
 
   @Override
   public Type getType() {
-    return null;
+    return Type.Composite;
   }
 
   @Override
@@ -51,12 +51,12 @@ public class RopeLikeTree implements RopeLike {
 
   @Override
   public RopeLike getLeft() {
-    return null;
+    return left;
   }
 
   @Override
   public RopeLike getRight() {
-    return null;
+    return right;
   }
 
   @Override
@@ -81,16 +81,26 @@ public class RopeLikeTree implements RopeLike {
 
   @Override
   public int length() {
-    return 0;
+    return length;
   }
 
   @Override
   public char charAt(int i) {
-    return 0;
+    if (i < 0 || i >= length) {
+      throw new IndexOutOfBoundsException(
+          "Index out of range: %d.  Max range: %d".formatted(i, length));
+    }
+
+    return i < left.length() ? left.charAt(i) : right.charAt(i - left.length());
   }
 
   @Override
   public CharSequence subSequence(int i, int i1) {
     return null;
+  }
+
+  @Override
+  public String toString() {
+    return left.toString() + right.toString();
   }
 }
