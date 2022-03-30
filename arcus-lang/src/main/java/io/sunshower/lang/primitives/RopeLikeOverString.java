@@ -5,7 +5,6 @@ import static io.sunshower.lang.primitives.Ropes.checkBounds;
 import io.sunshower.lang.tuple.Pair;
 import java.nio.charset.Charset;
 import lombok.NonNull;
-import lombok.val;
 
 public class RopeLikeOverString extends AbstractRopeLike implements RopeLike {
 
@@ -61,6 +60,11 @@ public class RopeLikeOverString extends AbstractRopeLike implements RopeLike {
   }
 
   @Override
+  public RopeLike delete(int start, int length) {
+    return delegate.delete(start, length);
+  }
+
+  @Override
   public Pair<RopeLike, RopeLike> split(int idx) {
     return delegate.split(idx);
   }
@@ -108,5 +112,11 @@ public class RopeLikeOverString extends AbstractRopeLike implements RopeLike {
   @Override
   public RopeLike clone() {
     return delegate.clone();
+  }
+
+  @Override
+  public String toString() {
+    return delegate.toString();
+
   }
 }

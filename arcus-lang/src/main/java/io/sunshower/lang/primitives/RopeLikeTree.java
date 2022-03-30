@@ -29,6 +29,12 @@ public class RopeLikeTree extends AbstractRopeLike implements RopeLike {
     return new Rope(this);
   }
 
+  @Override
+  public RopeLike delete(int start, int length) {
+    val lhs = split(start);
+    val rhs = split(start + length);
+    return rebalance(new RopeLikeTree(lhs.fst, rhs.snd));
+  }
 
 
   public Pair<RopeLike, RopeLike> split(int index) {

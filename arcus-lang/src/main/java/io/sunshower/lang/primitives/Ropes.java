@@ -13,8 +13,9 @@ final class Ropes {
   static final int MAX_DEPTH = 96;
   static final RopeLike EMPTY = new RopeLikeOverCharacterArray();
 
-  static final int combinedLength = 17;
   static final long[] FIBONACCI_SEQUENCE = Longs.computeFibonacciUntil(7540113804746346429l);
+
+  static final int combinedLength = 17;
 
   private Ropes() {}
 
@@ -149,4 +150,5 @@ final class Ropes {
     }
     return null;
   }
+
 }

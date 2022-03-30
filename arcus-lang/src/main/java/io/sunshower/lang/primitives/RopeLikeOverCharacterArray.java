@@ -1,5 +1,6 @@
 package io.sunshower.lang.primitives;
 
+import static io.sunshower.lang.primitives.Arrays.remove;
 import static io.sunshower.lang.primitives.Ropes.checkBounds;
 
 import io.sunshower.lang.tuple.Pair;
@@ -32,12 +33,14 @@ final class RopeLikeOverCharacterArray extends AbstractRopeLike {
     }
   }
 
-  RopeLikeOverCharacterArray(@NonNull final char[] sequence, final int offset, final int length) {
+  RopeLikeOverCharacterArray(@NonNull final char[] sequence, final int offset,
+      final int length) {
     checkBounds(sequence, offset);
     checkBounds(sequence, length);
     characters = new char[length];
     System.arraycopy(sequence, offset, characters, 0, length);
   }
+
 
   @Override
   public Rope asRope() {
@@ -62,6 +65,12 @@ final class RopeLikeOverCharacterArray extends AbstractRopeLike {
   @Override
   public char[] characters() {
     return characters;
+  }
+
+  @Override
+  public RopeLike delete(int start, int length) {
+    val chars = remove(characters, start, length);
+    return new RopeLikeOverCharacterArray(chars);
   }
 
   @Override

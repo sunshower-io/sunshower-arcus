@@ -221,9 +221,8 @@ class RopesTest {
             """;
 
     val rope = new Rope(s);
-    val writer = new PrintWriter(System.out);
-    rope.base.writeTree(writer);
-    writer.flush();
+
+    assertEquals(rope.substring(10, 105).toString(), s.substring(10, 105));
   }
 
   public static void print(Rope r) {

@@ -15,12 +15,14 @@ class RopeScenarioTest {
   private RopeLikeTree branch2;
   private RopeLikeTree branch3;
 
+  static String value = "Hello_my_name_is_Simon";
+
   @BeforeEach
   void setUp() {
 
     branch1 = new RopeLikeTree(
         new RopeLikeOverCharSequence("Hello_"),
-        new RopeLikeOverCharacterArray("my_"));
+        new RopeLikeOverCharacterArray( "my_"));
 
     branch2 = new RopeLikeTree(
         new RopeLikeOverCharSequence("na"),
@@ -46,6 +48,28 @@ class RopeScenarioTest {
   void ensureLengthIsExpected() {
     assertEquals(22, rope.length());
   }
+
+  @Test
+  void ensureDeleteWorks() {
+    val r = rope.base.delete(0, 1);
+    assertEquals(rope.toString().substring(1), r.toString());
+  }
+
+  @Test
+  void ensureRopeSubstringWorks() {
+    val rope = new Rope("Hello");
+    val r = rope.substring(1, 3);
+    assertEquals(r.toString(), "Hello".substring(1, 3));
+  }
+
+  @Test
+  void ensureRopeSubstringWorksLongerString() {
+    val expected = value.substring(10, 15);
+    val r = rope.substring(10, 15);
+    assertEquals(r.toString(), expected);
+
+  }
+
 
   @Test
   void ensureSplittingBaseWorks() {

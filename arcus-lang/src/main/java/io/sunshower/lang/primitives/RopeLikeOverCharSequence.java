@@ -4,11 +4,13 @@ import io.sunshower.lang.tuple.Pair;
 import lombok.NonNull;
 import lombok.val;
 
-public class RopeLikeOverCharSequence extends AbstractRopeLike {
+final class RopeLikeOverCharSequence extends AbstractRopeLike {
+
 
   private final CharSequence delegate;
 
-  public RopeLikeOverCharSequence(@NonNull CharSequence sequence) {
+
+  RopeLikeOverCharSequence(@NonNull CharSequence sequence) {
     this.delegate = sequence;
   }
 
@@ -40,6 +42,15 @@ public class RopeLikeOverCharSequence extends AbstractRopeLike {
       chars[i] = charAt(i);
     }
     return chars;
+  }
+
+  @Override
+  public RopeLike delete(int start, int length) {
+    val len = length();
+    val result = new StringBuilder(len - length);
+    result.append(delegate, 0, start);
+    result.append(delegate, start + length, len - (start + length));
+    return new RopeLikeOverCharSequence(result);
   }
 
   public Pair<RopeLike, RopeLike> split(int idx) {
@@ -83,6 +94,11 @@ public class RopeLikeOverCharSequence extends AbstractRopeLike {
     return delegate.charAt(i);
   }
 
+  /**
+   * @param i
+   * @param i1
+   * @return
+   */
   @Override
   public CharSequence subSequence(int i, int i1) {
     return delegate.subSequence(i, i1);
