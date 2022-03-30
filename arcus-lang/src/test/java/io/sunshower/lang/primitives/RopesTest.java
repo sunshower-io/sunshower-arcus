@@ -226,38 +226,12 @@ class RopesTest {
   @Test
   @SneakyThrows
   void ensureReadingRopeWorks() {
-
-//    long s1 = 0;
-//    long r1 = 0;
-//    long s2 = 0;
-//    long r2 = 0;
-//
-//    long sa = 0;
-//    long ra = 0;
-//
-//    for (int i = 0; i < 10; i++) {
-//      s1 = System.nanoTime();
-//      val string = new String(bytes);
-//      s2 = System.nanoTime();
-//      sa = ((s2 - s1) + sa) / (i + 1);
-//    }
-//
-//    for (int i = 0; i < 10; i++) {
-//      r1 = System.nanoTime();
-//      rope = new Rope(bytes);
-//      r2 = System.nanoTime();
-//      ra = ((r2 - r1) + ra) / (i + 1);
-//    }
-
-//    val s = new String(bytes);
     rope = new Rope(bytes);
-////    System.out.println("Construction time: rope" + ra);
-////    System.out.println("Construction time: string" + sa);
-//
-//    for(int i = 0; i < 1000; i++) {
-//      assertEquals(s.substring(20, 4556), rope.substring(20, 4556).toString());
-//    }
+    val s = new StringBuilder(new String(bytes));
 
-    print(rope);
+    val r = s.substring(400, 9000);
+    val r1 = rope.substring(400, 9000);
+    assertEquals(r,
+        r1.toString());
   }
 }

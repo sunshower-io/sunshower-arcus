@@ -115,7 +115,7 @@ public final class Rope implements CharSequence {
    */
   @Override
   public CharSequence subSequence(int start, int end) {
-    return base.subSequence(start, end);
+    return substring(start, end);
   }
 
   /**
@@ -172,4 +172,5 @@ public final class Rope implements CharSequence {
   public Rope substring(int start, int end) {
     return new Rope(base.split(start).snd.split(end - start).fst);
   }
+
 }
