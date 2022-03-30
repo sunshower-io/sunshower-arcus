@@ -1,10 +1,12 @@
 package io.sunshower.lang.primitives;
 
+import io.sunshower.lang.tuple.Pair;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import lombok.NonNull;
+import lombok.val;
 
-interface RopeLike extends CharSequence {
+interface RopeLike extends CharSequence, Cloneable {
 
   Rope asRope();
 
@@ -12,11 +14,41 @@ interface RopeLike extends CharSequence {
     return Ropes.append(this, new RopeLikeOverCharSequence(sequence));
   }
 
-  enum Type {
-    Composite,
-    Flat,
+  default boolean isLeaf() {
+    return getLeft() == null && getRight() == null;
   }
 
+
+  default char[] characters() {
+    if(!isLeaf()) {
+      /**
+       * we should be balanced, so any non-leaf
+       * will have both a left and a right.  If not,
+       * throw the NPE and report the bug with the tree
+       */
+      val left = getLeft();
+      assert left != null;
+      val right = getRight();
+      assert right != null;
+      val leftChars = left.characters();
+
+      assert leftChars != null;
+      val rightChars = right.characters();
+      assert rightChars != null;
+      val leftLen = leftChars.length;
+      val rightLen = rightChars.length;
+
+
+      val newChars = new char[leftLen + rightLen];
+      System.arraycopy(leftChars, 0, newChars, 0, leftLen);
+      System.arraycopy(rightChars, 0, newChars, leftLen, rightLen);
+      return newChars;
+    }
+    return null;
+  }
+
+
+  Pair<RopeLike, RopeLike> split(int idx);
 
   int weight();
 
@@ -24,11 +56,14 @@ interface RopeLike extends CharSequence {
 
   Type getType();
 
-  char[] characters();
 
-  byte[] getBytes();
+  default byte[] getBytes() {
+    return getBytes(Charset.defaultCharset());
+  }
 
-  byte[] getBytes(Charset charset);
+  default byte[] getBytes(Charset charset) {
+    return Strings.getBytes(characters(), charset);
+  }
 
   default RopeLike getLeft() {
     return null;
@@ -38,7 +73,10 @@ interface RopeLike extends CharSequence {
     return null;
   }
 
-  String substring(int offset, int length);
+
+  default String substring(int offset, int length) {
+    return subSequence(offset, length).toString();
+  }
 
   int indexOf(final char ch);
 
@@ -51,4 +89,11 @@ interface RopeLike extends CharSequence {
   }
 
   void writeTree(PrintWriter out);
+
+  enum Type {
+    Composite,
+    Flat,
+  }
+
+  RopeLike clone();
 }

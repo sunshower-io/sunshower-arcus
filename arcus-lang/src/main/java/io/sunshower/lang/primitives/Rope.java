@@ -1,5 +1,6 @@
 package io.sunshower.lang.primitives;
 
+import io.sunshower.lang.tuple.Pair;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import lombok.NonNull;
@@ -77,7 +78,4 @@ public final class Rope implements CharSequence {
     return Strings.indexOf(base, s);
   }
 
-  public void split(int idx) {
-//    val node = Ropes.nodeContaining(base, idx);
-  }
 }

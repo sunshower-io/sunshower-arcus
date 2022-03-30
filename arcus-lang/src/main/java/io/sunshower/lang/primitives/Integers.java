@@ -1,5 +1,7 @@
 package io.sunshower.lang.primitives;
 
+import static java.lang.Math.abs;
+
 /** Created by haswell on 4/29/16. */
 public class Integers {
 
@@ -18,6 +20,13 @@ public class Integers {
     }
     return bytes;
   }
+
+
+  public static int divide(int num, long divisor) {
+    int sign = (num > 0 ? 1 : -1) * (divisor > 0 ? 1 : -1);
+    return (int) (sign * (abs(num) + abs(divisor) - 1) / abs(divisor));
+  }
+
 
   public static int[] fromByteArray(byte[] b) {
     final int len = b.length;

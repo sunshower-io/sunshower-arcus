@@ -2,7 +2,8 @@ package io.sunshower.lang.primitives;
 
 import static io.sunshower.lang.primitives.Ropes.checkBounds;
 
-import java.nio.charset.Charset;
+import io.sunshower.lang.tuple.Pair;
+import java.util.Arrays;
 import lombok.NonNull;
 import lombok.val;
 
@@ -64,13 +65,10 @@ final class RopeLikeOverCharacterArray extends AbstractRopeLike {
   }
 
   @Override
-  public byte[] getBytes() {
-    return getBytes(Charset.defaultCharset());
-  }
-
-  @Override
-  public byte[] getBytes(@NonNull Charset charset) {
-    return Strings.getBytes(characters, charset);
+  public Pair<RopeLike, RopeLike> split(int idx) {
+    return Pair.of(
+        new RopeLikeOverCharacterArray(Arrays.copyOfRange(characters, 0, idx)),
+        new RopeLikeOverCharacterArray(Arrays.copyOfRange(characters, idx, length())));
   }
 
   @Override
@@ -114,13 +112,17 @@ final class RopeLikeOverCharacterArray extends AbstractRopeLike {
   }
 
   @Override
+  public RopeLike clone() {
+    return new RopeLikeOverCharacterArray(Arrays.copyOf(characters, characters.length));
+  }
+
+  @Override
   public int length() {
     return characters.length;
   }
 
   @Override
   public char charAt(int i) {
-    checkBounds(characters, i);
     return characters[i];
   }
 

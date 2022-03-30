@@ -1,6 +1,8 @@
 package io.sunshower.lang.primitives;
 
-import java.nio.charset.Charset;
+import static io.sunshower.lang.primitives.Ropes.rebalance;
+
+import io.sunshower.lang.tuple.Pair;
 import lombok.NonNull;
 import lombok.val;
 
@@ -27,6 +29,20 @@ public class RopeLikeTree extends AbstractRopeLike implements RopeLike {
     return new Rope(this);
   }
 
+
+
+  public Pair<RopeLike, RopeLike> split(int index) {
+    if(index < weight) {
+      val split = left.split(index);
+      return Pair.of(rebalance(split.fst), rebalance(new RopeLikeTree(split.snd, right)));
+    } else if(index > weight) {
+      val split = right.split(index - weight);
+      return Pair.of(rebalance(new RopeLikeTree(left, split.fst)), rebalance(split.snd));
+    } else {
+      return Pair.of(left, right);
+    }
+  }
+
   @Override
   public int weight() {
     return weight;
@@ -40,21 +56,6 @@ public class RopeLikeTree extends AbstractRopeLike implements RopeLike {
   @Override
   public Type getType() {
     return Type.Composite;
-  }
-
-  @Override
-  public char[] characters() {
-    return new char[0];
-  }
-
-  @Override
-  public byte[] getBytes() {
-    return new byte[0];
-  }
-
-  @Override
-  public byte[] getBytes(Charset charset) {
-    return new byte[0];
   }
 
   @Override
@@ -95,6 +96,11 @@ public class RopeLikeTree extends AbstractRopeLike implements RopeLike {
   }
 
   @Override
+  public RopeLike clone() {
+    return new RopeLikeTree(left.clone(), right.clone());
+  }
+
+  @Override
   public int length() {
     return length;
   }
@@ -106,7 +112,7 @@ public class RopeLikeTree extends AbstractRopeLike implements RopeLike {
           "Index out of range: %d.  Max range: %d".formatted(i, length));
     }
 
-    return i < left.weight() ? left.charAt(i) : right.charAt(i - left.weight());
+    return i < left.length() ? left.charAt(i) : right.charAt(i - left.length());
   }
 
   @Override

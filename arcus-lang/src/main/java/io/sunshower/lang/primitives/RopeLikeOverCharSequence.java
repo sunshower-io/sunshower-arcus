@@ -1,6 +1,6 @@
 package io.sunshower.lang.primitives;
 
-import java.nio.charset.Charset;
+import io.sunshower.lang.tuple.Pair;
 import lombok.NonNull;
 import lombok.val;
 
@@ -42,19 +42,10 @@ public class RopeLikeOverCharSequence extends AbstractRopeLike {
     return chars;
   }
 
-  @Override
-  public byte[] getBytes() {
-    return Strings.getBytes(characters(), Charset.defaultCharset());
-  }
-
-  @Override
-  public byte[] getBytes(Charset charset) {
-    return Strings.getBytes(characters(), charset);
-  }
-
-  @Override
-  public String substring(int offset, int length) {
-    return subSequence(offset, length).toString();
+  public Pair<RopeLike, RopeLike> split(int idx) {
+    return Pair.of(
+        new RopeLikeOverCharSequence(subSequence(0, idx)),
+        new RopeLikeOverCharSequence(subSequence(idx, length())));
   }
 
   @Override
@@ -75,6 +66,11 @@ public class RopeLikeOverCharSequence extends AbstractRopeLike {
   @Override
   public int indexOf(@NonNull CharSequence sequence, int start) {
     return Strings.indexOf(this, sequence);
+  }
+
+  @Override
+  public RopeLike clone() {
+    return new RopeLikeOverCharSequence(subSequence(0, length()));
   }
 
   @Override
