@@ -10,7 +10,76 @@ import org.junit.jupiter.api.Test;
 
 class RopesTest {
 
+  public static final String document2 = """
+        @Override
+        public void writeTree(PrintWriter out) {
+          writeTree(out, this, "", true);
+        }
+
+        private void writeTree(PrintWriter out, RopeLike node, String indent, boolean last) {
+          if (node.equals(this)) {
+            out.append(node).append("\\n");
+          } else {
+            out.append(indent).append(last ? "└╴" : "├╴").append(node).append("\\n");
+          }
+          indent = indent + (last ? "   " : "│  ");
+          val results = new ArrayList<RopeLike>();
+          if (getLeft() != null) {
+            results.add(getLeft());
+          }
+          if (getRight() != null) {
+            results.add(getRight());
+          }
+
+          val iter = results.iterator();
+          while (iter.hasNext()) {
+            val child = iter.next();
+            val isLast = !iter.hasNext();
+            writeTree(out, child, indent, isLast);
+          }
+        }
+
+        @Override
+        public int hashCode() {
+          int h = 0;
+          int len = length();
+          for (int i = 0; i < len; i++) {
+            h = 31 * h + charAt(i);
+          }
+          return h;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+          if (o == null) {
+            return false;
+          }
+          if (o == this) {
+            return true;
+          }
+
+          if (o instanceof CharSequence seq) {
+            if (length() != seq.length()) {
+              return false;
+            }
+            for (int i = 0; i < length(); i++) {
+              if (charAt(i) != seq.charAt(i)) {
+                return false;
+              }
+            }
+            return true;
+          }
+          return false;
+        }
+
+      """;
   private Rope rope;
+
+  public static void print(Rope r) {
+    val pw = new PrintWriter(System.out);
+    r.base.writeTree(pw);
+    pw.flush();
+  }
 
   @Test
   void ensureRopeConstructorWorksForEmptyRope() {
@@ -26,34 +95,8 @@ class RopesTest {
 
   @Test
   void ensureSubStringWorks() {
-    val s = ("""
-        #[cfg(not(feature = "unstable"))]
-        macro_rules! unstable_iters {
-            ( $($(#[$attr:meta])*
-            pub fn $name:ident$(<$lf:tt>)*(&'a $sel:ident) -> impl Iterator<Item=$ty:ty> + 'a {
-                 $body:expr
-             })+ ) => ($(
-                 $(#[$attr])*
-                 #[cfg(not(feature = "unstable"))]
-                 #[cfg_attr(feature = "clippy", allow(needless_lifetimes))]
-                 pub fn $name$(<$lf>)*(&'a $sel) -> Box<Iterator<Item=$ty> + 'a> {
-                     Box::new($body)
-                 }
-             )+);
-            ( $( $(#[$attr:meta])*
-            pub fn $name:ident$(<$lf:tt>)*(&'a mut $sel:ident) - impl Iterator<Item=$ty:ty> + 'a {
-                 $body:expr
-             })+ ) => { $({
-                 $(#[$attr])*
-                 #[cfg(not(feature = "unstable"))]
-                 #[cfg_attr(feature = "clippy", allow(needless_lifetimes))]
-                 pub fn $name$(<$lf>)*(&'a mut $sel) -> Box<Iterator<Item=$ty> + 'a> {
-                     Box::new($body)
-                 }
-             })+
-            };
-        }
-        """);
+    val s =
+        (document2);
 
     val r = new Rope(s);
     val r1 = r.subSequence(15, 200);
@@ -72,13 +115,13 @@ class RopesTest {
     writer.flush();
   }
 
-
   @Test
   void ensureRopeSubsequenceWorks() {
-    val s = ("""
-        this is a quick test--what do you think?
-        I think this is a pretty rad data-structure
-        """);
+    val s =
+        ("""
+            this is a quick test--what do you think?
+            I think this is a pretty rad data-structure
+            """);
 
     val rope = new Rope(s);
     assertTrue(Ropes.isBalanced(rope.base));
@@ -87,22 +130,21 @@ class RopesTest {
 
   @Test
   void ensureSmallConstructedRopeWorks() {
-    val rope = new Rope("""
-        this is a quick test--what do you think?
-        I think this is a pretty rad data-structure
-                
-        adfafdafadfdf
-                
-        lolo
-                
-        """);
+    val rope =
+        new Rope(
+            """
+                this is a quick test--what do you think?
+                I think this is a pretty rad data-structure
+
+                adfafdafadfdf
+
+                lolo
+
+                """);
     val writer = new PrintWriter(System.out);
     rope.base.writeTree(writer);
     writer.flush();
   }
-
-
-
 
   @Test
   void ensureWeightsWorkAtFirstSecondLevel() {
@@ -115,7 +157,6 @@ class RopesTest {
     val lhs1 = new RopeLikeOverCharacterArray("sup");
     val gparent = new RopeLikeTree(lhs1, lhs);
     assertEquals(lhs1.weight(), gparent.weight());
-
   }
 
   @Test
@@ -130,10 +171,11 @@ class RopesTest {
   @Test
   void ensureSplitWorks() {
 
-    val s = ("""
-        this is a quick test--what do you think?
-        I think this is a pretty rad data-structure
-        """);
+    val s =
+        ("""
+            this is a quick test--what do you think?
+            I think this is a pretty rad data-structure
+            """);
 
     val rope = new Rope(s);
     val r = Ropes.nodeContaining(rope.base, rope.indexOf("data-structure") + 1);
@@ -154,80 +196,20 @@ class RopesTest {
   }
 
   @Test
+  void ensureCharAtWorksForLongString() {
+    val rope = new Rope(document2);
+    for(int i = 0; i < document2.length(); i++) {
+      assertEquals(rope.charAt(i), document2.charAt(i));
+    }
+  }
+
+  @Test
   void ensureRopeIsVisualizedCorrectly() {
     val s =
-        """
-              @Override
-              public void writeTree(PrintWriter out) {
-                writeTree(out, this, "", true);
-              }
-
-              private void writeTree(PrintWriter out, RopeLike node, String indent, boolean last) {
-                if (node.equals(this)) {
-                  out.append(node).append("\\n");
-                } else {
-                  out.append(indent).append(last ? "└╴" : "├╴").append(node).append("\\n");
-                }
-                indent = indent + (last ? "   " : "│  ");
-                val results = new ArrayList<RopeLike>();
-                if (getLeft() != null) {
-                  results.add(getLeft());
-                }
-                if (getRight() != null) {
-                  results.add(getRight());
-                }
-
-                val iter = results.iterator();
-                while (iter.hasNext()) {
-                  val child = iter.next();
-                  val isLast = !iter.hasNext();
-                  writeTree(out, child, indent, isLast);
-                }
-              }
-
-              @Override
-              public int hashCode() {
-                int h = 0;
-                int len = length();
-                for (int i = 0; i < len; i++) {
-                  h = 31 * h + charAt(i);
-                }
-                return h;
-              }
-
-              @Override
-              public boolean equals(Object o) {
-                if (o == null) {
-                  return false;
-                }
-                if (o == this) {
-                  return true;
-                }
-
-                if (o instanceof CharSequence seq) {
-                  if (length() != seq.length()) {
-                    return false;
-                  }
-                  for (int i = 0; i < length(); i++) {
-                    if (charAt(i) != seq.charAt(i)) {
-                      return false;
-                    }
-                  }
-                  return true;
-                }
-                return false;
-              }
-
-            """;
+        document2;
 
     val rope = new Rope(s);
 
     assertEquals(rope.substring(10, 105).toString(), s.substring(10, 105));
-  }
-
-  public static void print(Rope r) {
-    val pw = new PrintWriter(System.out);
-    r.base.writeTree(pw);
-    pw.flush();
   }
 }

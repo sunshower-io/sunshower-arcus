@@ -117,6 +117,5 @@ public class RopeLikeOverString extends AbstractRopeLike implements RopeLike {
   @Override
   public String toString() {
     return delegate.toString();
-
   }
 }

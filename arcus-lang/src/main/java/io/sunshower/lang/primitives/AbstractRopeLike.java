@@ -48,17 +48,18 @@ public abstract class AbstractRopeLike implements RopeLike {
     return false;
   }
 
-
   private void writeTree(PrintWriter out, RopeLike node, String indent, boolean last) {
     if (node.equals(this)) {
       out.append(
-              "rope(%d,%d)[%s]".formatted(node.weight(), node.length(), new String(node.characters())))
+              "rope(%d,%d)[%s]"
+                  .formatted(node.weight(), node.length(), new String(node.characters())))
           .append("\n");
     } else {
       out.append(indent)
           .append(last ? "└╴" : "├╴")
-          .append("rope(%d,%d)[%s]".formatted(node.weight(), node.length(),
-              new String(node.characters())))
+          .append(
+              "rope(%d,%d)[%s]"
+                  .formatted(node.weight(), node.length(), new String(node.characters())))
           .append("\n");
     }
     indent = indent + (last ? "   " : "│  ");
@@ -83,5 +84,4 @@ public abstract class AbstractRopeLike implements RopeLike {
   public RopeLike clone() {
     throw new UnsupportedOperationException("not supported");
   }
-
 }

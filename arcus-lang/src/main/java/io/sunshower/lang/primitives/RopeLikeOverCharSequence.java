@@ -6,9 +6,7 @@ import lombok.val;
 
 final class RopeLikeOverCharSequence extends AbstractRopeLike {
 
-
   private final CharSequence delegate;
-
 
   RopeLikeOverCharSequence(@NonNull CharSequence sequence) {
     this.delegate = sequence;

@@ -12,6 +12,4 @@ public class Arrays {
     System.arraycopy(es, start + toRemove, newResult, start, len - (start + toRemove));
     return newResult;
   }
-
-
 }

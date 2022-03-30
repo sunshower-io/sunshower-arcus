@@ -14,18 +14,15 @@ interface RopeLike extends CharSequence, Cloneable {
     return Ropes.append(this, new RopeLikeOverCharSequence(sequence));
   }
 
-
   default boolean isLeaf() {
     return getLeft() == null && getRight() == null;
   }
 
-
   default char[] characters() {
     if (!isLeaf()) {
       /**
-       * we should be balanced, so any non-leaf
-       * will have both a left and a right.  If not,
-       * throw the NPE and report the bug with the tree
+       * we should be balanced, so any non-leaf will have both a left and a right. If not, throw the
+       * NPE and report the bug with the tree
        */
       val left = getLeft();
       assert left != null;
@@ -47,7 +44,6 @@ interface RopeLike extends CharSequence, Cloneable {
     return null;
   }
 
-
   RopeLike delete(int start, int length);
 
   Pair<RopeLike, RopeLike> split(int idx);
@@ -57,7 +53,6 @@ interface RopeLike extends CharSequence, Cloneable {
   int depth();
 
   Type getType();
-
 
   default byte[] getBytes() {
     return getBytes(Charset.defaultCharset());
@@ -74,7 +69,6 @@ interface RopeLike extends CharSequence, Cloneable {
   default RopeLike getRight() {
     return null;
   }
-
 
   default String substring(int offset, int length) {
     return subSequence(offset, length).toString();

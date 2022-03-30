@@ -65,21 +65,34 @@ public final class Rope implements CharSequence {
    * construct a rope from a string.  If the string is longer than the default segment size, then
    * the rope will be decomposed into subropes of maximum length segment-size
    *
-   * @param s
+   * @param s the string to construct this rope from
    */
   public Rope(String s) {
     this(s.getBytes(), Charset.defaultCharset());
   }
 
+  /**
+   * construct a rope from the specified string and charset
+   * @param s the string
+   * @param charset the charset to use
+   */
   public Rope(String s, Charset charset) {
     this(s.getBytes(), charset);
   }
 
+  /**
+   * @return the length of this rope
+   */
   @Override
   public int length() {
     return base.length();
   }
 
+  /**
+   *
+   * @param i the index of the character
+   * @return
+   */
   @Override
   public char charAt(int i) {
     return base.charAt(i);
@@ -112,4 +125,6 @@ public final class Rope implements CharSequence {
   public Rope substring(int start, int end) {
     return new Rope(base.split(start).snd.split(end - start).fst);
   }
+
+
 }

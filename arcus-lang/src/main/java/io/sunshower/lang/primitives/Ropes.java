@@ -126,23 +126,20 @@ final class Ropes {
     }
   }
 
-
   static Pair<RopeLike, RopeLike> split(RopeLike rope, int index) {
     return null;
-
   }
 
   static RopeLike nodeContaining(RopeLike node, int idx) {
 
-
     val stack = new ArrayDeque<RopeLike>();
     stack.push(node);
-    while(!stack.isEmpty()) {
+    while (!stack.isEmpty()) {
       node = stack.pop();
-      if(node.weight() < idx && node.getRight() != null) {
+      if (node.weight() < idx && node.getRight() != null) {
         stack.push(node.getRight());
         idx -= node.weight();
-      } else if(node.getLeft() != null) {
+      } else if (node.getLeft() != null) {
         stack.push(node.getLeft());
       } else {
         return node;
@@ -150,5 +147,4 @@ final class Ropes {
     }
     return null;
   }
-
 }

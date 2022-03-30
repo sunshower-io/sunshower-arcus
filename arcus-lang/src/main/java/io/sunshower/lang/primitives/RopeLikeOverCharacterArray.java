@@ -33,14 +33,12 @@ final class RopeLikeOverCharacterArray extends AbstractRopeLike {
     }
   }
 
-  RopeLikeOverCharacterArray(@NonNull final char[] sequence, final int offset,
-      final int length) {
+  RopeLikeOverCharacterArray(@NonNull final char[] sequence, final int offset, final int length) {
     checkBounds(sequence, offset);
     checkBounds(sequence, length);
     characters = new char[length];
     System.arraycopy(sequence, offset, characters, 0, length);
   }
-
 
   @Override
   public Rope asRope() {
