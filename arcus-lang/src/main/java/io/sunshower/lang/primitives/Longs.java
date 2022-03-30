@@ -1,8 +1,6 @@
 package io.sunshower.lang.primitives;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import lombok.val;
 
 /** Created by haswell on 4/29/16. */
@@ -50,21 +48,6 @@ public class Longs {
     return result;
   }
 
-  public static List<Long> compute2(long l) {
-    List<Long> list = new ArrayList<>();
-    list.add(0l);
-    list.add(1l);
-    int count = 0;
-
-    while (list.get(list.size() - 1) < l) {
-      val s = list.size() - 1;
-      list.add(list.get(s) + list.get(s - 1));
-      count++;
-    }
-    System.out.println(count);
-    return list;
-  }
-
   /**
    * @param l a positive long such that L < Long.MAX_VALUE (2^64 -1)
    * @return
@@ -101,7 +84,6 @@ public class Longs {
       result = append(result, b, i);
       i += 2;
     }
-    System.out.println("Iterated: " + i + " times");
     return trimLast(result);
   }
 

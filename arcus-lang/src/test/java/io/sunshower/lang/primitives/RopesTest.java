@@ -63,6 +63,28 @@ class RopesTest {
   }
 
   @Test
+  void ensureWeightsWorkAtFirstSecondLevel() {
+    val lhs = new RopeLikeOverCharacterArray("hello");
+    val rhs = new RopeLikeOverCharacterArray("1");
+
+    val parent = new RopeLikeTree(lhs, rhs);
+    assertEquals(lhs.weight(), parent.weight());
+
+    val lhs1 = new RopeLikeOverCharacterArray("sup");
+    val gparent = new RopeLikeTree(lhs1, lhs);
+    assertEquals(lhs1.weight(), gparent.weight());
+
+  }
+  @Test
+  void ensureWeightsWorkAtFirstLevel() {
+    val lhs = new RopeLikeOverCharacterArray("hello");
+    val rhs = new RopeLikeOverCharacterArray("1");
+
+    val parent = new RopeLikeTree(lhs, rhs);
+    assertEquals(lhs.weight(), parent.weight());
+  }
+
+  @Test
   void ensureSplitWorks() {
 
     val s = ("""
@@ -77,9 +99,6 @@ class RopesTest {
     val writer = new PrintWriter(System.out);
     r.writeTree(writer);
     writer.flush();
-
-//    val ropes = rope.split(rope.indexOf("--"));
-
   }
 
   @Test
