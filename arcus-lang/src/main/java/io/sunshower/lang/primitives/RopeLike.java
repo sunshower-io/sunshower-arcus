@@ -18,6 +18,7 @@ interface RopeLike extends CharSequence, Cloneable {
     return getLeft() == null && getRight() == null;
   }
 
+  @SuppressWarnings("PMD.ReturnEmptyArrayRatherThanNull")
   default char[] characters() {
     if (!isLeaf()) {
       /**
@@ -86,6 +87,7 @@ interface RopeLike extends CharSequence, Cloneable {
 
   void writeTree(PrintWriter out);
 
+  @SuppressWarnings("PMD")
   RopeLike clone();
 
   enum Type {

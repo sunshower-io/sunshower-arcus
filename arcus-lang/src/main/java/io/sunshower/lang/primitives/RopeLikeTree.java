@@ -6,7 +6,8 @@ import io.sunshower.lang.tuple.Pair;
 import lombok.NonNull;
 import lombok.val;
 
-public class RopeLikeTree extends AbstractRopeLike implements RopeLike {
+@SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
+final class RopeLikeTree extends AbstractRopeLike implements RopeLike {
 
   private final int depth;
   private final int length;
@@ -101,7 +102,8 @@ public class RopeLikeTree extends AbstractRopeLike implements RopeLike {
   }
 
   @Override
-  public RopeLike clone() {
+  @SuppressWarnings("PMD")
+  public AbstractRopeLike clone() {
     return new RopeLikeTree(left.clone(), right.clone());
   }
 

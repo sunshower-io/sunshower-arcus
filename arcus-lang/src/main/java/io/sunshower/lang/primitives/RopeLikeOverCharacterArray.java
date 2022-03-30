@@ -3,16 +3,19 @@ package io.sunshower.lang.primitives;
 import static io.sunshower.lang.primitives.Arrays.remove;
 import static io.sunshower.lang.primitives.Ropes.checkBounds;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.sunshower.lang.tuple.Pair;
 import java.util.Arrays;
 import lombok.NonNull;
 import lombok.val;
 
+@SuppressFBWarnings
+@SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
 final class RopeLikeOverCharacterArray extends AbstractRopeLike {
 
   final char[] characters;
 
-  RopeLikeOverCharacterArray(final String chars) {
+  RopeLikeOverCharacterArray(@NonNull final String chars) {
     this(chars.toCharArray());
   }
 
@@ -119,7 +122,7 @@ final class RopeLikeOverCharacterArray extends AbstractRopeLike {
   }
 
   @Override
-  public RopeLike clone() {
+  public RopeLikeOverCharacterArray clone() {
     return new RopeLikeOverCharacterArray(Arrays.copyOf(characters, characters.length));
   }
 

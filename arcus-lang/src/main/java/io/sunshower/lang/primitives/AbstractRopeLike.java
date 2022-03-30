@@ -81,7 +81,6 @@ public abstract class AbstractRopeLike implements RopeLike {
     }
   }
 
-  public RopeLike clone() {
-    throw new UnsupportedOperationException("not supported");
-  }
+  @SuppressWarnings("PMD")
+  public abstract AbstractRopeLike clone();
 }

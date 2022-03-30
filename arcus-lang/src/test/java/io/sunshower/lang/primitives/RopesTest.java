@@ -10,7 +10,8 @@ import org.junit.jupiter.api.Test;
 
 class RopesTest {
 
-  public static final String document2 = """
+  public static final String document2 =
+      """
         @Override
         public void writeTree(PrintWriter out) {
           writeTree(out, this, "", true);
@@ -95,8 +96,7 @@ class RopesTest {
 
   @Test
   void ensureSubStringWorks() {
-    val s =
-        (document2);
+    val s = (document2);
 
     val r = new Rope(s);
     val r1 = r.subSequence(15, 200);
@@ -198,15 +198,14 @@ class RopesTest {
   @Test
   void ensureCharAtWorksForLongString() {
     val rope = new Rope(document2);
-    for(int i = 0; i < document2.length(); i++) {
+    for (int i = 0; i < document2.length(); i++) {
       assertEquals(rope.charAt(i), document2.charAt(i));
     }
   }
 
   @Test
   void ensureRopeIsVisualizedCorrectly() {
-    val s =
-        document2;
+    val s = document2;
 
     val rope = new Rope(s);
 

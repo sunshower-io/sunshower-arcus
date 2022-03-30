@@ -78,7 +78,7 @@ final class RopeLikeOverCharSequence extends AbstractRopeLike {
   }
 
   @Override
-  public RopeLike clone() {
+  public RopeLikeOverCharSequence clone() {
     return new RopeLikeOverCharSequence(subSequence(0, length()));
   }
 

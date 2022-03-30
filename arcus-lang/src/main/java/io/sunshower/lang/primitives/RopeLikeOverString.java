@@ -6,7 +6,8 @@ import io.sunshower.lang.tuple.Pair;
 import java.nio.charset.Charset;
 import lombok.NonNull;
 
-public class RopeLikeOverString extends AbstractRopeLike implements RopeLike {
+@SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
+final class RopeLikeOverString extends AbstractRopeLike implements RopeLike {
 
   private final int offset;
   private final int length;
@@ -110,7 +111,8 @@ public class RopeLikeOverString extends AbstractRopeLike implements RopeLike {
   }
 
   @Override
-  public RopeLike clone() {
+  @SuppressWarnings("PMD")
+  public AbstractRopeLike clone() {
     return delegate.clone();
   }
 
