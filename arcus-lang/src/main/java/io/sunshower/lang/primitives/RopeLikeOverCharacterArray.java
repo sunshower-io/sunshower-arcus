@@ -44,6 +44,11 @@ final class RopeLikeOverCharacterArray extends AbstractRopeLike {
   }
 
   @Override
+  public int weight() {
+    return characters.length;
+  }
+
+  @Override
   public int depth() {
     return 0;
   }
@@ -105,7 +110,7 @@ final class RopeLikeOverCharacterArray extends AbstractRopeLike {
    */
   @Override
   public int indexOf(@NonNull CharSequence rope, int start) {
-    return 0;
+    return Strings.indexOf(this, rope);
   }
 
   @Override

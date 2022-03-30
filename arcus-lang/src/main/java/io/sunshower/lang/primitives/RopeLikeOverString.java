@@ -39,6 +39,11 @@ public class RopeLikeOverString extends AbstractRopeLike implements RopeLike {
   }
 
   @Override
+  public int weight() {
+    return delegate.weight();
+  }
+
+  @Override
   public int depth() {
     return delegate.depth();
   }

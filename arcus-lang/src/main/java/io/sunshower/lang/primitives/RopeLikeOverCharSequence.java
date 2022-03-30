@@ -18,6 +18,11 @@ public class RopeLikeOverCharSequence extends AbstractRopeLike {
   }
 
   @Override
+  public int weight() {
+    return delegate.length();
+  }
+
+  @Override
   public int depth() {
     return 0;
   }

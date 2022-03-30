@@ -1,6 +1,7 @@
 package io.sunshower.lang.primitives;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.PrintWriter;
 import lombok.val;
@@ -32,15 +33,62 @@ class RopesTest {
     writer.flush();
   }
 
+
+  @Test
+  void ensureRopeSubsequenceWorks() {
+    val s = ("""
+        this is a quick test--what do you think?
+        I think this is a pretty rad data-structure
+        """);
+
+    val rope = new Rope(s);
+    assertTrue(Ropes.isBalanced(rope.base));
+    assertEquals(s.subSequence(4, 14).toString(), rope.subSequence(4, 14).toString());
+  }
+
   @Test
   void ensureSmallConstructedRopeWorks() {
     val rope = new Rope("""
         this is a quick test--what do you think?
         I think this is a pretty rad data-structure
+        
+        adfafdafadfdf
+        
+        lolo
+        
         """);
     val writer = new PrintWriter(System.out);
     rope.base.writeTree(writer);
     writer.flush();
+  }
+
+  @Test
+  void ensureSplitWorks() {
+
+    val s = ("""
+        this is a quick test--what do you think?
+        I think this is a pretty rad data-structure
+        """);
+
+    val rope = new Rope(s);
+    val r = Ropes.nodeContaining(rope.base, rope.indexOf("data-structure") + 1);
+    System.out.println(r);
+
+    val writer = new PrintWriter(System.out);
+    r.writeTree(writer);
+    writer.flush();
+
+//    val ropes = rope.split(rope.indexOf("--"));
+
+  }
+
+  @Test
+  void ensureTestWorks() {
+    val r = new Rope("Hello my name is Simon");
+    assertEquals(r.length(), 22);
+    val pr = new PrintWriter(System.out);
+    r.base.writeTree(pr);
+    pr.flush();
   }
 
   @Test

@@ -1,6 +1,7 @@
 package io.sunshower.lang.primitives;
 
 import io.sunshower.lang.primitives.RopeLike.Type;
+import io.sunshower.lang.tuple.Pair;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,7 @@ final class Ropes {
       if (right.getType() == Type.Composite) {
         val rightChild = right.getLeft();
         assert rightChild != null;
-        if (left.length() + rightChild.length() < combinedLength) {
+        if (left.weight() + rightChild.weight() < combinedLength) {
           return rebalance(
               new RopeLikeTree(
                   new RopeLikeOverCharacterArray(left.characters(), right.characters()),
@@ -41,7 +42,7 @@ final class Ropes {
     if (right.getType() != Type.Composite) {
       if (left.getType() == Type.Composite) {
         val leftChild = left.getRight();
-        if (right.length() + leftChild.length() < combinedLength) {
+        if (right.weight() + leftChild.weight() < combinedLength) {
           return rebalance(
               new RopeLikeTree(
                   left.getLeft(),
@@ -92,7 +93,7 @@ final class Ropes {
     if (range == 2) {
       return new RopeLikeTree(leaves.get(start), leaves.get(start + 1));
     }
-    int mid = start + (range / 2);
+    int mid = (start + range) / 2;
     return new RopeLikeTree(merge(leaves, start, mid), merge(leaves, mid, end));
   }
 
@@ -122,5 +123,30 @@ final class Ropes {
       throw new IllegalArgumentException(
           "Bound (%d) must be within [%d, %d]".formatted(bound, 0, sequence.length));
     }
+  }
+
+
+  static Pair<RopeLike, RopeLike> split(RopeLike rope, int index) {
+    return null;
+
+  }
+
+  static RopeLike nodeContaining(RopeLike node, int idx) {
+
+
+    val stack = new ArrayDeque<RopeLike>();
+    stack.push(node);
+    while(!stack.isEmpty()) {
+      node = stack.pop();
+      if(node.weight() < idx && node.getRight() != null) {
+        stack.push(node.getRight());
+        idx -= node.weight();
+      } else if(node.getLeft() != null) {
+        stack.push(node.getLeft());
+      } else {
+        return node;
+      }
+    }
+    return null;
   }
 }

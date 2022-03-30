@@ -3,6 +3,7 @@ package io.sunshower.lang.primitives;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import lombok.NonNull;
+import lombok.val;
 
 public final class Rope implements CharSequence {
 
@@ -70,5 +71,13 @@ public final class Rope implements CharSequence {
   @Override
   public String toString() {
     return base.toString();
+  }
+
+  public int indexOf(String s) {
+    return Strings.indexOf(base, s);
+  }
+
+  public void split(int idx) {
+//    val node = Ropes.nodeContaining(base, idx);
   }
 }

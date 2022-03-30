@@ -17,6 +17,8 @@ interface RopeLike extends CharSequence {
     Flat,
   }
 
+  int weight();
+
   int depth();
 
   Type getType();
