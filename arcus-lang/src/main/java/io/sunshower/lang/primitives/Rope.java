@@ -1,23 +1,21 @@
 package io.sunshower.lang.primitives;
 
 import static io.sunshower.lang.primitives.Bytes.getCharacters;
+import static io.sunshower.lang.primitives.Ropes.merge;
+import static io.sunshower.lang.primitives.Ropes.rebalance;
 import static java.util.Arrays.copyOfRange;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import lombok.NonNull;
 import lombok.val;
 
-/**
- * implementation of the Rope data-structure
- */
+/** implementation of the Rope data-structure */
 public final class Rope implements CharSequence {
 
-  /**
-   * the base of this rope
-   */
-  @NonNull
-  final RopeLike base;
+  /** the base of this rope */
+  @NonNull final RopeLike base;
 
   /**
    * construct a rope over a RopeLike--for internal use only
@@ -46,22 +44,29 @@ public final class Rope implements CharSequence {
   /**
    * Construct the rope with the backing bytes
    *
-   * @param bytes   the bytes
+   * @param bytes the bytes
    * @param charset the charset to use--only used for transforming between charsets
    */
   public Rope(byte[] bytes, Charset charset) {
-    int chunksize = Ropes.combinedLength;
+    int chunksize = 17;
     RopeLike root = null;
-    for (int i = 0; i < bytes.length; i += chunksize) {
-      val bs = copyOfRange(bytes, i, Math.min(i + chunksize, bytes.length));
-      if (root == null) {
-        root = new RopeLikeOverCharacterArray(getCharacters(bs, charset));
-      } else {
-        root = root.append(new RopeLikeOverCharacterArray(getCharacters(bs, charset)));
-      }
+
+    val leaves = new ArrayList<RopeLike>(bytes.length / chunksize);
+    for(int i = 0; i < bytes.length; i+=chunksize) {
+      val subbytes = copyOfRange(bytes, i, Math.min(i + chunksize, bytes.length));
+      leaves.add(new RopeLikeOverCharacterArray(getCharacters(subbytes, charset)));
     }
-    assert root != null;
-    base = root;
+    base = rebalance(merge(leaves));
+//    for (int i = 0; i < bytes.length; i += chunksize) {
+//      val bs = copyOfRange(bytes, i, Math.min(i + chunksize, bytes.length));
+//      if (root == null) {
+//        root = new RopeLikeOverCharacterArray(getCharacters(bs, charset));
+//      } else {
+//        root = root.append(new RopeLikeOverCharacterArray(getCharacters(bs, charset)));
+//      }
+//    }
+//    assert root != null;
+//    base = root;
   }
 
   /**
@@ -78,7 +83,7 @@ public final class Rope implements CharSequence {
   /**
    * construct a rope from the specified string and charset
    *
-   * @param s       the string
+   * @param s the string
    * @param charset the charset to use
    */
   @SuppressFBWarnings
@@ -86,9 +91,7 @@ public final class Rope implements CharSequence {
     this(s.getBytes(), charset);
   }
 
-  /**
-   * @return the length of this rope
-   */
+  /** @return the length of this rope */
   @Override
   public int length() {
     return base.length();
@@ -103,9 +106,9 @@ public final class Rope implements CharSequence {
     return base.charAt(i);
   }
 
-
   /**
    * implements subsequence.
+   *
    * @param start the start index
    * @param end the end index
    * @return the character sequence (an implementation of RopeLike)
@@ -116,7 +119,6 @@ public final class Rope implements CharSequence {
   }
 
   /**
-   *
    * @param o the object to check for equality
    * @return true if this is equal to o, false otherwise
    */
@@ -135,17 +137,15 @@ public final class Rope implements CharSequence {
     return false;
   }
 
-  /**
-   * @return a hashcode compatible with String.hashcode
-   */
+  /** @return a hashcode compatible with String.hashcode */
   @Override
   public int hashCode() {
     return base.hashCode();
   }
 
   /**
-   * convert this rope to a string.  May cause an out-of-memory error
-   * for very large ropes
+   * convert this rope to a string. May cause an out-of-memory error for very large ropes
+   *
    * @return this rope as a string
    */
   @Override
@@ -155,6 +155,7 @@ public final class Rope implements CharSequence {
 
   /**
    * locate the first occurrence of the specified string
+   *
    * @param s the charsequence to locate
    * @return the index of the sequence, or -1 if not found
    */
@@ -163,7 +164,6 @@ public final class Rope implements CharSequence {
   }
 
   /**
-   *
    * @param start the start of the substring
    * @param end the end of the substring
    * @return the substring, or throw an exception for invalide ranges

@@ -5,6 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import lombok.SneakyThrows;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 
@@ -12,69 +15,76 @@ class RopesTest {
 
   public static final String document2 =
       """
-        @Override
-        public void writeTree(PrintWriter out) {
-          writeTree(out, this, "", true);
-        }
-
-        private void writeTree(PrintWriter out, RopeLike node, String indent, boolean last) {
-          if (node.equals(this)) {
-            out.append(node).append("\\n");
-          } else {
-            out.append(indent).append(last ? "└╴" : "├╴").append(node).append("\\n");
-          }
-          indent = indent + (last ? "   " : "│  ");
-          val results = new ArrayList<RopeLike>();
-          if (getLeft() != null) {
-            results.add(getLeft());
-          }
-          if (getRight() != null) {
-            results.add(getRight());
-          }
-
-          val iter = results.iterator();
-          while (iter.hasNext()) {
-            val child = iter.next();
-            val isLast = !iter.hasNext();
-            writeTree(out, child, indent, isLast);
-          }
-        }
-
-        @Override
-        public int hashCode() {
-          int h = 0;
-          int len = length();
-          for (int i = 0; i < len; i++) {
-            h = 31 * h + charAt(i);
-          }
-          return h;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-          if (o == null) {
-            return false;
-          }
-          if (o == this) {
-            return true;
-          }
-
-          if (o instanceof CharSequence seq) {
-            if (length() != seq.length()) {
-              return false;
+            @Override
+            public void writeTree(PrintWriter out) {
+              writeTree(out, this, "", true);
             }
-            for (int i = 0; i < length(); i++) {
-              if (charAt(i) != seq.charAt(i)) {
-                return false;
+
+            private void writeTree(PrintWriter out, RopeLike node, String indent, boolean last) {
+              if (node.equals(this)) {
+                out.append(node).append("\\n");
+              } else {
+                out.append(indent).append(last ? "|" : "").append(node).append("\\n");
+              }
+              indent = indent + (last ? "   " : "");
+              val results = new ArrayList<RopeLike>();
+              if (getLeft() != null) {
+                results.add(getLeft());
+              }
+              if (getRight() != null) {
+                results.add(getRight());
+              }
+
+              val iter = results.iterator();
+              while (iter.hasNext()) {
+                val child = iter.next();
+                val isLast = !iter.hasNext();
+                writeTree(out, child, indent, isLast);
               }
             }
-            return true;
-          }
-          return false;
-        }
 
-      """;
+            @Override
+            public int hashCode() {
+              int h = 0;
+              int len = length();
+              for (int i = 0; i < len; i++) {
+                h = 31 * h + charAt(i);
+              }
+              return h;
+            }
+
+            @Override
+            public boolean equals(Object o) {
+              if (o == null) {
+                return false;
+              }
+              if (o == this) {
+                return true;
+              }
+
+              if (o instanceof CharSequence seq) {
+                if (length() != seq.length()) {
+                  return false;
+                }
+                for (int i = 0; i < length(); i++) {
+                  if (charAt(i) != seq.charAt(i)) {
+                    return false;
+                  }
+                }
+                return true;
+              }
+              return false;
+            }
+
+          """;
+  static final byte[] bytes = readAllBytes(
+      Path.of(ClassLoader.getSystemResource("longtest.txt").getFile()));
   private Rope rope;
+
+  @SneakyThrows
+  private static byte[] readAllBytes(Path of) {
+    return Files.readAllBytes(of);
+  }
 
   public static void print(Rope r) {
     val pw = new PrintWriter(System.out);
@@ -91,7 +101,7 @@ class RopesTest {
   @Test
   void ensureRopeConstructorWorksForBytes() {
     rope = new Rope("hello world".getBytes());
-    assertEquals(rope, "hello world");
+    assertEquals(rope.toString(), "hello world");
   }
 
   @Test
@@ -198,6 +208,7 @@ class RopesTest {
   @Test
   void ensureCharAtWorksForLongString() {
     val rope = new Rope(document2);
+    print(rope);
     for (int i = 0; i < document2.length(); i++) {
       assertEquals(rope.charAt(i), document2.charAt(i));
     }
@@ -210,5 +221,43 @@ class RopesTest {
     val rope = new Rope(s);
 
     assertEquals(rope.substring(10, 105).toString(), s.substring(10, 105));
+  }
+
+  @Test
+  @SneakyThrows
+  void ensureReadingRopeWorks() {
+
+//    long s1 = 0;
+//    long r1 = 0;
+//    long s2 = 0;
+//    long r2 = 0;
+//
+//    long sa = 0;
+//    long ra = 0;
+//
+//    for (int i = 0; i < 10; i++) {
+//      s1 = System.nanoTime();
+//      val string = new String(bytes);
+//      s2 = System.nanoTime();
+//      sa = ((s2 - s1) + sa) / (i + 1);
+//    }
+//
+//    for (int i = 0; i < 10; i++) {
+//      r1 = System.nanoTime();
+//      rope = new Rope(bytes);
+//      r2 = System.nanoTime();
+//      ra = ((r2 - r1) + ra) / (i + 1);
+//    }
+
+//    val s = new String(bytes);
+    rope = new Rope(bytes);
+////    System.out.println("Construction time: rope" + ra);
+////    System.out.println("Construction time: string" + sa);
+//
+//    for(int i = 0; i < 1000; i++) {
+//      assertEquals(s.substring(20, 4556), rope.substring(20, 4556).toString());
+//    }
+
+    print(rope);
   }
 }

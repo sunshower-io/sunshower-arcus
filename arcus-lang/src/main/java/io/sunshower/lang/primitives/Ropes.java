@@ -86,6 +86,11 @@ final class Ropes {
     return r;
   }
 
+
+  static RopeLike merge(List<RopeLike> leaves) {
+    return merge(leaves, 0, leaves.size());
+  }
+
   static RopeLike merge(List<RopeLike> leaves, int start, int end) {
     int range = end - start;
     if (range == 1) {
@@ -94,7 +99,7 @@ final class Ropes {
     if (range == 2) {
       return new RopeLikeTree(leaves.get(start), leaves.get(start + 1));
     }
-    int mid = (start + range) / 2;
+    int mid = start + (range / 2);
     return new RopeLikeTree(merge(leaves, start, mid), merge(leaves, mid, end));
   }
 
