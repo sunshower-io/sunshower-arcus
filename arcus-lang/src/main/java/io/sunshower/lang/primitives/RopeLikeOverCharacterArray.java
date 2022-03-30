@@ -40,7 +40,7 @@ final class RopeLikeOverCharacterArray extends AbstractRopeLike {
 
   @Override
   public Rope asRope() {
-    return null;
+    return new Rope(this);
   }
 
   @Override
@@ -75,7 +75,7 @@ final class RopeLikeOverCharacterArray extends AbstractRopeLike {
 
   @Override
   public String substring(int offset, int length) {
-    return null;
+    return subSequence(offset, length).toString();
   }
 
   @Override

@@ -15,9 +15,6 @@ public class LongsTest {
 
     val s = Longs.computeFibonacciUntil(7540113804746346429L);
     System.out.println(Arrays.toString(s));
-
-    val s2 = Longs.compute2(7540113804746346429L);
-    System.out.println(s2);
   }
 
   @Test

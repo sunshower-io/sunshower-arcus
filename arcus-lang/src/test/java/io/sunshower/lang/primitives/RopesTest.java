@@ -24,6 +24,45 @@ class RopesTest {
   }
 
   @Test
+  void ensureSubStringWorks() {
+    val s = ("""
+        #[cfg(not(feature = "unstable"))]
+        macro_rules! unstable_iters {
+            ( $($(#[$attr:meta])*
+            pub fn $name:ident$(<$lf:tt>)*(&'a $sel:ident) -> impl Iterator<Item=$ty:ty> + 'a {
+                 $body:expr
+             })+ ) => ($(
+                 $(#[$attr])*
+                 #[cfg(not(feature = "unstable"))]
+                 #[cfg_attr(feature = "clippy", allow(needless_lifetimes))]
+                 pub fn $name$(<$lf>)*(&'a $sel) -> Box<Iterator<Item=$ty> + 'a> {
+                     Box::new($body)
+                 }
+             )+);
+            ( $( $(#[$attr:meta])*
+            pub fn $name:ident$(<$lf:tt>)*(&'a mut $sel:ident) - impl Iterator<Item=$ty:ty> + 'a {
+                 $body:expr
+             })+ ) => { $({
+                 $(#[$attr])*
+                 #[cfg(not(feature = "unstable"))]
+                 #[cfg_attr(feature = "clippy", allow(needless_lifetimes))]
+                 pub fn $name$(<$lf>)*(&'a mut $sel) -> Box<Iterator<Item=$ty> + 'a> {
+                     Box::new($body)
+                 }
+             })+
+            };
+        }
+        """);
+
+    val r = new Rope(s);
+    val r1 = r.subSequence(15, 200);
+    val s1 = s.subSequence(15, 200);
+    assertEquals(r1.toString(), s1.toString());
+
+
+  }
+
+  @Test
   void ensureSmallRopeIsVisualizedCorrectly() {
     val lhs = new RopeLikeOverCharacterArray("Hello");
     val rhs = new RopeLikeOverCharacterArray("World");

@@ -54,7 +54,7 @@ public class RopeLikeOverCharSequence extends AbstractRopeLike {
 
   @Override
   public String substring(int offset, int length) {
-    return null;
+    return subSequence(offset, length).toString();
   }
 
   @Override

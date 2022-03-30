@@ -83,7 +83,7 @@ public class RopeLikeTree extends AbstractRopeLike implements RopeLike {
 
   @Override
   public int indexOf(char ch, int startIndex) {
-    if (startIndex > left.length()) {
+    if (startIndex > left.weight()) {
       return right.indexOf(ch, startIndex);
     }
     return left.indexOf(ch, startIndex);
@@ -106,12 +106,11 @@ public class RopeLikeTree extends AbstractRopeLike implements RopeLike {
           "Index out of range: %d.  Max range: %d".formatted(i, length));
     }
 
-    return i < left.length() ? left.charAt(i) : right.charAt(i - left.length());
+    return i < left.weight() ? left.charAt(i) : right.charAt(i - left.weight());
   }
 
   @Override
   public CharSequence subSequence(int start, int end) {
-    Ropes.checkBounds(this, start, end);
     if (start == 0 && end == length()) {
       return this;
     }

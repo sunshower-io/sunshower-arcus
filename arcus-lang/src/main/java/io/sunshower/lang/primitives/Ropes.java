@@ -58,7 +58,7 @@ final class Ropes {
     if (depth >= FIBONACCI_SEQUENCE.length - 2) {
       return false;
     }
-    return FIBONACCI_SEQUENCE[depth + 2] <= r.length();
+    return FIBONACCI_SEQUENCE[depth + 2] <= r.weight();
   }
 
   static RopeLike rebalance(RopeLike r) {
