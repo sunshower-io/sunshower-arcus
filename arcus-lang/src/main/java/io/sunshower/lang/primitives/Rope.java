@@ -174,6 +174,28 @@ public final class Rope implements CharSequence {
   }
 
 
+  /**
+   * insert the character sequence at location idx
+   * @param idx the index to insert the location at
+   * @param sequence the sequence to insert
+   * @return a rope that is the result of inserting the sequence starting at location idx
+   */
+  public Rope insert(int idx, CharSequence sequence) {
+    if(idx == 0) {
+      return prepend(sequence);
+    }
+    if(idx == length()) {
+      return append(sequence);
+    }
+    val lhs = base.split(idx);
+    return new Rope(Ropes.append(lhs.fst.append(sequence), lhs.snd));
+  }
+
+  /**
+   *
+   * @param sequence the sequence to test
+   * @return true if this starts with the sequence
+   */
   public boolean startsWith(CharSequence sequence) {
     val length = length();
     if(length < sequence.length()) {
@@ -187,10 +209,21 @@ public final class Rope implements CharSequence {
     return true;
   }
 
+  /**
+   * prepend the character sequence to this rope
+   * @param sequence the sequence to prepend
+   * @return a rope starting with the sequence and ending with this
+   */
   public Rope prepend(CharSequence sequence) {
     return new Rope(base.prepend(sequence));
   }
 
+
+  /**
+   * append the character sequence to this rope
+   * @param sequence the sequence to append
+   * @return a rope starting with the sequence and ending with this
+   */
   public Rope append(CharSequence sequence) {
     return new Rope(base.append(sequence));
   }

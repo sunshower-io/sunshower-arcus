@@ -244,6 +244,14 @@ class RopesTest {
 
 
   @Test
+  void ensureInsertWorks() {
+    val test = new StringBuilder(new String(bytes))
+        .insert(400, "Hello world!");
+    val rope = new Rope(bytes).insert(400, "Hello world!");
+    assertEquals(test.toString(), rope.toString());
+  }
+
+  @Test
   void testRopePrepend() {
     val rope = new Rope(bytes);
     for(int i = 0; i < 1000; i++) {
