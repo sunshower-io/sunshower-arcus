@@ -86,7 +86,6 @@ final class Ropes {
     return r;
   }
 
-
   static RopeLike merge(List<RopeLike> leaves) {
     return merge(leaves, 0, leaves.size());
   }

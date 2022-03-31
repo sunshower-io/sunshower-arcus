@@ -52,21 +52,21 @@ public final class Rope implements CharSequence {
     RopeLike root = null;
 
     val leaves = new ArrayList<RopeLike>(bytes.length / chunksize);
-    for(int i = 0; i < bytes.length; i+=chunksize) {
+    for (int i = 0; i < bytes.length; i += chunksize) {
       val subbytes = copyOfRange(bytes, i, Math.min(i + chunksize, bytes.length));
       leaves.add(new RopeLikeOverCharacterArray(getCharacters(subbytes, charset)));
     }
     base = rebalance(merge(leaves));
-//    for (int i = 0; i < bytes.length; i += chunksize) {
-//      val bs = copyOfRange(bytes, i, Math.min(i + chunksize, bytes.length));
-//      if (root == null) {
-//        root = new RopeLikeOverCharacterArray(getCharacters(bs, charset));
-//      } else {
-//        root = root.append(new RopeLikeOverCharacterArray(getCharacters(bs, charset)));
-//      }
-//    }
-//    assert root != null;
-//    base = root;
+    //    for (int i = 0; i < bytes.length; i += chunksize) {
+    //      val bs = copyOfRange(bytes, i, Math.min(i + chunksize, bytes.length));
+    //      if (root == null) {
+    //        root = new RopeLikeOverCharacterArray(getCharacters(bs, charset));
+    //      } else {
+    //        root = root.append(new RopeLikeOverCharacterArray(getCharacters(bs, charset)));
+    //      }
+    //    }
+    //    assert root != null;
+    //    base = root;
   }
 
   /**
@@ -174,8 +174,24 @@ public final class Rope implements CharSequence {
   }
 
 
+  public boolean startsWith(CharSequence sequence) {
+    val length = length();
+    if(length < sequence.length()) {
+      return false;
+    }
+    for(int i = 0; i < sequence.length(); i++) {
+      if(charAt(i) != sequence.charAt(i)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  public Rope prepend(CharSequence sequence) {
+    return new Rope(base.prepend(sequence));
+  }
+
   public Rope append(CharSequence sequence) {
     return new Rope(base.append(sequence));
   }
-
 }

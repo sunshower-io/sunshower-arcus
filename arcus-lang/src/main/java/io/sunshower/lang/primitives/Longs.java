@@ -3,12 +3,10 @@ package io.sunshower.lang.primitives;
 import java.util.Arrays;
 import lombok.val;
 
-/**
- * Created by haswell on 4/29/16.
- */
+/** Created by haswell on 4/29/16. */
 public class Longs {
 
-  static final long[] FIB_ROOT = new long[]{1, 1, 1, 0};
+  static final long[] FIB_ROOT = new long[] {1, 1, 1, 0};
 
   public static byte[] toByteArray(long[] longs) {
     final int length = longs.length;
@@ -37,13 +35,13 @@ public class Longs {
     for (int i = 0, j = 0; i < result.length; i++) {
       long r =
           (long) longs[j] << 56L
-          | (long) (longs[j + 1] & 0xFF) << 48
-          | (long) (longs[j + 2] & 0xFF) << 40
-          | (long) (longs[j + 3] & 0xFF) << 32
-          | (long) (longs[j + 4] & 0xFF) << 24
-          | (long) (longs[j + 5] & 0xFF) << 16
-          | (long) (longs[j + 6] & 0xFF) << 8
-          | (long) (longs[j + 7] & 0xFF);
+              | (long) (longs[j + 1] & 0xFF) << 48
+              | (long) (longs[j + 2] & 0xFF) << 40
+              | (long) (longs[j + 3] & 0xFF) << 32
+              | (long) (longs[j + 4] & 0xFF) << 24
+              | (long) (longs[j + 5] & 0xFF) << 16
+              | (long) (longs[j + 6] & 0xFF) << 8
+              | (long) (longs[j + 7] & 0xFF);
       result[i] = r;
       j += 8;
     }
@@ -80,11 +78,8 @@ public class Longs {
     val b12 = b[1];
     val b21 = b[2];
     val b22 = b[3];
-    return new long[]{
-        a11 * b11 + a12 * b12,
-        a11 * b12 + a12 * b22,
-        a21 * b11 + a22 * b21,
-        a21 * b12 + a22 * b22
+    return new long[] {
+      a11 * b11 + a12 * b12, a11 * b12 + a12 * b22, a21 * b11 + a22 * b21, a21 * b12 + a22 * b22
     };
   }
 
@@ -96,8 +91,8 @@ public class Longs {
     while (result[result.length - i] <= 0) {
       i++;
     }
-    val r = new long[result.length - i];
-    System.arraycopy(result, 0, r, 0, result.length - i);
+    val r = new long[result.length - (i + 1)];
+    System.arraycopy(result, 0, r, 0, result.length - (i + 1));
     return r;
   }
 

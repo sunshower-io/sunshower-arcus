@@ -10,6 +10,11 @@ interface RopeLike extends CharSequence, Cloneable {
 
   Rope asRope();
 
+
+  default RopeLike prepend(CharSequence sequence) {
+    return Ropes.append(new RopeLikeOverCharSequence(sequence), this);
+  }
+
   default RopeLike append(CharSequence sequence) {
     return Ropes.append(this, new RopeLikeOverCharSequence(sequence));
   }

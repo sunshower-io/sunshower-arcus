@@ -77,8 +77,8 @@ class RopesTest {
             }
 
           """;
-  static final byte[] bytes = readAllBytes(
-      Path.of(ClassLoader.getSystemResource("longtest.txt").getFile()));
+  static final byte[] bytes =
+      readAllBytes(Path.of(ClassLoader.getSystemResource("longtest.txt").getFile()));
   private Rope rope;
 
   @SneakyThrows
@@ -231,7 +231,14 @@ class RopesTest {
 
     val r = s.substring(400, 9000);
     val r1 = rope.substring(400, 9000);
-    assertEquals(r,
-        r1.toString());
+    assertEquals(r, r1.toString());
+  }
+
+
+  @Test
+  void ensurePrependingWorks() {
+    val a = new Rope(bytes);
+    val b = a.prepend("Sup world!");
+    assertTrue(b.startsWith("Sup world!"));
   }
 }
