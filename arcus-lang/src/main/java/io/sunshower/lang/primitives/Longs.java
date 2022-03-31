@@ -59,14 +59,12 @@ public class Longs {
 
     var a = Arrays.copyOf(FIB_ROOT, FIB_ROOT.length);
     var b = Arrays.copyOf(a, a.length);
-    long b11 = 1L;
-    int i = 0;
-
-    long[] result = new long[10];
-
-    for (; b11 < l && b11 >= 0; ) {
+    var result = new long[10];
+    var i = 0;
+    var b11 = 1L;
+    for (; b11 <= l && b11 >= 0; ) {
       b = multiply(a, b);
-      b11 = b[1];
+      b11 = b[3];
       result = append(result, b, i);
       i++;
     }
