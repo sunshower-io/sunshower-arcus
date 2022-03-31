@@ -4,7 +4,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import lombok.val;
 
-public abstract class AbstractRopeLike implements RopeLike {
+abstract class AbstractRopeLike implements RopeLike {
 
   @Override
   public void writeTree(PrintWriter out) {

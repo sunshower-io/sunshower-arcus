@@ -173,4 +173,9 @@ public final class Rope implements CharSequence {
     return new Rope(base.split(start).snd.split(end - start).fst);
   }
 
+
+  public Rope append(CharSequence sequence) {
+    return new Rope(base.append(sequence));
+  }
+
 }
