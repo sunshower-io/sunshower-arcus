@@ -49,7 +49,7 @@ public class Longs {
   }
 
   /**
-   * @param l a positive long such that L < Long.MAX_VALUE (2^64 -1)
+   * @param l a positive long such that L lt Long.MAX_VALUE (2^64 -1)
    * @return
    */
   public static long[] computeFibonacciUntil(long l) {

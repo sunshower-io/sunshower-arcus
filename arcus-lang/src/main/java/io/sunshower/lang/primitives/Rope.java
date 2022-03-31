@@ -49,7 +49,6 @@ public final class Rope implements CharSequence {
    */
   public Rope(byte[] bytes, Charset charset) {
     int chunksize = 17;
-    RopeLike root = null;
 
     val leaves = new ArrayList<RopeLike>(bytes.length / chunksize);
     for (int i = 0; i < bytes.length; i += chunksize) {
@@ -57,16 +56,6 @@ public final class Rope implements CharSequence {
       leaves.add(new RopeLikeOverCharacterArray(getCharacters(subbytes, charset)));
     }
     base = rebalance(merge(leaves));
-    //    for (int i = 0; i < bytes.length; i += chunksize) {
-    //      val bs = copyOfRange(bytes, i, Math.min(i + chunksize, bytes.length));
-    //      if (root == null) {
-    //        root = new RopeLikeOverCharacterArray(getCharacters(bs, charset));
-    //      } else {
-    //        root = root.append(new RopeLikeOverCharacterArray(getCharacters(bs, charset)));
-    //      }
-    //    }
-    //    assert root != null;
-    //    base = root;
   }
 
   /**
