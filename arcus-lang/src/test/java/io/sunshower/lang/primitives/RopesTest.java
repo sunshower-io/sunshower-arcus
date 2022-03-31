@@ -241,4 +241,20 @@ class RopesTest {
     val b = a.prepend("Sup world!");
     assertTrue(b.startsWith("Sup world!"));
   }
+
+
+  @Test
+  void testRopePrepend() {
+    val rope = new Rope(bytes);
+    for(int i = 0; i < 1000; i++) {
+      rope.prepend("Sup world!");
+    }
+  }
+
+  @Test
+  void testStringPrepend() {
+    for(int i = 0; i < 1000; i++) {
+      val a = "Sup world!" + new String(bytes);
+    }
+  }
 }
