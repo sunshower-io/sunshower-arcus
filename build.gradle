@@ -142,12 +142,8 @@ subprojects {
 
 
     signing {
-        useGpgCommand()
+        useGpgCmd()
 
-//        def key =  findProperty("signingKey")
-//        def keyId = findProperty("signingKeyId")
-//        def keyPassword = findProperty("signingPassword")
-//        useInMemoryPgpKeys(keyId, key, keyPassword)
 
         sign publishing.publications.mavenPlugin
     }

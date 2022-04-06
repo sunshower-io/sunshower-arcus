@@ -128,6 +128,7 @@ jobs:
           arguments: >-
             assemble build publish sA signMavenPluginPublication
             -i
+            -Psigning.gnupg.keyName=${{ secrets.SIGNING_KEY_ID }}
             -Psigning.gnupg.passphrase=${{ secrets.SIGNING_PASSWORD }}
             -PmavenRepositoryUsername=${{secrets.MAVEN_REPOSITORY_USERNAME}}
             -PmavenRepositoryPassword=${{secrets.MAVEN_REPOSITORY_PASSWORD}}
