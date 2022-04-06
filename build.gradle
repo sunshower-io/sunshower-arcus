@@ -156,6 +156,14 @@ subprojects {
         testCompileOnly 'com.google.code.findbugs:annotations'
 
 
+        [
+                'jmh-core',
+                'jmh-generator-annprocess'
+        ].each {
+            testImplementation "org.openjdk.jmh:$it"
+        }
+
+
         compileOnly 'org.projectlombok:lombok'
         testCompileOnly 'org.projectlombok:lombok'
         annotationProcessor 'org.projectlombok:lombok'
