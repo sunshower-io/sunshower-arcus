@@ -8,6 +8,8 @@ include(
          * condensation
          */
         'condensation:css-selectors',
+        'condensation:condensation-core',
+        'condensation:condensation-json',
 
         /**
          * arcus

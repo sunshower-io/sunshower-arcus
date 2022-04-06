@@ -1,0 +1,50 @@
+{
+  "hello": "",
+  "world": [
+    {
+      "five": 5,
+      "otherfive": 52345.34134,
+      "othernum": -52345.34134,
+      "numarray": [
+        -1,
+        20,
+        22.5,
+        null,
+        "hello",
+        {
+          "cool": [
+            {
+              "beanie": {
+                "name": "weenie"
+              }
+            },
+            2,
+            true,
+            false
+          ]
+        }
+      ],
+      "name": "one",
+      "two": [
+        {
+          "four": "five"
+        },
+        {
+          "whatever": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            -11431345e-142,
+            11431345e-142
+          ]
+        }
+      ],
+      "three": {
+        "four": "five"
+      }
+    }
+  ]
+}
