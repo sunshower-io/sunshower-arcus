@@ -143,9 +143,9 @@ subprojects {
 
     signing {
 
-        def key =  findProperty("SIGNING_KEY")
-        def keyId = findProperty("SIGNING_KEY_ID")
-        def keyPassword = findProperty("SIGNING_PASSWORD")
+        def key =  findProperty("signingKey")
+        def keyId = findProperty("signingKeyId")
+        def keyPassword = findProperty("signingPassword")
         useInMemoryPgpKeys(keyId, key, keyPassword)
 
         sign publishing.publications.mavenPlugin
@@ -161,6 +161,7 @@ subprojects {
                 'jmh-generator-annprocess'
         ].each {
             testImplementation "org.openjdk.jmh:$it"
+            testAnnotationProcessor "org.openjdk.jmh:$it"
         }
 
 
