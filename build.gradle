@@ -105,7 +105,7 @@ subprojects {
 
         publications {
 
-            mavenCentralArtifacts(MavenPublication) {
+            pluginMaven(MavenPublication) {
 
                 /**
                  * components source
@@ -159,35 +159,6 @@ subprojects {
                 }
             }
 
-            artifacts(MavenPublication) {
-                /**
-                 * components source
-                 */
-                from components.java
-
-                /**
-                 * maven coordinates
-                 */
-                groupId = project.group
-                artifactId = project.name
-                version = project.version
-
-                /**
-                 * included artifacts
-                 */
-
-                artifact testJar
-                artifact javadocJar
-
-                versionMapping {
-                    usage('java-api') {
-                        fromResolutionOf('runtimeClasspath')
-                    }
-                    usage('java-runtime') {
-                        fromResolutionResult()
-                    }
-                }
-            }
         }
 
     }
@@ -195,9 +166,7 @@ subprojects {
 
     signing {
         useGpgCmd()
-
-
-        sign publishing.publications.mavenCentralArtifacts
+        sign publishing.publications.pluginMaven
     }
 
 
