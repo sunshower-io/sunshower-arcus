@@ -116,6 +116,9 @@ jobs:
         if: matrix.platform == 'ubuntu-latest'
         env:
           JAVA_TOOL_OPTIONS: -Duser.language=en -Duser.country=US
+          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.SIGNING_KEY }}
+          ORG_GRADLE_PROJECT_signingKeyId: ${{ secrets.SIGNING_KEY_ID }}
+          ORG_GRADLE_PROJECT_signingKeyPassword: ${{ secrets.SIGNING_PASSWORD }}
         with:
           gradle-version: 7.4
           arguments: >-

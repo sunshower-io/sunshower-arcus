@@ -32,6 +32,9 @@ public class RopesCreateSmallStringBenchmark extends AbstractRopesBenchmark {
     new String(bytes);
   }
 
+
+
+
   public static void main(String[] args) throws IOException {
     Main.main(args);
   }
