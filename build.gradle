@@ -11,6 +11,7 @@ apply from: "$rootDir/tasks/revisions.gradle"
 
 allprojects {
     apply plugin: 'java'
+    apply plugin: 'signing'
     apply plugin: 'maven-publish'
     apply plugin: 'io.spring.dependency-management'
 
@@ -33,6 +34,9 @@ allprojects {
             mavenBom "io.sunshower.arcus:bom-imported:$version"
         }
     }
+
+
+
 
 
 }
@@ -136,6 +140,15 @@ subprojects {
         }
     }
 
+
+    signing {
+
+        def key = findProperty("signingKey")
+        def keyId = findProperty("signingKeyId")
+        def keyPassword = findProperty("signingPassword")
+
+        sign publishing.publications.mavenPlugin
+    }
 
     dependencies {
         compileOnly 'com.google.code.findbugs:annotations'
