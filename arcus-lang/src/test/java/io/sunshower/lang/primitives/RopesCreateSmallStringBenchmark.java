@@ -11,13 +11,11 @@ import org.openjdk.jmh.annotations.State;
 @State(Scope.Group)
 public class RopesCreateSmallStringBenchmark extends AbstractRopesBenchmark {
 
-
   private byte[] bytes;
 
   @Setup
   public void createSmallString() {
     bytes = oneKb();
-
   }
 
   @Benchmark
@@ -32,14 +30,7 @@ public class RopesCreateSmallStringBenchmark extends AbstractRopesBenchmark {
     new String(bytes);
   }
 
-
-
-
   public static void main(String[] args) throws IOException {
     Main.main(args);
   }
-
-
-
-
 }

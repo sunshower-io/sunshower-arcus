@@ -216,4 +216,16 @@ public final class Rope implements CharSequence {
   public Rope append(CharSequence sequence) {
     return new Rope(base.append(sequence));
   }
+
+  /**
+   * remove the section between start (inclusive) and end (exclusive) from this rope to create a new
+   * rope
+   *
+   * @param start the start index
+   * @param end the end index
+   * @return
+   */
+  public Rope delete(int start, int end) {
+    return new Rope(base.delete(start, end));
+  }
 }

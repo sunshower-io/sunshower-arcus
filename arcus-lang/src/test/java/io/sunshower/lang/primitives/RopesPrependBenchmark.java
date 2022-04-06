@@ -10,13 +10,11 @@ import org.openjdk.jmh.annotations.State;
 @State(Scope.Group)
 public class RopesPrependBenchmark extends AbstractRopesBenchmark {
 
-
   private byte[] bytes;
   private Rope rope;
   private String string;
   private CharSequence prependedValue;
   private int center;
-
 
   @Setup
   public void setUp() {
@@ -40,7 +38,6 @@ public class RopesPrependBenchmark extends AbstractRopesBenchmark {
     val r = prependedValue + string;
   }
 
-
   @Benchmark
   @Group("insert")
   public void insertToSmallRope() {
@@ -54,6 +51,4 @@ public class RopesPrependBenchmark extends AbstractRopesBenchmark {
     val rhs = string.substring(center);
     val r = lhs + prependedValue + rhs;
   }
-
-
 }

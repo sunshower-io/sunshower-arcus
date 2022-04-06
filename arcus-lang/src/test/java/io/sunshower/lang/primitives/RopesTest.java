@@ -96,6 +96,22 @@ class RopesTest {
   }
 
   @Test
+  void ensureRemovingEntireRopeCreatesEmptyRope() {
+    val rope = new Rope("hello world");
+    assertEquals(0, rope.delete(0, rope.length()).length());
+    assertEquals(rope.toString(), "hello world");
+  }
+
+  @Test
+  void ensureRemovingSubRopeWorks() {
+    val rope = new Rope("hello world");
+
+    val r = rope.delete(1, 2);
+    assertEquals(rope.toString(), "hello world");
+    assertEquals(r.toString(), "hlo world");
+  }
+
+  @Test
   void ensureRopeConstructorWorksForEmptyRope() {
     rope = new Rope();
     assertEquals(0, rope.length());
