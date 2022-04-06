@@ -4,6 +4,10 @@ include(
          */
         'gyre:gyre-api',
 
+        /**
+         * condensation
+         */
+        'condensation:css-selectors',
 
         /**
          * arcus

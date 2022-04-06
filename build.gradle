@@ -226,13 +226,22 @@ subprojects {
         testImplementation 'org.junit-pioneer:junit-pioneer'
         testImplementation 'org.mockito:mockito-junit-jupiter'
         testImplementation 'org.junit.platform:junit-platform-suite-engine'
+
+
+        testImplementation 'org.mockito:mockito-inline'
+        testImplementation 'org.junit-pioneer:junit-pioneer'
+        testImplementation 'org.junit.jupiter:junit-jupiter-params'
+
         [
                 'api',
                 'engine'
 
         ].each { dep ->
             testImplementation "org.junit.jupiter:junit-jupiter-$dep"
+            testImplementation "org.junit.platform:junit-platform-suite-$dep"
         }
+
+
     }
 }
 

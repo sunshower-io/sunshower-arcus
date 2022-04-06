@@ -1,0 +1,1185 @@
+<html lang="en-US">
+<head>
+  <title>XML DOM Examples</title>
+
+
+  <script async="" src="//c.amazon-adsystem.com/aax2/apstag.js"></script><script async="" src="https://www.google-analytics.com/analytics.js"></script><script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-3855518-1', 'auto');
+ga('require', 'displayfeatures');
+ga('require', 'GTM-WJ88MZ5');
+ga('send', 'pageview');
+</script>
+
+  <script type="text/javascript">
+var k42 = false;
+var googletag = googletag || {}; googletag.cmd = googletag.cmd || [];
+
+k42 = true;
+googletag.cmd.push(function() { googletag.pubads().setTargeting("page_section",(function () {
+    var folder = location.pathname;
+    folder = folder.replace("/", "");
+    folder = folder.substr(0, folder.indexOf("/"));
+    return folder;
+  })());
+});
+(adsbygoogle=window.adsbygoogle||[]).pauseAdRequests=1;
+
+var snhb = snhb || {}; snhb.queue = snhb.queue || [];
+snhb.options = {
+               logOutputEnabled : false,
+               debugOutputEnabled: false,
+               PBJSDebugOutputEnabled: false,
+               auctionResultOutputEnabled: false,
+               allOutputEnabled: false,
+               autoStartAuction: false,
+               };
+
+</script>
+  <!-- begin cmp -->
+  <script src="//cdn.snigelweb.com/sncmp/latest/sncmp_stub.min.js"></script>
+  <style>
+    #snigel-cmp-framework .sn-b-def.sn-blue {color: #ffffff!important;background-color: #04AA6D!important;border-color: #04AA6D!important;}
+    #snigel-cmp-framework .sn-b-def { border-color: #04AA6D!important;color: #04AA6D!important;}
+    #snigel-cmp-framework .sn-selector ul li { color: #04AA6D!important}
+    #snigel-cmp-framework .sn-selector ul li:after { background-color: #04AA6D!important; }
+    #snigel-cmp-framework .sn-footer-tab .sn-privacy a {color:#04AA6D!important;}
+    #snigel-cmp-framework .sn-arrow:after, #snigel-cmp-framework .sn-arrow:before { background-color: #04AA6D!important; }
+    #snigel-cmp-framework .sn-switch input:checked+span::before { background-color: #04AA6D!important; }
+    #snigel-cmp-framework .sn-logo .sn-inner-logo img { max-height: 60px; margin: auto!important;}
+    #snigel-cmp-framework h1 { margin: 10px 0!important;}
+    #adconsent-usp-link {border: 1px solid #04AA6D!important;color: #04AA6D!important;}
+    #adconsent-usp-banner-optout input:checked+.adconsent-usp-slider {background-color:#04AA6D!important;}
+    #adconsent-usp-banner-btn {color:#ffffff;border: solid 1px #04AA6D!important;background-color: #04AA6D!important;}</style>
+  <script type="text/javascript">
+__cmp("setLogo", "https://www.w3schools.com/images/w3schools_logo_500_04AA6D.png");
+__cmp("setPrivacyPolicy", "https://www.w3schools.com/about/about_privacy.asp");
+</script>
+  <script async="" type="text/javascript" src="//cdn.snigelweb.com/pub/w3schools.com/snhb-loader.min.js"></script>
+  <!-- end cmp -->
+  <script>
+  snhb.queue.push(function(){
+
+    snhb.startAuction(["main_leaderboard", "wide_skyscraper", "bottom_medium_rectangle", "right_bottom_medium_rectangle"]);
+
+  });
+</script>
+  <script src="/lib/my-learning.js?v=1.0.2"></script>
+  <script type="text/javascript">
+</script>
+</head>
+<body>
+<div class="w3-bar w3-card-2 notranslate" style="position: relative;z-index: 4;font-size: 18px;background-color: white;color:#282A35;padding-left:12px;padding-right:16px;font-family: 'Source Sans Pro', sans-serif;">
+  <a href="https://www.w3schools.com" class="w3-bar-item w3-button w3-hover-none w3-left w3-padding-16" title="Home" style="width:77px">
+    <i class="fa fa-logo ws-text-green ws-hover-text-green" style="position:relative;font-size:42px!important;"></i>
+  </a>
+
+  <a class="w3-bar-item w3-button w3-hide-small barex bar-item-hover w3-padding-24" href="javascript:void(0)" onclick="w3_open_nav('tutorials')" id="navbtn_tutorials" title="Tutorials" style="width:116px">Tutorials <i class="fa fa-caret-down" style="font-size: 20px; display: inline;"></i><i class="fa fa-caret-up" style="display:none"></i></a>
+  <a class="w3-bar-item w3-button w3-hide-small barex bar-item-hover w3-padding-24" href="javascript:void(0)" onclick="w3_open_nav('references')" id="navbtn_references" title="References" style="width:132px">References <i class="fa fa-caret-down" style="font-size: 20px; display: inline;"></i><i class="fa fa-caret-up" style="display:none"></i></a>
+  <a class="w3-bar-item w3-button w3-hide-small barex w3-hide-medium bar-item-hover w3-padding-24" href="javascript:void(0)" onclick="w3_open_nav('exercises')" id="navbtn_exercises" title="Exercises" style="width:118px">Exercises <i class="fa fa-caret-down" style="font-size: 20px; display: inline;"></i><i class="fa fa-caret-up" style="display:none"></i></a>
+
+  <a class="w3-bar-item w3-button bar-item-hover w3-padding-24" href="javascript:void(0)" onclick="w3_open()" id="navbtn_menu" title="Menu" style="width:93px">Menu <i class="fa fa-caret-down"></i><i class="fa fa-caret-up" style="display:none"></i></a>
+
+  <div id="loginactioncontainer" class="w3-right w3-padding-16" style="margin-left:50px">
+    <div id="mypagediv" style="display: none;"></div>
+    <!-- <button id="w3loginbtn" style="border:none;display:none;cursor:pointer" class="login w3-right w3-hover-greener" onclick='w3_open_nav("login")'>LOG IN</button>-->
+    <a id="w3loginbtn" class="w3-bar-item w3-btn bar-item-hover w3-right" style="display: inline; width: 130px; background-color: rgb(4, 170, 109); color: white; border-radius: 25px;" href="https://profile.w3schools.com/log-in?redirect_url=https%3A%2F%2Fmy-learning.w3schools.com" target="_self">Log in</a>
+  </div>
+
+  <div class="w3-right w3-padding-16">
+    <!--<a class="w3-bar-item w3-button bar-icon-hover w3-right w3-hover-white w3-hide-large w3-hide-medium" href="javascript:void(0)" onclick="w3_open()" title="Menu"><i class='fa'>&#xf0c9;</i></a>
+    -->
+    <a class="w3-bar-item w3-button bar-item-hover w3-right w3-hide-small barex" style="width:140px;border-radius:25px;margin-right:15px" href="https://courses.w3schools.com/" target="_blank" id="cert_navbtn" onclick="ga('send', 'event', 'Courses' , 'Clicked on courses in Default top navigation');" title="Courses">Paid Courses</a>
+  </div>
+
+</div>
+
+<div style="display: none; position: fixed; z-index: 4; right: 52px; height: 44px; background-color: rgb(40, 42, 53); letter-spacing: normal; top: 0px;" id="googleSearch">
+  <div class="gcse-search"></div>
+</div>
+<div style="display: none; position: fixed; z-index: 3; right: 111px; height: 44px; background-color: rgb(40, 42, 53); text-align: right; padding-top: 9px; top: 0px;" id="google_translate_element"></div>
+
+<div class="w3-card-2 topnav notranslate" id="topnav" style="position: fixed; top: 0px;">
+  <div style="overflow:auto;">
+    <div class="w3-bar w3-left" style="width:100%;overflow:hidden;height:44px">
+      <a href="javascript:void(0);" class="topnav-icons fa fa-menu w3-hide-large w3-left w3-bar-item w3-button" onclick="open_menu()" title="Menu"></a>
+      <a href="/default.asp" class="topnav-icons fa fa-home w3-left w3-bar-item w3-button" title="Home"></a>
+      <a class="w3-bar-item w3-button" href="/html/default.asp" title="HTML Tutorial" style="padding-left:18px!important;padding-right:18px!important;">HTML</a>
+      <a class="w3-bar-item w3-button" href="/css/default.asp" title="CSS Tutorial">CSS</a>
+      <a class="w3-bar-item w3-button" href="/js/default.asp" title="JavaScript Tutorial">JAVASCRIPT</a>
+      <a class="w3-bar-item w3-button" href="/sql/default.asp" title="SQL Tutorial">SQL</a>
+      <a class="w3-bar-item w3-button" href="/python/default.asp" title="Python Tutorial">PYTHON</a>
+      <a class="w3-bar-item w3-button" href="/php/default.asp" title="PHP Tutorial">PHP</a>
+      <a class="w3-bar-item w3-button" href="/bootstrap/bootstrap_ver.asp" title="Bootstrap Tutorial">BOOTSTRAP</a>
+      <a class="w3-bar-item w3-button" href="/howto/default.asp" title="How To">HOW TO</a>
+      <a class="w3-bar-item w3-button" href="/w3css/default.asp" title="W3.CSS Tutorial">W3.CSS</a>
+      <a class="w3-bar-item w3-button" href="/java/default.asp" title="Java Tutorial">JAVA</a>
+      <a class="w3-bar-item w3-button" href="/jquery/default.asp" title="jQuery Tutorial">JQUERY</a>
+      <a class="w3-bar-item w3-button" href="/cpp/default.asp" title="C++ Tutorial">C++</a>
+      <a class="w3-bar-item w3-button" href="/cs/default.asp" title="C# Tutorial">C#</a>
+      <a class="w3-bar-item w3-button" href="/r/default.asp" title="R Tutorial">R</a>
+      <a href="javascript:void(0);" class="topnav-icons fa w3-right w3-bar-item w3-button" onclick="gSearch(this)" title="Search W3Schools"></a>
+      <a href="javascript:void(0);" class="topnav-icons fa w3-right w3-bar-item w3-button" onclick="gTra(this)" title="Translate W3Schools"></a>
+      <a href="javascript:void(0);" class="topnav-icons fa w3-right w3-bar-item w3-button" onclick="changecodetheme(this)" title="Toggle Dark Code"></a>
+
+
+      <!--
+      <a class="w3-bar-item w3-button w3-right" id='topnavbtn_exercises' href='javascript:void(0);' onclick='w3_open_nav("exercises")' title='Exercises'>EXERCISES <i class='fa fa-caret-down'></i><i class='fa fa-caret-up' style='display:none'></i></a>
+      -->
+
+    </div>
+
+
+
+    <nav id="nav_tutorials" class="w3-hide-small" style="position: absolute; background-color: rgb(40, 42, 53); color: white; padding-bottom: 60px; display: none;">
+      <div class="w3-content" style="max-width:1100px;font-size:18px">
+        <span onclick="w3_close_nav('tutorials')" class="w3-button w3-xxxlarge w3-display-topright w3-hover-white sectionxsclosenavspan" style="padding-right:30px;padding-left:30px;">×</span>
+        <div class="w3-row-padding w3-bar-block">
+          <div class="w3-container" style="padding-left:13px">
+            <h2 style="color:#FFF4A3;"><b>Tutorials</b></h2>
+          </div>
+          <div class="w3-col l3 m6">
+            <h3 class="w3-margin-top">HTML and CSS</h3>
+            <a class="w3-bar-item w3-button" href="/html/default.asp">Learn HTML</a>
+            <a class="w3-bar-item w3-button" href="/css/default.asp">Learn CSS</a>
+            <a class="w3-bar-item w3-button" href="/bootstrap/bootstrap_ver.asp">Learn Bootstrap</a>
+            <a class="w3-bar-item w3-button" href="/w3css/default.asp">Learn W3.CSS</a>
+            <a class="w3-bar-item w3-button" href="/colors/default.asp">Learn Colors</a>
+            <a class="w3-bar-item w3-button" href="/icons/default.asp">Learn Icons</a>
+            <a class="w3-bar-item w3-button" href="/graphics/default.asp">Learn Graphics</a>
+            <a class="w3-bar-item w3-button" href="/graphics/svg_intro.asp">Learn SVG</a>
+            <a class="w3-bar-item w3-button" href="/graphics/canvas_intro.asp">Learn Canvas</a>
+            <a class="w3-bar-item w3-button" href="/howto/default.asp">Learn How To</a>
+            <a class="w3-bar-item w3-button" href="/sass/default.php">Learn Sass</a>
+            <div class="w3-hide-large w3-hide-small">
+              <h3 class="w3-margin-top">Artificial Intelligence</h3>
+              <a class="w3-bar-item w3-button" href="/ai/default.asp">Learn AI</a>
+              <a class="w3-bar-item w3-button" href="/python/python_ml_getting_started.asp">Learn Machine Learning</a>
+              <a class="w3-bar-item w3-button" href="/datascience/default.asp">Learn Data Science</a>
+              <a class="w3-bar-item w3-button" href="/python/numpy/default.asp">Learn NumPy</a>
+              <a class="w3-bar-item w3-button" href="/python/pandas/default.asp">Learn Pandas</a>
+              <a class="w3-bar-item w3-button" href="/python/scipy/index.php">Learn SciPy</a>
+              <h3 class="w3-margin-top">XML Tutorials</h3>
+              <a class="w3-bar-item w3-button" href="/xml/default.asp">Learn XML</a>
+              <a class="w3-bar-item w3-button" href="/xml/ajax_intro.asp">Learn XML AJAX</a>
+              <a class="w3-bar-item w3-button" href="/xml/dom_intro.asp">Learn XML DOM</a>
+              <a class="w3-bar-item w3-button" href="/xml/xml_dtd_intro.asp">Learn XML DTD</a>
+              <a class="w3-bar-item w3-button" href="/xml/schema_intro.asp">Learn XML Schema</a>
+              <a class="w3-bar-item w3-button" href="/xml/xsl_intro.asp">Learn XSLT</a>
+              <a class="w3-bar-item w3-button" href="/xml/xpath_intro.asp">Learn XPath</a>
+              <a class="w3-bar-item w3-button" href="/xml/xquery_intro.asp">Learn XQuery</a>
+            </div>
+          </div>
+          <div class="w3-col l3 m6">
+            <h3 class="w3-margin-top">JavaScript</h3>
+            <a class="w3-bar-item w3-button" href="/js/default.asp">Learn JavaScript</a>
+            <a class="w3-bar-item w3-button" href="/jquery/default.asp">Learn jQuery</a>
+            <a class="w3-bar-item w3-button" href="/react/default.asp">Learn React</a>
+            <a class="w3-bar-item w3-button" href="/angular/default.asp">Learn AngularJS</a>
+            <a class="w3-bar-item w3-button" href="/js/js_json_intro.asp">Learn JSON</a>
+            <a class="w3-bar-item w3-button" href="/js/js_ajax_intro.asp">Learn AJAX</a>
+            <a class="w3-bar-item w3-button" href="/appml/default.asp">Learn AppML</a>
+            <a class="w3-bar-item w3-button" href="/w3js/default.asp">Learn W3.JS</a>
+
+            <h3 class="w3-margin-top">Programming</h3>
+            <a class="w3-bar-item w3-button" href="/python/default.asp">Learn Python</a>
+            <a class="w3-bar-item w3-button" href="/java/default.asp">Learn Java</a>
+            <a class="w3-bar-item w3-button" href="/cpp/default.asp">Learn C++</a>
+            <a class="w3-bar-item w3-button" href="/cs/default.asp">Learn C#</a>
+            <a class="w3-bar-item w3-button" href="/r/default.asp">Learn R</a>
+          </div>
+          <div class="w3-col l3 m6">
+            <h3 class="w3-margin-top">Server Side</h3>
+            <a class="w3-bar-item w3-button" href="/sql/default.asp">Learn SQL</a>
+            <a class="w3-bar-item w3-button" href="/mysql/default.asp">Learn MySQL</a>
+            <a class="w3-bar-item w3-button" href="/php/default.asp">Learn PHP</a>
+            <a class="w3-bar-item w3-button" href="/asp/default.asp">Learn ASP</a>
+            <a class="w3-bar-item w3-button" href="/nodejs/default.asp">Learn Node.js</a>
+            <a class="w3-bar-item w3-button" href="/nodejs/nodejs_raspberrypi.asp">Learn Raspberry Pi</a>
+            <a class="w3-bar-item w3-button" href="/git/default.asp">Learn Git</a>
+
+            <h3 class="w3-margin-top">Web Building</h3>
+            <a class="w3-bar-item w3-button" href="/w3css/w3css_templates.asp">Web Templates</a>
+            <a class="w3-bar-item w3-button" href="/browsers/default.asp">Web Statistics</a>
+            <a class="w3-bar-item w3-button" href="/cert/default.asp">Web Certificates</a>
+            <a class="w3-bar-item w3-button" href="/tryit/default.asp">Web Editor</a>
+            <a class="w3-bar-item w3-button" href="/whatis/default.asp">Web Development</a>
+            <a class="w3-bar-item w3-button" href="/typingspeed/default.asp">Test Your Typing Speed</a>
+            <a class="w3-bar-item w3-button" href="/codegame/index.html" target="_blank">Play a Code Game</a>
+            <a class="w3-bar-item w3-button" href="/cybersecurity/index.php">Cyber Security</a>
+          </div>
+          <div class="w3-col l3 m6 w3-hide-medium">
+            <h3 class="w3-margin-top">Artificial Intelligence</h3>
+            <a class="w3-bar-item w3-button" href="/ai/default.asp">Learn AI</a>
+            <a class="w3-bar-item w3-button" href="/python/python_ml_getting_started.asp">Learn Machine Learning</a>
+            <a class="w3-bar-item w3-button" href="/datascience/default.asp">Learn Data Science</a>
+            <a class="w3-bar-item w3-button" href="/python/numpy/default.asp">Learn NumPy</a>
+            <a class="w3-bar-item w3-button" href="/python/pandas/default.asp">Learn Pandas</a>
+            <a class="w3-bar-item w3-button" href="/python/scipy/index.php">Learn SciPy</a>
+
+            <h3 class="w3-margin-top">XML Tutorials</h3>
+
+            <a class="w3-bar-item w3-button" href="/xml/default.asp">Learn XML</a>
+            <a class="w3-bar-item w3-button" href="/xml/ajax_intro.asp">Learn XML AJAX</a>
+            <a class="w3-bar-item w3-button" href="/xml/dom_intro.asp">Learn XML DOM</a>
+            <a class="w3-bar-item w3-button" href="/xml/xml_dtd_intro.asp">Learn XML DTD</a>
+            <a class="w3-bar-item w3-button" href="/xml/schema_intro.asp">Learn XML Schema</a>
+            <a class="w3-bar-item w3-button" href="/xml/xsl_intro.asp">Learn XSLT</a>
+            <a class="w3-bar-item w3-button" href="/xml/xpath_intro.asp">Learn XPath</a>
+            <a class="w3-bar-item w3-button" href="/xml/xquery_intro.asp">Learn XQuery</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <nav id="nav_references" class="w3-hide-small" style="position: absolute; background-color: rgb(40, 42, 53); color: white; padding-bottom: 60px; display: none;">
+      <div class="w3-content" style="max-width:1100px;font-size:18px">
+        <span onclick="w3_close_nav('references')" class="w3-button w3-xxxlarge w3-display-topright w3-hover-white sectionxsclosenavspan" style="padding-right:30px;padding-left:30px;">×</span>
+        <div class="w3-row-padding w3-bar-block">
+          <div class="w3-container" style="padding-left:13px">
+            <h2 style="color:#FFF4A3;"><b>References</b></h2>
+          </div>
+          <div class="w3-col l3 m6">
+            <h3 class="w3-margin-top">HTML</h3>
+            <a class="w3-bar-item w3-button" href="/tags/default.asp">HTML Tag Reference</a>
+            <a class="w3-bar-item w3-button" href="/tags/ref_html_browsersupport.asp">HTML Browser Support</a>
+            <a class="w3-bar-item w3-button" href="/tags/ref_eventattributes.asp">HTML Event Reference</a>
+            <a class="w3-bar-item w3-button" href="/colors/default.asp">HTML Color Reference</a>
+            <a class="w3-bar-item w3-button" href="/tags/ref_attributes.asp">HTML Attribute Reference</a>
+            <a class="w3-bar-item w3-button" href="/tags/ref_canvas.asp">HTML Canvas Reference</a>
+            <a class="w3-bar-item w3-button" href="/graphics/svg_reference.asp">HTML SVG Reference</a>
+            <a class="w3-bar-item w3-button" href="/graphics/google_maps_reference.asp">Google Maps Reference</a>
+            <h3 class="w3-margin-top">CSS</h3>
+            <a class="w3-bar-item w3-button" href="/cssref/default.asp">CSS Reference</a>
+            <a class="w3-bar-item w3-button" href="/cssref/css3_browsersupport.asp">CSS Browser Support</a>
+            <a class="w3-bar-item w3-button" href="/cssref/css_selectors.asp">CSS Selector Reference</a>
+            <a class="w3-bar-item w3-button" href="/bootstrap/bootstrap_ref_all_classes.asp">Bootstrap 3 Reference</a>
+            <a class="w3-bar-item w3-button" href="/bootstrap4/bootstrap_ref_all_classes.asp">Bootstrap 4 Reference</a>
+            <a class="w3-bar-item w3-button" href="/w3css/w3css_references.asp">W3.CSS Reference</a>
+            <a class="w3-bar-item w3-button" href="/icons/icons_reference.asp">Icon Reference</a>
+            <a class="w3-bar-item w3-button" href="/sass/sass_functions_string.php">Sass Reference</a>
+          </div>
+          <div class="w3-col l3 m6">
+            <h3 class="w3-margin-top">JavaScript</h3>
+            <a class="w3-bar-item w3-button" href="/jsref/default.asp">JavaScript Reference</a>
+            <a class="w3-bar-item w3-button" href="/jsref/default.asp">HTML DOM Reference</a>
+            <a class="w3-bar-item w3-button" href="/jquery/jquery_ref_overview.asp">jQuery Reference</a>
+            <a class="w3-bar-item w3-button" href="/angular/angular_ref_directives.asp">AngularJS Reference</a>
+            <a class="w3-bar-item w3-button" href="/appml/appml_reference.asp">AppML Reference</a>
+            <a class="w3-bar-item w3-button" href="/w3js/w3js_references.asp">W3.JS Reference</a>
+
+            <h3 class="w3-margin-top">Programming</h3>
+            <a class="w3-bar-item w3-button" href="/python/python_reference.asp">Python Reference</a>
+            <a class="w3-bar-item w3-button" href="/java/java_ref_keywords.asp">Java Reference</a>
+          </div>
+          <div class="w3-col l3 m6">
+            <h3 class="w3-margin-top">Server Side</h3>
+            <a class="w3-bar-item w3-button" href="/sql/sql_ref_keywords.asp">SQL Reference</a>
+            <a class="w3-bar-item w3-button" href="/mysql/mysql_ref_functions.asp">MySQL Reference</a>
+            <a class="w3-bar-item w3-button" href="/php/php_ref_overview.asp">PHP Reference</a>
+            <a class="w3-bar-item w3-button" href="/asp/asp_ref_response.asp">ASP Reference</a>
+            <h3 class="w3-margin-top">XML</h3>
+            <a class="w3-bar-item w3-button" href="/xml/dom_nodetype.asp">XML DOM Reference</a>
+            <a class="w3-bar-item w3-button" href="/xml/dom_http.asp">XML Http Reference</a>
+            <a class="w3-bar-item w3-button" href="/xml/xsl_elementref.asp">XSLT Reference</a>
+            <a class="w3-bar-item w3-button" href="/xml/schema_elements_ref.asp">XML Schema Reference</a>
+          </div>
+          <div class="w3-col l3 m6">
+            <h3 class="w3-margin-top">Character Sets</h3>
+            <a class="w3-bar-item w3-button" href="/charsets/default.asp">HTML Character Sets</a>
+            <a class="w3-bar-item w3-button" href="/charsets/ref_html_ascii.asp">HTML ASCII</a>
+            <a class="w3-bar-item w3-button" href="/charsets/ref_html_ansi.asp">HTML ANSI</a>
+            <a class="w3-bar-item w3-button" href="/charsets/ref_html_ansi.asp">HTML Windows-1252</a>
+            <a class="w3-bar-item w3-button" href="/charsets/ref_html_8859.asp">HTML ISO-8859-1</a>
+            <a class="w3-bar-item w3-button" href="/charsets/ref_html_symbols.asp">HTML Symbols</a>
+            <a class="w3-bar-item w3-button" href="/charsets/ref_html_utf8.asp">HTML UTF-8</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <nav id="nav_exercises" class="w3-hide-small" style="position: absolute; background-color: rgb(40, 42, 53); color: white; padding-bottom: 60px; display: none;">
+      <div class="w3-content" style="max-width:1100px;font-size:18px">
+        <span onclick="w3_close_nav('exercises')" class="w3-button w3-xxxlarge w3-display-topright w3-hover-white sectionxsclosenavspan" style="padding-right:30px;padding-left:30px;">×</span>
+        <div class="w3-row-padding w3-bar-block">
+          <div class="w3-container" style="padding-left:13px">
+            <h2 style="color:#FFF4A3;"><b>Exercises</b></h2>
+          </div>
+          <div class="w3-col l4 m12">
+            <h3 class="w3-margin-top">Exercises</h3>
+            <a class="w3-bar-item w3-button" href="/html/html_exercises.asp">HTML Exercises</a>
+            <a class="w3-bar-item w3-button" href="/css/css_exercises.asp">CSS Exercises</a>
+            <a class="w3-bar-item w3-button" href="/js/js_exercises.asp">JavaScript Exercises</a>
+            <a class="w3-bar-item w3-button" href="/sql/sql_exercises.asp">SQL Exercises</a>
+            <a class="w3-bar-item w3-button" href="/mysql/mysql_exercises.asp">MySQL Exercises</a>
+            <a class="w3-bar-item w3-button" href="/php/php_exercises.asp">PHP Exercises</a>
+            <a class="w3-bar-item w3-button" href="/python/python_exercises.asp">Python Exercises</a>
+            <a class="w3-bar-item w3-button" href="/python/numpy/numpy_exercises.asp">NumPy Exercises</a>
+            <a class="w3-bar-item w3-button" href="/python/pandas/pandas_exercises.asp">Pandas Exercises</a>
+            <a class="w3-bar-item w3-button" href="/python/scipy/scipy_exercises.php">SciPy Exercises</a>
+            <a class="w3-bar-item w3-button" href="/jquery/jquery_exercises.asp">jQuery Exercises</a>
+            <a class="w3-bar-item w3-button" href="/java/java_exercises.asp">Java Exercises</a>
+            <a class="w3-bar-item w3-button" href="/bootstrap/bootstrap_exercises.asp">Bootstrap Exercises</a>
+            <a class="w3-bar-item w3-button" href="/bootstrap4/bootstrap_exercises.asp">Bootstrap 4 Exercises</a>
+            <a class="w3-bar-item w3-button" href="/cpp/cpp_exercises.asp">C++ Exercises</a>
+            <a class="w3-bar-item w3-button" href="/cs/cs_exercises.asp">C# Exercises</a>
+            <a class="w3-bar-item w3-button" href="/r/r_exercises.asp">R Exercises</a>
+            <a class="w3-bar-item w3-button" href="/git/git_exercises.asp">Git Exercises</a>
+          </div>
+          <div class="w3-col l4 m12">
+            <h3 class="w3-margin-top">Quizzes</h3>
+            <a class="w3-bar-item w3-button" href="/html/html_quiz.asp" target="_top">HTML Quiz</a>
+            <a class="w3-bar-item w3-button" href="/css/css_quiz.asp" target="_top">CSS Quiz</a>
+            <a class="w3-bar-item w3-button" href="/js/js_quiz.asp" target="_top">JavaScript Quiz</a>
+            <a class="w3-bar-item w3-button" href="/sql/sql_quiz.asp" target="_top">SQL Quiz</a>
+            <a class="w3-bar-item w3-button" href="/mysql/mysql_quiz.asp" target="_top">MySQL Quiz</a>
+            <a class="w3-bar-item w3-button" href="/php/php_quiz.asp" target="_top">PHP Quiz</a>
+            <a class="w3-bar-item w3-button" href="/python/python_quiz.asp" target="_top">Python Quiz</a>
+            <a class="w3-bar-item w3-button" href="/python/numpy/numpy_quiz.asp" target="_top">NumPy Quiz</a>
+            <a class="w3-bar-item w3-button" href="/python/pandas/pandas_quiz.asp" target="_top">Pandas Quiz</a>
+            <a class="w3-bar-item w3-button" href="/python/scipy/scipy_quiz.php" target="_top">SciPy Quiz</a>
+            <a class="w3-bar-item w3-button" href="/jquery/jquery_quiz.asp" target="_top">jQuery Quiz</a>
+            <a class="w3-bar-item w3-button" href="/java/java_quiz.asp" target="_top">Java Quiz</a>
+            <a class="w3-bar-item w3-button" href="/bootstrap/bootstrap_quiz.asp" target="_top">Bootstrap Quiz</a>
+            <a class="w3-bar-item w3-button" href="/bootstrap4/bootstrap_quiz.asp" target="_top">Bootstrap 4 Quiz</a>
+            <a class="w3-bar-item w3-button" href="/cpp/cpp_quiz.asp" target="_top">C++ Quiz</a>
+            <a class="w3-bar-item w3-button" href="/cs/cs_quiz.asp" target="_top">C# Quiz</a>
+            <a class="w3-bar-item w3-button" href="/r/r_quiz.asp" target="_top">R Quiz</a>
+            <a class="w3-bar-item w3-button" href="/xml/xml_quiz.asp" target="_top">XML Quiz</a>
+            <a class="w3-bar-item w3-button" href="/cybersecurity/cybersecurity_quiz.php">Cyber Security Quiz</a>
+          </div>
+          <div class="w3-col l4 m12">
+            <h3 class="w3-margin-top">Courses</h3>
+            <!-- cert
+               <a class="w3-bar-item w3-button" href="/cert/cert_html_new.asp" target="_top">HTML Certificate</a>
+               <a class="w3-bar-item w3-button" href="/cert/cert_css.asp" target="_top">CSS Certificate</a>
+               <a class="w3-bar-item w3-button" href="/cert/cert_javascript.asp" target="_top">JavaScript Certificate</a>
+               <a class="w3-bar-item w3-button" href="/cert/cert_sql.asp" target="_top">SQL Certificate</a>
+               <a class="w3-bar-item w3-button" href="/cert/cert_php.asp" target="_top">PHP Certificate</a>
+               <a class="w3-bar-item w3-button" href="/cert/cert_python.asp" target="_top">Python Certificate</a>
+               <a class="w3-bar-item w3-button" href="/cert/cert_bootstrap.asp" target="_top">Bootstrap Certificate</a>
+               <a class="w3-bar-item w3-button" href="/cert/cert_jquery.asp" target="_top">jQuery Certificate</a>
+               <a class="w3-bar-item w3-button" href="/cert/cert_xml.asp" target="_top">XML Certificate</a>
+            -->
+            <a class="w3-bar-item w3-button" href="https://courses.w3schools.com/courses/html" target="_blank">HTML Course</a>
+            <a class="w3-bar-item w3-button" href="https://courses.w3schools.com/courses/css" target="_blank">CSS Course</a>
+            <a class="w3-bar-item w3-button" href="https://courses.w3schools.com/courses/javascript" target="_blank">JavaScript Course</a>
+            <a class="w3-bar-item w3-button" href="https://courses.w3schools.com/programs/front-end" target="_blank">Front End Course</a>
+            <a class="w3-bar-item w3-button" href="https://courses.w3schools.com/courses/sql" target="_blank">SQL Course</a>
+            <a class="w3-bar-item w3-button" href="https://courses.w3schools.com/courses/python" target="_blank">Python Course</a>
+            <a class="w3-bar-item w3-button" href="https://courses.w3schools.com/courses/numpy-fundamentals" target="_blank">NumPy Course</a>
+            <a class="w3-bar-item w3-button" href="https://courses.w3schools.com/courses/pandas-fundamentals" target="_blank">Pandas Course</a>
+            <a class="w3-bar-item w3-button" href="https://courses.w3schools.com/courses/jquery" target="_blank">jQuery Course</a>
+            <a class="w3-bar-item w3-button" href="https://courses.w3schools.com/courses/php" target="_blank">PHP Course</a>
+            <a class="w3-bar-item w3-button" href="https://courses.w3schools.com/courses/c-sharp" target="_blank">C# Course</a>
+            <a class="w3-bar-item w3-button" href="https://courses.w3schools.com/courses/cplusplus" target="_blank">C++ Course</a>
+            <a class="w3-bar-item w3-button" href="https://courses.w3schools.com/courses/xml" target="_blank">XML Course</a>
+            <a class="w3-bar-item w3-button" href="https://courses.w3schools.com/courses/r-fundamentals" target="_blank">R Course</a>
+            <a class="w3-bar-item w3-button" href="https://courses.w3schools.com/courses/introduction-to-cyber-security" target="_blank">Cyber Security Course</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+
+  </div>
+</div>
+
+<div id="myAccordion" class="w3-card-2 w3-center w3-hide-large w3-hide-medium" style="width: 100%; position: absolute; display: none; background-color: rgb(231, 233, 235); padding-top: 44px;">
+  <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-xxlarge w3-right">×</a>
+  <div class="w3-container w3-padding-32">
+    <a class="w3-button w3-block" style="font-size:22px;" onclick="open_xs_menu('tutorials');" href="javascript:void(0);">Tutorials <i class="fa fa-caret-down"></i></a>
+    <div id="sectionxs_tutorials" class="w3-left-align w3-show" style="background-color:#282A35;color:white;"></div>
+    <a class="w3-button w3-block" style="font-size:22px;" onclick="open_xs_menu('references')" href="javascript:void(0);">References <i class="fa fa-caret-down"></i></a>
+    <div id="sectionxs_references" class="w3-left-align w3-show" style="background-color:#282A35;color:white;"></div>
+    <a class="w3-button w3-block" style="font-size:22px;" onclick="open_xs_menu('exercises')" href="javascript:void(0);">Exercises <i class="fa fa-caret-down"></i></a>
+    <div id="sectionxs_exercises" class="w3-left-align w3-show" style="background-color:#282A35;color:white;"></div>
+    <a class="w3-button w3-block" style="font-size:22px;" href="/cert/default.asp">Paid Courses</a>
+    <a class="w3-button w3-block" style="font-size:22px;" href="https://shop.w3schools.com" target="_blank">Shop</a>
+  </div>
+</div>
+
+<script>
+
+</script>
+
+
+<div class="w3-sidebar w3-collapse" id="sidenav" style="top: 44px; display: none;">
+  <div id="leftmenuinner" style="padding-top: 44px;">
+    <div id="leftmenuinnerinner" style="background-color:#E7E9EB;">
+      <!--  <a href='javascript:void(0)' onclick='close_menu()' class='w3-button w3-hide-large w3-large w3-display-topright' style='right:16px;padding:3px 12px;font-weight:bold;'>&times;</a>-->
+      <h2 class="left"><span class="left_h2">XML</span> Tutorial</h2>
+      <a target="_top" href="default.asp">XML HOME</a>
+      <a target="_top" href="xml_whatis.asp">XML Introduction</a>
+      <a target="_top" href="xml_usedfor.asp">XML How to use</a>
+      <a target="_top" href="xml_tree.asp">XML Tree</a>
+      <a target="_top" href="xml_syntax.asp">XML Syntax</a>
+      <a target="_top" href="xml_elements.asp">XML Elements</a>
+      <a target="_top" href="xml_attributes.asp">XML Attributes</a>
+      <a target="_top" href="xml_namespaces.asp">XML Namespaces</a>
+      <a target="_top" href="xml_display.asp">XML Display</a>
+      <a target="_top" href="xml_http.asp">XML HttpRequest</a>
+      <a target="_top" href="xml_parser.asp">XML Parser</a>
+      <a target="_top" href="xml_dom.asp">XML DOM</a>
+      <a target="_top" href="xml_xpath.asp">XML XPath</a>
+      <a target="_top" href="xml_xslt.asp">XML XSLT</a>
+      <a target="_top" href="xml_xquery.asp">XML XQuery</a>
+      <a target="_top" href="xml_xlink.asp">XML XLink</a>
+      <a target="_top" href="xml_validator.asp">XML Validator</a>
+      <a target="_top" href="xml_dtd.asp">XML DTD</a>
+      <a target="_top" href="xml_schema.asp">XML Schema</a>
+      <a target="_top" href="xml_server.asp">XML Server</a>
+      <a target="_top" href="xml_examples.asp">XML Examples</a>
+      <a target="_top" href="xml_quiz.asp">XML Quiz</a>
+      <a target="_top" href="xml_exam.asp">XML Certificate</a>
+      <h2 class="left">XML AJAX</h2>
+      <a target="_top" href="ajax_intro.asp">AJAX Introduction</a>
+      <a target="_top" href="ajax_xmlhttprequest_create.asp">AJAX XMLHttp</a>
+      <a target="_top" href="ajax_xmlhttprequest_send.asp">AJAX Request</a>
+      <a target="_top" href="ajax_xmlhttprequest_response.asp">AJAX Response</a>
+      <a target="_top" href="ajax_xmlfile.asp">AJAX XML File</a>
+      <a target="_top" href="ajax_php.asp">AJAX PHP</a>
+      <a target="_top" href="ajax_asp.asp">AJAX ASP</a>
+      <a target="_top" href="ajax_database.asp">AJAX Database</a>
+      <a target="_top" href="ajax_applications.asp">AJAX Applications</a>
+      <a target="_top" href="ajax_examples.asp">AJAX Examples</a>
+      <h2 class="left"><span class="left_h2">XML DOM</span></h2>
+      <a target="_top" href="dom_intro.asp">DOM Introduction</a>
+      <a target="_top" href="dom_nodes.asp">DOM Nodes</a>
+      <a target="_top" href="dom_nodes_access.asp">DOM Accessing</a>
+      <a target="_top" href="dom_nodes_info.asp">DOM Node Info</a>
+      <a target="_top" href="dom_nodes_nodelist.asp">DOM Node List</a>
+      <a target="_top" href="dom_nodes_traverse.asp">DOM Traversing</a>
+      <a target="_top" href="dom_nodes_navigate.asp">DOM Navigating</a>
+      <a target="_top" href="dom_nodes_get.asp">DOM Get Values</a>
+      <a target="_top" href="dom_nodes_set.asp">DOM Change Nodes</a>
+      <a target="_top" href="dom_nodes_remove.asp">DOM Remove Nodes</a>
+      <a target="_top" href="dom_nodes_replace.asp">DOM Replace Nodes</a>
+      <a target="_top" href="dom_nodes_create.asp">DOM Create Nodes</a>
+      <a target="_top" href="dom_nodes_add.asp">DOM Add Nodes</a>
+      <a target="_top" href="dom_nodes_clone.asp">DOM Clone Nodes</a>
+      <a target="_top" href="dom_examples.asp" class="active">DOM Examples</a>
+      <h2 class="left"><span class="left_h2">XPath</span> Tutorial</h2>
+      <a target="_top" href="xpath_intro.asp">XPath Introduction</a>
+      <a target="_top" href="xpath_nodes.asp">XPath Nodes</a>
+      <a target="_top" href="xpath_syntax.asp">XPath Syntax</a>
+      <a target="_top" href="xpath_axes.asp">XPath Axes</a>
+      <a target="_top" href="xpath_operators.asp">XPath Operators</a>
+      <a target="_top" href="xpath_examples.asp">XPath Examples</a>
+      <h2 class="left"><span class="left_h2">XSLT</span> Tutorial</h2>
+      <a target="_top" href="xsl_intro.asp">XSLT Introduction</a>
+      <a target="_top" href="xsl_languages.asp">XSL Languages</a>
+      <a target="_top" href="xsl_transformation.asp">XSLT Transform</a>
+      <a target="_top" href="xsl_templates.asp">XSLT &lt;template&gt;</a>
+      <a target="_top" href="xsl_value_of.asp">XSLT &lt;value-of&gt;</a>
+      <a target="_top" href="xsl_for_each.asp">XSLT &lt;for-each&gt;</a>
+      <a target="_top" href="xsl_sort.asp">XSLT &lt;sort&gt;</a>
+      <a target="_top" href="xsl_if.asp">XSLT &lt;if&gt;</a>
+      <a target="_top" href="xsl_choose.asp">XSLT &lt;choose&gt;</a>
+      <a target="_top" href="xsl_apply_templates.asp">XSLT Apply</a>
+      <a target="_top" href="xsl_client.asp">XSLT on the Client</a>
+      <a target="_top" href="xsl_server.asp">XSLT on the Server</a>
+      <a target="_top" href="xsl_editxml.asp">XSLT Edit XML</a>
+      <a target="_top" href="xsl_examples.asp">XSLT Examples</a>
+      <h2 class="left"><span class="left_h2">XQuery</span> Tutorial</h2>
+      <a target="_top" href="xquery_intro.asp">XQuery Introduction</a>
+      <a target="_top" href="xquery_example.asp">XQuery Example</a>
+      <a target="_top" href="xquery_flwor.asp">XQuery FLWOR</a>
+      <a target="_top" href="xquery_flwor_html.asp">XQuery HTML</a>
+      <a target="_top" href="xquery_terms.asp">XQuery Terms</a>
+      <a target="_top" href="xquery_syntax.asp">XQuery Syntax</a>
+      <a target="_top" href="xquery_add.asp">XQuery Add</a>
+      <a target="_top" href="xquery_select.asp">XQuery Select</a>
+      <a target="_top" href="xquery_functions.asp">XQuery Functions</a>
+      <h2 class="left"><span class="left_h2">XML</span> DTD</h2>
+      <a target="_top" href="xml_dtd_intro.asp">DTD Introduction</a>
+      <a target="_top" href="xml_dtd_building.asp">DTD Building Blocks</a>
+      <a target="_top" href="xml_dtd_elements.asp">DTD Elements</a>
+      <a target="_top" href="xml_dtd_attributes.asp">DTD Attributes</a>
+      <a target="_top" href="xml_dtd_el_vs_attr.asp">DTD Elements vs Attr</a>
+      <a target="_top" href="xml_dtd_entities.asp">DTD Entities</a>
+      <a target="_top" href="xml_dtd_examples.asp">DTD Examples</a>
+      <h2 class="left"><span class="left_h2">XSD</span> Schema</h2>
+      <a target="_top" href="schema_intro.asp">XSD Introduction</a>
+      <a target="_top" href="schema_howto.asp">XSD How To</a>
+      <a target="_top" href="schema_schema.asp">XSD &lt;schema&gt;</a>
+      <a target="_top" href="schema_simple.asp">XSD Elements</a>
+      <a target="_top" href="schema_simple_attributes.asp">XSD Attributes</a>
+      <a target="_top" href="schema_facets.asp">XSD Restrictions</a>
+      <h2 class="left"><span class="left_h2">XSD</span> Complex</h2>
+      <a target="_top" href="schema_complex.asp">XSD Elements</a>
+      <a target="_top" href="schema_complex_empty.asp">XSD Empty</a>
+      <a target="_top" href="schema_complex_elements.asp">XSD Elements Only</a>
+      <a target="_top" href="schema_complex_text.asp">XSD Text Only</a>
+      <a target="_top" href="schema_complex_mixed.asp">XSD Mixed</a>
+      <a target="_top" href="schema_complex_indicators.asp">XSD Indicators</a>
+      <a target="_top" href="schema_complex_any.asp">XSD &lt;any&gt;</a>
+      <a target="_top" href="schema_complex_anyattribute.asp">XSD &lt;anyAttribute&gt;</a>
+      <a target="_top" href="schema_complex_subst.asp">XSD Substitution</a>
+      <a target="_top" href="schema_example.asp">XSD Example</a>
+      <h2 class="left"><span class="left_h2">XSD</span> Data</h2>
+      <a target="_top" href="schema_dtypes_string.asp">XSD String</a>
+      <a target="_top" href="schema_dtypes_date.asp">XSD Date</a>
+      <a target="_top" href="schema_dtypes_numeric.asp">XSD Numeric</a>
+      <a target="_top" href="schema_dtypes_misc.asp">XSD Misc</a>
+      <a target="_top" href="schema_elements_ref.asp">XSD Reference</a>
+      <h2 class="left"><span class="left_h2">Web</span> Services</h2>
+      <a target="_top" href="xml_services.asp">XML Services</a>
+      <a target="_top" href="xml_wsdl.asp">XML WSDL</a>
+      <a target="_top" href="xml_soap.asp">XML SOAP</a>
+      <a target="_top" href="xml_rdf.asp">XML RDF</a>
+      <a target="_top" href="xml_rss.asp">XML RSS</a>
+      <h2 class="left"><span class="left_h2">References</span></h2>
+      <a target="_top" href="dom_nodetype.asp">DOM Node Types</a>
+      <a target="_top" href="dom_node.asp">DOM Node</a>
+      <a target="_top" href="dom_nodelist.asp">DOM NodeList</a>
+      <a target="_top" href="dom_namednodemap.asp">DOM NamedNodeMap</a>
+      <a target="_top" href="dom_document.asp">DOM Document</a>
+      <a target="_top" href="dom_element.asp">DOM Element</a>
+      <a target="_top" href="dom_attribute.asp">DOM Attribute</a>
+      <a target="_top" href="dom_text.asp">DOM Text</a>
+      <a target="_top" href="dom_cdatasection.asp">DOM CDATA</a>
+      <a target="_top" href="dom_comment.asp">DOM Comment</a>
+      <a target="_top" href="dom_http.asp">DOM XMLHttpRequest</a>
+      <a target="_top" href="dom_parser.asp">DOM Parser</a>
+      <a target="_top" href="xsl_elementref.asp">XSLT Elements</a>
+      <a target="_top" href="xsl_functions.asp">XSLT/XPath Functions</a>
+
+
+
+    </div>
+  </div>
+</div>
+<div class="w3-main w3-light-grey" id="belowtopnav" style="margin-left: 220px; padding-top: 44px;">
+  <div class="w3-row w3-white">
+    <div class="w3-col l10 m12" id="main">
+      <div id="mainLeaderboard" style="overflow:hidden;">
+        <!-- MainLeaderboard-->
+
+        <!--<pre>main_leaderboard, all: [728,90][970,90][320,50][468,60]</pre>-->
+        <div id="snhb-main_leaderboard-0"></div>
+        <!-- adspace leaderboard -->
+
+      </div>
+      <h1>XML DOM <span class="color_h1">Examples</span></h1>
+      <div class="w3-clear nextprev">
+        <a class="w3-left w3-btn" href="dom_nodes_clone.asp">❮ Previous</a>
+        <a class="w3-right w3-btn" href="xpath_intro.asp">Next ❯</a>
+      </div>
+
+      <div id="w3Modal01" class="w3-modal" style="width:100%">
+        <div class="w3-modal-content w3-card-4" style="width:90%">
+          <header class="w3-container w3-display-container w3-theme">
+            <span onclick="document.getElementById('w3Modal01').style.display='none'" class="w3-button w3-xlarge w3-display-topright">×</span>
+            <h3 id="w3ModalHeading01">Header</h3>
+          </header>
+          <div id="w3ModalContent01" class="w3-padding"></div>
+        </div>
+      </div>
+
+      <div class="w3-container w3-theme">
+        <h2>Try it Yourself - Examples</h2>
+      </div>
+
+
+
+      <p><b>XML DOM The XMLHttpRequest Object</b></p>
+
+      <p>
+        <a target="_blank" href="tryit.asp?filename=try_dom_xmlhttprequest_first">
+          A simple XMLHttpRequest example</a>
+        Create a simple XMLHttpRequest, and retrieve data from a TXT file.
+      </p>
+
+      <p>
+        <a target="_blank" href="tryit.asp?filename=try_dom_xmlhttprequest_header">
+          Retrieve header information with getAllResponseHeaders()</a>
+        Retrieve header information of a resource (file).
+      </p>
+
+      <p>
+        <a target="_blank" href="tryit.asp?filename=try_dom_xmlhttprequest_lastmodified">
+          Retrieve specific header information with getResponseHeader()</a>
+        Retrieve specific header information of a resource (file).
+      </p>
+
+      <p>
+        <a target="_blank" href="tryit.asp?filename=try_dom_xmlhttprequest_suggest">
+          Retrieve the content of an ASP file</a>
+        How a web page can communicate with a web server while a user type characters in an input field.
+      </p>
+
+      <p>
+        <a target="_blank" href="tryit.asp?filename=try_dom_xmlhttprequest_database">
+          Retrieve content from a database</a>
+        How a web page can fetch information from a database with the XMLHttpRequest
+        object.
+      </p>
+
+      <p>
+        <a target="_blank" href="tryit.asp?filename=try_dom_xmlhttprequest_xml">Retrieve the content of an XML file</a>
+        Create an XMLHttpRequest to retrieve data from an XML file and display the data in an HTML table.
+      </p>
+
+      <p><a href="dom_httprequest.asp">Examples explained</a></p>
+
+
+
+      <p><b> XML DOM Loading XML</b></p>
+      <p>The examples below use the XML file <a href="javascript:void(0)" onclick="displayXML('books.xml')">books.xml</a>.
+      </p><p>
+      <a target="_blank" href="tryit.asp?filename=try_dom_loadxmldoc">Load and parse an XML file</a>
+      <a target="_blank" href="tryit.asp?filename=try_dom_loadxmldoc2">Load and parse an XML file (II)</a>
+      <a target="_blank" href="tryit.asp?filename=try_dom_loadxmltext">Load and XML string</a>
+      <a target="_blank" href="tryit.asp?filename=try_dom_loadxmltext2">Load and parse an XML string (II)</a>
+    </p>
+
+
+      <p><b> XML DOM Accessing Nodes</b></p>
+      <p>The examples below use the XML file <a href="javascript:void(0)" onclick="displayXML('books.xml')">books.xml</a>.
+      </p><p>
+      <a target="_blank" href="tryit.asp?filename=try_dom_index">Access a node using its index number in a node list</a>
+      <a target="_blank" href="tryit.asp?filename=try_dom_list_loop">Loop through nodes using the length property</a>
+      <a target="_blank" href="tryit.asp?filename=try_dom_root">See the node type of an element</a>
+      <a target="_blank" href="tryit.asp?filename=try_dom_loop">Loop through element nodes</a>
+      <a target="_blank" href="tryit.asp?filename=try_dom_navigate">Loop through element nodes using node relationships</a></p>
+      <p>
+        <a href="dom_nodes_access.asp">Examples explained</a>
+      </p>
+
+
+      <p><b> XML DOM Node Information</b></p>
+      <p>The examples below use the XML file <a href="javascript:void(0)" onclick="displayXML('books.xml')">books.xml</a>.
+      </p><p>
+      <a target="_blank" href="tryit.asp?filename=try_dom_nodename3">Get the node name of an element node</a>
+      <a target="_blank" href="tryit.asp?filename=try_dom_getelement">Get the text from a text node</a>
+      <a target="_blank" href="tryit.asp?filename=try_dom_changeelement">Change the text in a text node</a>
+      <a target="_blank" href="tryit.asp?filename=try_dom_root">Get the node name and type of an element node</a>
+    </p>
+      <p><a href="dom_nodes_info.asp">Examples explained</a></p>
+
+      <div id="midcontentadcontainer" style="overflow:auto;text-align:center">
+        <!-- MidContent -->
+        <!-- <p class="adtext">Advertisement</p> -->
+
+        <!--<pre>mid_content, all: [300,250][336,280][728,90][970,250][970,90][320,50][468,60]</pre>-->
+        <div id="snhb-mid_content-0"></div>
+
+      </div>
+
+      <p><b> XML DOM Node List and Attribute List</b></p>
+      <p>The examples below use the XML file <a href="javascript:void(0)" onclick="displayXML('books.xml')">books.xml</a>.
+      </p><p>
+      <a target="_blank" href="tryit.asp?filename=try_dom_nodelist">Get the text from the first &lt;title&gt; element</a>
+      <a target="_blank" href="tryit.asp?filename=try_dom_nodelist_length">Loop through nodes using the length property</a>
+      <a target="_blank" href="tryit.asp?filename=try_dom_attributes">Get the attribute of an element</a>
+    </p>
+      <p><a href="dom_nodes_nodelist.asp">Examples explained</a></p>
+
+
+      <p><b> XML DOM Traversing Node Tree</b></p>
+      <p>The examples below use the XML file <a href="javascript:void(0)" onclick="displayXML('books.xml')">books.xml</a>.
+      </p><p>
+      <a target="_blank" href="tryit.asp?filename=try_dom_parsertest3">Traverse a node tree</a>
+      <a target="_blank" href="tryit.asp?filename=try_dom_nodetype_ievsmozilla">Display the length of a node list</a>
+    </p>
+      <p><a href="dom_nodes_traverse.asp">Examples explained</a></p>
+
+
+      <p><b> XML DOM Navigating Nodes</b></p>
+      <p>The examples below use the XML file <a href="javascript:void(0)" onclick="displayXML('books.xml')">books.xml</a>.</p><p>
+      <a target="_blank" href="tryit.asp?filename=try_dom_nav_parentnode">Get the parent of a node</a>
+      <a target="_blank" href="tryit.asp?filename=try_dom_nav_firstchild">Get the first child element of a node</a>
+      <a target="_blank" href="tryit.asp?filename=try_dom_nav_lastchild">Get the last child element of a node</a>
+      <a target="_blank" href="tryit.asp?filename=try_dom_nav_nextsibling">Get the next sibling element of a node</a>
+      <a target="_blank" href="tryit.asp?filename=try_dom_nav_prevsibling">Get the previous sibling element of a node</a>
+    </p>
+      <p><a href="dom_nodes_navigate.asp">Examples explained</a></p>
+
+
+      <p><b>XML DOM Get Node Values</b></p>
+
+      <p>The examples below use the XML file <a href="javascript:void(0)" onclick="displayXML('books.xml')">books.xml</a>.
+      </p><p>
+      <a target="_blank" href="tryit.asp?filename=try_dom_getelementsbytagname">Get an element's text value</a>
+      <a target="_blank" href="tryit.asp?filename=try_dom_getattribute">Get an attribute's text value</a>
+    </p>
+      <p><a href="dom_nodes_get.asp">Examples explained</a></p>
+
+
+      <p><b>XML DOM Change Node Values</b></p>
+
+      <p>The examples below use the XML file <a href="javascript:void(0)" onclick="displayXML('books.xml')">books.xml</a>.
+      </p><p>
+      <a target="_blank" href="tryit.asp?filename=try_dom_change_nodevalue">Change an elements text node</a>
+      <a target="_blank" href="tryit.asp?filename=try_dom_setattribute1">Change an attributes value using setAttribute</a>
+      <a href="tryit.asp?filename=try_dom_att_nodevalue">Change an attributes value using nodeValue</a>
+    </p>
+      <p><a href="dom_nodes_set.asp">Examples explained</a></p>
+
+
+      <p><b>XML DOM Remove Nodes</b></p>
+
+      <p>The examples below use the XML file <a href="javascript:void(0)" onclick="displayXML('books.xml')">books.xml</a>.
+      </p><p>
+      <a target="_blank" href="tryit.asp?filename=try_dom_removechild">Remove an element node</a>
+      <a target="_blank" href="tryit.asp?filename=try_dom_removecurrent">Remove the current element node</a>
+      <a target="_blank" href="tryit.asp?filename=try_dom_removetextnode">Remove a text node</a>
+      <a target="_blank" href="tryit.asp?filename=try_dom_remove_nodevalue">Clear the text of a text node</a>
+      <a target="_blank" href="tryit.asp?filename=try_dom_removeattribute">Remove an attribute by name</a>
+      <a target="_blank" href="tryit.asp?filename=try_dom_removeattributenode">Remove attributes by object</a>
+    </p>
+      <p><a href="dom_nodes_remove.asp">Examples explained</a></p>
+
+
+      <p><b>XML DOM Replace Nodes</b></p>
+
+      <p>The examples below use the XML file <a href="javascript:void(0)" onclick="displayXML('books.xml')">books.xml</a>.
+      </p><p>
+      <a target="_blank" href="tryit.asp?filename=try_dom_replacechild">Replace an element node</a>
+      <a target="_blank" href="tryit.asp?filename=try_dom_replacedata2">Replace data in a text node</a>
+    </p>
+      <p><a href="dom_nodes_replace.asp">Examples explained</a></p>
+
+
+      <p><b>XML DOM Create Nodes</b></p>
+
+      <p>The examples below use the XML file <a href="javascript:void(0)" onclick="displayXML('books.xml')">books.xml</a>.
+      </p><p>
+      <a target="_blank" href="tryit.asp?filename=try_dom_createelement1">Create an element node</a>
+      <a target="_blank" href="tryit.asp?filename=try_dom_createattribute">Create an attribute node using createAttribute</a>
+      <a target="_blank" href="tryit.asp?filename=try_dom_createattribute3">Create an attribute node using setAttribute </a>
+      <a target="_blank" href="tryit.asp?filename=try_dom_createelement1">Create a text node</a>
+      <a target="_blank" href="tryit.asp?filename=try_dom_createcdatasection1">Create a CDATA section node</a>
+      <a target="_blank" href="tryit.asp?filename=try_dom_createcomment1">Create a comment node</a>
+    </p>
+      <p><a href="dom_nodes_create.asp">Examples explained</a></p>
+
+
+      <p><b>XML DOM Add Nodes</b></p>
+
+      <p>The examples below use the XML file <a href="javascript:void(0)" onclick="displayXML('books.xml')">books.xml</a>.
+      </p><p>
+      <a target="_blank" href="tryit.asp?filename=try_dom_createelement2">Add a node after the last child node</a>
+      <a target="_blank" href="tryit.asp?filename=try_dom_insertbefore">Add a node before a specified child node</a>
+      <a target="_blank" href="tryit.asp?filename=try_dom_createattribute3">Add a new attribute</a>
+      <a target="_blank" href="tryit.asp?filename=try_dom_insertdata">Add data to a text node</a>
+    </p>
+      <p><a href="dom_nodes_add.asp">Examples explained</a></p>
+
+
+      <p><b>XML DOM Clone Nodes</b></p>
+
+      <p>The examples below use the XML file <a href="javascript:void(0)" onclick="displayXML('books.xml')">books.xml</a>.
+      </p><p>
+      <a target="_blank" href="tryit.asp?filename=try_dom_clonenode">Copy a node and append it to an existing node</a>
+    </p>
+      <p><a href="dom_nodes_clone.asp">Examples explained</a></p>
+
+
+      <div class="w3-clear nextprev">
+        <a class="w3-left w3-btn" href="dom_nodes_clone.asp">❮ Previous</a>
+        <a class="w3-right w3-btn" href="xpath_intro.asp">Next ❯</a>
+      </div>
+      <div id="mypagediv2" style="position:relative;text-align:center;"></div>
+
+
+    </div>
+    <div class="w3-col l2 m12" id="right">
+
+      <div class="sidesection">
+        <div id="skyscraper">
+
+          <!--<pre>wide_skyscraper, all: [160,600][300,600][320,50][120,600][300,1050]</pre>-->
+          <div id="snhb-wide_skyscraper-0"></div>
+          <!-- adspace wide-->
+
+        </div>
+      </div>
+
+
+      <div class="sidesection">
+        <h4>LIKE US</h4>
+        <div class="w3-text-grey sharethis" style="visibility: visible;">
+          <a href="https://www.facebook.com/w3schoolscom/" target="_blank" title="Facebook"><span class="fa fa-facebook-square fa-2x"></span></a>
+          <a href="https://www.instagram.com/w3schools.com_official/" target="_blank" title="Instagram"><span class="fa fa-instagram fa-2x"></span></a>
+          <a href="https://www.linkedin.com/company/w3schools.com/" target="_blank" title="LinkedIn"><span class="fa fa-linkedin-square fa-2x"></span></a>
+        </div>
+      </div>
+
+      <!--
+      <div class="sidesection" style="border-radius:5px;color:#555;padding-top:1px;padding-bottom:8px;margin-left:auto;margin-right:auto;max-width:230px;background-color:#d4edda">
+      <p>Get yourcertification today!</p>
+      <a href="/cert/default.asp" target="_blank">
+      <img src="/images/w3certified_logo_250.png" style="margin:0 12px 20px 10px;max-width:80%">
+      </a>
+      <a class="w3-btn w3-margin-bottom" style="text-decoration:none;border-radius:5px;"
+      href="/cert/default.asp" target="_blank">View options</a>
+      </div>
+      -->
+
+      <style>
+        #courses_get_started_btn {
+          text-decoration:none !important;
+          background-color:#04AA6D;
+          width:100%;
+          border-bottom-left-radius:5px;
+          border-bottom-right-radius:5px;
+          padding-top:10px;
+          padding-bottom:10px;
+          font-family: 'Source Sans Pro', sans-serif;
+        }
+        #courses_get_started_btn:hover {
+          background-color:#059862!important;
+        }
+      </style>
+
+      <div class="sidesection" style="font-size:18px;font-family: 'Source Sans Pro', sans-serif;border-radius:5px;color:#FFC0C7;padding-top:1px;xpadding-bottom:8px;margin-left:auto;margin-right:auto;max-width:230px;background-color:#282A35">
+        <p style="font-size:18px;padding-left:2px;padding-right:2px;">Get certifiedby completinga course today!</p>
+        <a href="https://courses.w3schools.com" target="_blank" onclick="ga('send', 'event', 'Courses' , 'Clicked on courses banner in ads column');">
+          <div style="padding:0 20px 20px 20px">
+            <svg id="w3_cert_badge2" style="margin:auto;width:85%" data-name="w3_cert_badge2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300"><defs><style>.cls-1{fill:#04aa6b;}.cls-2{font-size:23px;}.cls-2,.cls-3,.cls-4{fill:#fff;}.cls-2,.cls-3{font-family:RobotoMono-Medium, Roboto Mono;font-weight:500;}.cls-3{font-size:20.08px;}</style></defs><circle class="cls-1" cx="150" cy="150" r="146.47" transform="translate(-62.13 150) rotate(-45)"></circle><text class="cls-2" transform="translate(93.54 63.89) rotate(-29.5)">w</text><text class="cls-2" transform="translate(107.13 56.35) rotate(-20.8)">3</text><text class="cls-2" transform="matrix(0.98, -0.21, 0.21, 0.98, 121.68, 50.97)">s</text><text class="cls-2" transform="translate(136.89 47.84) rotate(-3.47)">c</text><text class="cls-2" transform="translate(152.39 47.03) rotate(5.12)">h</text><text class="cls-2" transform="translate(167.85 48.54) rotate(13.72)">o</text><text class="cls-2" transform="translate(182.89 52.35) rotate(22.34)">o</text><text class="cls-2" transform="matrix(0.86, 0.52, -0.52, 0.86, 197.18, 58.36)">l</text><text class="cls-2" transform="matrix(0.77, 0.64, -0.64, 0.77, 210.4, 66.46)">s</text><text class="cls-3" transform="translate(35.51 186.66) rotate(69.37)"> </text><text class="cls-3" transform="matrix(0.47, 0.88, -0.88, 0.47, 41.27, 201.28)">C</text><text class="cls-3" transform="matrix(0.58, 0.81, -0.81, 0.58, 48.91, 215.03)">E</text><text class="cls-3" transform="matrix(0.67, 0.74, -0.74, 0.67, 58.13, 227.36)">R</text><text class="cls-3" transform="translate(69.16 238.92) rotate(39.44)">T</text><text class="cls-3" transform="matrix(0.85, 0.53, -0.53, 0.85, 81.47, 248.73)">I</text><text class="cls-3" transform="translate(94.94 256.83) rotate(24.36)">F</text><text class="cls-3" transform="translate(109.34 263.09) rotate(16.83)">I</text><text class="cls-3" transform="translate(124.46 267.41) rotate(9.34)">E</text><text class="cls-3" transform="translate(139.99 269.73) rotate(1.88)">D</text><text class="cls-3" transform="translate(155.7 270.01) rotate(-5.58)"> </text><text class="cls-3" transform="translate(171.32 268.24) rotate(-13.06)"> </text><text class="cls-2" transform="translate(187.55 266.81) rotate(-21.04)">.</text><text class="cls-3" transform="translate(203.27 257.7) rotate(-29.24)"> </text><text class="cls-3" transform="translate(216.84 249.83) rotate(-36.75)"> </text><text class="cls-3" transform="translate(229.26 240.26) rotate(-44.15)">2</text><text class="cls-3" transform="translate(240.39 229.13) rotate(-51.62)">0</text><text class="cls-3" transform="translate(249.97 216.63) rotate(-59.17)">2</text><text class="cls-3" transform="matrix(0.4, -0.92, 0.92, 0.4, 257.81, 203.04)">1</text><path class="cls-4" d="M196.64,136.31s3.53,3.8,8.5,3.8c3.9,0,6.75-2.37,6.75-5.59,0-4-3.64-5.81-8-5.81h-2.59l-1.53-3.48,6.86-8.13a34.07,34.07,0,0,1,2.7-2.85s-1.11,0-3.33,0H194.79v-5.86H217.7v4.28l-9.19,10.61c5.18.74,10.24,4.43,10.24,10.92s-4.85,12.3-13.19,12.3a17.36,17.36,0,0,1-12.41-5Z"></path><path class="cls-4" d="M152,144.24l30.24,53.86,14.94-26.61L168.6,120.63H135.36l-13.78,24.53-13.77-24.53H77.93l43.5,77.46.15-.28.16.28Z"></path></svg>
+          </div>
+
+        </a>
+        <a class="w3-btn" id="courses_get_started_btn" href="https://courses.w3schools.com" target="_blank" onclick="ga('send', 'event', 'Courses' , 'Clicked on courses banner in ads column');">Get started</a>
+      </div>
+
+      <!--
+      <div class="sidesection" style="margin-left:auto;margin-right:auto;max-width:230px">
+      <a href="https://shop.w3schools.com/" target="_blank" title="Buy W3Schools Merchandize">
+        <img src="/images/tshirt.jpg" style="max-width:100%;">
+      </a>
+      </div>
+      -->
+
+      <div class="sidesection" id="moreAboutSubject">
+      </div>
+
+      <!--
+      <div id="sidesection_exercise" class="sidesection" style="background-color:#555555;max-width:200px;margin:auto;margin-bottom:32px">
+        <div class="w3-container w3-text-white">
+          <h4>Exercises</h4>
+        </div>
+        <div>
+          <div class="w3-light-grey">
+            <a target="_blank" href="/html/exercise.asp" style="padding-top:8px">HTML</a>
+            <a target="_blank" href="/css/exercise.asp">CSS</a>
+            <a target="_blank" href="/js/exercise_js.asp">JavaScript</a>
+            <a target="_blank" href="/sql/exercise.asp">SQL</a>
+            <a target="_blank" href="/php/exercise.asp">PHP</a>
+            <a target="_blank" href="/python/exercise.asp">Python</a>
+            <a target="_blank" href="/bootstrap/exercise_bs3.asp">Bootstrap</a>
+            <a target="_blank" href="/jquery/exercise_jq.asp" style="padding-bottom:8px">jQuery</a>
+          </div>
+        </div>
+      </div>
+      -->
+
+      <div class="sidesection codegameright">
+        <style>
+          .codegameright .w3-btn:link,.codegameright .w3-btn:visited {
+            background-color:#04AA6D;
+            border-radius:5px;
+          }
+          .codegameright .w3-btn:hover,.codegameright .w3-btn:active {
+            background-color:#059862!important;
+            text-decoration:none!important;
+          }
+        </style>
+        <h4><a href="/codegame/index.html">CODE GAME</a></h4>
+      </div>
+
+      <!--
+
+      <div class="sidesection w3-light-grey" style="margin-left:auto;margin-right:auto;max-width:230px">
+        <div class="w3-container w3-dark-grey">
+          <h4><a href="/howto/default.asp" class="w3-hover-text-white">HOW TO</a></h4>
+        </div>
+        <div class="w3-container w3-left-align w3-padding-16">
+          <a href="/howto/howto_js_tabs.asp">Tabs</a>
+          <a href="/howto/howto_css_dropdown.asp">Dropdowns</a>
+          <a href="/howto/howto_js_accordion.asp">Accordions</a>
+          <a href="/howto/howto_js_sidenav.asp">Side Navigation</a>
+          <a href="/howto/howto_js_topnav.asp">Top Navigation</a>
+          <a href="/howto/howto_css_modals.asp">Modal Boxes</a>
+          <a href="/howto/howto_js_progressbar.asp">Progress Bars</a>
+          <a href="/howto/howto_css_parallax.asp">Parallax</a>
+          <a href="/howto/howto_css_login_form.asp">Login Form</a>
+          <a href="/howto/howto_html_include.asp">HTML Includes</a>
+          <a href="/howto/howto_google_maps.asp">Google Maps</a>
+          <a href="/howto/howto_js_rangeslider.asp">Range Sliders</a>
+          <a href="/howto/howto_css_tooltip.asp">Tooltips</a>
+          <a href="/howto/howto_js_slideshow.asp">Slideshow</a>
+          <a href="/howto/howto_js_sort_list.asp">Sort List</a>
+        </div>
+      </div>
+      -->
+
+      <div class="sidesection w3-round" style="margin-left:auto;margin-right:auto;max-width:230px">
+        <div class="w3-container ws-black" style="border-top-right-radius:5px;border-top-left-radius:5px;">
+          <h5><a href="/cert/default.asp" class="w3-hover-text-white">Certificates</a></h5>
+        </div>
+        <div class="w3-border" style="border-bottom-right-radius:5px;border-bottom-left-radius:5px;">
+          <a href="/cert/cert_html.asp" class="w3-button ws-grey w3-block w3-border-bottom" style="text-decoration:none">HTML</a>
+          <a href="/cert/cert_css.asp" class="w3-button ws-grey w3-block w3-border-bottom" style="text-decoration:none">CSS</a>
+          <a href="/cert/cert_javascript.asp" class="w3-button ws-grey w3-block w3-border-bottom" style="text-decoration:none">JavaScript</a>
+          <a href="/cert/cert_frontend.asp" class="w3-button ws-grey w3-block w3-border-bottom" style="text-decoration:none">Front End</a>
+          <a href="/cert/cert_python.asp" class="w3-button ws-grey w3-block w3-border-bottom" style="text-decoration:none">Python</a>
+          <a href="/cert/cert_sql.asp" class="w3-button ws-grey w3-block w3-border-bottom" style="text-decoration:none">SQL</a>
+          <a href="/cert/default.asp" class="w3-button ws-grey w3-block" style="text-decoration:none;">And more</a>
+        </div>
+      </div>
+
+      <div id="stickypos" class="sidesection" style="text-align:center;position:sticky;top:50px;">
+        <div id="stickyadcontainer" style="width: 957.984px;">
+          <div style="position:relative;margin:auto;">
+
+            <!--<pre>sidebar_sticky, desktop: [120,600][160,600][300,600][300,250]</pre>-->
+            <div id="snhb-sidebar_sticky-0"></div>
+            <script>
+          if (Number(w3_getStyleValue(document.getElementById("main"), "height").replace("px", "")) > 2200) {
+            // adspace sticky
+            if (document.getElementById("snhb-mid_content-0")) {
+              snhb.queue.push(function(){  snhb.startAuction(["sidebar_sticky", "mid_content" ]); });
+            }
+            else {
+              snhb.queue.push(function(){  snhb.startAuction(["sidebar_sticky"]); });
+            }
+          }
+          else {
+              if (document.getElementById("snhb-mid_content-0")) {
+                snhb.queue.push(function(){  snhb.startAuction(["mid_content"]); });
+              }
+          }
+      </script>
+
+          </div>
+        </div>
+      </div>
+
+      <script>
+  window.addEventListener("scroll", fix_stickyad);
+  window.addEventListener("resize", fix_stickyad);
+</script>
+
+    </div>
+  </div>
+  <div id="footer" class="footer w3-container w3-white">
+
+
+
+    <div style="overflow:auto">
+      <div class="bottomad">
+        <!-- BottomMediumRectangle -->
+        <!--<pre>bottom_medium_rectangle, all: [970,250][300,250][336,280]</pre>-->
+        <div id="snhb-bottom_medium_rectangle-0" style="padding:0 10px 10px 0;float:left;width:auto;"></div>
+        <!-- adspace bmr -->
+        <!-- RightBottomMediumRectangle -->
+        <!--<pre>right_bottom_medium_rectangle, desktop: [300,250][336,280]</pre>-->
+        <div id="snhb-right_bottom_medium_rectangle-0" style="padding:0 10px 10px 0;float:left;width:auto;"></div>
+      </div>
+    </div>
+
+
+    <div class="w3-row-padding w3-center w3-small" style="margin:0 -16px">
+      <div class="w3-col l3 m3 s12">
+        <a class="w3-button ws-grey w3-block w3-round" href="javascript:void(0);" onclick="displayError();return false" style="white-space:nowrap;text-decoration:none;margin-top:1px;margin-bottom:1px">REPORT ERROR</a>
+      </div>
+      <!--
+      <div class="w3-col l3 m3 s12">
+      <a class="w3-button w3-light-grey w3-block" href="javascript:void(0);" target="_blank" onclick="printPage();return false;" style="text-decoration:none;margin-top:1px;margin-bottom:1px">PRINT PAGE</a>
+      </div>
+      -->
+      <div class="w3-col l3 m3 s12">
+        <a class="w3-button ws-grey w3-block w3-round" href="/forum/default.asp" target="_blank" style="text-decoration:none;margin-top:1px;margin-bottom:1px">FORUM</a>
+      </div>
+      <div class="w3-col l3 m3 s12">
+        <a class="w3-button ws-grey w3-block w3-round" href="/about/default.asp" target="_top" style="text-decoration:none;margin-top:1px;margin-bottom:1px">ABOUT</a>
+      </div>
+      <div class="w3-col l3 m3 s12">
+        <a class="w3-button ws-grey w3-block w3-round" href="https://shop.w3schools.com/" target="_blank" style="text-decoration:none;margin-top:1px;margin-bottom:1px">SHOP</a>
+      </div>
+
+    </div>
+
+    <div class="ws-grey w3-padding w3-margin-bottom" id="err_form" style="display:none;position:relative">
+      <span onclick="this.parentElement.style.display='none'" class="w3-button w3-display-topright w3-large">×</span>
+
+      <h2>Report Error</h2>
+
+      <p>If you want to report an error, or if you want to make a suggestion, do not hesitate to send us an e-mail:</p>
+      <p>help@w3schools.com</p>
+
+
+      <!--
+      <h2>Your Suggestion:</h2>
+      <form>
+      <div class="w3-section">
+      <label for="err_email">Your E-mail:</label>
+      <input class="w3-input w3-border" type="text" style="margin-top:5px;width:100%" id="err_email" name="err_email">
+      </div>
+      <div class="w3-section">
+      <label for="err_email">Page address:</label>
+      <input class="w3-input w3-border" type="text" style="width:100%;margin-top:5px" id="err_url" name="err_url" disabled="disabled">
+      </div>
+      <div class="w3-section">
+      <label for="err_email">Description:</label>
+      <textarea rows="10" class="w3-input w3-border" id="err_desc" name="err_desc" style="width:100%;margin-top:5px;resize:vertical;"></textarea>
+      </div>
+      <div class="form-group">
+      <button type="button" class="w3-button w3-dark-grey" onclick="sendErr()">Submit</button>
+      </div>
+
+      </form>
+      -->
+
+    </div>
+    <div class="w3-container ws-grey w3-padding" id="err_sent" style="display:none;position:relative">
+      <span onclick="this.parentElement.style.display='none'" class="w3-button w3-display-topright">×</span>
+      <h2>Thank You For Helping Us!</h2>
+      <p>Your message has been sent to W3Schools.</p>
+    </div>
+
+    <div class="w3-row w3-center w3-small">
+      <div class="w3-col l3 m6 s12">
+        <div class="top10">
+          <h4>Top Tutorials</h4>
+          <a href="/html/default.asp">HTML Tutorial</a>
+          <a href="/css/default.asp">CSS Tutorial</a>
+          <a href="/js/default.asp">JavaScript Tutorial</a>
+          <a href="/howto/default.asp">How To Tutorial</a>
+          <a href="/sql/default.asp">SQL Tutorial</a>
+          <a href="/python/default.asp">Python Tutorial</a>
+          <a href="/w3css/default.asp">W3.CSS Tutorial</a>
+          <a href="/bootstrap/bootstrap_ver.asp">Bootstrap Tutorial</a>
+          <a href="/php/default.asp">PHP Tutorial</a>
+          <a href="/java/default.asp">Java Tutorial</a>
+          <a href="/cpp/default.asp">C++ Tutorial</a>
+          <a href="/jquery/default.asp">jQuery Tutorial</a>
+        </div>
+      </div>
+      <div class="w3-col l3 m6 s12">
+        <div class="top10">
+          <h4>Top References</h4>
+          <a href="/tags/default.asp">HTML Reference</a>
+          <a href="/cssref/default.asp">CSS Reference</a>
+          <a href="/jsref/default.asp">JavaScript Reference</a>
+          <a href="/sql/sql_ref_keywords.asp">SQL Reference</a>
+          <a href="/python/python_reference.asp">Python Reference</a>
+          <a href="/w3css/w3css_references.asp">W3.CSS Reference</a>
+          <a href="/bootstrap/bootstrap_ref_all_classes.asp">Bootstrap Reference</a>
+          <a href="/php/php_ref_overview.asp">PHP Reference</a>
+          <a href="/colors/colors_names.asp">HTML Colors</a>
+          <a href="/java/java_ref_keywords.asp">Java Reference</a>
+          <a href="/angular/angular_ref_directives.asp">Angular Reference</a>
+          <a href="/jquery/jquery_ref_overview.asp">jQuery Reference</a>
+        </div>
+      </div>
+      <div class="w3-col l3 m6 s12">
+        <div class="top10">
+          <h4>Top Examples</h4>
+          <a href="/html/html_examples.asp">HTML Examples</a>
+          <a href="/css/css_examples.asp">CSS Examples</a>
+          <a href="/js/js_examples.asp">JavaScript Examples</a>
+          <a href="/howto/default.asp">How To Examples</a>
+          <a href="/sql/sql_examples.asp">SQL Examples</a>
+          <a href="/python/python_examples.asp">Python Examples</a>
+          <a href="/w3css/w3css_examples.asp">W3.CSS Examples</a>
+          <a href="/bootstrap/bootstrap_examples.asp">Bootstrap Examples</a>
+          <a href="/php/php_examples.asp">PHP Examples</a>
+          <a href="/java/java_examples.asp">Java Examples</a>
+          <a href="/xml/xml_examples.asp">XML Examples</a>
+          <a href="/jquery/jquery_examples.asp">jQuery Examples</a>
+        </div>
+      </div>
+      <div class="w3-col l3 m6 s12">
+        <div class="top10">
+          <!--
+          <h4>Web Certificates</h4>
+          <a href="/cert/default.asp">HTML Certificate</a>
+          <a href="/cert/default.asp">CSS Certificate</a>
+          <a href="/cert/default.asp">JavaScript Certificate</a>
+          <a href="/cert/default.asp">SQL Certificate</a>
+          <a href="/cert/default.asp">Python Certificate</a>
+          <a href="/cert/default.asp">PHP Certificate</a>
+          <a href="/cert/default.asp">Bootstrap Certificate</a>
+          <a href="/cert/default.asp">XML Certificate</a>
+          <a href="/cert/default.asp">jQuery Certificate</a>
+          <a href="//www.w3schools.com/cert/default.asp" class="w3-button w3-margin-top w3-dark-grey" style="text-decoration:none">
+          Get Certified &raquo;</a>
+          -->
+
+          <h4>Web Courses</h4>
+          <a href="https://courses.w3schools.com/courses/html" target="_blank" onclick="ga('send', 'event', 'Courses' , 'Clicked on html course link in footer');">HTML Course</a>
+          <a href="https://courses.w3schools.com/courses/css" target="_blank" onclick="ga('send', 'event', 'Courses' , 'Clicked on css course link in footer');">CSS Course</a>
+          <a href="https://courses.w3schools.com/courses/javascript" target="_blank" onclick="ga('send', 'event', 'Courses' , 'Clicked on javascript course link in footer');">JavaScript Course</a>
+          <a href="https://courses.w3schools.com/programs/front-end" target="_blank" onclick="ga('send', 'event', 'Courses' , 'Clicked on Front End course link in footer');">Front End Course</a>
+          <a href="https://courses.w3schools.com/courses/sql" target="_blank" onclick="ga('send', 'event', 'Courses' , 'Clicked on sql course link in footer');">SQL Course</a>
+          <a href="https://courses.w3schools.com/courses/python" target="_blank" onclick="ga('send', 'event', 'Courses' , 'Clicked on python course link in footer');">Python Course</a>
+          <a href="https://courses.w3schools.com/courses/php" target="_blank" onclick="ga('send', 'event', 'Courses' , 'Clicked on php course link in footer');">PHP Course</a>
+          <a href="https://courses.w3schools.com/courses/jquery" target="_blank" onclick="ga('send', 'event', 'Courses' , 'Clicked on jquery course link in footer');">jQuery Course</a>
+          <a href="https://courses.w3schools.com/courses/java" target="_blank" onclick="ga('send', 'event', 'Courses' , 'Clicked on Java course link in footer');">Java Course</a>
+          <a href="https://courses.w3schools.com/courses/cplusplus" target="_blank" onclick="ga('send', 'event', 'Courses' , 'Clicked on C++ course link in footer');">C++ Course</a>
+          <a href="https://courses.w3schools.com/courses/c-sharp" target="_blank" onclick="ga('send', 'event', 'Courses' , 'Clicked on bootstrap C# link in footer');">C# Course</a>
+          <a href="https://courses.w3schools.com/courses/xml" target="_blank" onclick="ga('send', 'event', 'Courses' , 'Clicked on xml course link in footer');">XML Course</a>
+          <a href="https://courses.w3schools.com/" target="_blank" class="w3-button w3-margin-top ws-black ws-hover-black w3-round" style="text-decoration:none" onclick="ga('send', 'event', 'Courses' , 'Clicked on get certified button in footer');">
+            Get Certified »</a>
+
+
+        </div>
+      </div>
+    </div>
+
+
+    <div class="w3-center w3-small w3-opacity">
+      W3Schools is optimized for learning and training. Examples might be simplified to improve reading and learning.
+      Tutorials, references, and examples are constantly reviewed to avoid errors, but we cannot warrant full correctness of all content.
+      While using W3Schools, you agree to have read and accepted our <a href="/about/about_copyright.asp">terms of use</a>,
+      <a href="/about/about_privacy.asp">cookie and privacy policy</a>.
+      <a href="/about/about_copyright.asp">Copyright 1999-2021</a> by Refsnes Data. All Rights Reserved.
+      <a href="//www.w3schools.com/w3css/default.asp">W3Schools is Powered by W3.CSS</a>.
+    </div>
+    <div class="w3-center w3-small">
+      <a href="//www.w3schools.com">
+        <i class="fa fa-logo ws-text-green ws-hover-text-green" style="position:relative;font-size:42px!important;"></i>
+      </a></div><a href="//www.w3schools.com">
+
+  </a></div><a href="//www.w3schools.com">
+
+</a></div><iframe name="__tcfapiLocator" style="display: none;"></iframe><iframe name="__uspapiLocator" style="display: none;"></iframe><a href="//www.w3schools.com">
+  <script src="/lib/w3schools_footer.js?update=20210430"></script>
+
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+</a></body><iframe sandbox="allow-scripts allow-same-origin" id="1260c39004ffea4a" frameborder="0" allowtransparency="true" marginheight="0" marginwidth="0" width="0" hspace="0" vspace="0" height="0" style="height:0px;width:0px;display:none;" scrolling="no" src="https://biddr.brealtime.com/check.html">
+</iframe><iframe sandbox="allow-scripts allow-same-origin" id="127d0cb3694136be" frameborder="0" allowtransparency="true" marginheight="0" marginwidth="0" width="0" hspace="0" vspace="0" height="0" style="height:0px;width:0px;display:none;" scrolling="no" src="https://ssc-cms.33across.com/ps/?m=xch&amp;rt=html&amp;ru=deb&amp;id=beuMI6FAar6QjTaKlId8sQ&amp;gdpr_consent=undefined&amp;us_privacy=1---&amp;gdpr=0">
+</iframe><iframe sandbox="allow-scripts allow-same-origin" id="128f0c3fc5863499" frameborder="0" allowtransparency="true" marginheight="0" marginwidth="0" width="0" hspace="0" vspace="0" height="0" style="height:0px;width:0px;display:none;" scrolling="no" src="https://onetag-sys.com/usync/?cb=1621446679029&amp;us_privacy=1---">
+</iframe><iframe sandbox="allow-scripts allow-same-origin" id="129edaa61cf5903f" frameborder="0" allowtransparency="true" marginheight="0" marginwidth="0" width="0" hspace="0" vspace="0" height="0" style="height:0px;width:0px;display:none;" scrolling="no" src="https://acdn.adnxs.com/dmp/async_usersync.html">
+</iframe><iframe sandbox="allow-scripts allow-same-origin" id="1300ab6239644481" frameborder="0" allowtransparency="true" marginheight="0" marginwidth="0" width="0" hspace="0" vspace="0" height="0" style="height:0px;width:0px;display:none;" scrolling="no" src="https://u.openx.net/w/1.0/pd?gdpr=0&amp;gdpr_consent=&amp;us_privacy=1---">
+</iframe><iframe sandbox="allow-scripts allow-same-origin" id="131790c253c2029d" frameborder="0" allowtransparency="true" marginheight="0" marginwidth="0" width="0" hspace="0" vspace="0" height="0" style="height:0px;width:0px;display:none;" scrolling="no" src="https://ssc-cms.33across.com/ps/?m=xch&amp;rt=html&amp;ru=deb&amp;id=bnNnBAFAar6QjTaKlId8sQ&amp;gdpr_consent=undefined&amp;us_privacy=1---&amp;gdpr=0">
+</iframe><iframe sandbox="allow-scripts allow-same-origin" id="132c0991166465c1" frameborder="0" allowtransparency="true" marginheight="0" marginwidth="0" width="0" hspace="0" vspace="0" height="0" style="height:0px;width:0px;display:none;" scrolling="no" src="https://onetag-sys.com/usync/?cb=1621446676380&amp;us_privacy=1---">
+</iframe><iframe sandbox="allow-scripts allow-same-origin" id="133927c5857d261e" frameborder="0" allowtransparency="true" marginheight="0" marginwidth="0" width="0" hspace="0" vspace="0" height="0" style="height:0px;width:0px;display:none;" scrolling="no" src="https://acdn.adnxs.com/dmp/async_usersync.html">
+</iframe><iframe sandbox="allow-scripts allow-same-origin" id="1346f0aac7bdf983" frameborder="0" allowtransparency="true" marginheight="0" marginwidth="0" width="0" hspace="0" vspace="0" height="0" style="height:0px;width:0px;display:none;" scrolling="no" src="https://ssc-cms.33across.com/ps/?m=xch&amp;rt=html&amp;ru=deb&amp;id=bhud6yFAar6QjTaKlId8sQ&amp;gdpr_consent=undefined&amp;us_privacy=1---&amp;gdpr=0">
+</iframe><iframe sandbox="allow-scripts allow-same-origin" id="135986d80ca36148" frameborder="0" allowtransparency="true" marginheight="0" marginwidth="0" width="0" hspace="0" vspace="0" height="0" style="height:0px;width:0px;display:none;" scrolling="no" src="https://js-sec.indexww.com/um/ixmatch.html">
+</iframe><iframe sandbox="allow-scripts allow-same-origin" id="136cfab287198fea" frameborder="0" allowtransparency="true" marginheight="0" marginwidth="0" width="0" hspace="0" vspace="0" height="0" style="height:0px;width:0px;display:none;" scrolling="no" src="https://biddr.brealtime.com/check.html">
+</iframe><iframe sandbox="allow-scripts allow-same-origin" id="1378c5189b72e15b" frameborder="0" allowtransparency="true" marginheight="0" marginwidth="0" width="0" hspace="0" vspace="0" height="0" style="height:0px;width:0px;display:none;" scrolling="no" src="https://u.openx.net/w/1.0/pd?gdpr=0&amp;gdpr_consent=&amp;us_privacy=1---">
+</iframe><iframe sandbox="allow-scripts allow-same-origin" id="1380c5c829f4c05" frameborder="0" allowtransparency="true" marginheight="0" marginwidth="0" width="0" hspace="0" vspace="0" height="0" style="height:0px;width:0px;display:none;" scrolling="no" src="https://ssc-cms.33across.com/ps/?m=xch&amp;rt=html&amp;ru=deb&amp;id=bqPB9YFAar6QjTaKlId8sQ&amp;gdpr_consent=undefined&amp;us_privacy=1---&amp;gdpr=0">
+</iframe><iframe sandbox="allow-scripts allow-same-origin" id="139a8c7985195a6f" frameborder="0" allowtransparency="true" marginheight="0" marginwidth="0" width="0" hspace="0" vspace="0" height="0" style="height:0px;width:0px;display:none;" scrolling="no" src="https://eb2.3lift.com/sync?us_privacy=1---&amp;">
+</iframe><iframe sandbox="allow-scripts allow-same-origin" id="140a153c00b91114" frameborder="0" allowtransparency="true" marginheight="0" marginwidth="0" width="0" hspace="0" vspace="0" height="0" style="height:0px;width:0px;display:none;" scrolling="no" src="https://cdn.connectad.io/connectmyusers.php?us_privacy=1---&amp;">
+</iframe><iframe sandbox="allow-scripts allow-same-origin" id="141b59d1178129b8" frameborder="0" allowtransparency="true" marginheight="0" marginwidth="0" width="0" hspace="0" vspace="0" height="0" style="height:0px;width:0px;display:none;" scrolling="no" src="https://eus.rubiconproject.com/usync.html?us_privacy=1---">
+</iframe><iframe sandbox="allow-scripts allow-same-origin" id="1421ff9f2166e525" frameborder="0" allowtransparency="true" marginheight="0" marginwidth="0" width="0" hspace="0" vspace="0" height="0" style="height:0px;width:0px;display:none;" scrolling="no" src="https://ssc-cms.33across.com/ps/?m=xch&amp;rt=html&amp;ru=deb&amp;id=a-cFKuFAar6QjTaKlId8sQ&amp;gdpr_consent=undefined&amp;us_privacy=1---&amp;gdpr=0">
+</iframe><iframe sandbox="allow-scripts allow-same-origin" id="143aa187a00f998b" frameborder="0" allowtransparency="true" marginheight="0" marginwidth="0" width="0" hspace="0" vspace="0" height="0" style="height:0px;width:0px;display:none;" scrolling="no" src="https://js-sec.indexww.com/um/ixmatch.html">
+</iframe><iframe sandbox="allow-scripts allow-same-origin" id="14456e7cbc60c321" frameborder="0" allowtransparency="true" marginheight="0" marginwidth="0" width="0" hspace="0" vspace="0" height="0" style="height:0px;width:0px;display:none;" scrolling="no" src="https://eb2.3lift.com/sync?us_privacy=1---&amp;">
+</iframe><iframe sandbox="allow-scripts allow-same-origin" id="145ab5148af5d0e" frameborder="0" allowtransparency="true" marginheight="0" marginwidth="0" width="0" hspace="0" vspace="0" height="0" style="height:0px;width:0px;display:none;" scrolling="no" src="https://ssc-cms.33across.com/ps/?m=xch&amp;rt=html&amp;ru=deb&amp;id=bkPA-MFAar6QjTaKlId8sQ&amp;gdpr_consent=undefined&amp;us_privacy=1---&amp;gdpr=0">
+</iframe><iframe sandbox="allow-scripts allow-same-origin" id="146a0cbacbafaa24" frameborder="0" allowtransparency="true" marginheight="0" marginwidth="0" width="0" hspace="0" vspace="0" height="0" style="height:0px;width:0px;display:none;" scrolling="no" src="https://ads.pubmatic.com/AdServer/js/showad.js#PIX&amp;kdntuid=1&amp;p=157369&amp;gdpr=0&amp;gdpr_consent=&amp;us_privacy=1---">
+</iframe><iframe sandbox="allow-scripts allow-same-origin" id="147340bbe7f22bf1" frameborder="0" allowtransparency="true" marginheight="0" marginwidth="0" width="0" hspace="0" vspace="0" height="0" style="height:0px;width:0px;display:none;" scrolling="no" src="https://cdn.connectad.io/connectmyusers.php?us_privacy=1---&amp;">
+</iframe>
+
+</html>
