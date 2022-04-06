@@ -1,16 +1,17 @@
 package io.sunshower.gyre;
 
-import java.util.*;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public interface Scope {
-  <T> void set(String name, T value);
-
-  <T> T get(String name);
 
   static Scope root() {
     return new RootScope();
   }
+
+  <T> void set(String name, T value);
+
+  <T> T get(String name);
 
   <E> E computeIfAbsent(String scannedPlugins, E o);
 }
@@ -33,8 +34,6 @@ final class RootScope implements Scope {
   @Override
   @SuppressWarnings("unchecked")
   public <T> T computeIfAbsent(String name, T value) {
-    synchronized (values) {
-      return (T) values.computeIfAbsent(name, t -> value);
-    }
+    return (T) values.computeIfAbsent(name, t -> value);
   }
 }

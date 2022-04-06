@@ -13,6 +13,7 @@ public class NodeFilters {
     }
   }
 
+  @SuppressWarnings(value = "PMD")
   static final Predicate<?> acceptAll = new AcceptAll();
 
   public static <T> Predicate<T> acceptAll() {

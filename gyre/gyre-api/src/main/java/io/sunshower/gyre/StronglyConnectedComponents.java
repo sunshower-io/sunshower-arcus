@@ -3,11 +3,14 @@ package io.sunshower.gyre;
 import static java.lang.Math.min;
 import static java.lang.String.format;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import lombok.val;
 
+@SuppressFBWarnings
+@SuppressWarnings(value = "PMD")
 public class StronglyConnectedComponents<E, V> implements Transformation<E, V, Partition<E, V>> {
   @Override
   public Partition<E, V> apply(Graph<E, V> graph) {

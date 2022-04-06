@@ -57,6 +57,7 @@ public interface Graph<E, V> extends Cloneable {
 
   boolean remove(V vertex);
 
+  @SuppressWarnings(value = "PMD")
   Graph<E, V> clone();
 
   boolean isEmpty();

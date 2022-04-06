@@ -1,9 +1,11 @@
 package io.sunshower.gyre;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.*;
 import lombok.val;
 
-@SuppressWarnings("unchecked")
+@SuppressFBWarnings
+@SuppressWarnings({"unchecked", "PMD"})
 public class CompactHashMap<K, V> implements Map<K, V> {
 
   private static final float DEFAULT_LOAD_FACTOR = 0.75F;

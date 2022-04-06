@@ -95,5 +95,6 @@ public interface DirectedGraph<E, V> extends Graph<DirectedGraph.Edge<E>, V> {
 
   int degreeOf(V vertex, Direction direction);
 
+  @SuppressWarnings(value = "PMD")
   DirectedGraph<E, V> clone();
 }

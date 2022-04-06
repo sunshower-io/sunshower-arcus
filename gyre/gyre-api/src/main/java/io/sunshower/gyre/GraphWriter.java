@@ -26,7 +26,7 @@ public class GraphWriter<E, V> {
     val niter = neighbors.iterator();
     for (int i = 0; i < neighbors.size(); i++) {
       val next = niter.next();
-      if (next != root) {
+      if (!next.equals(root)) {
         doWrite(graph.getSource(next), graph, result, indent, i == neighbors.size() - 1);
       }
     }

@@ -1,5 +1,6 @@
 package io.sunshower.gyre;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -12,10 +13,12 @@ import java.util.Set;
 import java.util.function.Predicate;
 import lombok.val;
 
+@SuppressFBWarnings
 public class AbstractDirectedGraph<E, V> implements DirectedGraph<E, V> {
 
   private final Map<V, Set<Adjacency<E, V>>> adjacencies;
 
+  @SuppressWarnings(value = "PMD.ConstructorCallsOverridableMethod")
   public AbstractDirectedGraph() {
     adjacencies = createAdjacencyStructure();
   }
@@ -403,6 +406,7 @@ public class AbstractDirectedGraph<E, V> implements DirectedGraph<E, V> {
     return false;
   }
 
+  @SuppressWarnings("PMD")
   public DirectedGraph<E, V> clone() {
     val adjacencyStructure = createAdjacencyStructure();
     for (val adjacencyList : adjacencies.entrySet()) {

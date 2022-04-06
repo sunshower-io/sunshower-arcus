@@ -3,6 +3,7 @@ package io.sunshower.gyre;
 import java.util.*;
 import lombok.val;
 
+@SuppressWarnings(value = "PMD")
 public abstract class AbstractTrieMap<K, T, V> implements TrieMap<K, V> {
 
   /** mutable state */

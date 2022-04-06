@@ -3,6 +3,7 @@ package io.sunshower.gyre;
 import java.util.*;
 import lombok.val;
 
+@SuppressWarnings("PMD")
 public class CompactTrieMap<K, T, V> extends AbstractTrieMap<K, T, V> {
 
   public CompactTrieMap(Analyzer<K, T> analyzer) {
