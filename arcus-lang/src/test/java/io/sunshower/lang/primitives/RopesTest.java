@@ -237,7 +237,6 @@ class RopesTest {
     assertEquals(r, r1.toString());
   }
 
-
   @Test
   void ensurePrependingWorks() {
     val a = new Rope(bytes);
@@ -245,11 +244,9 @@ class RopesTest {
     assertTrue(b.startsWith("Sup world!"));
   }
 
-
   @Test
   void ensureInsertWorks() {
-    val test = new StringBuilder(new String(bytes))
-        .insert(400, "Hello world!");
+    val test = new StringBuilder(new String(bytes)).insert(400, "Hello world!");
     val rope = new Rope(bytes).insert(400, "Hello world!");
     assertEquals(test.toString(), rope.toString());
   }
@@ -257,14 +254,14 @@ class RopesTest {
   @Test
   void testRopePrepend() {
     val rope = new Rope(bytes);
-    for(int i = 0; i < 1000; i++) {
+    for (int i = 0; i < 1000; i++) {
       rope.prepend("Sup world!");
     }
   }
 
   @Test
   void testStringPrepend() {
-    for(int i = 0; i < 1000; i++) {
+    for (int i = 0; i < 1000; i++) {
       val a = "Sup world!" + new String(bytes);
     }
   }
