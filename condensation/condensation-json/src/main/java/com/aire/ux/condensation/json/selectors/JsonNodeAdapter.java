@@ -86,12 +86,11 @@ public class JsonNodeAdapter implements NodeAdapter<SyntaxNode<Value<?, Type>, T
   }
 
   @Override
-  public void setState(@Nonnull SyntaxNode<Value<?, Type>, Token> element, @Nonnull State state) {
-  }
+  public void setState(@Nonnull SyntaxNode<Value<?, Type>, Token> element, @Nonnull State state) {}
 
   @Override
-  public boolean hasState(@Nonnull SyntaxNode<Value<?, Type>, Token> element,
-      @Nonnull State state) {
+  public boolean hasState(
+      @Nonnull SyntaxNode<Value<?, Type>, Token> element, @Nonnull State state) {
     return false;
   }
 

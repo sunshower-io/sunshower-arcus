@@ -10,5 +10,5 @@ public interface CondensationConfiguration {
 
   boolean providesBinder();
 
-  TypeBinder createBinder();
+  <E extends Enum<E>> TypeBinder<E> createBinder();
 }

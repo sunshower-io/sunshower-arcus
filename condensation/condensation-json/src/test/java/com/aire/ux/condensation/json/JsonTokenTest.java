@@ -5,9 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import io.sunshower.arcus.condensation.Condensation;
 import io.sunshower.arcus.ast.core.Token;
 import io.sunshower.arcus.ast.core.Type;
+import io.sunshower.arcus.condensation.Condensation;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashSet;

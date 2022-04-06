@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 class JsonWriterTest {
 
   private PropertyScanner scanner;
-  private DefaultTypeBinder binder;
+  private JsonTypeBinder binder;
   private ReflectiveTypeInstantiator instantiator;
 
   @BeforeEach
@@ -37,7 +37,7 @@ class JsonWriterTest {
     instantiator = new ReflectiveTypeInstantiator();
     scanner =
         new AnnotationDrivenPropertyScanner(new CachingDelegatingTypeInstantiator(instantiator));
-    binder = new DefaultTypeBinder(scanner);
+    binder = new JsonTypeBinder(scanner);
   }
 
   @Test

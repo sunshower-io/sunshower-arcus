@@ -30,7 +30,7 @@ import lombok.SneakyThrows;
 import lombok.val;
 
 @SuppressWarnings({"unchecked", "PMD.AvoidDuplicateLiterals"})
-public class DefaultTypeBinder implements TypeBinder<Type> {
+public class JsonTypeBinder implements TypeBinder<Type> {
 
   static final Map<Class<?>, CollectionType> typeMapping;
   private static final Set<Class<?>> WRAPPER_TYPES =
@@ -55,11 +55,11 @@ public class DefaultTypeBinder implements TypeBinder<Type> {
   private final boolean scanInterfaces;
   private final boolean traverseHierarchy;
 
-  public DefaultTypeBinder(PropertyScanner scanner) {
+  public JsonTypeBinder(PropertyScanner scanner) {
     this(scanner, true, true);
   }
 
-  public DefaultTypeBinder(
+  public JsonTypeBinder(
       PropertyScanner scanner, boolean traverseHierarchy, boolean scanInterfaces) {
     this.scanner = scanner;
     this.scanInterfaces = scanInterfaces;
@@ -132,7 +132,8 @@ public class DefaultTypeBinder implements TypeBinder<Type> {
   }
 
   private Object readPrimitiveArray(
-      Object result, CollectionType collectionType,
+      Object result,
+      CollectionType collectionType,
       List<SyntaxNode<Value<?, Type>, Token>> children) {
 
     switch (collectionType) {
@@ -152,8 +153,7 @@ public class DefaultTypeBinder implements TypeBinder<Type> {
     return null;
   }
 
-  private Object readStringArray(Object result,
-      List<SyntaxNode<Value<?, Type>, Token>> children) {
+  private Object readStringArray(Object result, List<SyntaxNode<Value<?, Type>, Token>> children) {
     val array = (String[]) result;
     int i = 0;
     for (val child : children) {
@@ -162,8 +162,7 @@ public class DefaultTypeBinder implements TypeBinder<Type> {
     return array;
   }
 
-  private Object readLongArray(Object result,
-      List<SyntaxNode<Value<?, Type>, Token>> children) {
+  private Object readLongArray(Object result, List<SyntaxNode<Value<?, Type>, Token>> children) {
     val array = (long[]) result;
     int i = 0;
     for (val child : children) {
@@ -212,14 +211,14 @@ public class DefaultTypeBinder implements TypeBinder<Type> {
     val currentDescriptor = descriptorFor(type);
     for (val child : node.getChildren()) {
       switch (typeOf(child)) {
-        /** at this point we're at the identifier */
+          /** at this point we're at the identifier */
         case String:
           readValue(result, currentDescriptor, child, child.getValue());
           break;
         case Object:
           bind(type, result, child);
           break;
-        //          readObject(result, child, currentDescriptor.propertyNamed(Mode.Read, "name"));
+          //          readObject(result, child, currentDescriptor.propertyNamed(Mode.Read, "name"));
         default:
           throw new UnsupportedOperationException();
       }
@@ -249,7 +248,8 @@ public class DefaultTypeBinder implements TypeBinder<Type> {
     }
   }
 
-  private <T> void readObject(T result, SyntaxNode<Value<?, Type>, Token> child, Property<?> property) {
+  private <T> void readObject(
+      T result, SyntaxNode<Value<?, Type>, Token> child, Property<?> property) {
     if (isObject(child)) {
       val type = property.getType();
       if (isMap(type)) {
@@ -349,7 +349,8 @@ public class DefaultTypeBinder implements TypeBinder<Type> {
   }
 
   @SneakyThrows
-  private <T> Class<T> readDiscriminatorType(SyntaxNode<Value<?, Type>, Token> node, Discriminator snd) {
+  private <T> Class<T> readDiscriminatorType(
+      SyntaxNode<Value<?, Type>, Token> node, Discriminator snd) {
     val field = snd.field();
     for (val child : node.getChildren()) {
       val value = valueOf(child);
@@ -362,7 +363,8 @@ public class DefaultTypeBinder implements TypeBinder<Type> {
     return null;
   }
 
-  private Collection<?> readCollection(Property<?> property, SyntaxNode<Value<?, Type>, Token> child) {
+  private Collection<?> readCollection(
+      Property<?> property, SyntaxNode<Value<?, Type>, Token> child) {
     val isInstantiable = isInstantiable(property);
     final Collection<?> collection;
     if (isInstantiable) {

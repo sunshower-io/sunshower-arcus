@@ -1,6 +1,5 @@
 package io.sunshower.arcus.condensation;
 
-import io.sunshower.arcus.condensation.mappings.DefaultTypeBinder;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -15,13 +14,14 @@ import lombok.NonNull;
 import lombok.val;
 
 @SuppressFBWarnings
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public class Condensation {
 
   private final String format;
   private final Parser parser;
-  private final TypeBinder typeBinder;
   private final DocumentWriter writer;
   private final PropertyScanner scanner;
+  private final TypeBinder<?> typeBinder;
   private final TypeInstantiator instantiator;
 
   private Condensation(final String format) {
@@ -33,14 +33,10 @@ public class Condensation {
             .map(Provider::get)
             .filter(configuration -> configuration.supports(format))
             .findAny()
-            .orElseGet(DefaultCondensationConfiguration::new);
+            .get();
     this.scanner = condensationConfiguration.getScanner();
     this.instantiator = condensationConfiguration.getInstantiator();
-    if (condensationConfiguration.providesBinder()) {
-      this.typeBinder = condensationConfiguration.createBinder();
-    } else {
-      this.typeBinder = new DefaultTypeBinder(scanner);
-    }
+    this.typeBinder = condensationConfiguration.createBinder();
     this.parser = getParserFactory(format).newParser();
     this.writer = getWriterFactory(format).newWriter(typeBinder, instantiator);
   }
@@ -61,8 +57,9 @@ public class Condensation {
     return outputStream.toString(StandardCharsets.UTF_8);
   }
 
-  public static Document parse(String format, CharSequence data) {
-    final ParserFactory pf = getParserFactory(format);
+  @SuppressWarnings("unchecked")
+  public static <E extends Enum<E>> Document<E> parse(String format, CharSequence data) {
+    val pf = getParserFactory(format);
     return pf.newParser().parse(data);
   }
 
@@ -86,8 +83,11 @@ public class Condensation {
             () -> new NoSuchElementException(String.format("Unsupported format: '%s'", format)));
   }
 
-  public static <T> T read(Class<T> type, String format, CharSequence data, TypeBinder strategy) {
-    return parse(format, data).read(type, strategy);
+  @SuppressWarnings("unchecked")
+  public static <T, E extends Enum<E>> T read(
+      Class<T> type, String format, CharSequence data, TypeBinder<E> strategy) {
+    Document<E> doc = (Document<E>) parse(format, data);
+    return doc.read(type, strategy);
   }
 
   public static Condensation create(String format) {
@@ -98,8 +98,9 @@ public class Condensation {
     return instantiator;
   }
 
+  @SuppressWarnings("unchecked")
   public <T> T read(Class<T> type, CharSequence sequence) {
-    return read(type, format, sequence, typeBinder);
+    return (T) read(type, format, sequence, typeBinder);
   }
 
   public <T> String write(Class<T> type, T value) throws IOException {
@@ -114,7 +115,7 @@ public class Condensation {
   public <T, U extends Collection<? super T>> U readAll(
       Class<T> type, Supplier<U> instantiator, CharSequence s) {
     val document = parser.parse(s);
-    return document.readAll(type, instantiator, typeBinder);
+    return (U) document.readAll(type, instantiator, typeBinder);
   }
 
   public <T> T copy(Class<T> type, T value) throws IOException {

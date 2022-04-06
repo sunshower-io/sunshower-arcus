@@ -6,8 +6,6 @@ import javax.annotation.Nonnull;
 
 public class JsonValue<T> implements Value<T, Type> {
 
-
-
   public enum Type {
     String,
     Object,
@@ -17,6 +15,7 @@ public class JsonValue<T> implements Value<T, Type> {
     Number,
     Null
   }
+
   final T value;
   final Type type;
 
@@ -39,7 +38,6 @@ public class JsonValue<T> implements Value<T, Type> {
   public String toString() {
     return String.format("%s::%s", value, type);
   }
-
 
   public boolean isScalar() {
     switch (getType()) {

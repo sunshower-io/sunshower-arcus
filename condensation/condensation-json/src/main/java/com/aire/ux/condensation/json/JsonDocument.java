@@ -18,7 +18,6 @@ import lombok.val;
 
 public class JsonDocument implements Document<Type> {
 
-
   static final NodeAdapter<SyntaxNode<Value<?, Type>, Token>> nodeAdapter;
 
   static {
@@ -33,7 +32,6 @@ public class JsonDocument implements Document<Type> {
     this.tree = parse;
     this.selectorParser = new CssSelectorParser();
   }
-
 
   @Override
   @SuppressWarnings("unchecked")
@@ -125,5 +123,4 @@ public class JsonDocument implements Document<Type> {
     result.add(strategy.bind(type, root));
     return result;
   }
-
 }

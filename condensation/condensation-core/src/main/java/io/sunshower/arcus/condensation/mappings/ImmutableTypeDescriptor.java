@@ -1,10 +1,10 @@
 package io.sunshower.arcus.condensation.mappings;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.sunshower.arcus.condensation.Property;
 import io.sunshower.arcus.condensation.Property.Mode;
 import io.sunshower.arcus.condensation.TypeDescriptor;
 import io.sunshower.arcus.condensation.TypeInstantiator;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;

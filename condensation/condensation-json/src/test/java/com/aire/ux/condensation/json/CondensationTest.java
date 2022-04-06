@@ -3,7 +3,6 @@ package com.aire.ux.condensation.json;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import io.sunshower.arcus.condensation.mappings.ReflectiveTypeInstantiator;
 import io.sunshower.arcus.condensation.Alias;
 import io.sunshower.arcus.condensation.Attribute;
 import io.sunshower.arcus.condensation.Condensation;
@@ -11,6 +10,7 @@ import io.sunshower.arcus.condensation.Convert;
 import io.sunshower.arcus.condensation.Converter;
 import io.sunshower.arcus.condensation.Element;
 import io.sunshower.arcus.condensation.RootElement;
+import io.sunshower.arcus.condensation.mappings.ReflectiveTypeInstantiator;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +33,7 @@ class CondensationTest {
     @RootElement
     class TestType {
 
-      @Attribute
-      Test t;
+      @Attribute Test t;
     }
 
     val condensation = Condensation.create("json");
@@ -133,8 +132,7 @@ class CondensationTest {
     @RootElement
     class KV {
 
-      @Element
-      Map<String, Integer> elements;
+      @Element Map<String, Integer> elements;
     }
 
     val value = "{" + "\"elements\": {" + "\"1\": 1," + "\"2\": 3}" + "} ";

@@ -1,6 +1,5 @@
 package com.aire.ux.condensation.json;
 
-
 import com.aire.ux.condensation.json.JsonValue.Type;
 import io.sunshower.arcus.ast.AbstractSyntaxNode;
 import io.sunshower.arcus.ast.AbstractSyntaxTree;

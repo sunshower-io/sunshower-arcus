@@ -2,18 +2,19 @@ package io.sunshower.arcus.condensation;
 
 import javax.annotation.Nonnull;
 
-public class AbstractValue<T> implements Value<T> {
-  final T value;
-  final Type type;
+public abstract class AbstractValue<T, E extends Enum<E>> implements Value<T, E> {
 
-  public AbstractValue(final Type type, final T value) {
+  final T value;
+  final E type;
+
+  public AbstractValue(final E type, final T value) {
     this.type = type;
     this.value = value;
   }
 
   @Nonnull
   @Override
-  public Type getType() {
+  public E getType() {
     return type;
   }
 

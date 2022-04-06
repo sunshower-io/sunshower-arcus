@@ -6,9 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import io.sunshower.arcus.condensation.mappings.AnnotationDrivenPropertyScanner;
-import io.sunshower.arcus.condensation.mappings.CachingDelegatingTypeInstantiator;
-import io.sunshower.arcus.condensation.mappings.ReflectiveTypeInstantiator;
 import io.sunshower.arcus.condensation.Alias;
 import io.sunshower.arcus.condensation.Attribute;
 import io.sunshower.arcus.condensation.Condensation;
@@ -18,6 +15,9 @@ import io.sunshower.arcus.condensation.Discriminator;
 import io.sunshower.arcus.condensation.Element;
 import io.sunshower.arcus.condensation.PropertyScanner;
 import io.sunshower.arcus.condensation.RootElement;
+import io.sunshower.arcus.condensation.mappings.AnnotationDrivenPropertyScanner;
+import io.sunshower.arcus.condensation.mappings.CachingDelegatingTypeInstantiator;
+import io.sunshower.arcus.condensation.mappings.ReflectiveTypeInstantiator;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
@@ -34,7 +34,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 class TypeBinderTest {
 
   private PropertyScanner scanner;
-  private DefaultTypeBinder binder;
+  private JsonTypeBinder binder;
   private ReflectiveTypeInstantiator instantiator;
 
   @BeforeEach
@@ -42,7 +42,7 @@ class TypeBinderTest {
     instantiator = new ReflectiveTypeInstantiator();
     scanner =
         new AnnotationDrivenPropertyScanner(new CachingDelegatingTypeInstantiator(instantiator));
-    binder = new DefaultTypeBinder(scanner);
+    binder = new JsonTypeBinder(scanner);
   }
 
   @Test
@@ -50,8 +50,7 @@ class TypeBinderTest {
     @RootElement
     class A {
 
-      @Attribute
-      private String name;
+      @Attribute private String name;
     }
 
     val document = "{\n" + "  \"name\": \"hello\"\n" + "}";
@@ -272,8 +271,7 @@ class TypeBinderTest {
     @RootElement
     class A {
 
-      @Element
-      private B b;
+      @Element private B b;
     }
 
     val document = "{\n" + "  \"b\": {\n" + "    \"hello\": \"world\"\n" + "  }\n" + "}";
