@@ -143,9 +143,9 @@ subprojects {
 
     signing {
 
-        def key = findProperty("signingKey")
-        def keyId = findProperty("signingKeyId")
-        def keyPassword = findProperty("signingPassword")
+        def key = findProperty("SIGNING_KEY")
+        def keyId = findProperty("SIGNING_KEY_ID")
+        def keyPassword = findProperty("SIGNING_PASSWORD")
         useInMemoryPgpKeys(key, keyId, keyPassword)
 
         sign publishing.publications.mavenPlugin
