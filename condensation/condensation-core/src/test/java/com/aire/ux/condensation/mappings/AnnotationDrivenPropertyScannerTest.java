@@ -2,9 +2,12 @@ package com.aire.ux.condensation.mappings;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.aire.ux.condensation.Attribute;
-import com.aire.ux.condensation.PropertyScanner;
-import com.aire.ux.condensation.RootElement;
+import io.sunshower.arcus.condensation.Attribute;
+import io.sunshower.arcus.condensation.PropertyScanner;
+import io.sunshower.arcus.condensation.RootElement;
+import io.sunshower.arcus.condensation.mappings.AnnotationDrivenPropertyScanner;
+import io.sunshower.arcus.condensation.mappings.CachingDelegatingTypeInstantiator;
+import io.sunshower.arcus.condensation.mappings.ReflectiveTypeInstantiator;
 import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,0 +1,7 @@
+
+dependencies {
+    api project(':arcus-ast')
+    api project(':arcus-lang')
+    api project(':condensation:condensation-core')
+
+}

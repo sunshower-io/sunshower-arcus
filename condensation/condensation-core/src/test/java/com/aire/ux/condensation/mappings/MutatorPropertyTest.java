@@ -3,7 +3,8 @@ package com.aire.ux.condensation.mappings;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 
-import com.aire.ux.condensation.TypeInstantiator;
+import io.sunshower.arcus.condensation.TypeInstantiator;
+import io.sunshower.arcus.condensation.mappings.MutatorProperty;
 import lombok.SneakyThrows;
 import lombok.val;
 import org.junit.jupiter.api.Test;
