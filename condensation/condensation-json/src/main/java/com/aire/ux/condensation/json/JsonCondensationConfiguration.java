@@ -45,6 +45,6 @@ public class JsonCondensationConfiguration implements CondensationConfiguration 
 
   @Override
   public TypeBinder<Type> createBinder() {
-    throw new UnsupportedOperationException("not supported");
+    return new JsonTypeBinder(scanner);
   }
 }
