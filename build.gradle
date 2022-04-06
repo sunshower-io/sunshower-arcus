@@ -144,7 +144,7 @@ subprojects {
     signing {
 
         def key =  findProperty("signingKey")
-        def keyId = findProperty("signingKeyId")
+        def keyId = "95D6ABC9" //findProperty("signingKeyId")
         def keyPassword = findProperty("signingPassword")
         print("key ${key}");
         print("keyId ${keyId}");
