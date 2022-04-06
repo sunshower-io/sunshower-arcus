@@ -1,4 +1,19 @@
 include(
+        /**
+         * gyre
+         */
+        'gyre:gyre-api',
+
+        /**
+         * condensation
+         */
+        'condensation:css-selectors',
+        'condensation:condensation-core',
+        'condensation:condensation-json',
+
+        /**
+         * arcus
+         */
         'arcus-ast',
         'arcus-lang',
         'arcus-log',
@@ -15,6 +30,6 @@ include(
         'arcus-persist:persist-api',
         'arcus-persist:persist-core',
         'arcus-persist:persist-jpa',
-        'arcus-persist:persist-hibernate'
+        'arcus-persist:persist-hibernate',
 )
 

@@ -1,7 +1,12 @@
 package io.sunshower.lang.primitives;
 
+import java.util.Arrays;
+import lombok.val;
+
 /** Created by haswell on 4/29/16. */
 public class Longs {
+
+  static final long[] FIB_ROOT = new long[] {1, 1, 1, 0};
 
   public static byte[] toByteArray(long[] longs) {
     final int length = longs.length;
@@ -41,5 +46,69 @@ public class Longs {
       j += 8;
     }
     return result;
+  }
+
+  /**
+   * @param l a positive long such that L lt Long.MAX_VALUE (2^64 -1)
+   * @return
+   */
+  public static long[] computeFibonacciUntil(long l) {
+    assert l >= 0;
+
+    var a = Arrays.copyOf(FIB_ROOT, FIB_ROOT.length);
+    var b = Arrays.copyOf(a, a.length);
+    var result = new long[10];
+    var i = 0;
+    var b11 = 1L;
+    for (; b11 <= l && b11 >= 0; ) {
+      b = multiply(a, b);
+      b11 = b[3];
+      result = append(result, b, i);
+      i++;
+    }
+    return trimLast(result);
+  }
+
+  static long[] multiply(long[] a, long[] b) {
+    val a11 = a[0];
+    val a12 = a[1];
+    val a21 = a[2];
+    val a22 = a[3];
+    val b11 = b[0];
+    val b12 = b[1];
+    val b21 = b[2];
+    val b22 = b[3];
+    return new long[] {
+      a11 * b11 + a12 * b12, a11 * b12 + a12 * b22, a21 * b11 + a22 * b21, a21 * b12 + a22 * b22
+    };
+  }
+
+  private static long[] trimLast(long[] result) {
+    if (result[result.length - 1] > 0) {
+      return result;
+    }
+    int i = 1;
+    while (result[result.length - i] <= 0) {
+      i++;
+    }
+    val r = new long[result.length - (i + 1)];
+    System.arraycopy(result, 0, r, 0, result.length - (i + 1));
+    return r;
+  }
+
+  private static long[] append(long[] result, long[] b, int i) {
+    if (i + 2 < result.length) {
+      result[i] = b[3];
+      result[i + 1] = b[1];
+      result[i + 2] = b[0];
+      return result;
+    } else {
+      val newresult = new long[(int) (result.length * 1.5)];
+      System.arraycopy(result, 0, newresult, 0, result.length);
+      newresult[i] = b[3];
+      newresult[i + 1] = b[1];
+      newresult[i + 2] = b[0];
+      return newresult;
+    }
   }
 }

@@ -18,8 +18,7 @@
   <url>http://www.sunshower.io</url>
 
   <properties>
-    <mockito.version>3.11.2</mockito.version>
-    <junit.version>4.13.1</junit.version>
+    <mockito.version>4.4.0</mockito.version>
     <jaxrs-api.version>2.1</jaxrs-api.version>
     <jeromq.version>0.3.5</jeromq.version>
     <bytebuddy.version>1.10.21</bytebuddy.version>
@@ -28,11 +27,37 @@
     <lombok.version>1.18.22</lombok.version>
 <!--    <arcus.version>1.0.41.Final</arcus.version>-->
     <findbugs-annotations.version>3.0.1</findbugs-annotations.version>
+    <jmh-generator-annprocess.version>1.35</jmh-generator-annprocess.version>
+    <junit-bom.version>5.8.2</junit-bom.version>
   </properties>
 
   <dependencyManagement>
 
     <dependencies>
+
+      <dependency>
+        <groupId>org.junit-pioneer</groupId>
+        <artifactId>junit-pioneer</artifactId>
+        <version>1.6.2</version>
+        <scope>test</scope>
+      </dependency>
+
+      <!-- benchmarks -->
+
+      <dependency>
+        <groupId>org.openjdk.jmh</groupId>
+        <artifactId>jmh-core</artifactId>
+        <version>${jmh-generator-annprocess.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.openjdk.jmh</groupId>
+        <artifactId>jmh-generator-annprocess</artifactId>
+        <version>${jmh-generator-annprocess.version}</version>
+      </dependency>
+
+
+      <!-- end benchmarks -->
       <dependency>
         <groupId>org.hibernate</groupId>
         <artifactId>hibernate-search-orm</artifactId>
@@ -64,6 +89,14 @@
         <groupId>org.hibernate</groupId>
         <artifactId>hibernate-core</artifactId>
         <version>5.4.29.Final</version>
+      </dependency>
+
+
+      <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-inline</artifactId>
+        <version>${mockito.version}</version>
+        <scope>test</scope>
       </dependency>
 
 
@@ -210,35 +243,12 @@
       </dependency>
 
       <dependency>
-        <groupId>org.junit.jupiter</groupId>
-        <artifactId>junit-jupiter-engine</artifactId>
-        <version>5.8.0-M1</version>
-        <scope>test</scope>
+        <groupId>org.junit</groupId>
+        <artifactId>junit-bom</artifactId>
+        <version>${junit-bom.version}</version>
+        <type>pom</type>
       </dependency>
 
-
-
-      <dependency>
-        <groupId>org.junit.jupiter</groupId>
-        <artifactId>junit-jupiter-api</artifactId>
-        <version>5.8.0-M1</version>
-        <scope>test</scope>
-      </dependency>
-
-      <dependency>
-        <groupId>org.junit-pioneer</groupId>
-        <artifactId>junit-pioneer</artifactId>
-        <version>1.3.8</version>
-        <scope>test</scope>
-      </dependency>
-
-
-      <dependency>
-        <groupId>org.junit.jupiter</groupId>
-        <artifactId>junit-suite-engine</artifactId>
-        <version>5.8.0-M1</version>
-        <scope>test</scope>
-      </dependency>
 
     </dependencies>
   </dependencyManagement>

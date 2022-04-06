@@ -11,6 +11,7 @@ apply from: "$rootDir/tasks/revisions.gradle"
 
 allprojects {
     apply plugin: 'java'
+    apply plugin: 'signing'
     apply plugin: 'maven-publish'
     apply plugin: 'io.spring.dependency-management'
 
@@ -102,9 +103,63 @@ subprojects {
         }
 
 
-
         publications {
-            mavenPlugin(MavenPublication) {
+
+            mavenCentralArtifacts(MavenPublication) {
+
+                /**
+                 * components source
+                 */
+                from components.java
+
+                /**
+                 * maven coordinates
+                 */
+                groupId = project.group
+                version = project.version
+                artifactId = project.name
+
+                /**
+                 * included artifacts
+                 */
+
+                artifact testJar
+                artifact javadocJar
+
+                versionMapping {
+                    usage('java-api') {
+                        fromResolutionOf('runtimeClasspath')
+                    }
+                    usage('java-runtime') {
+                        fromResolutionResult()
+                    }
+                }
+                pom {
+                    name = 'Sunshower Arcus'
+                    description = 'Sunshower Core Libraries'
+                    url = 'https://github.com/sunshower-io/sunshower-arcus'
+                    licenses {
+                        license {
+                            name = 'The Apache License, Version 2.0'
+                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        }
+                    }
+                    developers {
+                        developer {
+                            id = 'josiah'
+                            name = 'Josiah Haswell'
+                            email = 'josiah@sunshower.io'
+                        }
+                    }
+                    scm {
+                        connection = 'scm:git:git://github.com/sunshower-io/sunshower-arcus.git'
+                        developerConnection = 'scm:git:ssh://github.com/sunshower-io/sunshower-arcus.git'
+                        url = 'https://www.sunshower.io/'
+                    }
+                }
+            }
+
+            artifacts(MavenPublication) {
                 /**
                  * components source
                  */
@@ -134,12 +189,32 @@ subprojects {
                 }
             }
         }
+
     }
+
+
+    signing {
+        useGpgCmd()
+
+
+        sign publishing.publications.mavenCentralArtifacts
+    }
+
+
 
 
     dependencies {
         compileOnly 'com.google.code.findbugs:annotations'
         testCompileOnly 'com.google.code.findbugs:annotations'
+
+
+        [
+                'jmh-core',
+                'jmh-generator-annprocess'
+        ].each {
+            testImplementation "org.openjdk.jmh:$it"
+            testAnnotationProcessor "org.openjdk.jmh:$it"
+        }
 
 
         compileOnly 'org.projectlombok:lombok'
@@ -151,13 +226,22 @@ subprojects {
         testImplementation 'org.junit-pioneer:junit-pioneer'
         testImplementation 'org.mockito:mockito-junit-jupiter'
         testImplementation 'org.junit.platform:junit-platform-suite-engine'
+
+
+        testImplementation 'org.mockito:mockito-inline'
+        testImplementation 'org.junit-pioneer:junit-pioneer'
+        testImplementation 'org.junit.jupiter:junit-jupiter-params'
+
         [
                 'api',
                 'engine'
 
         ].each { dep ->
             testImplementation "org.junit.jupiter:junit-jupiter-$dep"
+            testImplementation "org.junit.platform:junit-platform-suite-$dep"
         }
+
+
     }
 }
 
