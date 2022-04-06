@@ -29,14 +29,18 @@ jobs:
 
     runs-on: ${{ matrix.platform }}
 
-    env:
-      ORG_GRADLE_PROJECT_signingKey: ${{ secrets.SIGNING_KEY }}
-      ORG_GRADLE_PROJECT_signingKeyId: ${{ secrets.SIGNING_KEY_ID }}
-      ORG_GRADLE_PROJECT_signingKeyPassword: ${{ secrets.SIGNING_PASSWORD }}
+#    env:
+#      ORG_GRADLE_PROJECT_signingKey: ${{ secrets.SIGNING_KEY }}
+#      ORG_GRADLE_PROJECT_signingKeyId: ${{ secrets.SIGNING_KEY_ID }}
+#      ORG_GRADLE_PROJECT_signingKeyPassword: ${{ secrets.SIGNING_PASSWORD }}
 
 
     steps:
-
+      - name: Import GPG Key
+        uses: hashicorp/ghaction-import-gpg@v2.1.0
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.SIGNING_KEY }}
+          PASSPHRASE: ${{ secrets.SIGNING_PASSWORD }}
       #################   Checkout #################
       #
       #   This step checks out the project
@@ -116,14 +120,16 @@ jobs:
         if: matrix.platform == 'ubuntu-latest'
         env:
           JAVA_TOOL_OPTIONS: -Duser.language=en -Duser.country=US
-          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.SIGNING_KEY }}
-          ORG_GRADLE_PROJECT_signingKeyId: ${{ secrets.SIGNING_KEY_ID }}
-          ORG_GRADLE_PROJECT_signingKeyPassword: ${{ secrets.SIGNING_PASSWORD }}
+#          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.SIGNING_KEY }}
+#          ORG_GRADLE_PROJECT_signingKeyId: ${{ secrets.SIGNING_KEY_ID }}
+#          ORG_GRADLE_PROJECT_signingKeyPassword: ${{ secrets.SIGNING_PASSWORD }}
         with:
           gradle-version: 7.4
           arguments: >-
             assemble build publish sA signMavenPluginPublication
             -i
+            -Psigning.gnupg.passphrase=${{ secrets.SIGNING_PASSWORD }}
             -PmavenRepositoryUsername=${{secrets.MAVEN_REPOSITORY_USERNAME}}
             -PmavenRepositoryPassword=${{secrets.MAVEN_REPOSITORY_PASSWORD}}
             -PmavenRepositoryUrl=${{secrets.MAVEN_REPOSITORY_URL}} --stacktrace
+
