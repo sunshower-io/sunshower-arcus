@@ -142,7 +142,7 @@ jobs:
             build
             publish
             sA
-            signMavenPluginPublication
+            sign
             publishMavenCentralArtifactsPublicationToMavenRepository
             -i
             -Psigning.gnupg.keyName=${{ secrets.SIGNING_KEY_ID }}
