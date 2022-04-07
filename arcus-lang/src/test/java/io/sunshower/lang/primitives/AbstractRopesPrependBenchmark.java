@@ -7,7 +7,6 @@ import org.openjdk.jmh.annotations.State;
 @State(Scope.Benchmark)
 public abstract class AbstractRopesPrependBenchmark extends AbstractRopesBenchmark {
 
-
   protected byte[] bytes;
   protected Rope rope;
   protected String string;
@@ -25,5 +24,4 @@ public abstract class AbstractRopesPrependBenchmark extends AbstractRopesBenchma
   }
 
   protected abstract byte[] getBytes();
-
 }

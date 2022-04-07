@@ -6,7 +6,6 @@ import org.openjdk.jmh.annotations.Group;
 
 public class RopesPrepend1MbTest extends AbstractRopesPrependBenchmark {
 
-
   @Benchmark
   @Group("prepend")
   public void prependToSmallRope() {

@@ -9,7 +9,6 @@ import org.openjdk.jmh.annotations.State;
 @State(Scope.Group)
 public class RopesPrepend1KbTest extends AbstractRopesPrependBenchmark {
 
-
   @Benchmark
   @Group("prepend")
   public void prependToSmallRope() {
