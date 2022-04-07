@@ -91,6 +91,10 @@ subprojects {
             }
         }
 
+        task sourcesJar(type: Jar, dependsOn: classes) {
+            archiveClassifier = 'sources'
+            from sourceSets.main.allSource
+        }
 
         task testJar(type: Jar) {
             archiveClassifier = 'tests'
@@ -124,6 +128,7 @@ subprojects {
                  */
 
                 artifact testJar
+                artifact sourcesJar
                 artifact javadocJar
 
                 versionMapping {
