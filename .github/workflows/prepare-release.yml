@@ -140,10 +140,9 @@ jobs:
           arguments: >-
             assemble
             build
-            publish
             sA
             sign
-            publishMavenCentralArtifactsPublicationToMavenRepository
+            publish
             -i
             -Psigning.gnupg.keyName=${{ secrets.SIGNING_KEY_ID }}
             -Psigning.gnupg.passphrase=${{ secrets.SIGNING_PASSWORD }}
