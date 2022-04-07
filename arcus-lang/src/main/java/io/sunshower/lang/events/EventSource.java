@@ -1,6 +1,10 @@
 package io.sunshower.lang.events;
 
+import java.util.List;
+
 public interface EventSource {
+
+  List<EventListener<?>> getListeners();
 
   int getListenerCount();
 

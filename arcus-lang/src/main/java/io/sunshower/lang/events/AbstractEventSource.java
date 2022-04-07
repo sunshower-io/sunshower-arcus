@@ -109,6 +109,19 @@ public class AbstractEventSource implements EventSource {
     }
   }
 
+  @Override
+  public List<EventListener<?>> getListeners() {
+    synchronized (listeners) {
+      val results = new ArrayList<EventListener<?>>(listeners.size());
+      for (val entry : listeners.entrySet()) {
+        for (val flaggedListener : entry.getValue()) {
+          results.add(flaggedListener.listener);
+        }
+      }
+      return results;
+    }
+  }
+
   @AllArgsConstructor
   static final class FlaggedEventListener {
 
