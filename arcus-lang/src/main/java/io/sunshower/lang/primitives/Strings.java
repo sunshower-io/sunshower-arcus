@@ -103,7 +103,7 @@ public class Strings {
   }
 
   private static int[] characterTable(CharSequence search) {
-    final int ALPHABET_SIZE = Character.MAX_VALUE + 1; // 65536
+    final int ALPHABET_SIZE = 256; // 65536
     val table = new int[ALPHABET_SIZE];
     for (int i = 0, slen = search.length(), tlen = table.length; i < tlen; ++i) {
       table[i] = slen;
@@ -115,7 +115,7 @@ public class Strings {
   }
 
   private static int[] characterTable(char[] search) {
-    final int ALPHABET_SIZE = Character.MAX_VALUE + 1; // 65536
+    final int ALPHABET_SIZE = 256;
     val table = new int[ALPHABET_SIZE];
     for (int i = 0, slen = search.length, tlen = table.length; i < tlen; ++i) {
       table[i] = slen;

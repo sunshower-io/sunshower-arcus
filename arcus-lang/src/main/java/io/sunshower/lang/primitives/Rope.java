@@ -48,14 +48,18 @@ public final class Rope implements CharSequence {
    * @param charset the charset to use--only used for transforming between charsets
    */
   public Rope(byte[] bytes, Charset charset) {
-    int chunksize = 17;
+    val chunksize = Ropes.combinedLength;
 
-    val leaves = new ArrayList<RopeLike>(bytes.length / chunksize);
-    for (int i = 0; i < bytes.length; i += chunksize) {
-      val subbytes = copyOfRange(bytes, i, Math.min(i + chunksize, bytes.length));
-      leaves.add(new RopeLikeOverCharacterArray(getCharacters(subbytes, charset)));
+    if(bytes.length < Ropes.combinedLength) {
+      base = new RopeLikeOverString(new String(bytes, charset));
+    } else {
+      val leaves = new ArrayList<RopeLike>(bytes.length / chunksize);
+      for (int i = 0; i < bytes.length; i += chunksize) {
+        val subbytes = copyOfRange(bytes, i, Math.min(i + chunksize, bytes.length));
+        leaves.add(new RopeLikeOverString(getCharacters(subbytes, charset)));
+      }
+      base = rebalance(merge(leaves));
     }
-    base = rebalance(merge(leaves));
   }
 
   /**

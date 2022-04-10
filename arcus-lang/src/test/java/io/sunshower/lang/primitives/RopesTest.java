@@ -12,6 +12,8 @@ import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.DisabledOnOs;
 import org.junit.jupiter.api.condition.OS;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 @DisabledOnOs(OS.WINDOWS)
 class RopesTest {
@@ -93,6 +95,15 @@ class RopesTest {
     val pw = new PrintWriter(System.out);
     r.base.writeTree(pw);
     pw.flush();
+  }
+
+
+  @ParameterizedTest
+  @ValueSource(strings = {"", "h", "he", "hello"})
+  void ensurePrependingToSmallRopesWorks(String v) {
+    val rope = new Rope(v);
+    val r = rope.prepend("hello");
+    assertEquals(r.toString(), "hello" + v);
   }
 
   @Test

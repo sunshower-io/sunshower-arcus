@@ -15,7 +15,7 @@ final class Ropes {
 
   static final long[] FIBONACCI_SEQUENCE = Longs.computeFibonacciUntil(7540113804746346429l);
 
-  static final int combinedLength = 17;
+  static final int combinedLength = 199;
 
   private Ropes() {}
 
