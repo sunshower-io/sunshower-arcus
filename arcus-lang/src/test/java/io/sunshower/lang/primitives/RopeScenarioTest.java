@@ -67,8 +67,17 @@ class RopeScenarioTest {
   }
 
   @Test
+  void ensureIterationWorksAsExpected() {
+    val r = rope.base.iterator();
+    while(r.hasNext()) {
+      System.out.println(r.next());
+    }
+  }
+
+  @Test
   void ensureSplittingBaseWorks() {
     val ropes = rope.base.split(11);
+
     print(rope);
     print(new Rope(ropes.fst));
     print(new Rope(ropes.snd));
