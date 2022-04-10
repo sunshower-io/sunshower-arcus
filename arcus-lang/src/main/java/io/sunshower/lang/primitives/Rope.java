@@ -12,7 +12,7 @@ import lombok.NonNull;
 import lombok.val;
 
 /** implementation of the Rope data-structure */
-public final class Rope implements CharSequence {
+public final class Rope implements CharSequence, Comparable<CharSequence> {
 
   /** the base of this rope */
   @NonNull final RopeLike base;
@@ -231,5 +231,28 @@ public final class Rope implements CharSequence {
    */
   public Rope delete(int start, int end) {
     return new Rope(base.delete(start, end));
+  }
+
+  /**
+   * lexocographically compare this rope to the other rope.
+   * This method uses a lazy, in-order optimization
+   * @param sequence
+   * @return the result of the lexicographical comparison
+   */
+  @Override
+  public int compareTo(CharSequence sequence) {
+    val iterator = base.iterator();
+    int ch = 0;
+    while(iterator.hasNext()) {
+      val subsequence = iterator.next();
+      for(int i = 0; i < subsequence.length(); i++) {
+        val tch = sequence.charAt(ch++);
+        val mch = subsequence.charAt(i);
+        if(tch != mch) {
+          return mch - tch;
+        }
+      }
+    }
+    return 0;
   }
 }

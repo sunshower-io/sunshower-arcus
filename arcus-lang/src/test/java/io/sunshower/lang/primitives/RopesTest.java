@@ -156,6 +156,54 @@ class RopesTest {
   }
 
   @Test
+  void ensureIterationWorks() {
+    val r = new Rope(document2);
+    val iter = r.base.iterator();
+    val str = new StringBuilder();
+    while(iter.hasNext()) {
+      str.append(iter.next().characters());
+    }
+    assertEquals(r.toString(), str.toString());
+  }
+
+
+  @ParameterizedTest
+  @ValueSource(strings = {"", "h", "he", "hello"})
+  void ensureShortStringsAreEqual(String v) {
+    assertEquals(0, new Rope(v).compareTo(v));
+  }
+
+  @Test
+  void ensureLongComparisonsAreEqual() {
+    assertEquals(0, new Rope(document2).compareTo(document2));
+  }
+
+
+  @Test
+  void ensureLexocographicalOrderingWorks() {
+    val fst = "zebra";
+    val snd = "calico";
+
+    assertEquals(new Rope(fst).compareTo(snd), fst.compareTo(snd));
+  }
+
+  @Test
+  void ensureIterationOnVeryLargeValueWorks() {
+    val string = new String(bytes);
+    val rope = new Rope(bytes);
+
+
+    val str = new StringBuilder(bytes.length);
+    val iter = rope.base.iterator();
+
+    while(iter.hasNext()) {
+      str.append(iter.next().toString());
+    }
+    assertEquals(str.toString(), string.toString());
+
+  }
+
+  @Test
   void ensureRopeSubsequenceWorks() {
     val s =
         ("""
