@@ -262,6 +262,50 @@ class RopesTest {
     val s =
         ("""
             this is a quick test--what do you think?
+            this is a quick test--what do you think?
+            this is a quick test--what do you think?
+            this is a quick test--what do you think?
+            this is a quick test--what do you think?
+            this is a quick test--what do you think?
+            this is a quick test--what do you think?
+            this is a quick test--what do you think?
+            this is a quick test--what do you think?
+            this is a quick test--what do you think?
+            this is a quick test--what do you think?
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
             I think this is a pretty rad data-structure
             """);
 
@@ -270,7 +314,8 @@ class RopesTest {
     System.out.println(r);
 
     val writer = new PrintWriter(System.out);
-    r.writeTree(writer);
+    print(rope);
+
     writer.flush();
   }
 

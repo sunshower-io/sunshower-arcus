@@ -1,13 +1,11 @@
 package io.sunshower.lang.primitives;
 
-import io.sunshower.lang.primitives.RopeLike.Type;
 import io.sunshower.lang.tuple.Pair;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 import lombok.NonNull;
 import lombok.val;
 

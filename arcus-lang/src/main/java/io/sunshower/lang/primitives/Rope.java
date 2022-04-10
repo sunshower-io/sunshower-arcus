@@ -125,7 +125,7 @@ public final class Rope implements CharSequence, Comparable<CharSequence> {
     }
     if (Rope.class.equals(o.getClass())) {
       val that = (Rope) o;
-      return base.equals(that.base);
+      return compareTo(that) == 0;
     }
     return false;
   }

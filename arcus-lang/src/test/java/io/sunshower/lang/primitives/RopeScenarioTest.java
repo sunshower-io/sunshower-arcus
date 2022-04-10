@@ -70,7 +70,8 @@ class RopeScenarioTest {
   void ensureIterationWorksAsExpected() {
     val r = rope.base.iterator();
     while(r.hasNext()) {
-      System.out.println(r.next());
+      val b = r.next();
+      System.out.println(b);
     }
   }
 
