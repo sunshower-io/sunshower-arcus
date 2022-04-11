@@ -146,5 +146,4 @@ class InOrderRopeIterator implements Iterator<RopeLike> {
     }
     return result;
   }
-  static int count;
 }
