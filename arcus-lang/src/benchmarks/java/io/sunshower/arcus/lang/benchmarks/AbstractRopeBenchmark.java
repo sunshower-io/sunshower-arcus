@@ -4,7 +4,6 @@ package io.sunshower.arcus.lang.benchmarks;
 import io.sunshower.lang.primitives.Rope;
 import java.nio.charset.StandardCharsets;
 import java.util.Random;
-import lombok.val;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.State;
 

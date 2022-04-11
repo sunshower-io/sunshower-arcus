@@ -14,11 +14,11 @@ interface RopeLike extends CharSequence, Cloneable, Iterable<RopeLike> {
   Rope asRope();
 
   default RopeLike prepend(CharSequence sequence) {
-    return Ropes.append(new RopeLikeOverCharSequence(sequence), this);
+    return Ropes.concat(new RopeLikeOverCharSequence(sequence), this);
   }
 
   default RopeLike append(CharSequence sequence) {
-    return Ropes.append(this, new RopeLikeOverCharSequence(sequence));
+    return Ropes.concat(this, new RopeLikeOverCharSequence(sequence));
   }
 
   default boolean isLeaf() {

@@ -48,9 +48,9 @@ public final class Rope implements CharSequence, Comparable<CharSequence> {
    * @param charset the charset to use--only used for transforming between charsets
    */
   public Rope(byte[] bytes, Charset charset) {
-    val chunksize = Ropes.combinedLength;
+    val chunksize = Ropes.splitLength;
 
-    if(bytes.length < Ropes.combinedLength) {
+    if(bytes.length < Ropes.splitLength) {
       base = new RopeLikeOverString(new String(bytes, charset));
     } else {
       val leaves = new ArrayList<RopeLike>(bytes.length / chunksize);
@@ -181,7 +181,7 @@ public final class Rope implements CharSequence, Comparable<CharSequence> {
       return append(sequence);
     }
     val lhs = base.split(idx);
-    return new Rope(Ropes.append(lhs.fst.append(sequence), lhs.snd));
+    return new Rope(Ropes.concat(lhs.fst.append(sequence), lhs.snd));
   }
 
   /**

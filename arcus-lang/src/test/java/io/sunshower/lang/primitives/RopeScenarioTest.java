@@ -17,33 +17,33 @@ class RopeScenarioTest {
   private RopeLikeTree branch2;
   private RopeLikeTree branch3;
 
-  static String value = "Hello_my_name_is_Simon";
+  static String value = "Hello my name is Josiah";
 
   @BeforeEach
   void setUp() {
 
     branch1 =
         new RopeLikeTree(
-            new RopeLikeOverCharSequence("Hello_"), new RopeLikeOverCharacterArray("my_"));
+            new RopeLikeOverCharSequence("Hello"), new RopeLikeOverCharacterArray(" my"));
 
     branch2 =
-        new RopeLikeTree(new RopeLikeOverCharSequence("na"), new RopeLikeOverCharSequence("me_i"));
+        new RopeLikeTree(new RopeLikeOverCharSequence(" na"), new RopeLikeOverCharSequence("me i"));
 
     branch3 =
-        new RopeLikeTree(new RopeLikeOverCharSequence("s"), new RopeLikeOverCharSequence("_Simon"));
+        new RopeLikeTree(new RopeLikeOverCharSequence("s"), new RopeLikeOverCharSequence(" Josiah"));
 
     val branch1_r = new RopeLikeTree(branch2, branch3);
-    assertEquals(6, branch1_r.weight());
+    assertEquals(7, branch1_r.weight());
 
     val branch1_l = new RopeLikeTree(branch1, branch1_r);
 
     rope = new Rope(branch1_l);
-    assertEquals(22, rope.length());
+    assertEquals(23, rope.length());
   }
 
   @Test
   void ensureLengthIsExpected() {
-    assertEquals(22, rope.length());
+    assertEquals(23, rope.length());
   }
 
   @Test

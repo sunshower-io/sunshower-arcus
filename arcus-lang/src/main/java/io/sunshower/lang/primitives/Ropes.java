@@ -15,11 +15,11 @@ final class Ropes {
 
   static final long[] FIBONACCI_SEQUENCE = Longs.computeFibonacciUntil(7540113804746346429l);
 
-  static final int combinedLength = 199;
+  static final int splitLength = 199;
 
   private Ropes() {}
 
-  static RopeLike append(RopeLike left, RopeLike right) {
+  static RopeLike concat(RopeLike left, RopeLike right) {
     if (left.isEmpty()) {
       return right;
     }
@@ -31,7 +31,7 @@ final class Ropes {
       if (right.getType() == Type.Composite) {
         val rightChild = right.getLeft();
         assert rightChild != null;
-        if (left.weight() + rightChild.weight() < combinedLength) {
+        if (left.weight() + rightChild.weight() < splitLength) {
           return rebalance(
               new RopeLikeTree(
                   new RopeLikeOverCharacterArray(left.characters(), right.characters()),
@@ -43,7 +43,7 @@ final class Ropes {
     if (right.getType() != Type.Composite) {
       if (left.getType() == Type.Composite) {
         val leftChild = left.getRight();
-        if (right.weight() + leftChild.weight() < combinedLength) {
+        if (right.weight() + leftChild.weight() < splitLength) {
           return rebalance(
               new RopeLikeTree(
                   left.getLeft(),

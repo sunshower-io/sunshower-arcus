@@ -76,7 +76,7 @@ final class RopeLikeTree extends AbstractRopeLike implements RopeLike {
 
   @Override
   public String substring(int offset, int length) {
-    return null;
+    return subSequence(offset, length).toString();
   }
 
   @Override
@@ -134,7 +134,7 @@ final class RopeLikeTree extends AbstractRopeLike implements RopeLike {
     if (start >= leftLength) {
       return right.subSequence(start, leftLength);
     }
-    return Ropes.append(
+    return Ropes.concat(
         (RopeLike) left.subSequence(start, leftLength),
         (RopeLike) right.subSequence(0, end - leftLength));
   }

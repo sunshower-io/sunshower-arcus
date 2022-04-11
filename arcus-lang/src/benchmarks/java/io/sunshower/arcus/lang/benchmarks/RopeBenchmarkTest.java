@@ -16,8 +16,8 @@ class RopeBenchmarkTest {
         .warmupTime(TimeValue.seconds(1))
         .warmupIterations(1)
         .measurementIterations(1)
-        .threads(2)
-        .forks(1)
+        .threads(4)
+        .forks(2)
         .shouldFailOnError(true)
         .shouldDoGC(true).build();
     new Runner(opts).run();
