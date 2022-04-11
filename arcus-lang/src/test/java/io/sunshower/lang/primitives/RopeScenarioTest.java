@@ -30,7 +30,8 @@ class RopeScenarioTest {
         new RopeLikeTree(new RopeLikeOverCharSequence(" na"), new RopeLikeOverCharSequence("me i"));
 
     branch3 =
-        new RopeLikeTree(new RopeLikeOverCharSequence("s"), new RopeLikeOverCharSequence(" Josiah"));
+        new RopeLikeTree(
+            new RopeLikeOverCharSequence("s"), new RopeLikeOverCharSequence(" Josiah"));
 
     val branch1_r = new RopeLikeTree(branch2, branch3);
     assertEquals(7, branch1_r.weight());
@@ -69,7 +70,7 @@ class RopeScenarioTest {
   @Test
   void ensureIterationWorksAsExpected() {
     val r = rope.base.iterator();
-    while(r.hasNext()) {
+    while (r.hasNext()) {
       val b = r.next();
       System.out.println(b);
     }

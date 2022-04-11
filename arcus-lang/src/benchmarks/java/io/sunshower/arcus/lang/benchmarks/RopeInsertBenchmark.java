@@ -30,11 +30,11 @@ public abstract class RopeInsertBenchmark extends AbstractRopeBenchmark {
   protected byte[] getBytes() {
     return new byte[0];
   }
-  
+
   protected int getIndex() {
     return bytes.length / 2;
   }
-  
+
   @Benchmark
   @Group("insert")
   public void prependString(Blackhole blackhole) {
@@ -63,9 +63,7 @@ public abstract class RopeInsertBenchmark extends AbstractRopeBenchmark {
     protected byte[] getBytes() {
       return byteString().ofLength(10, Bytes.BYTE);
     }
-
   }
-
 
   public static class HundredbyteRopeInsertBenchmark extends RopeInsertBenchmark {
 
@@ -75,7 +73,6 @@ public abstract class RopeInsertBenchmark extends AbstractRopeBenchmark {
     }
   }
 
-
   public static class KilobyteRopeInsertBenchmark extends RopeInsertBenchmark {
 
     @Override
@@ -83,7 +80,6 @@ public abstract class RopeInsertBenchmark extends AbstractRopeBenchmark {
       return byteString().ofLength(1, Bytes.KILOBYTE);
     }
   }
-
 
   public static class TenKbRopeInsertBenchmark extends RopeInsertBenchmark {
 
@@ -93,7 +89,6 @@ public abstract class RopeInsertBenchmark extends AbstractRopeBenchmark {
     }
   }
 
-
   public static class HundredKilobyteInsertBenchmark extends RopeInsertBenchmark {
 
     @Override
@@ -101,7 +96,6 @@ public abstract class RopeInsertBenchmark extends AbstractRopeBenchmark {
       return byteString().ofLength(100, Bytes.KILOBYTE);
     }
   }
-
 
   public static class MegabyteInsertBenchmark extends RopeInsertBenchmark {
 
@@ -111,7 +105,6 @@ public abstract class RopeInsertBenchmark extends AbstractRopeBenchmark {
     }
   }
 
-
   public static class TenMegabyteInsertBenchmark extends RopeInsertBenchmark {
 
     @Override
@@ -119,7 +112,6 @@ public abstract class RopeInsertBenchmark extends AbstractRopeBenchmark {
       return byteString().ofLength(10, Bytes.MEGABYTE);
     }
   }
-
 
   public static class HundredMbRopeInsertBenchmark extends RopeInsertBenchmark {
 

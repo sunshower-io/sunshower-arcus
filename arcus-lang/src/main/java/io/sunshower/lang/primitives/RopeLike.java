@@ -111,11 +111,10 @@ class InOrderRopeIterator implements Iterator<RopeLike> {
 
   private final Deque<RopeLike> stack;
 
-
   public InOrderRopeIterator(@NonNull RopeLike root) {
     stack = new ArrayDeque<>();
     var c = root;
-    while(c != null) {
+    while (c != null) {
       stack.push(c);
       c = c.getLeft();
     }
@@ -126,19 +125,18 @@ class InOrderRopeIterator implements Iterator<RopeLike> {
     return stack.size() > 0;
   }
 
-
   @Override
   public RopeLike next() {
 
     val result = stack.pop();
 
-    if(!stack.isEmpty()) {
+    if (!stack.isEmpty()) {
       val parent = stack.pop();
       val right = parent.getRight();
-      if(right != null) {
+      if (right != null) {
         stack.push(right);
         var cleft = right.getLeft();
-        while(cleft != null) {
+        while (cleft != null) {
           stack.push(cleft);
           cleft = cleft.getLeft();
         }
@@ -146,5 +144,4 @@ class InOrderRopeIterator implements Iterator<RopeLike> {
     }
     return result;
   }
-  static int count;
 }

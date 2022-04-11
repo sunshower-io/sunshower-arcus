@@ -50,7 +50,7 @@ final class RopeLikeOverString extends AbstractRopeLike implements RopeLike {
   @Override
   public int depth() {
     return 0;
-//    return delegate.depth();
+    //    return delegate.depth();
   }
 
   @Override
@@ -67,7 +67,7 @@ final class RopeLikeOverString extends AbstractRopeLike implements RopeLike {
   public RopeLike delete(int start, int length) {
     val results = Arrays.remove(characters(), start, length);
     return new RopeLikeOverString(results);
-//    return delegate.delete(start, length);
+    //    return delegate.delete(start, length);
   }
 
   @Override

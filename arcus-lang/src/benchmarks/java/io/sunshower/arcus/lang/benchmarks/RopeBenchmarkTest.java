@@ -10,19 +10,20 @@ import org.openjdk.jmh.runner.options.TimeValue;
 class RopeBenchmarkTest {
 
   public static void main(String[] args) throws RunnerException {
-    var opts = new OptionsBuilder()
-        .mode(Mode.Throughput)
-        .timeUnit(TimeUnit.SECONDS)
-        .warmupTime(TimeValue.seconds(1))
-        .warmupIterations(1)
-        .measurementIterations(1)
-        .threads(4)
-        .forks(2)
-        .shouldFailOnError(true)
-        .shouldDoGC(true).build();
+    var opts =
+        new OptionsBuilder()
+            .mode(Mode.Throughput)
+            .timeUnit(TimeUnit.SECONDS)
+            .warmupTime(TimeValue.seconds(1))
+            .warmupIterations(1)
+            .measurementIterations(1)
+            .threads(1)
+            .forks(1)
+            .jvmArgs("-Xmx8G")
+            .jvmArgs("-Xms8G")
+            .shouldFailOnError(true)
+            .shouldDoGC(true)
+            .build();
     new Runner(opts).run();
   }
-
-
-
 }

@@ -1,0 +1,94 @@
+-RopeConstructBenchmark.HundredByteConstructBenchmark.construct                          thrpt    2   73448283.696          ops/s
+-RopeConstructBenchmark.HundredByteConstructBenchmark.construct:constructRope            thrpt    2   32764133.577          ops/s
+-RopeConstructBenchmark.HundredByteConstructBenchmark.construct:constructString          thrpt    2   40684150.120          ops/s
+-RopeConstructBenchmark.HundredKiloByteConstructBenchmark.construct                      thrpt    2      68562.722          ops/s
+-RopeConstructBenchmark.HundredKiloByteConstructBenchmark.construct:constructRope        thrpt    2       8193.488          ops/s
+-RopeConstructBenchmark.HundredKiloByteConstructBenchmark.construct:constructString      thrpt    2      60369.234          ops/s
+-RopeConstructBenchmark.HundredMegabyteByteConstructBenchmark.construct                  thrpt    2         13.482          ops/s
+-RopeConstructBenchmark.HundredMegabyteByteConstructBenchmark.construct:constructRope    thrpt    2          2.752          ops/s
+-RopeConstructBenchmark.HundredMegabyteByteConstructBenchmark.construct:constructString  thrpt    2         10.730          ops/s
+-RopeConstructBenchmark.KiloByteConstructBenchmark.construct                             thrpt    2    7251387.607          ops/s
+-RopeConstructBenchmark.KiloByteConstructBenchmark.construct:constructRope               thrpt    2     896111.872          ops/s
+-RopeConstructBenchmark.KiloByteConstructBenchmark.construct:constructString             thrpt    2    6355275.735          ops/s
+-RopeConstructBenchmark.MegabyteByteConstructBenchmark.construct                         thrpt    2       7332.924          ops/s
+-RopeConstructBenchmark.MegabyteByteConstructBenchmark.construct:constructRope           thrpt    2        848.501          ops/s
+-RopeConstructBenchmark.MegabyteByteConstructBenchmark.construct:constructString         thrpt    2       6484.423          ops/s
+-RopeConstructBenchmark.OneByteConstructBenchmark.construct                              thrpt    2  132589226.706          ops/s
+-RopeConstructBenchmark.OneByteConstructBenchmark.construct:constructRope                thrpt    2   59535143.915          ops/s
+-RopeConstructBenchmark.OneByteConstructBenchmark.construct:constructString              thrpt    2   73054082.791          ops/s
+-RopeConstructBenchmark.TenByteConstructBenchmark.construct                              thrpt    2  128095808.396          ops/s
+-RopeConstructBenchmark.TenByteConstructBenchmark.construct:constructRope                thrpt    2   56498503.137          ops/s
+-RopeConstructBenchmark.TenByteConstructBenchmark.construct:constructString              thrpt    2   71597305.258          ops/s
+-RopeConstructBenchmark.TenKiloByteConstructBenchmark.construct                          thrpt    2     772713.397          ops/s
+-RopeConstructBenchmark.TenKiloByteConstructBenchmark.construct:constructRope            thrpt    2     101149.177          ops/s
+-RopeConstructBenchmark.TenKiloByteConstructBenchmark.construct:constructString          thrpt    2     671564.220          ops/s
+-RopeConstructBenchmark.TenMegabyteByteConstructBenchmark.construct                      thrpt    2        325.677          ops/s
+-RopeConstructBenchmark.TenMegabyteByteConstructBenchmark.construct:constructRope        thrpt    2         98.251          ops/s
+-RopeConstructBenchmark.TenMegabyteByteConstructBenchmark.construct:constructString      thrpt    2        227.426          ops/s
+-RopeInsertBenchmark.HundredKilobyteInsertBenchmark.insert                               thrpt    2    2698843.988          ops/s
+-RopeInsertBenchmark.HundredKilobyteInsertBenchmark.insert:prependRope                   thrpt    2    2659864.432          ops/s
+-RopeInsertBenchmark.HundredKilobyteInsertBenchmark.insert:prependString                 thrpt    2      38979.555          ops/s
+RopeInsertBenchmark.HundredMbRopeInsertBenchmark.insert                                 thrpt    2    1719001.036          ops/s
+RopeInsertBenchmark.HundredMbRopeInsertBenchmark.insert:prependRope                     thrpt    2    1718979.936          ops/s
+RopeInsertBenchmark.HundredMbRopeInsertBenchmark.insert:prependString                   thrpt    2         21.100          ops/s
+-RopeInsertBenchmark.HundredbyteRopeInsertBenchmark.insert                               thrpt    2   19530480.919          ops/s
+-RopeInsertBenchmark.HundredbyteRopeInsertBenchmark.insert:prependRope                   thrpt    2    4420444.735          ops/s
+-RopeInsertBenchmark.HundredbyteRopeInsertBenchmark.insert:prependString                 thrpt    2   15110036.184          ops/s
+-RopeInsertBenchmark.KilobyteRopeInsertBenchmark.insert                                  thrpt    2    8371568.698          ops/s
+-RopeInsertBenchmark.KilobyteRopeInsertBenchmark.insert:prependRope                      thrpt    2    5436427.052          ops/s
+-RopeInsertBenchmark.KilobyteRopeInsertBenchmark.insert:prependString                    thrpt    2    2935141.647          ops/s
+-RopeInsertBenchmark.MegabyteInsertBenchmark.insert                                      thrpt    2    2835189.199          ops/s
+-RopeInsertBenchmark.MegabyteInsertBenchmark.insert:prependRope                          thrpt    2    2832250.939          ops/s
+-RopeInsertBenchmark.MegabyteInsertBenchmark.insert:prependString                        thrpt    2       2938.260          ops/s
+-RopeInsertBenchmark.OneByteInsertBenchmark.insert                                       thrpt    2  137269915.096          ops/s
+-RopeInsertBenchmark.OneByteInsertBenchmark.insert:prependRope                           thrpt    2   97017006.509          ops/s
+-RopeInsertBenchmark.OneByteInsertBenchmark.insert:prependString                         thrpt    2   40252908.587          ops/s
+-RopeInsertBenchmark.TenByteRopeInsertBenchmark.insert                                   thrpt    2   31710577.137          ops/s
+-RopeInsertBenchmark.TenByteRopeInsertBenchmark.insert:prependRope                       thrpt    2    7020022.137          ops/s
+-RopeInsertBenchmark.TenByteRopeInsertBenchmark.insert:prependString                     thrpt    2   24690555.000          ops/s
+-RopeInsertBenchmark.TenKbRopeInsertBenchmark.insert                                     thrpt    2    3074749.161          ops/s
+-RopeInsertBenchmark.TenKbRopeInsertBenchmark.insert:prependRope                         thrpt    2    2721592.335          ops/s
+-RopeInsertBenchmark.TenKbRopeInsertBenchmark.insert:prependString                       thrpt    2     353156.826          ops/s
+-RopeInsertBenchmark.TenMegabyteInsertBenchmark.insert                                   thrpt    2    2312539.588          ops/s
+-RopeInsertBenchmark.TenMegabyteInsertBenchmark.insert:prependRope                       thrpt    2    2312308.534          ops/s
+-RopeInsertBenchmark.TenMegabyteInsertBenchmark.insert:prependString                     thrpt    2        231.055          ops/s
+RopePrependBenchmark.HundredMbRopePrependBenchmark.prepend                              thrpt    2   82458360.138          ops/s
+RopePrependBenchmark.HundredMbRopePrependBenchmark.prepend:prependRope                  thrpt    2   82458327.632          ops/s
+RopePrependBenchmark.HundredMbRopePrependBenchmark.prepend:prependString                thrpt    2         32.505          ops/s
+RopePrependBenchmark.OneByteRopePrependBenchmark.prepend                                thrpt    2  217579015.898          ops/s
+RopePrependBenchmark.OneByteRopePrependBenchmark.prepend:prependRope                    thrpt    2  110824412.161          ops/s
+RopePrependBenchmark.OneByteRopePrependBenchmark.prepend:prependString                  thrpt    2  106754603.737          ops/s
+RopePrependBenchmark.OneHundredByteRopePrependBenchmark.prepend                         thrpt    2  130504784.142          ops/s
+RopePrependBenchmark.OneHundredByteRopePrependBenchmark.prepend:prependRope             thrpt    2   85793776.997          ops/s
+RopePrependBenchmark.OneHundredByteRopePrependBenchmark.prepend:prependString           thrpt    2   44711007.145          ops/s
+RopePrependBenchmark.OneHundredKbRopePrependBenchmark.prepend                           thrpt    2   96253919.505          ops/s
+RopePrependBenchmark.OneHundredKbRopePrependBenchmark.prepend:prependRope               thrpt    2   96161754.623          ops/s
+RopePrependBenchmark.OneHundredKbRopePrependBenchmark.prepend:prependString             thrpt    2      92164.883          ops/s
+RopePrependBenchmark.OneKbRopePrependBenchmark.prepend                                  thrpt    2   88582548.699          ops/s
+RopePrependBenchmark.OneKbRopePrependBenchmark.prepend:prependRope                      thrpt    2   82356332.524          ops/s
+RopePrependBenchmark.OneKbRopePrependBenchmark.prepend:prependString                    thrpt    2    6226216.175          ops/s
+RopePrependBenchmark.OneMbRopePrependBenchmark.prepend                                  thrpt    2   92733693.854          ops/s
+RopePrependBenchmark.OneMbRopePrependBenchmark.prepend:prependRope                      thrpt    2   92727361.513          ops/s
+RopePrependBenchmark.OneMbRopePrependBenchmark.prepend:prependString                    thrpt    2       6332.341          ops/s
+RopePrependBenchmark.TenByteRopePrependBenchmark.prepend                                thrpt    2  203085269.011          ops/s
+RopePrependBenchmark.TenByteRopePrependBenchmark.prepend:prependRope                    thrpt    2  105827762.977          ops/s
+RopePrependBenchmark.TenByteRopePrependBenchmark.prepend:prependString                  thrpt    2   97257506.034          ops/s
+RopePrependBenchmark.TenKbRopePrependBenchmark.prepend                                  thrpt    2   82145865.270          ops/s
+RopePrependBenchmark.TenKbRopePrependBenchmark.prepend:prependRope                      thrpt    2   81439728.809          ops/s
+RopePrependBenchmark.TenKbRopePrependBenchmark.prepend:prependString                    thrpt    2     706136.461          ops/s
+RopePrependBenchmark.TenMbRopePrependBenchmark.prepend                                  thrpt    2   83619709.875          ops/s
+RopePrependBenchmark.TenMbRopePrependBenchmark.prepend:prependRope                      thrpt    2   83619372.876          ops/s
+RopePrependBenchmark.TenMbRopePrependBenchmark.prepend:prependString                    thrpt    2        336.998          ops/s
+RopePrependBenchmark.prepend                                                            thrpt    2  450909621.593          ops/s
+RopePrependBenchmark.prepend:prependRope                                                thrpt    2  184013269.875          ops/s
+RopePrependBenchmark.prepend:prependString                                              thrpt    2  266896351.719          ops/s
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 8.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+See https://docs.gradle.org/7.3/userguide/command_line_interface.html#sec:command_line_warnings
+
+BUILD SUCCESSFUL in 12m 22s
+10 actionable tasks: 2 executed, 8 up-to-date
+12:44:38 PM: Task execution finished ':arcus-lang:RopeBenchmarkTest.main()'.
