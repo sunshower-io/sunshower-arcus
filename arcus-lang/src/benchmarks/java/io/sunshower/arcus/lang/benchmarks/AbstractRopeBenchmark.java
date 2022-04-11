@@ -1,6 +1,5 @@
 package io.sunshower.arcus.lang.benchmarks;
 
-
 import io.sunshower.lang.primitives.Rope;
 import java.nio.charset.StandardCharsets;
 import java.util.Random;
@@ -15,12 +14,8 @@ public class AbstractRopeBenchmark {
   static final String UPPER_CASE = LOWER_CASE.toUpperCase();
   static final String ALPHABET = LOWER_CASE + NUMBERS + UPPER_CASE;
 
-
-
   protected Rope rope;
   protected String string;
-
-
 
   protected static byte[] generateCharactersOfLength(int len) {
     var random = new Random();
@@ -36,7 +31,6 @@ public class AbstractRopeBenchmark {
   }
 
   public enum Bytes {
-
     BYTE {
       int multiplier() {
         return 1;
@@ -75,7 +69,5 @@ public class AbstractRopeBenchmark {
     public static byte[] ofLength(int length, Bytes unit) {
       return generateCharactersOfLength(length * unit.multiplier());
     }
-
   }
-
 }

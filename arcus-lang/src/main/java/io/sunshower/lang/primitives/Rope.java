@@ -50,7 +50,7 @@ public final class Rope implements CharSequence, Comparable<CharSequence> {
   public Rope(byte[] bytes, Charset charset) {
     val chunksize = Ropes.splitLength;
 
-    if(bytes.length < Ropes.splitLength) {
+    if (bytes.length < Ropes.splitLength) {
       base = new RopeLikeOverString(new String(bytes, charset));
     } else {
       val leaves = new ArrayList<RopeLike>(bytes.length / chunksize);
@@ -234,8 +234,9 @@ public final class Rope implements CharSequence, Comparable<CharSequence> {
   }
 
   /**
-   * lexocographically compare this rope to the other rope.
-   * This method uses a lazy, in-order optimization
+   * lexocographically compare this rope to the other rope. This method uses a lazy, in-order
+   * optimization
+   *
    * @param sequence
    * @return the result of the lexicographical comparison
    */
@@ -243,12 +244,12 @@ public final class Rope implements CharSequence, Comparable<CharSequence> {
   public int compareTo(CharSequence sequence) {
     val iterator = base.iterator();
     int ch = 0;
-    while(iterator.hasNext()) {
+    while (iterator.hasNext()) {
       val subsequence = iterator.next();
-      for(int i = 0; i < subsequence.length(); i++) {
+      for (int i = 0; i < subsequence.length(); i++) {
         val tch = sequence.charAt(ch++);
         val mch = subsequence.charAt(i);
-        if(tch != mch) {
+        if (tch != mch) {
           return mch - tch;
         }
       }

@@ -1,7 +1,6 @@
 package io.sunshower.arcus.lang.benchmarks;
 
 import io.sunshower.lang.primitives.Rope;
-import lombok.val;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Group;
 import org.openjdk.jmh.annotations.Level;
@@ -12,7 +11,6 @@ import org.openjdk.jmh.infra.Blackhole;
 
 @State(Scope.Group)
 public class RopeAppendBenchmark extends AbstractRopeBenchmark {
-
 
   private StringBuilder str;
   private String toInsert;
@@ -42,7 +40,6 @@ public class RopeAppendBenchmark extends AbstractRopeBenchmark {
     blackhole.consume(string.concat(toInsert));
   }
 
-
   public static class OneByteRopeAppendBenchmark extends RopeAppendBenchmark {
 
     @Override
@@ -59,7 +56,6 @@ public class RopeAppendBenchmark extends AbstractRopeBenchmark {
     }
   }
 
-
   public static class OneHundredByteRopeAppendBenchmark extends RopeAppendBenchmark {
 
     @Override
@@ -67,7 +63,6 @@ public class RopeAppendBenchmark extends AbstractRopeBenchmark {
       return byteString().ofLength(100, Bytes.BYTE);
     }
   }
-
 
   public static class OneKbRopeAppendBenchmark extends RopeAppendBenchmark {
 
@@ -77,7 +72,6 @@ public class RopeAppendBenchmark extends AbstractRopeBenchmark {
     }
   }
 
-
   public static class TenKbRopeAppendBenchmark extends RopeAppendBenchmark {
 
     @Override
@@ -85,7 +79,6 @@ public class RopeAppendBenchmark extends AbstractRopeBenchmark {
       return byteString().ofLength(1000 * 10, Bytes.BYTE);
     }
   }
-
 
   public static class OneHundredKbRopeAppendBenchmark extends RopeAppendBenchmark {
 
@@ -95,14 +88,12 @@ public class RopeAppendBenchmark extends AbstractRopeBenchmark {
     }
   }
 
-
   public static class OneMbRopeAppendBenchmark extends RopeAppendBenchmark {
     @Override
     protected byte[] getBytes() {
       return byteString().ofLength(1000 * 1000, Bytes.BYTE);
     }
   }
-
 
   public static class TenMbRopeAppendBenchmark extends RopeAppendBenchmark {
     @Override

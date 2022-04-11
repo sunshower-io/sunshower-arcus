@@ -12,9 +12,7 @@ import org.openjdk.jmh.infra.Blackhole;
 @State(Scope.Group)
 public abstract class RopeConstructBenchmark extends AbstractRopeBenchmark {
 
-
   private byte[] bytes;
-
 
   @Setup(Level.Trial)
   @Group("construct")
@@ -30,13 +28,11 @@ public abstract class RopeConstructBenchmark extends AbstractRopeBenchmark {
     blackhole.consume(new String(bytes));
   }
 
-
   @Benchmark
   @Group("construct")
   public void constructRope(Blackhole blackhole) {
     blackhole.consume(new Rope(bytes));
   }
-
 
   public static class OneByteConstructBenchmark extends RopeConstructBenchmark {
 
@@ -54,15 +50,12 @@ public abstract class RopeConstructBenchmark extends AbstractRopeBenchmark {
     }
   }
 
-
-
   public static class HundredByteConstructBenchmark extends RopeConstructBenchmark {
 
     @Override
     protected byte[] getBytes() {
       return byteString().ofLength(100, Bytes.BYTE);
     }
-
   }
 
   public static class KiloByteConstructBenchmark extends RopeConstructBenchmark {
@@ -81,7 +74,6 @@ public abstract class RopeConstructBenchmark extends AbstractRopeBenchmark {
     }
   }
 
-
   public static class HundredKiloByteConstructBenchmark extends RopeConstructBenchmark {
 
     @Override
@@ -89,7 +81,6 @@ public abstract class RopeConstructBenchmark extends AbstractRopeBenchmark {
       return byteString().ofLength(100, Bytes.KILOBYTE);
     }
   }
-
 
   public static class MegabyteByteConstructBenchmark extends RopeConstructBenchmark {
 
@@ -114,5 +105,4 @@ public abstract class RopeConstructBenchmark extends AbstractRopeBenchmark {
       return byteString().ofLength(100, Bytes.MEGABYTE);
     }
   }
-
 }

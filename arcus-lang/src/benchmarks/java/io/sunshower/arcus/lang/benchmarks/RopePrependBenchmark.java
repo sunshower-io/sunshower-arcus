@@ -1,6 +1,5 @@
 package io.sunshower.arcus.lang.benchmarks;
 
-
 import io.sunshower.lang.primitives.Rope;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Group;
@@ -13,7 +12,6 @@ import org.openjdk.jmh.infra.Blackhole;
 @State(Scope.Group)
 public class RopePrependBenchmark extends AbstractRopeBenchmark {
 
-
   @Setup(Level.Trial)
   @Group("prepend1b")
   public void setUp() {
@@ -25,6 +23,7 @@ public class RopePrependBenchmark extends AbstractRopeBenchmark {
   protected byte[] getBytes() {
     return new byte[0];
   }
+
   @Benchmark
   @Group("prepend")
   public void prependString(Blackhole blackhole) {
@@ -53,7 +52,6 @@ public class RopePrependBenchmark extends AbstractRopeBenchmark {
     }
   }
 
-
   public static class OneHundredByteRopePrependBenchmark extends RopePrependBenchmark {
 
     @Override
@@ -61,7 +59,6 @@ public class RopePrependBenchmark extends AbstractRopeBenchmark {
       return byteString().ofLength(100, Bytes.BYTE);
     }
   }
-
 
   public static class OneKbRopePrependBenchmark extends RopePrependBenchmark {
 
@@ -71,7 +68,6 @@ public class RopePrependBenchmark extends AbstractRopeBenchmark {
     }
   }
 
-
   public static class TenKbRopePrependBenchmark extends RopePrependBenchmark {
 
     @Override
@@ -79,7 +75,6 @@ public class RopePrependBenchmark extends AbstractRopeBenchmark {
       return byteString().ofLength(1000 * 10, Bytes.BYTE);
     }
   }
-
 
   public static class OneHundredKbRopePrependBenchmark extends RopePrependBenchmark {
 
@@ -89,14 +84,12 @@ public class RopePrependBenchmark extends AbstractRopeBenchmark {
     }
   }
 
-
   public static class OneMbRopePrependBenchmark extends RopePrependBenchmark {
     @Override
     protected byte[] getBytes() {
       return byteString().ofLength(1000 * 1000, Bytes.BYTE);
     }
   }
-
 
   public static class TenMbRopePrependBenchmark extends RopePrependBenchmark {
     @Override
