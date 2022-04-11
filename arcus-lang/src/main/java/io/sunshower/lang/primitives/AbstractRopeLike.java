@@ -12,7 +12,7 @@ abstract class AbstractRopeLike implements RopeLike {
   }
 
   public RopeLike append(final CharSequence sequence) {
-    return Ropes.append(this, new RopeLikeOverCharSequence(sequence));
+    return Ropes.concat(this, new RopeLikeOverCharSequence(sequence));
   }
 
   @Override
@@ -49,17 +49,18 @@ abstract class AbstractRopeLike implements RopeLike {
   }
 
   private void writeTree(PrintWriter out, RopeLike node, String indent, boolean last) {
+    val s = node.substring(0, Math.min(8, node.length()));
     if (node.equals(this)) {
       out.append(
               "rope(%d,%d)[%s]"
-                  .formatted(node.weight(), node.length(), new String(node.characters())))
+                  .formatted(node.weight(), node.length(), s))
           .append("\n");
     } else {
       out.append(indent)
           .append(last ? "└╴" : "├╴")
           .append(
               "rope(%d,%d)[%s]"
-                  .formatted(node.weight(), node.length(), new String(node.characters())))
+                  .formatted(node.weight(), node.length(), s))
           .append("\n");
     }
     indent = indent + (last ? "   " : "│  ");

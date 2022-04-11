@@ -12,6 +12,8 @@ import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.DisabledOnOs;
 import org.junit.jupiter.api.condition.OS;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 @DisabledOnOs(OS.WINDOWS)
 class RopesTest {
@@ -95,6 +97,15 @@ class RopesTest {
     pw.flush();
   }
 
+
+  @ParameterizedTest
+  @ValueSource(strings = {"", "h", "he", "hello"})
+  void ensurePrependingToSmallRopesWorks(String v) {
+    val rope = new Rope(v);
+    val r = rope.prepend("hello");
+    assertEquals(r.toString(), "hello" + v);
+  }
+
   @Test
   void ensureRemovingEntireRopeCreatesEmptyRope() {
     val rope = new Rope("hello world");
@@ -142,6 +153,54 @@ class RopesTest {
     val writer = new PrintWriter(System.out);
     rope.writeTree(writer);
     writer.flush();
+  }
+
+  @Test
+  void ensureIterationWorks() {
+    val r = new Rope(document2);
+    val iter = r.base.iterator();
+    val str = new StringBuilder();
+    while(iter.hasNext()) {
+      str.append(iter.next().characters());
+    }
+    assertEquals(r.toString(), str.toString());
+  }
+
+
+  @ParameterizedTest
+  @ValueSource(strings = {"", "h", "he", "hello"})
+  void ensureShortStringsAreEqual(String v) {
+    assertEquals(0, new Rope(v).compareTo(v));
+  }
+
+  @Test
+  void ensureLongComparisonsAreEqual() {
+    assertEquals(0, new Rope(document2).compareTo(document2));
+  }
+
+
+  @Test
+  void ensureLexocographicalOrderingWorks() {
+    val fst = "zebra";
+    val snd = "calico";
+
+    assertEquals(new Rope(fst).compareTo(snd), fst.compareTo(snd));
+  }
+
+  @Test
+  void ensureIterationOnVeryLargeValueWorks() {
+    val string = new String(bytes);
+    val rope = new Rope(bytes);
+
+
+    val str = new StringBuilder(bytes.length);
+    val iter = rope.base.iterator();
+
+    while(iter.hasNext()) {
+      str.append(iter.next().toString());
+    }
+    assertEquals(str.toString(), string.toString());
+
   }
 
   @Test
@@ -203,6 +262,50 @@ class RopesTest {
     val s =
         ("""
             this is a quick test--what do you think?
+            this is a quick test--what do you think?
+            this is a quick test--what do you think?
+            this is a quick test--what do you think?
+            this is a quick test--what do you think?
+            this is a quick test--what do you think?
+            this is a quick test--what do you think?
+            this is a quick test--what do you think?
+            this is a quick test--what do you think?
+            this is a quick test--what do you think?
+            this is a quick test--what do you think?
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
+            I think this is a pretty rad data-structure
             I think this is a pretty rad data-structure
             """);
 
@@ -211,7 +314,8 @@ class RopesTest {
     System.out.println(r);
 
     val writer = new PrintWriter(System.out);
-    r.writeTree(writer);
+    print(rope);
+
     writer.flush();
   }
 

@@ -76,6 +76,15 @@ subprojects {
         }
     }
 
+    sourceSets {
+        benchmarks {
+            java {
+//                compileClasspath += sourceSets.test.runtimeClasspath
+//                runtimeClasspath += sourceSets.test.runtimeClasspath
+            }
+        }
+    }
+
 
     publishing {
 
@@ -106,6 +115,11 @@ subprojects {
             archiveClassifier = 'javadoc'
         }
 
+        task runBenchmarks(type: Test) {
+            description = "Run Arcus Benchmarks"
+            classpath = sourceSets.benchmarks.runtimeClasspath
+            testClassesDirs = sourceSets.benchmarks.output.classesDirs
+        }
 
         publications {
 
@@ -176,7 +190,6 @@ subprojects {
 
 
 
-
     dependencies {
         compileOnly 'com.google.code.findbugs:annotations'
         testCompileOnly 'com.google.code.findbugs:annotations'
@@ -186,31 +199,45 @@ subprojects {
                 'jmh-core',
                 'jmh-generator-annprocess'
         ].each {
-            testImplementation "org.openjdk.jmh:$it"
-            testAnnotationProcessor "org.openjdk.jmh:$it"
+            benchmarksImplementation "org.openjdk.jmh:$it"
+            benchmarksAnnotationProcessor "org.openjdk.jmh:$it"
+        }
+
+        benchmarksImplementation sourceSets.main.output
+
+        [
+                'org.projectlombok:lombok'
+        ].each { dependency ->
+            compileOnly(dependency)
+            testCompileOnly(dependency)
+            annotationProcessor(dependency)
+            testAnnotationProcessor(dependency)
+            benchmarksCompileOnly(dependency)
+            benchmarksAnnotationProcessor(dependency)
         }
 
 
-        compileOnly 'org.projectlombok:lombok'
-        testCompileOnly 'org.projectlombok:lombok'
-        annotationProcessor 'org.projectlombok:lombok'
-        testAnnotationProcessor 'org.projectlombok:lombok'
-
-        testImplementation 'org.spockframework:spock-core'
-        testImplementation 'org.junit-pioneer:junit-pioneer'
-        testImplementation 'org.mockito:mockito-junit-jupiter'
-        testImplementation 'org.junit.platform:junit-platform-suite-engine'
+        [
+                'org.spockframework:spock-core',
+                'org.junit-pioneer:junit-pioneer',
+                'org.mockito:mockito-junit-jupiter',
+                'org.junit.platform:junit-platform-suite-engine',
 
 
-        testImplementation 'org.mockito:mockito-inline'
-        testImplementation 'org.junit-pioneer:junit-pioneer'
-        testImplementation 'org.junit.jupiter:junit-jupiter-params'
+                'org.mockito:mockito-inline',
+                'org.junit-pioneer:junit-pioneer',
+                'org.junit.jupiter:junit-jupiter-params'
+        ].each {
+            testImplementation it
+            benchmarksImplementation it
+        }
 
         [
                 'api',
                 'engine'
 
         ].each { dep ->
+
             testImplementation "org.junit.jupiter:junit-jupiter-$dep"
             testImplementation "org.junit.platform:junit-platform-suite-$dep"
         }

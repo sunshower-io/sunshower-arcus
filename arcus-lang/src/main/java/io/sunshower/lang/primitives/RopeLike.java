@@ -3,19 +3,22 @@ package io.sunshower.lang.primitives;
 import io.sunshower.lang.tuple.Pair;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.Iterator;
 import lombok.NonNull;
 import lombok.val;
 
-interface RopeLike extends CharSequence, Cloneable {
+interface RopeLike extends CharSequence, Cloneable, Iterable<RopeLike> {
 
   Rope asRope();
 
   default RopeLike prepend(CharSequence sequence) {
-    return Ropes.append(new RopeLikeOverCharSequence(sequence), this);
+    return Ropes.concat(new RopeLikeOverCharSequence(sequence), this);
   }
 
   default RopeLike append(CharSequence sequence) {
-    return Ropes.append(this, new RopeLikeOverCharSequence(sequence));
+    return Ropes.concat(this, new RopeLikeOverCharSequence(sequence));
   }
 
   default boolean isLeaf() {
@@ -94,8 +97,54 @@ interface RopeLike extends CharSequence, Cloneable {
   @SuppressWarnings("PMD")
   RopeLike clone();
 
+  default Iterator<RopeLike> iterator() {
+    return new InOrderRopeIterator(this);
+  }
+
   enum Type {
     Composite,
     Flat,
   }
+}
+
+class InOrderRopeIterator implements Iterator<RopeLike> {
+
+  private final Deque<RopeLike> stack;
+
+
+  public InOrderRopeIterator(@NonNull RopeLike root) {
+    stack = new ArrayDeque<>();
+    var c = root;
+    while(c != null) {
+      stack.push(c);
+      c = c.getLeft();
+    }
+  }
+
+  @Override
+  public boolean hasNext() {
+    return stack.size() > 0;
+  }
+
+
+  @Override
+  public RopeLike next() {
+
+    val result = stack.pop();
+
+    if(!stack.isEmpty()) {
+      val parent = stack.pop();
+      val right = parent.getRight();
+      if(right != null) {
+        stack.push(right);
+        var cleft = right.getLeft();
+        while(cleft != null) {
+          stack.push(cleft);
+          cleft = cleft.getLeft();
+        }
+      }
+    }
+    return result;
+  }
+  static int count;
 }
