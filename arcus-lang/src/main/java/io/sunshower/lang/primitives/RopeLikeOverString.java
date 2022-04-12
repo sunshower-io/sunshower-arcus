@@ -1,5 +1,6 @@
 package io.sunshower.lang.primitives;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.sunshower.lang.tuple.Pair;
 import java.nio.charset.Charset;
 import lombok.NonNull;
@@ -79,6 +80,7 @@ final class RopeLikeOverString extends AbstractRopeLike implements RopeLike {
   }
 
   @Override
+  @SuppressFBWarnings
   public byte[] getBytes() {
     return value.getBytes();
   }

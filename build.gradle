@@ -58,6 +58,7 @@ subprojects {
         enabled = false
     }
 
+
     pmd {
         toolVersion = '6.34.0'
         sourceSets = [sourceSets.main]
@@ -85,6 +86,9 @@ subprojects {
         }
     }
 
+    spotbugsBenchmarks {
+        enabled = false
+    }
 
     publishing {
 

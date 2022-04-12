@@ -240,6 +240,7 @@ public final class Rope implements CharSequence, Comparable<CharSequence> {
    * @return the result of the lexicographical comparison
    */
   @Override
+  @SuppressWarnings("PMD.CompareObjectsWithEquals")
   public int compareTo(CharSequence sequence) {
     val iterator = base.iterator();
     int ch = 0;
