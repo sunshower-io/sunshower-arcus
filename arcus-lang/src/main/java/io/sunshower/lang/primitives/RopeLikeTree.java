@@ -134,9 +134,11 @@ final class RopeLikeTree extends AbstractRopeLike implements RopeLike {
     if (start >= leftLength) {
       return right.subSequence(start, leftLength);
     }
+    val leftseq = left.subSequence(start, leftLength);
+    val rightseq = right.subSequence(0, end - leftLength);
     return Ropes.concat(
-        (RopeLike) left.subSequence(start, leftLength),
-        (RopeLike) right.subSequence(0, end - leftLength));
+        leftseq instanceof RopeLike r ? r : new RopeLikeOverCharSequence(leftseq),
+        rightseq instanceof RopeLike r ? r : new RopeLikeOverCharSequence(rightseq));
   }
 
   @Override

@@ -226,6 +226,10 @@ class RopesTest {
                 """);
     val writer = new PrintWriter(System.out);
     rope.base.writeTree(writer);
+    val rs = rope.base.split(rope.length() / 2);
+    print(new Rope(rs.fst));
+    print(new Rope(rs.snd));
+
     writer.flush();
   }
 
@@ -367,11 +371,49 @@ class RopesTest {
   }
 
   @Test
-  void testRopePrepend() {
-    val rope = new Rope(bytes);
-    for (int i = 0; i < 1000; i++) {
-      rope.prepend("Sup world!");
+  void testRopeAppend() {
+    var rope = new Rope("103215412354123512354");
+    var string = rope.toString();
+    for (int i = 0; i < 100; i++) {
+      rope = rope.append("world");
+      string = string + "world";
     }
+    assertEquals(string, rope.toString());
+  }
+
+  @Test
+  void ensureInsertingCharacterAtEndOfRopeWorks() {
+    val sb = new StringBuilder("hello");
+
+    rope = new Rope(sb.toString());
+    for (int i = 0; i < 100; i++) {
+      sb.insert(sb.length(), "sup");
+      rope = rope.insert(rope.length(), "sup");
+    }
+    assertEquals(sb.toString(), rope.toString());
+  }
+
+  @Test
+  void testInsert() {
+    var base = new String(" hello ");
+    var stringBuffer = new StringBuilder(base);
+    var rope = new Rope(base);
+    for (int i = 0; i < 100; i++) {
+      rope = rope.insert(rope.length() / 2, base);
+      stringBuffer.insert(stringBuffer.length() / 2, base);
+    }
+    assertEquals(rope.toString(), stringBuffer.toString());
+  }
+
+  @Test
+  void testRopePrepend() {
+    var rope = new Rope("103215412354123512354");
+    var string = new String(rope.toString());
+    for (int i = 0; i < 15; i++) {
+      rope = rope.prepend("Sup world!");
+      string = "Sup world!" + string;
+    }
+    assertEquals(rope.toString(), string);
   }
 
   @Test

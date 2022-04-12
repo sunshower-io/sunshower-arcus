@@ -2,7 +2,6 @@ package io.sunshower.lang.primitives;
 
 import static io.sunshower.lang.primitives.Bytes.getCharacters;
 import static io.sunshower.lang.primitives.Ropes.merge;
-import static io.sunshower.lang.primitives.Ropes.rebalance;
 import static java.util.Arrays.copyOfRange;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -58,7 +57,7 @@ public final class Rope implements CharSequence, Comparable<CharSequence> {
         val subbytes = copyOfRange(bytes, i, Math.min(i + chunksize, bytes.length));
         leaves.add(new RopeLikeOverString(getCharacters(subbytes, charset)));
       }
-      base = rebalance(merge(leaves));
+      base = merge(leaves);
     }
   }
 

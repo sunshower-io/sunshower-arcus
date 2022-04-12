@@ -6,6 +6,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Iterator;
+import java.util.List;
 import lombok.NonNull;
 import lombok.val;
 
@@ -97,6 +98,10 @@ interface RopeLike extends CharSequence, Cloneable, Iterable<RopeLike> {
   @SuppressWarnings("PMD")
   RopeLike clone();
 
+  default List<RopeLike> leaves() {
+    return Ropes.collectLeaves(this);
+  }
+
   default Iterator<RopeLike> iterator() {
     return new InOrderRopeIterator(this);
   }
@@ -107,7 +112,7 @@ interface RopeLike extends CharSequence, Cloneable, Iterable<RopeLike> {
   }
 }
 
-class InOrderRopeIterator implements Iterator<RopeLike> {
+final class InOrderRopeIterator implements Iterator<RopeLike> {
 
   private final Deque<RopeLike> stack;
 
