@@ -101,6 +101,7 @@ interface RopeLike extends CharSequence, Cloneable, Iterable<RopeLike> {
   default List<RopeLike> leaves() {
     return Ropes.collectLeaves(this);
   }
+
   default Iterator<RopeLike> iterator() {
     return new InOrderRopeIterator(this);
   }
@@ -110,8 +111,6 @@ interface RopeLike extends CharSequence, Cloneable, Iterable<RopeLike> {
     Flat,
   }
 }
-
-
 
 final class InOrderRopeIterator implements Iterator<RopeLike> {
 

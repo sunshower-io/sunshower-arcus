@@ -226,6 +226,10 @@ class RopesTest {
                 """);
     val writer = new PrintWriter(System.out);
     rope.base.writeTree(writer);
+    val rs = rope.base.split(rope.length() / 2);
+    print(new Rope(rs.fst));
+    print(new Rope(rs.snd));
+
     writer.flush();
   }
 
@@ -370,12 +374,11 @@ class RopesTest {
   void testRopeAppend() {
     var rope = new Rope("103215412354123512354");
     var string = rope.toString();
-    for(int i = 0; i < 100; i++) {
+    for (int i = 0; i < 100; i++) {
       rope = rope.append("world");
       string = string + "world";
     }
     assertEquals(string, rope.toString());
-
   }
 
   @Test
@@ -383,7 +386,7 @@ class RopesTest {
     val sb = new StringBuilder("hello");
 
     rope = new Rope(sb.toString());
-    for(int i = 0; i < 100; i++) {
+    for (int i = 0; i < 100; i++) {
       sb.insert(sb.length(), "sup");
       rope = rope.insert(rope.length(), "sup");
     }
@@ -395,7 +398,7 @@ class RopesTest {
     var base = new String(" hello ");
     var stringBuffer = new StringBuilder(base);
     var rope = new Rope(base);
-    for(int i = 0; i < 100; i++) {
+    for (int i = 0; i < 100; i++) {
       rope = rope.insert(rope.length() / 2, base);
       stringBuffer.insert(stringBuffer.length() / 2, base);
     }

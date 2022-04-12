@@ -2,7 +2,6 @@ package io.sunshower.lang.primitives;
 
 import static io.sunshower.lang.primitives.Bytes.getCharacters;
 import static io.sunshower.lang.primitives.Ropes.merge;
-import static io.sunshower.lang.primitives.Ropes.rebalance;
 import static java.util.Arrays.copyOfRange;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;

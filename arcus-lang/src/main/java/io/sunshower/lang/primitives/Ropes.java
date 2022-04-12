@@ -137,32 +137,31 @@ final class Ropes {
   }
 
   public static List<RopeLike> collectLeaves(RopeLike ropeLike) {
-//    val iter = ropeLike.iterator();
-//    val results = new ArrayList<RopeLike>(50);
-//    while(iter.hasNext()) {
-//      results.add(iter.next());
-//    }
-//    return results;
+    //    val iter = ropeLike.iterator();
+    //    val results = new ArrayList<RopeLike>(50);
+    //    while(iter.hasNext()) {
+    //      results.add(iter.next());
+    //    }
+    //    return results;
     val stack = new ArrayDeque<RopeLike>();
     val result = new ArrayList<RopeLike>(100);
 
-
     var c = ropeLike;
-    while(c != null) {
+    while (c != null) {
       stack.push(c);
       c = c.getLeft();
     }
-    while(!stack.isEmpty()) {
+    while (!stack.isEmpty()) {
       val current = stack.pop();
-      if(current.isLeaf()) {
+      if (current.isLeaf()) {
         result.add(current);
       }
 
       val right = current.getRight();
-      if(right != null) {
+      if (right != null) {
         stack.push(right);
         var cleft = right.getLeft();
-        while(cleft != null) {
+        while (cleft != null) {
           stack.push(cleft);
           cleft = cleft.getLeft();
         }
