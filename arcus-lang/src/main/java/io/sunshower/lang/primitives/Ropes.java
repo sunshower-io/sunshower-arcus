@@ -34,7 +34,7 @@ final class Ropes {
         if (left.weight() + rightChild.weight() < splitLength) {
           return rebalance(
               new RopeLikeTree(
-                  new RopeLikeOverCharacterArray(left.characters(), right.characters()),
+                  new RopeLikeOverCharacterArray(left.characters(), rightChild.characters()),
                   right.getRight()));
         }
       }
@@ -63,24 +63,8 @@ final class Ropes {
   }
 
   static RopeLike rebalance(RopeLike r) {
-    if (r.depth() > MAX_DEPTH) {
-      val leaves = new ArrayList<RopeLike>();
-      val stack = new ArrayDeque<RopeLike>();
-      stack.push(r);
-      while (!stack.isEmpty()) {
-        val rope = stack.pop();
-        val left = rope.getLeft();
-        val right = rope.getRight();
-        if (left == null && right == null) {
-          leaves.add(rope);
-        }
-        if (left != null) {
-          stack.push(left);
-        }
-        if (right != null) {
-          stack.push(right);
-        }
-      }
+    if (!isBalanced(r)) {
+      val leaves = Ropes.collectLeaves(r);
       return merge(leaves, 0, leaves.size());
     }
     return r;
@@ -150,5 +134,40 @@ final class Ropes {
       }
     }
     return null;
+  }
+
+  public static List<RopeLike> collectLeaves(RopeLike ropeLike) {
+//    val iter = ropeLike.iterator();
+//    val results = new ArrayList<RopeLike>(50);
+//    while(iter.hasNext()) {
+//      results.add(iter.next());
+//    }
+//    return results;
+    val stack = new ArrayDeque<RopeLike>();
+    val result = new ArrayList<RopeLike>(100);
+
+
+    var c = ropeLike;
+    while(c != null) {
+      stack.push(c);
+      c = c.getLeft();
+    }
+    while(!stack.isEmpty()) {
+      val current = stack.pop();
+      if(current.isLeaf()) {
+        result.add(current);
+      }
+
+      val right = current.getRight();
+      if(right != null) {
+        stack.push(right);
+        var cleft = right.getLeft();
+        while(cleft != null) {
+          stack.push(cleft);
+          cleft = cleft.getLeft();
+        }
+      }
+    }
+    return result;
   }
 }

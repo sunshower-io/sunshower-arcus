@@ -58,7 +58,7 @@ public final class Rope implements CharSequence, Comparable<CharSequence> {
         val subbytes = copyOfRange(bytes, i, Math.min(i + chunksize, bytes.length));
         leaves.add(new RopeLikeOverString(getCharacters(subbytes, charset)));
       }
-      base = rebalance(merge(leaves));
+      base = merge(leaves);
     }
   }
 
