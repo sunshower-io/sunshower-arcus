@@ -40,10 +40,10 @@ final class RopeLikeTree extends AbstractRopeLike implements RopeLike {
   public Pair<RopeLike, RopeLike> split(int index) {
     if (index < weight) {
       val split = left.split(index);
-      return Pair.of(split.fst, new RopeLikeTree(split.snd, right));
+      return Pair.of(rebalance(split.fst), rebalance(new RopeLikeTree(split.snd, right)));
     } else if (index > weight) {
       val split = right.split(index - weight);
-      return Pair.of(new RopeLikeTree(left, split.fst), split.snd);
+      return Pair.of(rebalance(new RopeLikeTree(left, split.fst)), rebalance(split.snd));
     } else {
       return Pair.of(left, right);
     }
@@ -138,7 +138,7 @@ final class RopeLikeTree extends AbstractRopeLike implements RopeLike {
     val rightseq = right.subSequence(0, end - leftLength);
     return Ropes.concat(
         leftseq instanceof RopeLike r ? r : new RopeLikeOverCharSequence(leftseq),
-        rightseq instanceof RopeLike r ? r : new RopeLikeOverCharSequence(rightseq));
+       rightseq instanceof RopeLike r ? r : new RopeLikeOverCharSequence(rightseq));
   }
 
   @Override
