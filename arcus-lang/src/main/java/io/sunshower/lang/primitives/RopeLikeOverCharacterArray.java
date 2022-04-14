@@ -110,8 +110,6 @@ final class RopeLikeOverCharacterArray extends AbstractRopeLike {
   }
 
   /**
-   * implementation of the Raita algorithm
-   *
    * @param rope
    * @param start
    * @return

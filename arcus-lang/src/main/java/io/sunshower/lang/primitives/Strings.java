@@ -115,7 +115,6 @@ public class Strings {
   }
 
   private static int[] characterTable(char[] search) {
-    final int ALPHABET_SIZE = 256;
     val table = new int[ALPHABET_SIZE];
     for (int i = 0, slen = search.length, tlen = table.length; i < tlen; ++i) {
       table[i] = slen;

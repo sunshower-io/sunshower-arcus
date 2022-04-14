@@ -25,11 +25,30 @@
     <jsr-330.version>1</jsr-330.version>
     <spring.version>5.3.15</spring.version>
     <lombok.version>1.18.22</lombok.version>
-<!--    <arcus.version>1.0.41.Final</arcus.version>-->
     <findbugs-annotations.version>3.0.1</findbugs-annotations.version>
     <jmh-generator-annprocess.version>1.35</jmh-generator-annprocess.version>
     <junit-bom.version>5.8.2</junit-bom.version>
   </properties>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-gpg-plugin</artifactId>
+          <executions>
+            <execution>
+              <id>sign-artifacts</id>
+              <phase>deploy</phase>
+              <goals>
+                <goal>sign</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
 
   <dependencyManagement>
 

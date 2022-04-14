@@ -131,6 +131,16 @@ jobs:
             -PmavenRepositoryPassword=${{secrets.MAVEN_REPOSITORY_PASSWORD}}
             -PmavenRepositoryUrl=${{secrets.MAVEN_RELEASE_URL}} --stacktrace
 
+      - name: Deploy Bills-Of-Materials To Maven Central
+        run: >-
+          mvn clean install verify deploy -f bom
+          --settings bom/settings/settings.xml
+          -Dmaven-repo.github.username=${{secrets.MAVEN_CENTRAL_REPOSITORY_USERNAME}}
+          -Dmaven-repo.github.password=${{secrets.MAVEN_CENTRAL_REPOSITORY_PASSWORD}} -e
+          -Dgpg.keyname=${{ secrets.SIGNING_KEY_ID }}
+          -Dgpg.passphrase=${{ secrets.SIGNING_PASSWORD }}
+
+
       - name: Deploy To Maven Central
         uses: eskatos/gradle-command-action@v1
         env:
@@ -149,6 +159,8 @@ jobs:
             -PmavenRepositoryUsername=${{secrets.MAVEN_CENTRAL_REPOSITORY_USERNAME}}
             -PmavenRepositoryPassword=${{secrets.MAVEN_CENTRAL_REPOSITORY_PASSWORD}}
             -PmavenRepositoryUrl=${{secrets.MAVEN_CENTRAL_REPOSITORY_URL}} --stacktrace
+
+
 
 
 
