@@ -11,11 +11,10 @@ import lombok.NonNull;
 import lombok.val;
 
 /** implementation of the Rope data-structure */
+@SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
 public final class Rope implements CharSequence, Comparable<CharSequence> {
 
-  /**
-   * cache this.  Don't check if it's zero--that basically never happens
-   */
+  /** cache this. Don't check if it's zero--that basically never happens */
   private int hashcode;
 
   /** the base of this rope */
@@ -256,12 +255,10 @@ public final class Rope implements CharSequence, Comparable<CharSequence> {
     return 0;
   }
 
-
   /** @return a hashcode compatible with String.hashcode */
   @Override
-  @SuppressWarnings("PMD")
   public int hashCode() {
-    if(hashcode == 0) {
+    if (hashcode == 0) {
       val iterator = base.iterator();
       int h = 0;
       while (iterator.hasNext()) {
@@ -274,5 +271,4 @@ public final class Rope implements CharSequence, Comparable<CharSequence> {
     }
     return hashcode;
   }
-
 }
