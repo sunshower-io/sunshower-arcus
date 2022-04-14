@@ -37,7 +37,7 @@
       <repositories>
         <repository>
           <id>maven-central-repo</id>
-          <url>https://oss.sonatype.org</url>
+          <url>http://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
         <repository>
           <id>central</id>

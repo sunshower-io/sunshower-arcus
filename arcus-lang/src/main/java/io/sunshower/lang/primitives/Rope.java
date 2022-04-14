@@ -13,6 +13,11 @@ import lombok.val;
 /** implementation of the Rope data-structure */
 public final class Rope implements CharSequence, Comparable<CharSequence> {
 
+  /**
+   * cache this.  Don't check if it's zero--that basically never happens
+   */
+  private int hashcode;
+
   /** the base of this rope */
   @NonNull final RopeLike base;
 
@@ -127,12 +132,6 @@ public final class Rope implements CharSequence, Comparable<CharSequence> {
       return compareTo(that) == 0;
     }
     return false;
-  }
-
-  /** @return a hashcode compatible with String.hashcode */
-  @Override
-  public int hashCode() {
-    return base.hashCode();
   }
 
   /**
@@ -256,4 +255,23 @@ public final class Rope implements CharSequence, Comparable<CharSequence> {
     }
     return 0;
   }
+
+
+  /** @return a hashcode compatible with String.hashcode */
+  @Override
+  public int hashCode() {
+    if(hashcode == 0) {
+      val iterator = base.iterator();
+      int h = 0;
+      while (iterator.hasNext()) {
+        val subsequence = iterator.next();
+        for (int i = 0; i < subsequence.length(); i++) {
+          h = 31 * h + subsequence.charAt(i);
+        }
+      }
+      return (hashcode = h);
+    }
+    return hashcode;
+  }
+
 }
