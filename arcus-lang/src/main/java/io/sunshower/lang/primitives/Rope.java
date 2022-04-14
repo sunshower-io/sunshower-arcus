@@ -259,6 +259,7 @@ public final class Rope implements CharSequence, Comparable<CharSequence> {
 
   /** @return a hashcode compatible with String.hashcode */
   @Override
+  @SuppressWarnings("PMD")
   public int hashCode() {
     if(hashcode == 0) {
       val iterator = base.iterator();
