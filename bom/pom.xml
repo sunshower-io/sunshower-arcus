@@ -64,7 +64,7 @@
 
   <repositories>
     <repository>
-      <id>sunshower-github</id>
+      <id>github</id>
       <name>Sunshower-env Github</name>
       <url>https://maven.pkg.github.com/sunshower-io/*</url>
     </repository>
@@ -81,7 +81,7 @@
         <repository>
           <id>sunshower-github</id>
           <name>Sunshower-Arcus Github</name>
-          <url>https://maven.pkg.github.com/sunshower-io/*</url>
+          <url>https://maven.pkg.github.com/sunshower-io/sunshower-arcus</url>
         </repository>
         <snapshotRepository>
           <id>sunshower-snapshots</id>
