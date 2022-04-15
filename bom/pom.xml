@@ -21,6 +21,9 @@
     <environment.version>1.0.5.Final</environment.version>
     <arcus.version>1.41.11-SNAPSHOT</arcus.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven-javadoc-plugin.version>2.9.1</maven-javadoc-plugin.version>
+    <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
+    <maven-source-plugin.version>2.2.1</maven-source-plugin.version>
   </properties>
 
   <developers>
@@ -76,12 +79,13 @@
       </activation>
       <distributionManagement>
         <repository>
-          <id>github</id>
-          <url>https://maven.pkg.github.com/sunshower-io/sunshower-arcus</url>
+          <id>sunshower-github</id>
+          <name>Sunshower-Arcus Github</name>
+          <url>https://maven.pkg.github.com/sunshower-io/*</url>
         </repository>
         <snapshotRepository>
-          <id>github-snapshots</id>
-          <name>Sunshower-env Github</name>
+          <id>sunshower-snapshots</id>
+          <name>Sunshower-Arcus Github</name>
           <url>https://maven.pkg.github.com/sunshower-io/sunshower-arcus</url>
         </snapshotRepository>
       </distributionManagement>
@@ -91,13 +95,13 @@
       <id>maven-central</id>
       <distributionManagement>
         <repository>
-          <id>maven-central</id>
+          <id>maven-central-repo</id>
           <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
         <snapshotRepository>
-          <id>maven-central</id>
+          <id>maven-central-repo</id>
           <name>Sunshower-env Github</name>
-          <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+          <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
         </snapshotRepository>
       </distributionManagement>
     </profile>
@@ -108,7 +112,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
-        <version>2.2.1</version>
+        <version>${maven-source-plugin.version}</version>
         <executions>
           <execution>
             <id>attach-sources</id>
@@ -121,7 +125,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.9.1</version>
+        <version>${maven-javadoc-plugin.version}</version>
         <executions>
           <execution>
             <id>attach-javadocs</id>
@@ -141,6 +145,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-gpg-plugin</artifactId>
+          <version>${maven-gpg-plugin.version}</version>
           <executions>
             <execution>
               <id>sign-artifacts</id>
