@@ -77,12 +77,12 @@
       <distributionManagement>
         <repository>
           <id>github</id>
-          <url>https://maven.pkg.github.com/sunshower-io/*</url>
+          <url>https://maven.pkg.github.com/sunshower-io/sunshower-arcus</url>
         </repository>
         <snapshotRepository>
           <id>github-snapshots</id>
           <name>Sunshower-env Github</name>
-          <url>https://maven.pkg.github.com/sunshower-io/*</url>
+          <url>https://maven.pkg.github.com/sunshower-io/sunshower-arcus</url>
         </snapshotRepository>
       </distributionManagement>
     </profile>
