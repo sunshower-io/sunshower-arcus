@@ -32,6 +32,14 @@
     <module>exported</module>
   </modules>
 
+  <scm>
+    <url>https://github.com/sunshower-io/sunshower-arcus</url>
+    <connection>scm:git:ssh://git@github.com/sunshower-io/sunshower-arcus.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/sunshower-io/sunshower-arcus.git
+    </developerConnection>
+  </scm>
+
+
   <repositories>
     <repository>
       <id>sunshower-github</id>
