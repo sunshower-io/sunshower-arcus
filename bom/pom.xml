@@ -53,12 +53,11 @@
   </modules>
 
   <scm>
-    <url>https://git@github.com/sunshower-io/sunshower-arcus</url>
-    <connection>git+ssh://git@github.com/sunshower-io/sunshower-arcus</connection>
-    <developerConnection>
-      git+ssh://git@github.com/sunshower-io/sunshower-arcus
+    <url>https://github.com/sunshower-io/sunshower-arcus</url>
+    <connection>scm:git:ssh://git@github.com/sunshower-io/sunshower-arcus.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/sunshower-io/sunshower-arcus.git
     </developerConnection>
-    <tag>common libraries</tag>
+    <tag>HEAD</tag>
   </scm>
 
 
