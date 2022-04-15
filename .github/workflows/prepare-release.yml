@@ -124,10 +124,12 @@ jobs:
           mvn clean install verify deploy -f bom -P maven-central
           --settings bom/settings/settings.xml
           -Dmaven-repo.github.username=${{secrets.MAVEN_CENTRAL_REPOSITORY_USERNAME}}
-          -Dmaven-repo.github.password=${{secrets.MAVEN_CENTRAL_REPOSITORY_PASSWORD}} -e
+          -Dmaven-repo.github.password="${{secrets.MAVEN_CENTRAL_REPOSITORY_PASSWORD}}"
+          -e
           -DrepositoryId=maven-central-repo
+          -Durl=${{secrets.MAVEN_CENTRAL_REPOSITORY_URL}}
           -Dgpg.keyname=${{ secrets.SIGNING_KEY_ID }}
-          -Dgpg.passphrase=${{ secrets.SIGNING_PASSWORD }}
+          -Dgpg.passphrase="${{ secrets.SIGNING_PASSWORD }}"
 
       - name: Build And Deploy Arcus Projects
         uses: eskatos/gradle-command-action@v1
