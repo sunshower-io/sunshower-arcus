@@ -39,6 +39,14 @@ jobs:
     #################   Overview of Build Process   #################
 
     steps:
+
+      - name: Import GPG Key
+        uses: hashicorp/ghaction-import-gpg@v2.1.0
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.SIGNING_KEY }}
+          PASSPHRASE: ${{ secrets.SIGNING_PASSWORD }}
+
+
       - name: Checkout
         uses: actions/checkout@master
         with:
@@ -46,22 +54,16 @@ jobs:
           fetch-depth: 0
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v2
         with:
           java-version: 17
+          distribution: zulu
 
       - name: Generate Build Number
         id: buildnumber
         uses: einaregilsson/build-number@v2
         with:
           token: ${{ secrets.github_token }}
-
-
-      - name: Import GPG Key
-        uses: hashicorp/ghaction-import-gpg@v2.1.0
-        env:
-          GPG_PRIVATE_KEY: ${{ secrets.SIGNING_KEY }}
-          PASSPHRASE: ${{ secrets.SIGNING_PASSWORD }}
       #################   Set Final Version Number #################
       # generate the environment variable:
       #     final_version
@@ -114,7 +116,6 @@ jobs:
           mvn clean install deploy -f bom
           --settings bom/settings/settings.xml
           -Dmaven-repo.github.username=${{secrets.MAVEN_REPOSITORY_USERNAME}}
-          -DrepositoryId=maven-central-repo
           -Dmaven-repo.github.password=${{secrets.MAVEN_REPOSITORY_PASSWORD}} -e
 
 
@@ -124,12 +125,11 @@ jobs:
           mvn clean install verify deploy -f bom -P maven-central
           --settings bom/settings/settings.xml
           -Dmaven-repo.github.username=${{secrets.MAVEN_CENTRAL_REPOSITORY_USERNAME}}
-          -Dmaven-repo.github.password="${{secrets.MAVEN_CENTRAL_REPOSITORY_PASSWORD}}"
+          -Dmaven-repo.github.password='${{secrets.MAVEN_CENTRAL_REPOSITORY_PASSWORD}}'
           -e
           -DrepositoryId=maven-central-repo
-          -Durl=${{secrets.MAVEN_CENTRAL_REPOSITORY_URL}}
           -Dgpg.keyname=${{ secrets.SIGNING_KEY_ID }}
-          -Dgpg.passphrase="${{ secrets.SIGNING_PASSWORD }}"
+          -Dgpg.passphrase='${{ secrets.SIGNING_PASSWORD }}'
 
       - name: Build And Deploy Arcus Projects
         uses: eskatos/gradle-command-action@v1

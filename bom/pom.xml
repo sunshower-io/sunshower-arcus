@@ -15,7 +15,6 @@
   </parent>
 
   <name>Sunshower Arcus Bill-Of-Materials</name>
-  <url>http://maven.apache.org</url>
 
   <properties>
     <environment.version>1.0.5.Final</environment.version>
@@ -25,6 +24,14 @@
     <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
     <maven-source-plugin.version>2.2.1</maven-source-plugin.version>
   </properties>
+
+  <url>https://www.sunshower.io</url>
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>http://www.opensource.org/licenses/mit-license.php</url>
+    </license>
+  </licenses>
 
   <developers>
     <developer>
@@ -69,6 +76,20 @@
   </repositories>
 
   <profiles>
+
+    <profile>
+      <id>github</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <distributionManagement>
+        <repository>
+          <id>sunshower-github</id>
+          <name>Sunshower-env Github</name>
+          <url>https://maven.pkg.github.com/sunshower-io/sunshower-arcus</url>
+        </repository>
+      </distributionManagement>
+    </profile>
 
     <profile>
       <id>maven-central</id>
