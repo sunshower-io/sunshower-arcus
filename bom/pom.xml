@@ -67,6 +67,12 @@
       <id>github</id>
       <name>Sunshower-env Github</name>
       <url>https://maven.pkg.github.com/sunshower-io/*</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
     </repository>
   </repositories>
 
