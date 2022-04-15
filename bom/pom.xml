@@ -23,11 +23,40 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
+  <developers>
+    <developer>
+      <email>josiah@sunshower.io</email>
+      <url>https://sunshower.io</url>
+      <roles>
+        <role>
+          admin
+        </role>
+      </roles>
+    </developer>
+    <developer>
+      <email>lisa@sunshower.io</email>
+      <url>https://sunshower.io</url>
+      <roles>
+        <role>
+          admin
+        </role>
+      </roles>
+    </developer>
+  </developers>
 
   <modules>
     <module>imported</module>
     <module>exported</module>
   </modules>
+
+  <scm>
+    <url>https://git@github.com/sunshower-io/sunshower-arcus</url>
+    <connection>git+ssh://git@github.com/sunshower-io/sunshower-arcus</connection>
+    <developerConnection>
+      git+ssh://git@github.com/sunshower-io/sunshower-arcus
+    </developerConnection>
+    <tag>common libraries</tag>
+  </scm>
 
   <distributionManagement>
     <repository>
