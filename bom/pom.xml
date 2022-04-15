@@ -26,6 +26,26 @@
     <maven-source-plugin.version>2.2.1</maven-source-plugin.version>
   </properties>
 
+  <developers>
+    <developer>
+      <email>josiah@sunshower.io</email>
+      <url>https://sunshower.io</url>
+      <roles>
+        <role>
+          admin
+        </role>
+      </roles>
+    </developer>
+    <developer>
+      <email>lisa@sunshower.io</email>
+      <url>https://sunshower.io</url>
+      <roles>
+        <role>
+          admin
+        </role>
+      </roles>
+    </developer>
+  </developers>
 
   <modules>
     <module>imported</module>
