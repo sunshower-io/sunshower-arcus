@@ -118,16 +118,16 @@ jobs:
           -Dmaven-repo.github.password=${{secrets.MAVEN_REPOSITORY_PASSWORD}} -e
 
 
-      - name: Deploy Bills-Of-Materials to Maven Central
+
+      - name: Deploy Bills-Of-Materials To Maven Central
         run: >-
-          mvn clean install deploy -f bom
+          mvn clean install verify deploy -f bom -P maven-central
           --settings bom/settings/settings.xml
           -Dmaven-repo.github.username=${{secrets.MAVEN_CENTRAL_REPOSITORY_USERNAME}}
-          -Durl=${{secrets.MAVEN_CENTRAL_REPOSITORY_URL}}
-          -DrepositoryId=maven-central-repo
           -Dmaven-repo.github.password=${{secrets.MAVEN_CENTRAL_REPOSITORY_PASSWORD}} -e
-
-
+          -DrepositoryId=maven-central-repo
+          -Dgpg.keyname=${{ secrets.SIGNING_KEY_ID }}
+          -Dgpg.passphrase=${{ secrets.SIGNING_PASSWORD }}
 
       - name: Build And Deploy Arcus Projects
         uses: eskatos/gradle-command-action@v1
@@ -141,14 +141,6 @@ jobs:
             -PmavenRepositoryPassword=${{secrets.MAVEN_REPOSITORY_PASSWORD}}
             -PmavenRepositoryUrl=${{secrets.MAVEN_RELEASE_URL}} --stacktrace
 
-      - name: Deploy Bills-Of-Materials To Maven Central
-        run: >-
-          mvn clean install verify deploy -f bom
-          --settings bom/settings/settings.xml
-          -Dmaven-repo.github.username=${{secrets.MAVEN_CENTRAL_REPOSITORY_USERNAME}}
-          -Dmaven-repo.github.password=${{secrets.MAVEN_CENTRAL_REPOSITORY_PASSWORD}} -e
-          -Dgpg.keyname=${{ secrets.SIGNING_KEY_ID }}
-          -Dgpg.passphrase=${{ secrets.SIGNING_PASSWORD }}
 
 
       - name: Deploy To Maven Central
