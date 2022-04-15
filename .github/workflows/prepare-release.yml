@@ -118,6 +118,15 @@ jobs:
           -Dmaven-repo.github.password=${{secrets.MAVEN_REPOSITORY_PASSWORD}} -e
 
 
+      - name: Deploy Bills-Of-Materials to Maven Central
+        run: >-
+          mvn clean install deploy -f bom
+          --settings bom/settings/settings.xml
+          -Dmaven-repo.github.username=${{secrets.MAVEN_CENTRAL_REPOSITORY_USERNAME}}
+          -Durl=${{secrets.MAVEN_CENTRAL_REPOSITORY_URL}}
+          -DrepositoryId=maven-central-repo
+          -Dmaven-repo.github.password=${{secrets.MAVEN_CENTRAL_REPOSITORY_PASSWORD}} -e
+
 
 
       - name: Build And Deploy Arcus Projects

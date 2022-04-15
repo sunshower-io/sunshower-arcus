@@ -67,6 +67,24 @@
       <url>https://maven.pkg.github.com/sunshower-io/*</url>
     </repository>
   </repositories>
+
+  <profiles>
+
+    <profile>
+      <id>maven-central</id>
+      <distributionManagement>
+        <repository>
+          <id>maven-central-repo</id>
+          <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+        <snapshotRepository>
+          <id>maven-central-repo</id>
+          <name>Sunshower-env Github</name>
+          <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </snapshotRepository>
+      </distributionManagement>
+    </profile>
+  </profiles>
   <build>
     <plugins>
 

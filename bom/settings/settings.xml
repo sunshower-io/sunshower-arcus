@@ -8,13 +8,13 @@
 
   <servers>
     <server>
-      <id>sunshower-releases</id>
+      <id>arcus-releases</id>
       <username>${maven-repo.github.username}</username>
       <password>${maven-repo.github.password}</password>
     </server>
 
     <server>
-      <id>sunshower-snapshots</id>
+      <id>arcus-snapshots</id>
       <username>${maven-repo.github.username}</username>
       <password>${maven-repo.github.password}</password>
     </server>
