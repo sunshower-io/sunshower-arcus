@@ -57,7 +57,6 @@
     <connection>scm:git:ssh://git@github.com/sunshower-io/sunshower-arcus.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/sunshower-io/sunshower-arcus.git
     </developerConnection>
-    <tag>HEAD</tag>
   </scm>
 
 
