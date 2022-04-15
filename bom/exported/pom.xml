@@ -19,6 +19,9 @@
         <arcus.version>1.41.11-SNAPSHOT</arcus.version>
     </properties>
 
+    <description>
+        Arcus Bill-Of-Materials Exported Artifacts
+    </description>
 
     <dependencyManagement>
         <dependencies>

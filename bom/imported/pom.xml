@@ -17,6 +17,10 @@
   <name>Arcus Imported Bill-Of-Materials</name>
   <url>http://www.sunshower.io</url>
 
+  <description>
+    Arcus Bill-Of-Materials Imported Artifacts
+  </description>
+
   <properties>
     <mockito.version>4.4.0</mockito.version>
     <jaxrs-api.version>2.1</jaxrs-api.version>

@@ -33,6 +33,10 @@
     </license>
   </licenses>
 
+  <description>
+    Arcus Bill-Of-Materials parent POM
+  </description>
+
   <developers>
     <developer>
       <email>josiah@sunshower.io</email>
