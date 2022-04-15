@@ -1,17 +1,17 @@
 package io.sunshower.lang.io;
 
-import io.sunshower.lambda.Option;
 import java.io.File;
+import java.util.Optional;
 
 public class Files {
 
-  public static Option<String> getExtension(File file) {
-    return Option.of(file).fmap(File::getAbsolutePath).flatMap(Files::getExtension);
+  public static Optional<String> getExtension(File file) {
+    return Optional.ofNullable(file).map(File::getAbsolutePath).flatMap(Files::getExtension);
   }
 
-  public static Option<String> getExtension(String file) {
-    return Option.of(file)
+  public static Optional<String> getExtension(String file) {
+    return Optional.ofNullable(file)
         .filter(f -> f.contains("."))
-        .fmap(t -> t.substring(t.lastIndexOf('.') + 1));
+        .map(t -> t.substring(t.lastIndexOf('.') + 1));
   }
 }
