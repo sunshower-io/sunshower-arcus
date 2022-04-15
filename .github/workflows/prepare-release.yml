@@ -114,7 +114,8 @@ jobs:
           mvn clean install deploy -f bom
           --settings bom/settings/settings.xml
           -Dmaven-repo.github.username=${{secrets.MAVEN_REPOSITORY_USERNAME}}
-          -DrepositoryId=maven-central-repo
+          -DrepositoryId=maven-central
+          -Durl=${{secrets.MAVEN_CENTRAL_REPOSITORY_URL}}
           -Dmaven-repo.github.password=${{secrets.MAVEN_REPOSITORY_PASSWORD}} -e
 
 
