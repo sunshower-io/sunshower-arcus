@@ -34,25 +34,6 @@
     <junit-bom.version>5.8.2</junit-bom.version>
   </properties>
 
-  <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-gpg-plugin</artifactId>
-          <executions>
-            <execution>
-              <id>sign-artifacts</id>
-              <phase>deploy</phase>
-              <goals>
-                <goal>sign</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-  </build>
 
   <dependencyManagement>
 
@@ -275,5 +256,6 @@
 
     </dependencies>
   </dependencyManagement>
+
 
 </project>
