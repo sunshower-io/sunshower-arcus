@@ -8,15 +8,17 @@
 
   <servers>
     <server>
-      <id>arcus-releases</id>
+      <id>sunshower-releases</id>
       <username>${maven-repo.github.username}</username>
       <password>${maven-repo.github.password}</password>
     </server>
 
     <server>
-      <id>arcus-snapshots</id>
+      <id>sunshower-snapshots</id>
       <username>${maven-repo.github.username}</username>
       <password>${maven-repo.github.password}</password>
+<!--      <username>${env.MVN_REPO_USR}</username>-->
+<!--      <password>${env.MVN_REPO_PSW}</password>-->
     </server>
 
     <server>
@@ -49,9 +51,6 @@
           <snapshots>
             <enabled>true</enabled>
           </snapshots>
-          <releases>
-            <enabled>true</enabled>
-          </releases>
         </repository>
       </repositories>
     </profile>

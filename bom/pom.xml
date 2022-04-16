@@ -5,42 +5,26 @@
 
   <groupId>io.sunshower.arcus</groupId>
   <artifactId>bom</artifactId>
-  <version>1.41.26-SNAPSHOT</version>
+  <version>1.41.20-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <parent>
     <groupId>io.sunshower.environment</groupId>
     <artifactId>parent</artifactId>
-    <version>1.0.23.Final</version>
+    <version>1.0.5.Final</version>
   </parent>
 
   <name>Sunshower Arcus Bill-Of-Materials</name>
+  <url>http://maven.apache.org</url>
 
   <properties>
-<<<<<<< HEAD
-    <environment.version>1.0.23.Final</environment.version>
-    <arcus.version>1.41.11-SNAPSHOT</arcus.version>
-=======
     <environment.version>1.0.5.Final</environment.version>
-    <arcus.version>1.41.26-SNAPSHOT</arcus.version>
->>>>>>> e3f7a21521790b05c9d195e4ebd13e3b6d5c219d
+    <arcus.version>1.41.20-SNAPSHOT</arcus.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven-javadoc-plugin.version>2.9.1</maven-javadoc-plugin.version>
     <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
     <maven-source-plugin.version>2.2.1</maven-source-plugin.version>
   </properties>
-
-  <url>https://www.sunshower.io</url>
-  <licenses>
-    <license>
-      <name>MIT License</name>
-      <url>http://www.opensource.org/licenses/mit-license.php</url>
-    </license>
-  </licenses>
-
-  <description>
-    Arcus Bill-Of-Materials parent POM
-  </description>
 
   <developers>
     <developer>
@@ -69,24 +53,48 @@
   </modules>
 
   <scm>
-    <tag>HEAD</tag>
-    <url>https://github.com/sunshower-io/${project.scm.tag}</url>
-    <connection>scm:git:https://${env.GITHUB_PSW}@github.com/sunshower-io/sunshower-arcus
-    </connection>
-
-    <developerConnection>scm:git:https://${env.GITHUB_PSW}@github.com/sunshower-io/sunshower-arcus
+    <url>https://github.com/sunshower-io/sunshower-arcus</url>
+    <connection>scm:git:ssh://git@github.com/sunshower-io/sunshower-arcus.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/sunshower-io/sunshower-arcus.git
     </developerConnection>
   </scm>
 
+
   <repositories>
     <repository>
-      <id>sunshower-github</id>
+      <id>github</id>
       <name>Sunshower-env Github</name>
       <url>https://maven.pkg.github.com/sunshower-io/*</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
     </repository>
   </repositories>
 
   <profiles>
+
+    <profile>
+      <id>github</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <distributionManagement>
+        <repository>
+          <id>sunshower-github</id>
+          <name>Sunshower-Arcus Github</name>
+          <url>https://maven.pkg.github.com/sunshower-io/sunshower-arcus</url>
+        </repository>
+        <snapshotRepository>
+          <id>sunshower-snapshots</id>
+          <name>Sunshower-Arcus Github</name>
+          <url>https://maven.pkg.github.com/sunshower-io/sunshower-arcus</url>
+        </snapshotRepository>
+      </distributionManagement>
+    </profile>
+
     <profile>
       <id>maven-central</id>
       <distributionManagement>
@@ -102,54 +110,42 @@
       </distributionManagement>
     </profile>
   </profiles>
-
-
   <build>
     <plugins>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
+        <version>${maven-source-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
+        <version>${maven-javadoc-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-gpg-plugin</artifactId>
       </plugin>
     </plugins>
-
-
     <pluginManagement>
       <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-source-plugin</artifactId>
-          <version>${maven-source-plugin.version}</version>
-          <executions>
-            <execution>
-              <id>attach-sources</id>
-              <goals>
-                <goal>jar-no-fork</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-javadoc-plugin</artifactId>
-          <version>${maven-javadoc-plugin.version}</version>
-          <executions>
-            <execution>
-              <id>attach-javadocs</id>
-              <goals>
-                <goal>jar</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-gpg-plugin</artifactId>
@@ -157,7 +153,7 @@
           <executions>
             <execution>
               <id>sign-artifacts</id>
-              <phase>verify</phase>
+              <phase>deploy</phase>
               <goals>
                 <goal>sign</goal>
               </goals>
