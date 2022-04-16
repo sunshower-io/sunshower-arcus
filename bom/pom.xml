@@ -11,13 +11,13 @@
   <parent>
     <groupId>io.sunshower.environment</groupId>
     <artifactId>parent</artifactId>
-    <version>1.0.5.Final</version>
+    <version>1.0.23.Final</version>
   </parent>
 
   <name>Sunshower Arcus Bill-Of-Materials</name>
 
   <properties>
-    <environment.version>1.0.5.Final</environment.version>
+    <environment.version>1.0.23.Final</environment.version>
     <arcus.version>1.41.11-SNAPSHOT</arcus.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven-javadoc-plugin.version>2.9.1</maven-javadoc-plugin.version>
