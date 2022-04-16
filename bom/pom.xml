@@ -5,7 +5,7 @@
 
   <groupId>io.sunshower.arcus</groupId>
   <artifactId>bom</artifactId>
-  <version>1.41.11-SNAPSHOT</version>
+  <version>1.41.26-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <parent>
@@ -17,8 +17,13 @@
   <name>Sunshower Arcus Bill-Of-Materials</name>
 
   <properties>
+<<<<<<< HEAD
     <environment.version>1.0.23.Final</environment.version>
     <arcus.version>1.41.11-SNAPSHOT</arcus.version>
+=======
+    <environment.version>1.0.5.Final</environment.version>
+    <arcus.version>1.41.26-SNAPSHOT</arcus.version>
+>>>>>>> e3f7a21521790b05c9d195e4ebd13e3b6d5c219d
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven-javadoc-plugin.version>2.9.1</maven-javadoc-plugin.version>
     <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
