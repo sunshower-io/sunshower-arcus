@@ -52,7 +52,7 @@ jobs:
 
       - name: Generate Build Number
         id: buildnumber
-        uses: einaregilsson/build-number@v2
+        uses: einaregilsson/build-number@v3
         with:
           token: ${{ secrets.github_token }}
 
