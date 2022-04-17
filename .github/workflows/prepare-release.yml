@@ -107,7 +107,7 @@ jobs:
             setVersion -DzephyrRelease=true
             -PmavenRepositoryUsername=${{secrets.MAVEN_REPOSITORY_USERNAME}}
             -PmavenRepositoryPassword=${{secrets.MAVEN_REPOSITORY_PASSWORD}}
-            -PmavenRepositoryUrl='${{secrets.MAVEN_REPOSITORY_URL}}'
+            -PmavenRepositoryUrl=${{secrets.MAVEN_REPOSITORY_URL}}
 
       - name: Deploy Bills-Of-Materials
         run: >-
@@ -116,7 +116,7 @@ jobs:
           -Dmaven-repo.github.username=${{secrets.MAVEN_REPOSITORY_USERNAME}}
           -P github
           -DrepositoryId=github
-          -Durl='${{secrets.MAVEN_REPOSITORY_URL}}'
+          -Durl=${{secrets.MAVEN_REPOSITORY_URL}}
           -Dmaven-repo.github.password='${{secrets.MAVEN_REPOSITORY_PASSWORD}}' -e
 
       - name: Deploy Bills-Of-Materials To Maven Central
