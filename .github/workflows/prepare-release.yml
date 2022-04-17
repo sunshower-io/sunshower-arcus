@@ -126,7 +126,7 @@ jobs:
           -P maven-central
           --settings bom/settings/settings.xml
           -Dmaven-repo.github.username=${{secrets.MAVEN_CENTRAL_REPOSITORY_USERNAME}}
-          -Dmaven-repo.github.password=${{secrets.MAVEN_CENTRAL_REPOSITORY_PASSWORD}} -e
+          -Dmaven-repo.github.password='${{secrets.MAVEN_CENTRAL_REPOSITORY_PASSWORD}}' -e
           -Dgpg.keyname=${{ secrets.SIGNING_KEY_ID }}
           -Dgpg.passphrase=${{ secrets.SIGNING_PASSWORD }}
 
