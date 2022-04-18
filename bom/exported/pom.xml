@@ -5,18 +5,18 @@
     <parent>
         <groupId>io.sunshower.arcus</groupId>
         <artifactId>bom</artifactId>
-        <version>1.41.38-SNAPSHOT</version>
+        <version>1.41.40.Final</version>
         <relativePath>../</relativePath>
     </parent>
     <groupId>io.sunshower.arcus</groupId>
     <artifactId>bom-exported</artifactId>
-    <version>1.41.38-SNAPSHOT</version>
+    <version>1.41.40.Final</version>
     <packaging>pom</packaging>
 
     <name>Arcus Exported Bill-Of-Materials</name>
     <url>http://www.sunshower.io</url>
     <properties>
-        <arcus.version>1.41.38-SNAPSHOT</arcus.version>
+        <arcus.version>1.41.40.Final</arcus.version>
     </properties>
 
     <description>
