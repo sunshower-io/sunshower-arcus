@@ -148,6 +148,39 @@
             -->
 
             <!--
+                condensation subproject
+            -->
+
+            <dependency>
+                <groupId>io.sunshower.arcus</groupId>
+                <artifactId>condensation-core</artifactId>
+                <version>${arcus.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>io.sunshower.arcus</groupId>
+                <artifactId>condensation-json</artifactId>
+                <version>${arcus.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>io.sunshower.arcus</groupId>
+                <artifactId>css-selectors</artifactId>
+                <version>${arcus.version}</version>
+            </dependency>
+
+            <!--
+            gyre
+            -->
+            <dependency>
+                <groupId>io.sunshower.arcus</groupId>
+                <artifactId>gyre-api</artifactId>
+                <version>${arcus.version}</version>
+            </dependency>
+
+            <!--
                 test subproject
             -->
 
@@ -156,6 +189,7 @@
                 <artifactId>test-lang</artifactId>
                 <version>${arcus.version}</version>
             </dependency>
+
 
 
 

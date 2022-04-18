@@ -1,0 +1,17 @@
+io.sunshower.arcus.selectors.plan.evaluators.FirstChildSelectorEvaluatorFactory
+io.sunshower.arcus.selectors.plan.evaluators.LastChildSelectorEvaluatorFactory
+io.sunshower.arcus.selectors.plan.evaluators.RootNodeEvaluatorFactory
+io.sunshower.arcus.selectors.plan.evaluators.SelectorGroupEvaluatorFactory
+io.sunshower.arcus.selectors.plan.evaluators.ChildSelectorCombinatorEvaluatorFactory
+io.sunshower.arcus.selectors.plan.evaluators.ClassSelectorEvaluatorFactory
+io.sunshower.arcus.selectors.plan.evaluators.DescendantSelectorEvaluatorFactory
+io.sunshower.arcus.selectors.plan.evaluators.IdSelectorEvaluatorFactory
+io.sunshower.arcus.selectors.plan.evaluators.AdjacentSiblingEvaluatorFactory
+io.sunshower.arcus.selectors.plan.evaluators.GeneralSiblingEvaluatorFactory
+io.sunshower.arcus.selectors.plan.evaluators.UniversalElementSelectorEvaluatorFactory
+io.sunshower.arcus.selectors.plan.evaluators.AttributeSelectorEvaluatorFactory
+io.sunshower.arcus.selectors.plan.evaluators.PseudoElementEvaluatorFactory
+io.sunshower.arcus.selectors.plan.evaluators.NthChildSelectorEvaluatorFactory
+io.sunshower.arcus.selectors.plan.evaluators.SelectorUnionEvaluatorFactory
+io.sunshower.arcus.selectors.plan.evaluators.TypeSelectorEvaluatorFactory
+io.sunshower.arcus.selectors.plan.evaluators.NegationSelectorEvaluatorFactory

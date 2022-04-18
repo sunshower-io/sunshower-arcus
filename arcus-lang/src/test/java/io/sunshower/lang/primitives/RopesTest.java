@@ -113,6 +113,17 @@ class RopesTest {
   }
 
   @Test
+  void ensureIteratingOverLargeStringWorks() {
+    val rope = new Rope(bytes);
+    val iter = rope.base.iterator();
+    while (iter.hasNext()) {
+      val next = iter.next();
+      assertTrue(next.isLeaf());
+      assertTrue(next.getBytes().length <= Ropes.splitLength);
+    }
+  }
+
+  @Test
   void ensureRemovingSubRopeWorks() {
     val rope = new Rope("hello world");
 

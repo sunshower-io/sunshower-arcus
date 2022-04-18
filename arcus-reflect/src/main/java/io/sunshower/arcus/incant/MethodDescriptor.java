@@ -1,12 +1,9 @@
 package io.sunshower.arcus.incant;
 
 import java.lang.reflect.Method;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.Arrays;
 
-public final class MethodDescriptor<U, T> extends LazyPropertyAware
-    implements PrivilegedAction<Void> {
+public final class MethodDescriptor<U, T> extends LazyPropertyAware {
 
   private final Method method;
   private final Class<U> owner;
@@ -15,7 +12,7 @@ public final class MethodDescriptor<U, T> extends LazyPropertyAware
   public MethodDescriptor(final Class<U> owner, final Method method) {
     this.owner = owner;
     this.method = method;
-    AccessController.doPrivileged(this);
+    method.trySetAccessible();
   }
 
   public Method getMethod() {
@@ -49,7 +46,9 @@ public final class MethodDescriptor<U, T> extends LazyPropertyAware
 
   @SuppressWarnings("PMD.CompareObjectsWithEquals")
   public boolean matches(Method m) {
-    if (m.equals(method)) return true;
+    if (m.equals(method)) {
+      return true;
+    }
     loadParameterTypes();
     final Class<?>[] theirParameterTypes = m.getParameterTypes();
     final Class<?> theirHolderType = m.getDeclaringClass();
@@ -75,18 +74,20 @@ public final class MethodDescriptor<U, T> extends LazyPropertyAware
   }
 
   @Override
-  public Void run() {
-    method.setAccessible(true);
-    return null;
-  }
-
-  @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
     MethodDescriptor<?, ?> that = (MethodDescriptor<?, ?>) o;
-    if (!method.equals(that.method)) return false;
-    if (!owner.equals(that.owner)) return false;
+    if (!method.equals(that.method)) {
+      return false;
+    }
+    if (!owner.equals(that.owner)) {
+      return false;
+    }
     return Arrays.equals(parameterTypes, that.parameterTypes);
   }
 
@@ -111,7 +112,9 @@ public final class MethodDescriptor<U, T> extends LazyPropertyAware
   }
 
   private boolean equals(Class<?>[] parameterTypes, Class<?>[] theirParameterTypes) {
-    if (parameterTypes == null && theirParameterTypes == null) return true;
+    if (parameterTypes == null && theirParameterTypes == null) {
+      return true;
+    }
     if (parameterTypes == null || theirParameterTypes == null) {
       return false;
     }

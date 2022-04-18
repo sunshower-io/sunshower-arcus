@@ -2,7 +2,8 @@ package com.aire.ux.condensation.json;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.aire.ux.condensation.json.JsonValue.Type;
+import io.sunshower.arcus.condensation.json.JsonParser;
+import io.sunshower.arcus.condensation.json.JsonValue.Type;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.NoSuchElementException;

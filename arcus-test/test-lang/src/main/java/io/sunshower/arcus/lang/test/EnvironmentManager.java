@@ -3,8 +3,6 @@ package io.sunshower.arcus.lang.test;
 import io.sunshower.lang.Environment;
 import io.sunshower.lang.OperatingSystems;
 import java.lang.reflect.Field;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -44,9 +42,7 @@ public class EnvironmentManager {
 
   public static void withEnvironment(
       Map<String, String> replacement, Consumer<Environment> environment) {
-
-    AccessController.doPrivileged(
-        (PrivilegedAction<Object>) () -> runUnconditionally(replacement, environment));
+    runUnconditionally(replacement, environment);
   }
 
   public static EnvironmentBuilder env() {

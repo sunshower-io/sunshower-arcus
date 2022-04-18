@@ -10,6 +10,7 @@ import io.sunshower.arcus.condensation.Condensation;
 import io.sunshower.arcus.condensation.Element;
 import io.sunshower.arcus.condensation.PropertyScanner;
 import io.sunshower.arcus.condensation.RootElement;
+import io.sunshower.arcus.condensation.json.JsonTypeBinder;
 import io.sunshower.arcus.condensation.mappings.AnnotationDrivenPropertyScanner;
 import io.sunshower.arcus.condensation.mappings.CachingDelegatingTypeInstantiator;
 import io.sunshower.arcus.condensation.mappings.ReflectiveTypeInstantiator;
