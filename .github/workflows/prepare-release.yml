@@ -128,7 +128,7 @@ jobs:
           -Dmaven-repo.github.username=${{secrets.MAVEN_CENTRAL_REPOSITORY_USERNAME}}
           -Dmaven-repo.github.password='${{secrets.MAVEN_CENTRAL_REPOSITORY_PASSWORD}}' -e
           -Dgpg.keyname=${{ secrets.SIGNING_KEY_ID }}
-          -Dgpg.passphrase=${{ secrets.SIGNING_PASSWORD }}
+          -Dgpg.passphrase='${{ secrets.SIGNING_PASSWORD }}'
 
 
 
@@ -139,7 +139,7 @@ jobs:
         with:
           gradle-version: 7.4
           arguments: >-
-            clean assemble build sA javadoc publish -i
+            clean assemble build sA javadoc -i
             -PmavenRepositoryUsername=${{secrets.MAVEN_REPOSITORY_USERNAME}}
             -PmavenRepositoryPassword=${{secrets.MAVEN_REPOSITORY_PASSWORD}}
             -PmavenRepositoryUrl=${{secrets.MAVEN_RELEASE_URL}} --stacktrace
