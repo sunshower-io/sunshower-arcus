@@ -106,7 +106,7 @@ jobs:
           arguments: >-
             setVersion -DzephyrRelease=true
             -PmavenRepositoryUsername=${{secrets.MAVEN_REPOSITORY_USERNAME}}
-            -PmavenRepositoryPassword='${{secrets.MAVEN_REPOSITORY_PASSWORD}}'
+            -PmavenRepositoryPassword=${{secrets.MAVEN_REPOSITORY_PASSWORD}}
             -PmavenRepositoryUrl=${{secrets.MAVEN_REPOSITORY_URL}}
 
       - name: Deploy Bills-Of-Materials
@@ -141,7 +141,7 @@ jobs:
           arguments: >-
             clean assemble build sA javadoc publish -i
             -PmavenRepositoryUsername=${{secrets.MAVEN_REPOSITORY_USERNAME}}
-            -PmavenRepositoryPassword='${{secrets.MAVEN_REPOSITORY_PASSWORD}}'
+            -PmavenRepositoryPassword=${{secrets.MAVEN_REPOSITORY_PASSWORD}}
             -PmavenRepositoryUrl=${{secrets.MAVEN_RELEASE_URL}} --stacktrace
 
 
@@ -160,9 +160,9 @@ jobs:
             publish
             -i
             -Psigning.gnupg.keyName=${{ secrets.SIGNING_KEY_ID }}
-            -Psigning.gnupg.passphrase='${{ secrets.SIGNING_PASSWORD }}'
+            -Psigning.gnupg.passphrase=${{ secrets.SIGNING_PASSWORD }}
             -PmavenRepositoryUsername=${{secrets.MAVEN_CENTRAL_REPOSITORY_USERNAME}}
-            -PmavenRepositoryPassword='${{secrets.MAVEN_CENTRAL_REPOSITORY_PASSWORD}}'
+            -PmavenRepositoryPassword=${{secrets.MAVEN_CENTRAL_REPOSITORY_PASSWORD}}
             -PmavenRepositoryUrl=${{secrets.MAVEN_CENTRAL_REPOSITORY_URL}} --stacktrace
 
 
@@ -250,7 +250,7 @@ jobs:
           gradle-version: 7.4
           arguments: >-
             setVersion -PmavenRepositoryUsername=${{secrets.MAVEN_REPOSITORY_USERNAME}}
-            -PmavenRepositoryPassword='${{secrets.MAVEN_REPOSITORY_PASSWORD}}'
+            -PmavenRepositoryPassword=${{secrets.MAVEN_REPOSITORY_PASSWORD}}
             -PmavenRepositoryUrl=${{secrets.MAVEN_REPOSITORY_URL}}
 
       - name: Deploy Bills-Of-Materials
