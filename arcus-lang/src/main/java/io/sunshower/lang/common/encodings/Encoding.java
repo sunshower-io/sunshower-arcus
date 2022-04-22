@@ -15,8 +15,8 @@ public interface Encoding {
 
   boolean test(String input);
 
-
   CharSequence encode(CharSequence sequence, Charset charset);
+
   default CharSequence encode(CharSequence sequence) {
     return encode(sequence, Charset.defaultCharset());
   }
@@ -29,7 +29,6 @@ public interface Encoding {
    * @param charset     the character set to use
    * @throws IOException if an exception is encountered
    */
-
   void encode(InputStream inputStream, OutputStream os, Charset charset) throws IOException;
 
   /**
@@ -51,7 +50,6 @@ public interface Encoding {
    * @param charset      the character set to use
    * @throws IOException if an exception is encountered
    */
-
   void decode(InputStream inputStream, OutputStream outputStream, Charset charset)
       throws IOException;
 
@@ -81,9 +79,7 @@ public interface Encoding {
    * @param charset the character set to use
    * @return
    */
-
   byte[] encode(byte[] input, Charset charset);
-
 
   /**
    * decode the input to the byte array
@@ -91,7 +87,6 @@ public interface Encoding {
    * @param input the input to encode
    * @return the result decoded
    */
-
   byte[] decode(String input);
 
   /**
@@ -100,7 +95,11 @@ public interface Encoding {
    * @param input the input to decode
    * @return a byte array containing the decoded data
    */
-  byte[] decode(CharSequence input);
+  byte[] decode(CharSequence input, Charset charset);
+
+  default byte[] decode(CharSequence input) {
+    return decode(input, Charset.defaultCharset());
+  }
 
   /**
    * decode the input to the byte array
@@ -108,7 +107,11 @@ public interface Encoding {
    * @param input the input to decode
    * @return a byte array containing the decoded data
    */
-  byte[] decode(char[] input);
+  byte[] decode(char[] input, Charset charset);
+
+  default byte[] decode(char[] input) {
+    return decode(input, Charset.defaultCharset());
+  }
 
   /**
    * decode the input to the byte array
@@ -118,7 +121,6 @@ public interface Encoding {
    */
   byte[] decode(InputStream inputStream) throws IOException;
 
-
   /**
    * encode the input to the byte array
    *
@@ -126,7 +128,6 @@ public interface Encoding {
    * @return the result
    */
   String encode(String input);
-
 
   /**
    * @param input

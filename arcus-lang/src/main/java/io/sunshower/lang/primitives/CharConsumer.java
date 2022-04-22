@@ -4,6 +4,4 @@ package io.sunshower.lang.primitives;
 public interface CharConsumer {
 
   void accept(char ch);
-
-
 }

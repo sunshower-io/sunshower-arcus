@@ -13,20 +13,13 @@ import java.util.function.Consumer;
 import lombok.NonNull;
 import lombok.val;
 
-/**
- * implementation of the Rope data-structure
- */
+/** implementation of the Rope data-structure */
 @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
 public final class Rope implements CharSequence, Comparable<CharSequence>, Iterable<CharSequence> {
 
-  /**
-   * the base of this rope
-   */
-  @NonNull
-  final RopeLike base;
-  /**
-   * cache this. Don't check if it's zero--that basically never happens
-   */
+  /** the base of this rope */
+  @NonNull final RopeLike base;
+  /** cache this. Don't check if it's zero--that basically never happens */
   private int hashcode;
 
   /**
@@ -56,13 +49,12 @@ public final class Rope implements CharSequence, Comparable<CharSequence>, Itera
   /**
    * Construct the rope with the backing bytes
    *
-   * @param bytes   the bytes
+   * @param bytes the bytes
    * @param charset the charset to use--only used for transforming between charsets
    */
   public Rope(byte[] bytes, Charset charset) {
     this(bytes, 0, bytes.length, charset);
   }
-
 
   public Rope(byte[] bytes, int from, int length) {
     this(bytes, from, length, Charset.defaultCharset());
@@ -96,7 +88,6 @@ public final class Rope implements CharSequence, Comparable<CharSequence>, Itera
       }
       base = merge(leaves);
     }
-
   }
 
   /**
@@ -113,7 +104,7 @@ public final class Rope implements CharSequence, Comparable<CharSequence>, Itera
   /**
    * construct a rope from the specified string and charset
    *
-   * @param s       the string
+   * @param s the string
    * @param charset the charset to use
    */
   @SuppressFBWarnings
@@ -121,22 +112,19 @@ public final class Rope implements CharSequence, Comparable<CharSequence>, Itera
     this(s.getBytes(), charset);
   }
 
-
   public static byte[] toByteArray(CharSequence leaf) {
     return toByteArray(leaf, Charset.defaultCharset());
   }
 
   public static byte[] toByteArray(CharSequence leaf, Charset charset) {
-//    if(leaf instanceof RopeLike) {
-//      return ((RopeLike) leaf).getBytes(charset);
-//    }
+    //    if(leaf instanceof RopeLike) {
+    //      return ((RopeLike) leaf).getBytes(charset);
+    //    }
     val cb = CharBuffer.wrap(leaf);
     return charset.encode(cb).array();
   }
 
-  /**
-   * @return the length of this rope
-   */
+  /** @return the length of this rope */
   @Override
   public int length() {
     return base.length();
@@ -151,16 +139,12 @@ public final class Rope implements CharSequence, Comparable<CharSequence>, Itera
     return base.charAt(i);
   }
 
-  /**
-   * @return a character sequence that iterates over the characters quickly
-   */
+  /** @return a character sequence that iterates over the characters quickly */
   public CharSequence sequentialCharacters() {
     val len = this.length();
     return new CharSequence() {
       final Iterator<CharSequence> iterator = Rope.this.iterator();
-      int currentIndex = 0,
-          currentMax = 0,
-          previousIndex = -1;
+      int currentIndex = 0, currentMax = 0, previousIndex = -1;
       CharSequence currentSequence;
 
       @Override
@@ -188,14 +172,13 @@ public final class Rope implements CharSequence, Comparable<CharSequence>, Itera
         return Rope.this.subSequence(i, i1);
       }
     };
-
   }
 
   /**
    * implements subsequence.
    *
    * @param start the start index
-   * @param end   the end index
+   * @param end the end index
    * @return the character sequence (an implementation of RopeLike)
    */
   @Override
@@ -223,7 +206,7 @@ public final class Rope implements CharSequence, Comparable<CharSequence>, Itera
   }
 
   /**
-   * iterate over the leaves of this rope.  This may be faster than
+   * iterate over the leaves of this rope. This may be faster than
    *
    * @param consumer the consumer to apply to each leaf of this rope
    */
@@ -275,7 +258,7 @@ public final class Rope implements CharSequence, Comparable<CharSequence>, Itera
 
   /**
    * @param start the start of the substring
-   * @param end   the end of the substring
+   * @param end the end of the substring
    * @return the substring, or throw an exception for invalide ranges
    * @throws ArrayIndexOutOfBoundsException
    */
@@ -286,7 +269,7 @@ public final class Rope implements CharSequence, Comparable<CharSequence>, Itera
   /**
    * insert the character sequence at location idx
    *
-   * @param idx      the index to insert the location at
+   * @param idx the index to insert the location at
    * @param sequence the sequence to insert
    * @return a rope that is the result of inserting the sequence starting at location idx
    */
@@ -343,7 +326,7 @@ public final class Rope implements CharSequence, Comparable<CharSequence>, Itera
    * rope
    *
    * @param start the start index
-   * @param end   the end index
+   * @param end the end index
    * @return
    */
   public Rope delete(int start, int end) {
@@ -375,9 +358,7 @@ public final class Rope implements CharSequence, Comparable<CharSequence>, Itera
     return 0;
   }
 
-  /**
-   * @return a hashcode compatible with String.hashcode
-   */
+  /** @return a hashcode compatible with String.hashcode */
   @Override
   public int hashCode() {
     if (hashcode == 0) {

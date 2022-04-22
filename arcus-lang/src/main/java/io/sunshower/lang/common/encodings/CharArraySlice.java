@@ -1,7 +1,10 @@
 package io.sunshower.lang.common.encodings;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.val;
 
+@SuppressFBWarnings
+@SuppressWarnings("PMD")
 public class CharArraySlice implements CharSequence {
 
   final char[] input;
@@ -35,6 +38,14 @@ public class CharArraySlice implements CharSequence {
   @Override
   public CharSequence subSequence(int i, int i1) {
     return new CharArraySlice(input, start + i, i1 - i);
+  }
+
+  public int hashCode() {
+    int h = 0;
+    for (int i = 0; i < length; i++) {
+      h = 31 * h + charAt(i);
+    }
+    return h;
   }
 
   @Override

@@ -12,9 +12,8 @@ import java.util.Arrays;
 import java.util.BitSet;
 import lombok.val;
 
-/**
- * Created by haswell on 7/17/17.
- */
+/** Created by haswell on 7/17/17. */
+@SuppressWarnings("PMD")
 public class Base58 implements Encoding {
 
   final int[] indexes;
@@ -35,7 +34,6 @@ public class Base58 implements Encoding {
     }
   }
 
-
   static byte mod(ByteBuffer d, int fst, int base, int divisor) {
     int rem = 0;
     val length = d.limit();
@@ -47,7 +45,6 @@ public class Base58 implements Encoding {
     }
     return (byte) rem;
   }
-
 
   static byte mod(byte[] d, int fst, int base, int divisor) {
     int rem = 0;
@@ -108,7 +105,6 @@ public class Base58 implements Encoding {
     return CharBuffer.wrap(result.encoded, output, encoded.length - output);
   }
 
-
   @Override
   public void encode(InputStream in, OutputStream os, Charset charset) throws IOException {
     val bytes = in.readAllBytes();
@@ -129,7 +125,6 @@ public class Base58 implements Encoding {
     outputStream.write(result.decoded, result.from, result.length - result.from);
   }
 
-
   @Override
   @SuppressWarnings("PMD.AssignmentInOperand")
   public String encode(byte[] in) {
@@ -146,12 +141,10 @@ public class Base58 implements Encoding {
     return charset.encode(charbuffer).array();
   }
 
-
   @Override
   public byte[] decode(String input) {
     return decode((CharSequence) input);
   }
-
 
   @Override
   public byte[] decode(CharSequence input) {
@@ -187,11 +180,9 @@ public class Base58 implements Encoding {
     return new Rope(result.decoded, result.from, result.length - result.from, charset);
   }
 
-
   private Result doEncode(byte[] in) {
     return doEncode(in, in.length);
   }
-
 
   private ByteResult doDecode(CharSequence input, int length) {
     if (length == 0) {
@@ -225,7 +216,6 @@ public class Base58 implements Encoding {
     return new ByteResult(start - zeros, length, decoded);
   }
 
-
   private Result doEncode(ByteBuffer in, int length) {
 
     val input = in.duplicate();
@@ -254,7 +244,6 @@ public class Base58 implements Encoding {
     }
     return new Result(output, encoded);
   }
-
 
   private Result doEncode(byte[] in, int length) {
     val input = Arrays.copyOf(in, length);
