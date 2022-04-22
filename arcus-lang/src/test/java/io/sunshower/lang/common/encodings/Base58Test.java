@@ -6,7 +6,6 @@ import io.sunshower.lang.common.encodings.Encodings.Type;
 import java.util.UUID;
 import lombok.val;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
 
 /** Created by haswell on 10/16/17. */
 public class Base58Test {
@@ -15,7 +14,8 @@ public class Base58Test {
   void testCase1() {
     val string = "The quick brown fox jumps over the lazy dog.";
     val encoding = Encodings.create(Type.Base58);
-    assertEquals("USm3fpXnKG5EUBx2ndxBDMPVciP5hGey2Jh4NDv6gmeo1LkMeiKrLJUUBk6Z", encoding.encode(string));
+    assertEquals(
+        "USm3fpXnKG5EUBx2ndxBDMPVciP5hGey2Jh4NDv6gmeo1LkMeiKrLJUUBk6Z", encoding.encode(string));
   }
 
   @Test
