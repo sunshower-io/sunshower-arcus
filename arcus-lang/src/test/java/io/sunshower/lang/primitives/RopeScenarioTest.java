@@ -1,6 +1,5 @@
 package io.sunshower.lang.primitives;
 
-import static io.sunshower.lang.primitives.RopesTest.print;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import lombok.val;
@@ -61,9 +60,7 @@ class RopeScenarioTest {
   }
 
   @Test
-  void ensureRopeSplitWorks() {
-
-  }
+  void ensureRopeSplitWorks() {}
 
   @Test
   void ensureRopeSubstringWorksLongerString() {
@@ -89,7 +86,6 @@ class RopeScenarioTest {
     assertEquals(ropes.snd.toString(), "me is Josiah");
     assertEquals(value.substring(0, 11), ropes.fst.toString());
   }
-
 
   @Test
   void ensureDeletingWorks() {

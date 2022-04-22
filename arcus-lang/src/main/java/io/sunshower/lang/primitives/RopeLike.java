@@ -111,11 +111,10 @@ interface RopeLike extends CharSequence, Cloneable, Iterable<RopeLike> {
     return new ReverseOrderRopeIterator(this);
   }
 
-
   default RopeLike reverse() {
     val reverse = reverseIterator();
     val list = new ArrayList<RopeLike>();
-    while(reverse.hasNext()) {
+    while (reverse.hasNext()) {
       list.add(reverse.next().reverse());
     }
     return Ropes.merge(list);
@@ -130,7 +129,6 @@ interface RopeLike extends CharSequence, Cloneable, Iterable<RopeLike> {
 final class ReverseOrderRopeIterator implements Iterator<RopeLike> {
 
   private final Deque<RopeLike> stack;
-
 
   ReverseOrderRopeIterator(@NonNull RopeLike root) {
     this.stack = new ArrayDeque<>();
