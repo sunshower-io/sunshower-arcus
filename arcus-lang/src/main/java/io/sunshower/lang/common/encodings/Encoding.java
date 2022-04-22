@@ -6,9 +6,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 
-/**
- * Created by haswell on 7/17/17.
- */
+/** Created by haswell on 7/17/17. */
 public interface Encoding {
 
   boolean test(byte[] input);
@@ -25,8 +23,8 @@ public interface Encoding {
    * encode the inputstream to the outputstream
    *
    * @param inputStream the inputstream to encode
-   * @param os          the outputstream to write the encoded stream to
-   * @param charset     the character set to use
+   * @param os the outputstream to write the encoded stream to
+   * @param charset the character set to use
    * @throws IOException if an exception is encountered
    */
   void encode(InputStream inputStream, OutputStream os, Charset charset) throws IOException;
@@ -34,7 +32,7 @@ public interface Encoding {
   /**
    * encode the inputstream to the outputstream
    *
-   * @param inputStream  the inputstream to encode
+   * @param inputStream the inputstream to encode
    * @param outputStream the outputstream to write the encoded stream to
    * @throws IOException if an exception is encountered
    */
@@ -45,9 +43,9 @@ public interface Encoding {
   /**
    * decode the inputstream to the outputstream using the provided charset
    *
-   * @param inputStream  the inputstream to decode from
+   * @param inputStream the inputstream to decode from
    * @param outputStream the outputstream to decode to
-   * @param charset      the character set to use
+   * @param charset the character set to use
    * @throws IOException if an exception is encountered
    */
   void decode(InputStream inputStream, OutputStream outputStream, Charset charset)
@@ -56,7 +54,7 @@ public interface Encoding {
   /**
    * decode the inputstream to the outputstream
    *
-   * @param inputStream  the inputstream to decode from
+   * @param inputStream the inputstream to decode from
    * @param outputStream the outputstream to decode to
    * @throws IOException if an exception is encountered
    */
@@ -75,7 +73,7 @@ public interface Encoding {
   /**
    * encode the byte array to the resulting byte array over the provided character set
    *
-   * @param input   the input to encode
+   * @param input the input to encode
    * @param charset the character set to use
    * @return
    */

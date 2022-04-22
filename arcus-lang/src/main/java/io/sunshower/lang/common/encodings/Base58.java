@@ -147,9 +147,19 @@ public class Base58 implements Encoding {
   }
 
   @Override
+  public byte[] decode(CharSequence input, Charset charset) {
+    return decode(input);
+  }
+
+  @Override
   public byte[] decode(CharSequence input) {
     val byteResult = doDecode(input, input.length());
     return Arrays.copyOfRange(byteResult.decoded, byteResult.from, byteResult.length);
+  }
+
+  @Override
+  public byte[] decode(char[] input, Charset charset) {
+    return decode(CharBuffer.wrap(input));
   }
 
   @Override

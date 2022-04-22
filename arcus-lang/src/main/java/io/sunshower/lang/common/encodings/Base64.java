@@ -11,6 +11,7 @@ import java.nio.charset.Charset;
 import java.util.Locale;
 import lombok.val;
 
+@SuppressWarnings("PMD")
 public class Base64 implements Encoding {
 
   static final String UPPERCASE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -54,8 +55,7 @@ public class Base64 implements Encoding {
   }
 
   @Override
-  public void encode(InputStream inputStream, OutputStream os, Charset charset)
-      throws IOException {
+  public void encode(InputStream inputStream, OutputStream os, Charset charset) throws IOException {
 
     byte[] data = new byte[256];
     int len;
