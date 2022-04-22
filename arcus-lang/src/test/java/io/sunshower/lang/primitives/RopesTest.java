@@ -97,6 +97,23 @@ class RopesTest {
     pw.flush();
   }
 
+  @Test
+  void ensureFastSequentialCharacterIterationWorksLargeDocument() {
+    val rope = new Rope(bytes).sequentialCharacters();
+    val doc = new String(bytes);
+    for (int i = 0; i < doc.length(); i++) {
+      assertEquals(rope.charAt(i), doc.charAt(i));
+    }
+  }
+
+  @Test
+  void ensureFastSequentialCharacterIterationWorks() {
+    val rope = new Rope(document2).sequentialCharacters();
+    for (int i = 0; i < document2.length(); i++) {
+      assertEquals(rope.charAt(i), document2.charAt(i));
+    }
+  }
+
   @ParameterizedTest
   @ValueSource(strings = {"", "h", "he", "hello"})
   void ensurePrependingToSmallRopesWorks(String v) {

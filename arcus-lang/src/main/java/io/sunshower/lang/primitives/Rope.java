@@ -5,20 +5,22 @@ import static io.sunshower.lang.primitives.Ropes.merge;
 import static java.util.Arrays.copyOfRange;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import java.nio.CharBuffer;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.function.Consumer;
 import lombok.NonNull;
 import lombok.val;
 
 /** implementation of the Rope data-structure */
 @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
-public final class Rope implements CharSequence, Comparable<CharSequence> {
-
-  /** cache this. Don't check if it's zero--that basically never happens */
-  private int hashcode;
+public final class Rope implements CharSequence, Comparable<CharSequence>, Iterable<CharSequence> {
 
   /** the base of this rope */
   @NonNull final RopeLike base;
+  /** cache this. Don't check if it's zero--that basically never happens */
+  private int hashcode;
 
   /**
    * construct a rope over a RopeLike--for internal use only
@@ -51,15 +53,38 @@ public final class Rope implements CharSequence, Comparable<CharSequence> {
    * @param charset the charset to use--only used for transforming between charsets
    */
   public Rope(byte[] bytes, Charset charset) {
-    val chunksize = Ropes.splitLength;
+    this(bytes, 0, bytes.length, charset);
+  }
 
-    if (bytes.length < Ropes.splitLength) {
-      base = new RopeLikeOverString(new String(bytes, charset));
+  public Rope(byte[] bytes, int from, int length) {
+    this(bytes, from, length, Charset.defaultCharset());
+  }
+
+  public Rope(byte[] bytes, int from, int length, Charset charset) {
+    val chunksize = Ropes.splitLength;
+    val len = length;
+    if (len < Ropes.splitLength) {
+      base = new RopeLikeOverString(new String(bytes, from, length, charset));
     } else {
-      val leaves = new ArrayList<RopeLike>(bytes.length / chunksize);
-      for (int i = 0; i < bytes.length; i += chunksize) {
-        val subbytes = copyOfRange(bytes, i, Math.min(i + chunksize, bytes.length));
+      val leaves = new ArrayList<RopeLike>(len / chunksize);
+      for (int i = from; i < len; i += chunksize) {
+        val subbytes = copyOfRange(bytes, i, Math.min(i + chunksize, len));
         leaves.add(new RopeLikeOverString(getCharacters(subbytes, charset)));
+      }
+      base = merge(leaves);
+    }
+  }
+
+  public Rope(CharSequence sequence) {
+    val chunksize = Ropes.splitLength;
+    if (sequence.length() < Ropes.splitLength) {
+      base = new RopeLikeOverCharSequence(sequence);
+    } else {
+      val len = sequence.length();
+      val leaves = new ArrayList<RopeLike>(len / chunksize);
+      for (int i = 0; i < len; i += chunksize) {
+        val subbytes = sequence.subSequence(i, Math.min(i + chunksize, len));
+        leaves.add(new RopeLikeOverCharSequence(subbytes));
       }
       base = merge(leaves);
     }
@@ -87,6 +112,18 @@ public final class Rope implements CharSequence, Comparable<CharSequence> {
     this(s.getBytes(), charset);
   }
 
+  public static byte[] toByteArray(CharSequence leaf) {
+    return toByteArray(leaf, Charset.defaultCharset());
+  }
+
+  public static byte[] toByteArray(CharSequence leaf, Charset charset) {
+    //    if(leaf instanceof RopeLike) {
+    //      return ((RopeLike) leaf).getBytes(charset);
+    //    }
+    val cb = CharBuffer.wrap(leaf);
+    return charset.encode(cb).array();
+  }
+
   /** @return the length of this rope */
   @Override
   public int length() {
@@ -100,6 +137,41 @@ public final class Rope implements CharSequence, Comparable<CharSequence> {
   @Override
   public char charAt(int i) {
     return base.charAt(i);
+  }
+
+  /** @return a character sequence that iterates over the characters quickly */
+  public CharSequence sequentialCharacters() {
+    val len = this.length();
+    return new CharSequence() {
+      final Iterator<CharSequence> iterator = Rope.this.iterator();
+      int currentIndex = 0, currentMax = 0, previousIndex = -1;
+      CharSequence currentSequence;
+
+      @Override
+      public int length() {
+        return len;
+      }
+
+      @Override
+      public char charAt(int i) {
+        if (i != previousIndex + 1) {
+          return Rope.this.charAt(i);
+        }
+        if (currentSequence == null || i >= currentMax) {
+          currentSequence = iterator.next();
+          currentMax += currentSequence.length();
+          currentIndex = 0;
+        }
+
+        previousIndex++;
+        return currentSequence.charAt(currentIndex++);
+      }
+
+      @Override
+      public CharSequence subSequence(int i, int i1) {
+        return Rope.this.subSequence(i, i1);
+      }
+    };
   }
 
   /**
@@ -131,6 +203,37 @@ public final class Rope implements CharSequence, Comparable<CharSequence> {
       return compareTo(that) == 0;
     }
     return false;
+  }
+
+  /**
+   * iterate over the leaves of this rope. This may be faster than
+   *
+   * @param consumer the consumer to apply to each leaf of this rope
+   */
+  public void forEachLeaf(Consumer<CharSequence> consumer) {
+    val iter = base.iterator();
+    while (iter.hasNext()) {
+      val next = iter.next();
+      for (int i = 0; i < next.length(); i++) {
+        consumer.accept(next);
+      }
+    }
+  }
+
+  /**
+   * iterate over this rope character by character, applying the consumer this may be faster than
+   * iterating from 0 to this.length() and calling charAt()
+   *
+   * @param consumer the character consumer
+   */
+  public void forEachCharacter(CharConsumer consumer) {
+    val iter = base.iterator();
+    while (iter.hasNext()) {
+      val next = iter.next();
+      for (int i = 0; i < next.length(); i++) {
+        consumer.accept(next.charAt(i));
+      }
+    }
   }
 
   /**
@@ -270,5 +373,21 @@ public final class Rope implements CharSequence, Comparable<CharSequence> {
       return (hashcode = h);
     }
     return hashcode;
+  }
+
+  @Override
+  public Iterator<CharSequence> iterator() {
+    val iterator = base.iterator();
+    return new Iterator<>() {
+      @Override
+      public boolean hasNext() {
+        return iterator.hasNext();
+      }
+
+      @Override
+      public CharSequence next() {
+        return iterator.next();
+      }
+    };
   }
 }
