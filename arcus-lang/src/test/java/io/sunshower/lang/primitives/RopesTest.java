@@ -143,10 +143,12 @@ class RopesTest {
   @Test
   void ensureRemovingSubRopeWorks() {
     val rope = new Rope("hello world");
+    val s = new StringBuilder(rope.toString());
+    val s1 = s.delete(1, 2).toString();
 
     val r = rope.delete(1, 2);
     assertEquals(rope.toString(), "hello world");
-    assertEquals(r.toString(), "hlo world");
+    assertEquals(s1, r.toString());
   }
 
   @Test

@@ -4,6 +4,7 @@ import io.sunshower.lang.tuple.Pair;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.Iterator;
 import java.util.List;
@@ -106,9 +107,61 @@ interface RopeLike extends CharSequence, Cloneable, Iterable<RopeLike> {
     return new InOrderRopeIterator(this);
   }
 
+  default Iterator<RopeLike> reverseIterator() {
+    return new ReverseOrderRopeIterator(this);
+  }
+
+
+  default RopeLike reverse() {
+    val reverse = reverseIterator();
+    val list = new ArrayList<RopeLike>();
+    while(reverse.hasNext()) {
+      list.add(reverse.next().reverse());
+    }
+    return Ropes.merge(list);
+  }
+
   enum Type {
     Composite,
     Flat,
+  }
+}
+
+final class ReverseOrderRopeIterator implements Iterator<RopeLike> {
+
+  private final Deque<RopeLike> stack;
+
+
+  ReverseOrderRopeIterator(@NonNull RopeLike root) {
+    this.stack = new ArrayDeque<>();
+    var c = root;
+    while (c != null) {
+      stack.push(c);
+      c = c.getRight();
+    }
+  }
+
+  @Override
+  public boolean hasNext() {
+    return !stack.isEmpty();
+  }
+
+  @Override
+  public RopeLike next() {
+    val result = stack.pop();
+    if (!stack.isEmpty()) {
+      val parent = stack.pop();
+      val left = parent.getLeft();
+      if (left != null) {
+        stack.push(left);
+        var cright = left.getRight();
+        while (cright != null) {
+          stack.push(cright);
+          cright = cright.getRight();
+        }
+      }
+    }
+    return result;
   }
 }
 
@@ -116,7 +169,7 @@ final class InOrderRopeIterator implements Iterator<RopeLike> {
 
   private final Deque<RopeLike> stack;
 
-  public InOrderRopeIterator(@NonNull RopeLike root) {
+  InOrderRopeIterator(@NonNull RopeLike root) {
     stack = new ArrayDeque<>();
     var c = root;
     while (c != null) {

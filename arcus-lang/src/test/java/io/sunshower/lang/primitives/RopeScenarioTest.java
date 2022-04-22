@@ -61,6 +61,11 @@ class RopeScenarioTest {
   }
 
   @Test
+  void ensureRopeSplitWorks() {
+
+  }
+
+  @Test
   void ensureRopeSubstringWorksLongerString() {
     val expected = value.substring(10, 15);
     val r = rope.substring(10, 15);
@@ -80,8 +85,28 @@ class RopeScenarioTest {
   void ensureSplittingBaseWorks() {
     val ropes = rope.base.split(11);
 
-    print(rope);
-    print(new Rope(ropes.fst));
-    print(new Rope(ropes.snd));
+    assertEquals(ropes.fst.toString(), "Hello my na");
+    assertEquals(ropes.snd.toString(), "me is Josiah");
+    assertEquals(value.substring(0, 11), ropes.fst.toString());
+  }
+
+
+  @Test
+  void ensureDeletingWorks() {
+    val s = new StringBuilder(value).delete(11, 13).toString();
+    System.out.println(s);
+
+    val r = new Rope(value).delete(11, 13).toString();
+    assertEquals(s, r);
+  }
+
+  @Test
+  void ensureInsertingWorks() {
+    val str = "--------";
+    val s = new StringBuilder(value).insert(11, str).toString();
+    System.out.println(s);
+
+    val r = new Rope(value).insert(11, str).toString();
+    assertEquals(s, r);
   }
 }

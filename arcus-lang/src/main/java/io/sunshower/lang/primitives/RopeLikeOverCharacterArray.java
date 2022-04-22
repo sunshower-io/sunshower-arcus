@@ -150,4 +150,17 @@ final class RopeLikeOverCharacterArray extends AbstractRopeLike {
   public String toString() {
     return new String(characters);
   }
+
+  @Override
+  public RopeLikeOverCharacterArray reverse() {
+    char t;
+    int i, n = characters.length;
+    val result = Arrays.copyOf(characters, n);
+    for (i = 0; i < n / 2; i++) {
+      t = characters[i];
+      result[i] = characters[n - i - 1];
+      result[n - i - 1] = t;
+    }
+    return new RopeLikeOverCharacterArray(result);
+  }
 }
