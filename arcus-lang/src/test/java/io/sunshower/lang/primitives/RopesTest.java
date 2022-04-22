@@ -268,6 +268,7 @@ class RopesTest {
     val lhs = new RopeLikeOverCharacterArray("hello");
     val rhs = new RopeLikeOverCharacterArray("1");
 
+
     val parent = new RopeLikeTree(lhs, rhs);
     assertEquals(lhs.weight(), parent.weight());
 

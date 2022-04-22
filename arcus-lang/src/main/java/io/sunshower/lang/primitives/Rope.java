@@ -7,7 +7,9 @@ import static java.util.Arrays.copyOfRange;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.nio.CharBuffer;
 import java.nio.charset.Charset;
+import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Formatter;
 import java.util.Iterator;
 import java.util.function.Consumer;
 import lombok.NonNull;
@@ -389,6 +391,8 @@ public final class Rope implements CharSequence, Comparable<CharSequence>, Itera
   public Rope delete(int start, int end) {
     return new Rope(base.delete(start, end - start));
   }
+
+
 
   /**
    * lexocographically compare this rope to the other rope. This method uses a lazy, in-order
