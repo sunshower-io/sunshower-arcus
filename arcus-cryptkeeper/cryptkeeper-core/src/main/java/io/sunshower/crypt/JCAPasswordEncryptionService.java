@@ -35,6 +35,9 @@ import lombok.val;
 @SuppressWarnings("PMD")
 public class JCAPasswordEncryptionService implements EncryptionService {
 
+  /**
+   * todo: make parameters configurable
+   */
   /** default key length */
   public static final int DEFAULT_LENGTH = 256;
   /** default number of rounds */
@@ -247,7 +250,7 @@ public class JCAPasswordEncryptionService implements EncryptionService {
   }
 
   private byte[] saltAsBytes() {
-    val charset = Charset.defaultCharset();
+    val charset = StandardCharsets.UTF_8;
     val cbuffer = CharBuffer.wrap(salt);
     return charset.encode(cbuffer).array();
   }
