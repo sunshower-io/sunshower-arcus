@@ -19,7 +19,6 @@ import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -95,55 +94,61 @@ public class FileBackedVaultManager extends AbstractVaultManager implements Vaul
 
   @Override
   public List<Vault> getOpenVaults() {
-    val open = openVaults.values();
-    val results = new ArrayList<Vault>(open.size());
-    for (val o : open) {
-      results.add(vaultFrom(o.descriptor));
+    synchronized (lock) {
+      val open = openVaults.values();
+      val results = new ArrayList<Vault>(open.size());
+      for (val o : open) {
+        results.add(vaultFrom(o.descriptor));
+      }
+      return results;
     }
-    return results;
   }
 
   @Override
   public Vault addVault(Vault vault, CharSequence password) {
-    val serializedVault = new SerializedVault(vault.getId());
-    serializedVault.setVaultManager(this);
+    synchronized (lock) {
+      val serializedVault = new SerializedVault(vault.getId());
+      serializedVault.setVaultManager(this);
 
-    val salt = encoding.encode(generateRandom(64));
-    val initializationVector = generateRandom(16);
-    val vaultDescriptor = new VaultDescriptor();
+      val salt = encoding.encode(generateRandom(64));
+      val initializationVector = generateRandom(16);
+      val vaultDescriptor = new VaultDescriptor();
 
-    val encryptionService =
-        encryptionServiceFactory.create(
-            salt, encoding.encode(initializationVector), password, encoding);
-    vaultDescriptor.setDescription(vault.getDescription());
-    vaultDescriptor.setName(vault.getName());
-    vaultDescriptor.setIcon(vault.getIcon());
-    vaultDescriptor.setId(vault.getId());
-    vaultDescriptor.setInitializationVector(encoding.encode(initializationVector));
-    vaultDescriptor.setSalt(salt);
-    vaultDescriptor.setVaultPath(UUID.randomUUID() + ".vault");
+      val encryptionService =
+          encryptionServiceFactory.create(
+              salt, encoding.encode(initializationVector), password, encoding);
+      vaultDescriptor.setDescription(vault.getDescription());
+      vaultDescriptor.setName(vault.getName());
+      vaultDescriptor.setIcon(vault.getIcon());
+      vaultDescriptor.setId(vault.getId());
+      vaultDescriptor.setInitializationVector(encoding.encode(initializationVector));
+      vaultDescriptor.setSalt(salt);
+      vaultDescriptor.setVaultPath(UUID.randomUUID() + ".vault");
 
-    serializedVault.setDescriptor(vaultDescriptor);
-    serializedVault.setIcon(vault.getIcon());
-    serializedVault.setName(vault.getName());
-    serializedVault.setDescription(vault.getDescription());
-    serializedVault.setPassword(password);
+      serializedVault.setDescriptor(vaultDescriptor);
+      serializedVault.setIcon(vault.getIcon());
+      serializedVault.setName(vault.getName());
+      serializedVault.setDescription(vault.getDescription());
+      serializedVault.setPassword(password);
 
-    encryptAndClose(serializedVault, vaultDescriptor, encryptionService);
-    return unlock(vault.getId(), password);
+      encryptAndClose(serializedVault, vaultDescriptor, encryptionService);
+      return unlock(vault.getId(), password);
+    }
   }
 
   @Override
   @SneakyThrows
   public boolean deleteVault(Vault vault, CharSequence password) {
-    unlock(vault.getId(), password);
-    val vaultDescriptor = getOpenVault(vault.getId());
-    try {
-      Files.delete(new File(directory, vaultDescriptor.getVaultPath()).toPath());
-    } finally {
-      Files.delete(locate(vault.getId()).toPath());
+    synchronized (lock) {
+      unlock(vault.getId(), password);
+      val vaultDescriptor = getOpenVault(vault.getId());
+      try {
+        Files.delete(new File(directory, vaultDescriptor.getVaultPath()).toPath());
+      } finally {
+        Files.delete(locate(vault.getId()).toPath());
+      }
+      return openVaults.remove(vault.getId()) != null;
     }
-    return openVaults.remove(vault.getId()) != null;
   }
 
   /**
@@ -297,56 +302,62 @@ public class FileBackedVaultManager extends AbstractVaultManager implements Vaul
   private void encryptAndClose(
       Vault vault, VaultDescriptor vaultDescriptor, EncryptionService encryptionService) {
 
-    writeVaultDescriptor(vaultDescriptor);
-    val file = validateFile(new File(directory, vaultDescriptor.getVaultPath()));
+    synchronized (lock) {
+      writeVaultDescriptor(vaultDescriptor);
+      val file = validateFile(new File(directory, vaultDescriptor.getVaultPath()));
 
-    val text = condensation.write(SerializedVault.class, (SerializedVault) vault);
-    val encryptedText = encryptionService.encrypt((CharSequence) text);
-    val encodedText = encoding.encode(encryptedText);
-    try (val channel =
-        FileChannel.open(
-            file.toPath(),
-            StandardOpenOption.CREATE,
-            StandardOpenOption.TRUNCATE_EXISTING,
-            StandardOpenOption.DSYNC,
-            StandardOpenOption.WRITE)) {
-      val bytes = ByteBuffer.wrap(encodedText.toString().getBytes(StandardCharsets.UTF_8));
-      channel.write(bytes);
+      val text = condensation.write(SerializedVault.class, (SerializedVault) vault);
+      val encryptedText = encryptionService.encrypt((CharSequence) text);
+      val encodedText = encoding.encode(encryptedText);
+      try (val channel =
+          FileChannel.open(
+              file.toPath(),
+              StandardOpenOption.CREATE,
+              StandardOpenOption.TRUNCATE_EXISTING,
+              StandardOpenOption.DSYNC,
+              StandardOpenOption.WRITE)) {
+        val bytes = ByteBuffer.wrap(encodedText.toString().getBytes(StandardCharsets.UTF_8));
+        channel.write(bytes);
+      }
     }
   }
 
   @SneakyThrows
   private void writeVaultDescriptor(VaultDescriptor vaultDescriptor) {
-    val vaultFile =
-        validateFile(new File(directory, String.format("%s.crypt", vaultDescriptor.getId())));
-    val result = condensation.write(VaultDescriptor.class, vaultDescriptor);
-    try (val channel =
-        FileChannel.open(
-            vaultFile.toPath(),
-            StandardOpenOption.CREATE,
-            StandardOpenOption.TRUNCATE_EXISTING,
-            StandardOpenOption.DSYNC,
-            StandardOpenOption.WRITE)) {
-      val bytes = ByteBuffer.wrap(result.getBytes(StandardCharsets.UTF_8));
-      channel.write(bytes);
+    synchronized (lock) {
+      val vaultFile =
+          validateFile(new File(directory, String.format("%s.crypt", vaultDescriptor.getId())));
+      val result = condensation.write(VaultDescriptor.class, vaultDescriptor);
+      try (val channel =
+          FileChannel.open(
+              vaultFile.toPath(),
+              StandardOpenOption.CREATE,
+              StandardOpenOption.TRUNCATE_EXISTING,
+              StandardOpenOption.DSYNC,
+              StandardOpenOption.WRITE)) {
+        val bytes = ByteBuffer.wrap(result.getBytes(StandardCharsets.UTF_8));
+        channel.write(bytes);
+      }
     }
   }
 
   @SneakyThrows
   private Vault readVault(
       VaultDescriptor vaultDescriptor, EncryptionService encryptionService, CharSequence password) {
-    val vaultFile = validateFile(new File(directory, vaultDescriptor.getVaultPath()));
-    val fileContents = encoding.decode(Files.readString(vaultFile.toPath()));
-    val plaintextContext = encryptionService.decrypt(new String(fileContents));
-    if (!isJson(plaintextContext)) {
-      throw new AuthenticationFailedException("Error: bad password");
+    synchronized (lock) {
+      val vaultFile = validateFile(new File(directory, vaultDescriptor.getVaultPath()));
+      val fileContents = encoding.decode(Files.readString(vaultFile.toPath()));
+      val plaintextContext = encryptionService.decrypt(new String(fileContents));
+      if (!isJson(plaintextContext)) {
+        throw new AuthenticationFailedException("Error: bad password");
+      }
+      val serializedVault = condensation.read(SerializedVault.class, plaintextContext);
+      serializedVault.setPassword(password);
+      serializedVault.setDescriptor(vaultDescriptor);
+      serializedVault.setVaultManager(this);
+      openVaults.put(serializedVault.getId(), new DescriptorPair(serializedVault, vaultDescriptor));
+      return serializedVault;
     }
-    val serializedVault = condensation.read(SerializedVault.class, plaintextContext);
-    serializedVault.setPassword(password);
-    serializedVault.setDescriptor(vaultDescriptor);
-    serializedVault.setVaultManager(this);
-    openVaults.put(serializedVault.getId(), new DescriptorPair(serializedVault, vaultDescriptor));
-    return serializedVault;
   }
 
   private boolean isJson(CharSequence plaintextContext) {
