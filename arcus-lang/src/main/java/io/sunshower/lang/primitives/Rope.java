@@ -139,6 +139,53 @@ public final class Rope implements CharSequence, Comparable<CharSequence>, Itera
     return base.charAt(i);
   }
 
+  /**
+   * return a new rope that is the reverse of this rope
+   *
+   * @return
+   */
+  public Rope reverse() {
+    return new Rope(base.reverse());
+  }
+
+  /**
+   * @return a character sequence that iterates over the characters of this rope quickly in reverse
+   *     order
+   */
+  public CharSequence reverseSequentialCharacters() {
+    val len = this.length();
+    return new CharSequence() {
+      final Iterator<CharSequence> iterator = Rope.this.iterator();
+      int currentIndex = 0, currentMax = 0, previousIndex = len;
+      CharSequence currentSequence;
+
+      @Override
+      public int length() {
+        return len;
+      }
+
+      @Override
+      public char charAt(int i) {
+        if (i != previousIndex - 1) {
+          return Rope.this.charAt(i);
+        }
+        if (currentSequence == null || i >= currentMax) {
+          currentSequence = iterator.next();
+          currentMax -= currentSequence.length();
+          currentIndex = currentMax;
+        }
+
+        previousIndex--;
+        return currentSequence.charAt(currentIndex--);
+      }
+
+      @Override
+      public CharSequence subSequence(int i, int i1) {
+        return Rope.this.subSequence(i, i1);
+      }
+    };
+  }
+
   /** @return a character sequence that iterates over the characters quickly */
   public CharSequence sequentialCharacters() {
     val len = this.length();
@@ -330,7 +377,7 @@ public final class Rope implements CharSequence, Comparable<CharSequence>, Itera
    * @return
    */
   public Rope delete(int start, int end) {
-    return new Rope(base.delete(start, end));
+    return new Rope(base.delete(start, end - start));
   }
 
   /**
@@ -375,6 +422,7 @@ public final class Rope implements CharSequence, Comparable<CharSequence>, Itera
     return hashcode;
   }
 
+  /** @return an iterator over the leaves of this rope */
   @Override
   public Iterator<CharSequence> iterator() {
     val iterator = base.iterator();

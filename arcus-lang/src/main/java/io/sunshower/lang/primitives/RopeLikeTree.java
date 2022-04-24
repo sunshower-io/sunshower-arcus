@@ -118,7 +118,6 @@ final class RopeLikeTree extends AbstractRopeLike implements RopeLike {
       throw new IndexOutOfBoundsException(
           "Index out of range: %d.  Max range: %d".formatted(i, length));
     }
-
     return i < left.length() ? left.charAt(i) : right.charAt(i - left.length());
   }
 

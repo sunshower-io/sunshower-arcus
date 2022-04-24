@@ -65,11 +65,9 @@ class CharArraySliceTest extends Specification {
     @Unroll
     def "expect substrings to work for values"() {
         expect:
-        def random = new Random();
 
-        def end = random.nextInt(rhs.length());
-        def startc = random.nextInt(end);
-        def start = startc < 0 ? 0 : startc
+        def start = 2
+        def end = 5
 
         def lhss = lhs.subSequence(start, end).toString();
         def rhss = rhs.subSequence(start, end).toString();

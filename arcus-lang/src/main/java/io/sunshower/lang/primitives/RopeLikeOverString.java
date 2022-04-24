@@ -120,4 +120,11 @@ final class RopeLikeOverString extends AbstractRopeLike implements RopeLike {
   public String toString() {
     return value;
   }
+
+  @Override
+  public RopeLikeOverString reverse() {
+    val sbuilder = new StringBuilder(value);
+    sbuilder.reverse();
+    return new RopeLikeOverString(sbuilder.toString());
+  }
 }

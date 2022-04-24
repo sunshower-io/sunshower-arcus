@@ -105,4 +105,11 @@ final class RopeLikeOverCharSequence extends AbstractRopeLike {
   public String toString() {
     return delegate.toString();
   }
+
+  @Override
+  public RopeLikeOverCharSequence reverse() {
+    val result = new StringBuilder(delegate);
+    result.reverse();
+    return new RopeLikeOverCharSequence(result);
+  }
 }
