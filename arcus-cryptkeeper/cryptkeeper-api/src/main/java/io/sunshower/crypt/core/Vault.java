@@ -22,10 +22,13 @@ public interface Vault extends AutoCloseable {
   List<EncryptedValue> getSecrets();
 
   String getIcon();
-
   void setIcon(String icon);
 
   Identifier addSecret(Secret secret);
 
+
+  boolean deleteSecret(Identifier id);
+
   <T extends Secret> T getSecret(Identifier id);
+
 }

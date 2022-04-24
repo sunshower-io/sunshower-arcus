@@ -108,6 +108,14 @@ public class SerializedVault implements Vault {
   }
 
   @Override
+  public boolean deleteSecret(Identifier id) {
+    check();
+    val result = encryptedValues.remove(id) != null;
+    vaultManager.flush(this);
+    return result;
+  }
+
+  @Override
   public <T extends Secret> T getSecret(Identifier id) {
     check();
     val encryptedValue = locateSecret(id);

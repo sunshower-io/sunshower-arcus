@@ -21,4 +21,8 @@ public interface VaultManager extends AutoCloseable {
   EncryptedValue encrypt(Vault owner, Secret secret);
 
   <T extends Secret> T decrypt(Vault owner, EncryptedValue encryptedValue);
+
+  Vault flush(Vault vault);
+
+  boolean deleteVault(Vault vault, CharSequence password);
 }

@@ -9,9 +9,8 @@ public interface Secret extends Serializable {
 
   Sequence<Identifier> IDENTIFIER_SEQUENCE = Identifiers.newSequence(true);
 
+
   CharSequence getName();
-
   CharSequence getDescription();
-
   Identifier getId();
 }

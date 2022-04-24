@@ -16,13 +16,15 @@ public interface EncryptionService {
 
   <T extends Serializable> T decrypt(SealedObject object);
 
-  <T extends Serializable> byte[] encryptToBytes(T object);
 
-  <T extends Serializable> T decryptFromBytes(byte[] data);
+  <T extends Serializable> byte[] encryptToBytes(T object) ;
+  <T extends Serializable> T decryptFromBytes (byte[] data) ;
+
 
   EncryptedValue encryptText(CharSequence input);
 
   DecryptedValue decryptText(EncryptedValue encryptedValue);
+
 
   default CharSequence encrypt(CharSequence input) {
     return encrypt(input, Rope::new);
@@ -31,6 +33,7 @@ public interface EncryptionService {
   default CharSequence decrypt(CharSequence input) {
     return decrypt(input, Rope::new);
   }
+
 
   SecretKey generatePassword(CharSequence input);
 }

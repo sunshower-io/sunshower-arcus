@@ -11,6 +11,7 @@ import io.sunshower.persistence.id.Sequence;
 import java.util.List;
 import lombok.NonNull;
 
+@SuppressWarnings("PMD")
 public class DefaultVault implements Vault {
 
   static final Sequence<Identifier> idSequence;
@@ -90,6 +91,12 @@ public class DefaultVault implements Vault {
   public Identifier addSecret(Secret secret) {
     check();
     return delegate.addSecret(secret);
+  }
+
+  @Override
+  public boolean deleteSecret(Identifier id) {
+    check();
+    return delegate.deleteSecret(id);
   }
 
   @Override

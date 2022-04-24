@@ -19,14 +19,17 @@ import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import lombok.Data;
 import lombok.NonNull;
 import lombok.SneakyThrows;
 import lombok.val;
@@ -34,12 +37,14 @@ import lombok.val;
 @SuppressWarnings("PMD")
 public class FileBackedVaultManager extends AbstractVaultManager implements VaultManager {
 
+  public static final int DEFAULT_SALT_SIZE = 64;
+  public static final int INITIALIZATION_VECTOR_SIZE = 16;
   private final Object lock = new Object();
 
   private final File directory;
   private final Encoding encoding;
   private final Condensation condensation;
-  private final Map<Identifier, VaultDescriptor> openVaults;
+  private final Map<Identifier, DescriptorPair> openVaults;
   private final EncryptionServiceFactory encryptionServiceFactory;
 
   public FileBackedVaultManager(
@@ -93,7 +98,7 @@ public class FileBackedVaultManager extends AbstractVaultManager implements Vaul
     val open = openVaults.values();
     val results = new ArrayList<Vault>(open.size());
     for (val o : open) {
-      results.add(vaultFrom(o));
+      results.add(vaultFrom(o.descriptor));
     }
     return results;
   }
@@ -129,24 +134,34 @@ public class FileBackedVaultManager extends AbstractVaultManager implements Vaul
   }
 
   @Override
-  public Vault addSecret(Vault vault, Secret secret) {
-    if (!(vault instanceof SerializedVault)) {
-      throw new IllegalArgumentException("Bad use");
+  @SneakyThrows
+  public boolean deleteVault(Vault vault, CharSequence password) {
+    unlock(vault.getId(), password);
+    val vaultDescriptor = getOpenVault(vault.getId());
+    try {
+      Files.delete(new File(directory, vaultDescriptor.getVaultPath()).toPath());
+    } finally {
+      Files.delete(locate(vault.getId()).toPath());
     }
-    val svault = ((SerializedVault) vault);
+    return openVaults.remove(vault.getId()) != null;
+  }
 
-    lock(svault);
-    return unlock(svault.getId(), svault.getPassword());
+  /**
+   * since we just serialize the vault back out to the file-system, writing its secrets at that
+   * time, we just need to flush this manager
+   *
+   * @param vault
+   * @param secret
+   * @return
+   */
+  @Override
+  public Vault addSecret(Vault vault, Secret secret) {
+    return flush(vault);
   }
 
   @Override
   public Vault addSecrets(Vault vault, Collection<? extends Secret> secrets) {
-    if (!(vault instanceof SerializedVault)) {
-      throw new IllegalArgumentException("Bad use");
-    }
-    val svault = ((SerializedVault) vault);
-    lock(svault);
-    return unlock(svault.getId(), svault.getPassword());
+    return flush(vault);
   }
 
   @Override
@@ -156,8 +171,8 @@ public class FileBackedVaultManager extends AbstractVaultManager implements Vaul
     }
 
     val svault = (SerializedVault) vault;
-    val salt = generateRandom(64);
-    val initializationVector = generateRandom(16);
+    val salt = generateRandom(DEFAULT_SALT_SIZE);
+    val initializationVector = generateRandom(INITIALIZATION_VECTOR_SIZE);
     val service =
         encryptionServiceFactory.create(
             encoding.encode(salt), encoding.encode(initializationVector), svault.getPassword());
@@ -186,7 +201,24 @@ public class FileBackedVaultManager extends AbstractVaultManager implements Vaul
   }
 
   @Override
-  public void close() throws Exception {}
+  @SneakyThrows
+  public Vault flush(Vault vault) {
+    if (!(vault instanceof SerializedVault)) {
+      throw new IllegalArgumentException("Bad use");
+    }
+    val svault = ((SerializedVault) vault);
+    lock(svault);
+    return unlock(svault.getId(), svault.getPassword());
+  }
+
+
+  @Override
+  public void close() throws Exception {
+    for (val open : Collections.unmodifiableMap(openVaults).values()) {
+      lock(open.vault);
+    }
+    this.openVaults.clear();
+  }
 
   @SneakyThrows
   private VaultDescriptor readVaultDescriptor(File vaultFile) {
@@ -258,7 +290,7 @@ public class FileBackedVaultManager extends AbstractVaultManager implements Vaul
     if (result == null) {
       throw new NoSuchVaultException("No vault opened with id: '%s'".formatted(id));
     }
-    return result;
+    return result.getDescriptor();
   }
 
   @SneakyThrows
@@ -313,11 +345,18 @@ public class FileBackedVaultManager extends AbstractVaultManager implements Vaul
     serializedVault.setPassword(password);
     serializedVault.setDescriptor(vaultDescriptor);
     serializedVault.setVaultManager(this);
-    openVaults.put(serializedVault.getId(), vaultDescriptor);
+    openVaults.put(serializedVault.getId(), new DescriptorPair(serializedVault, vaultDescriptor));
     return serializedVault;
   }
 
   private boolean isJson(CharSequence plaintextContext) {
     return plaintextContext.toString().startsWith("{\"id\":");
+  }
+
+  @Data
+  static final class DescriptorPair {
+
+    final Vault vault;
+    final VaultDescriptor descriptor;
   }
 }

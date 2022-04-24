@@ -2,6 +2,7 @@ package io.sunshower.crypt.vault;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import io.sunshower.arcus.condensation.Condensation;
 import io.sunshower.crypt.JCAPasswordEncryptionService;
@@ -93,6 +94,36 @@ class FileBackedVaultManagerTest {
     val secret = (StringSecret) result.getSecret(id);
     assertEquals(secret.getDescription(), "Just a secret with a description");
     assertEquals(secret.getMaterial(), material);
+  }
+
+
+  @Test
+  void ensureDeletingVaultWorks() {
+    var result = manager.addVault(vault, password);
+    val id =
+        result.addSecret(
+            new StringSecret(
+                "This is a cool secret", "Just a secret with a description", material));
+    assertEquals(1, result.getSecrets().size());
+    assertTrue(manager.deleteVault(result, password));
+    assertThrows(NoSuchVaultException.class, () -> {
+      manager.unlock(result.getId(), password);
+    });
+
+
+  }
+
+  @Test
+  void ensureDeletingSecretWorks() {
+    var result = manager.addVault(vault, password);
+    val id =
+        result.addSecret(
+            new StringSecret(
+                "This is a cool secret", "Just a secret with a description", material));
+    assertEquals(1, result.getSecrets().size());
+    assertTrue(result.deleteSecret(id));
+    result = manager.unlock(vault.getId(), password);
+    assertEquals(0, result.getSecrets().size());
   }
 
   @Test
