@@ -31,6 +31,7 @@ import lombok.NonNull;
 import lombok.SneakyThrows;
 import lombok.val;
 
+@SuppressWarnings("PMD")
 public class FileBackedVaultManager extends AbstractVaultManager implements VaultManager {
 
   private final Object lock = new Object();

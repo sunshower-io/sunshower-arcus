@@ -32,6 +32,7 @@ import lombok.NonNull;
 import lombok.SneakyThrows;
 import lombok.val;
 
+@SuppressWarnings("PMD")
 public class JCAPasswordEncryptionService implements EncryptionService {
 
   /** default key length */
