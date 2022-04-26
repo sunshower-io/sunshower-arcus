@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import io.sunshower.arcus.condensation.Condensation;
 import io.sunshower.crypt.JCAPasswordEncryptionService;
+import io.sunshower.crypt.core.LockedVaultException;
+import io.sunshower.crypt.core.NoSuchVaultException;
 import io.sunshower.crypt.secrets.StringSecret;
 import io.sunshower.lang.primitives.Rope;
 import io.sunshower.test.common.Tests;

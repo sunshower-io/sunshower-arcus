@@ -6,6 +6,7 @@ import io.sunshower.crypt.core.DecryptedValue;
 import io.sunshower.crypt.core.EncryptedValue;
 import io.sunshower.crypt.core.EncryptionService;
 import io.sunshower.crypt.core.EncryptionServiceFactory;
+import io.sunshower.crypt.core.NoSuchVaultException;
 import io.sunshower.crypt.core.Secret;
 import io.sunshower.crypt.core.Vault;
 import io.sunshower.crypt.core.VaultManager;

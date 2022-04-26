@@ -1,4 +1,4 @@
-package io.sunshower.crypt.vault;
+package io.sunshower.crypt.core;
 
 public class VaultException extends RuntimeException {
 

@@ -35,29 +35,39 @@ import lombok.val;
 @SuppressWarnings("PMD")
 public class JCAPasswordEncryptionService implements EncryptionService {
 
-  /** default key length */
+  /**
+   * default key length
+   */
   public static final int DEFAULT_LENGTH = 256;
-  /** default number of rounds */
+  /**
+   * default number of rounds
+   */
   public static final int DEFAULT_ROUNDS = 65_536;
 
   public static final String AES_CTR_NO_PADDING = "AES/CTR/NoPadding";
-  /** the salt for this service */
+  final Charset charset = StandardCharsets.UTF_8;
+  /**
+   * the salt for this service
+   */
   private final CharSequence salt;
-  /** the algorithm for this service */
+  /**
+   * the algorithm for this service
+   */
   private final String algorithm;
-  /** the password for this service. Probably better to not use a string */
   private final int size;
-
   private final int rounds;
+  /**
+   * the password for this service. Probably better to not use a string
+   */
   private final CharSequence password;
   private final Object lock;
-  /** the encoding to use--base58, base64, etc. */
+  /**
+   * the encoding to use--base58, base64, etc.
+   */
   private final Encoding encoding;
-
   private volatile SecretKey key;
   private volatile IvParameterSpec initializationVector;
 
-  final Charset charset = StandardCharsets.UTF_8;
   {
     lock = new Object();
   }
@@ -78,10 +88,6 @@ public class JCAPasswordEncryptionService implements EncryptionService {
     this.key = generatePassword(password);
   }
 
-  private byte[] bytesFor(CharSequence sequence) {
-    return StandardCharsets.UTF_8.encode(CharBuffer.wrap(sequence)).array();
-  }
-
   public JCAPasswordEncryptionService(Encoding encoding, CharSequence salt, CharSequence password) {
     this(DEFAULT_ROUNDS, DEFAULT_LENGTH, salt, "PBKDF2WithHmacSHA256", encoding, password);
   }
@@ -97,6 +103,10 @@ public class JCAPasswordEncryptionService implements EncryptionService {
     val service = new JCAPasswordEncryptionService(value.getEncoding(), decodedSalt, password);
     service.initializationVector = new IvParameterSpec(decodedInitializationVector);
     return service;
+  }
+
+  private byte[] bytesFor(CharSequence sequence) {
+    return StandardCharsets.UTF_8.encode(CharBuffer.wrap(sequence)).array();
   }
 
   @Override

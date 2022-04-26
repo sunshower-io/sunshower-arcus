@@ -5,6 +5,7 @@ import io.sunshower.arcus.condensation.Element;
 import io.sunshower.arcus.condensation.RootElement;
 import io.sunshower.crypt.core.DecryptedValue;
 import io.sunshower.crypt.core.EncryptedValue;
+import io.sunshower.crypt.core.LockedVaultException;
 import io.sunshower.crypt.core.Secret;
 import io.sunshower.crypt.core.Vault;
 import io.sunshower.crypt.core.VaultManager;
