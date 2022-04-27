@@ -1,13 +1,10 @@
 package io.sunshower.crypt.core;
 
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ExecutorService;
+import java.util.Queue;
 
 public interface LeaseReaper {
 
-  ExecutorService getExecutorService();
+  Queue<Lease<?>> getReapedLeases();
 
-
-  BlockingQueue<Lease<?>> getOutstandingLeases();
-
+  boolean schedule(Lease<?> lease);
 }

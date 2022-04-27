@@ -33,7 +33,7 @@ import lombok.SneakyThrows;
 import lombok.val;
 
 @SuppressWarnings("PMD")
-public class JCAPasswordEncryptionService implements EncryptionService {
+public class JCAEncryptionService implements EncryptionService {
 
   /**
    * default key length
@@ -72,7 +72,7 @@ public class JCAPasswordEncryptionService implements EncryptionService {
     lock = new Object();
   }
 
-  public JCAPasswordEncryptionService(
+  public JCAEncryptionService(
       int rounds,
       int size,
       @NonNull final CharSequence salt,
@@ -88,11 +88,11 @@ public class JCAPasswordEncryptionService implements EncryptionService {
     this.key = generatePassword(password);
   }
 
-  public JCAPasswordEncryptionService(Encoding encoding, CharSequence salt, CharSequence password) {
+  public JCAEncryptionService(Encoding encoding, CharSequence salt, CharSequence password) {
     this(DEFAULT_ROUNDS, DEFAULT_LENGTH, salt, "PBKDF2WithHmacSHA256", encoding, password);
   }
 
-  public JCAPasswordEncryptionService(CharSequence salt, CharSequence password) {
+  public JCAEncryptionService(CharSequence salt, CharSequence password) {
     this(Encodings.create(Type.Base58), salt, password);
   }
 
@@ -100,7 +100,7 @@ public class JCAPasswordEncryptionService implements EncryptionService {
     val encoding = value.getEncoding();
     val decodedSalt = new String(encoding.decode(value.getSalt()));
     val decodedInitializationVector = encoding.decode(value.getInitializationVector());
-    val service = new JCAPasswordEncryptionService(value.getEncoding(), decodedSalt, password);
+    val service = new JCAEncryptionService(value.getEncoding(), decodedSalt, password);
     service.initializationVector = new IvParameterSpec(decodedInitializationVector);
     return service;
   }
@@ -215,7 +215,7 @@ public class JCAPasswordEncryptionService implements EncryptionService {
   @Override
   @SneakyThrows
   public DecryptedValue decryptText(EncryptedValue encryptedValue) {
-    val service = (JCAPasswordEncryptionService) serviceFrom(encryptedValue, password);
+    val service = (JCAEncryptionService) serviceFrom(encryptedValue, password);
     service.key = this.key;
     val plaintext = service.decrypt(new Rope(encryptedValue.getCipherText()));
     return new DefaultDecryptedValue(plaintext);

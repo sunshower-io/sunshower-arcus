@@ -21,6 +21,7 @@ import lombok.Setter;
 import lombok.val;
 
 @RootElement
+@SuppressWarnings("PMD")
 public class SerializedVault implements Vault {
 
   @Attribute private Identifier id;

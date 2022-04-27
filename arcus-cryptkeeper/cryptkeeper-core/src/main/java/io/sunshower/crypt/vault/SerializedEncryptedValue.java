@@ -8,37 +8,48 @@ import io.sunshower.crypt.core.EncryptedValue;
 import io.sunshower.lang.common.encodings.Encoding;
 import io.sunshower.lang.common.encodings.Encodings;
 import io.sunshower.lang.common.encodings.Encodings.Type;
+import io.sunshower.persistence.id.Identifier;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import lombok.NonNull;
 import lombok.SneakyThrows;
 import lombok.val;
 
+@SuppressWarnings("PMD")
 @RootElement
 public class SerializedEncryptedValue implements EncryptedValue {
 
-  @Attribute private String name;
+  @Attribute
+  private Identifier id;
 
-  @Attribute private String description;
+  @Attribute
+  private String name;
+
+  @Attribute
+  private String description;
 
   @Element(alias = @Alias(read = "cipher-text", write = "cipher-text"))
-  private String cypherText;
+  private String ciphertext;
 
-  @Element private String salt;
+  @Element
+  private String salt;
 
   @Element(alias = @Alias(read = "initialization-vector", write = "initialization-vector"))
   private String initializationVector;
 
   @SneakyThrows
   public SerializedEncryptedValue(EncryptedValue encryptedValue) {
+    setId(encryptedValue.getId());
     setName(encryptedValue.getName());
     setDescription(encryptedValue.getDescription());
     this.salt = encryptedValue.getSalt().toString();
     this.initializationVector = encryptedValue.getInitializationVector().toString();
-    this.cypherText = encryptedValue.getCipherText().toString();
+    this.ciphertext = encryptedValue.getCipherText().toString();
   }
 
-  public SerializedEncryptedValue() {}
+  public SerializedEncryptedValue() {
+  }
 
   @Override
   public String getName() {
@@ -67,7 +78,7 @@ public class SerializedEncryptedValue implements EncryptedValue {
 
   @Override
   public void readCipherText(OutputStream outputStream) throws IOException {
-    val encoded = getEncoding().encode(cypherText.getBytes(StandardCharsets.UTF_8));
+    val encoded = getEncoding().encode(ciphertext.getBytes(StandardCharsets.UTF_8));
     outputStream.write(encoded.getBytes(StandardCharsets.UTF_8));
   }
 
@@ -79,5 +90,13 @@ public class SerializedEncryptedValue implements EncryptedValue {
   @Override
   public CharSequence getInitializationVector() {
     return initializationVector;
+  }
+
+  public Identifier getId() {
+    return id;
+  }
+
+  public void setId(@NonNull Identifier id) {
+    this.id = id;
   }
 }

@@ -1,5 +1,3 @@
 package io.sunshower.crypt.core;
 
-public class LeaseExpiredException extends VaultException {
-
-}
+public class LeaseExpiredException extends VaultException {}

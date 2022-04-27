@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import io.sunshower.arcus.condensation.Condensation;
-import io.sunshower.crypt.JCAPasswordEncryptionService;
+import io.sunshower.crypt.JCAEncryptionService;
 import io.sunshower.crypt.core.LockedVaultException;
 import io.sunshower.crypt.core.NoSuchVaultException;
 import io.sunshower.crypt.secrets.StringSecret;
@@ -20,10 +20,10 @@ import org.junit.jupiter.api.Test;
 class FileBackedVaultManagerTest {
 
   private File root;
-  private FileBackedVaultManager manager;
-  private DefaultVault vault;
   private Rope password;
   private String material;
+  private DefaultVault vault;
+  private FileBackedVaultManager manager;
 
   @BeforeEach
   void setUp() {
@@ -33,7 +33,7 @@ class FileBackedVaultManagerTest {
             root,
             Condensation.create("json"),
             (salt, initializationVector, password, encoding) -> {
-              val service = new JCAPasswordEncryptionService(encoding, salt, password);
+              val service = new JCAEncryptionService(encoding, salt, password);
               service.setInitializationVector(initializationVector);
               return service;
             });
@@ -61,9 +61,7 @@ class FileBackedVaultManagerTest {
     v.close();
     assertThrows(
         LockedVaultException.class,
-        () -> {
-          v.getSecrets();
-        });
+        v::getSecrets);
   }
 
   @Test

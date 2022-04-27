@@ -9,7 +9,7 @@ import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class JCAPasswordEncryptionServiceTest {
+class JCAEncryptionServiceTest {
 
   private String salt;
   private String password;
@@ -20,7 +20,7 @@ class JCAPasswordEncryptionServiceTest {
   void setUp() {
     salt = "hello world";
     password = "How are you";
-    encryptionService = new JCAPasswordEncryptionService(salt, password);
+    encryptionService = new JCAEncryptionService(salt, password);
     plaintext = "whaddup";
   }
 
