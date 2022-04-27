@@ -11,7 +11,7 @@ final class DefaultLeaseRequest implements LeaseRequest {
 
   DefaultLeaseRequest(final CharSequence password, final int duration, final TimeUnit unit) {
     this.password = password;
-    this.expiration = new Date(unit.toMicros(duration));
+    this.expiration = new Date(unit.toMillis(duration));
   }
 
   @Override

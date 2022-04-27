@@ -1,8 +1,7 @@
 package io.sunshower.crypt.vault;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.sunshower.arcus.condensation.Condensation;
-import io.sunshower.crypt.DefaultEncryptedValue;
-import io.sunshower.crypt.core.DecryptedValue;
 import io.sunshower.crypt.core.EncryptedValue;
 import io.sunshower.crypt.core.EncryptionService;
 import io.sunshower.crypt.core.EncryptionServiceFactory;
@@ -10,25 +9,16 @@ import io.sunshower.crypt.core.NoSuchVaultException;
 import io.sunshower.crypt.core.Secret;
 import io.sunshower.crypt.core.Vault;
 import io.sunshower.crypt.core.VaultManager;
-import io.sunshower.lang.common.encodings.Encoding;
-import io.sunshower.lang.common.encodings.Encodings;
-import io.sunshower.lang.common.encodings.Encodings.Type;
 import io.sunshower.persistence.id.Identifier;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
-import java.security.SecureRandom;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.UUID;
-import java.util.logging.Level;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.SneakyThrows;
@@ -36,28 +26,18 @@ import lombok.extern.java.Log;
 import lombok.val;
 
 @Log
+@SuppressFBWarnings
 @SuppressWarnings("PMD")
 public class FileBackedVaultManager extends AbstractVaultManager implements VaultManager {
 
-  public static final int DEFAULT_SALT_SIZE = 64;
-  public static final int INITIALIZATION_VECTOR_SIZE = 16;
-  private final Object lock = new Object();
-
   private final File directory;
-  private final Encoding encoding;
-  private final Condensation condensation;
-  private final Map<Identifier, DescriptorPair> openVaults;
-  private final EncryptionServiceFactory encryptionServiceFactory;
 
   public FileBackedVaultManager(
       @NonNull final File directory,
       @NonNull final Condensation condensation,
       @NonNull EncryptionServiceFactory encryptionServiceFactory) {
+    super(encryptionServiceFactory, condensation);
     this.directory = directory;
-    this.condensation = condensation;
-    this.encoding = Encodings.create(Type.Base58);
-    this.openVaults = new HashMap<>();
-    this.encryptionServiceFactory = encryptionServiceFactory;
     validate();
   }
 
@@ -70,42 +50,6 @@ public class FileBackedVaultManager extends AbstractVaultManager implements Vaul
           encryptionServiceFactory.create(
               vaultDescriptor.getSalt(), vaultDescriptor.getInitializationVector(), password);
       return readVault(vaultDescriptor, encryptionService, password);
-    }
-  }
-
-  @Override
-  public void lock(Vault vault) {
-    synchronized (lock) {
-      log.log(Level.INFO, "Locking vault {0}", vault);
-      val vaultDescriptor = getOpenVault(vault.getId());
-      val encryptionService =
-          encryptionServiceFactory.create(
-              vaultDescriptor.getSalt(),
-              vaultDescriptor.getInitializationVector(),
-              ((SerializedVault) vault).getPassword());
-      encryptAndClose(vault, vaultDescriptor, encryptionService);
-      openVaults.remove(vault.getId());
-      log.log(Level.INFO, "Vault {0} locked", vault);
-    }
-  }
-
-  @Override
-  protected DecryptedValue decrypt(EncryptedValue secret, CharSequence password) {
-    val service =
-        encryptionServiceFactory.create(
-            secret.getSalt(), secret.getInitializationVector(), password);
-    return service.decryptText(secret);
-  }
-
-  @Override
-  public List<Vault> getOpenVaults() {
-    synchronized (lock) {
-      val open = openVaults.values();
-      val results = new ArrayList<Vault>(open.size());
-      for (val o : open) {
-        results.add(vaultFrom(o.descriptor));
-      }
-      return results;
     }
   }
 
@@ -175,27 +119,6 @@ public class FileBackedVaultManager extends AbstractVaultManager implements Vaul
   }
 
   @Override
-  public EncryptedValue encrypt(Vault vault, Secret secret) {
-    if (!(vault instanceof SerializedVault)) {
-      throw new IllegalArgumentException("Bad use");
-    }
-
-    val svault = (SerializedVault) vault;
-    val salt = generateRandom(DEFAULT_SALT_SIZE);
-    val initializationVector = generateRandom(INITIALIZATION_VECTOR_SIZE);
-    val service =
-        encryptionServiceFactory.create(
-            encoding.encode(salt), encoding.encode(initializationVector), svault.getPassword());
-
-    val bytes =
-        new ByteArrayInputStream(encoding.encode(service.encryptToBytes(secret)).getBytes());
-    val value = new DefaultEncryptedValue(bytes, salt, initializationVector);
-    value.setName(secret.getName().toString());
-    value.setDescription(secret.getDescription().toString());
-    return value;
-  }
-
-  @Override
   @SneakyThrows
   public <T extends Secret> T decrypt(Vault owner, EncryptedValue encryptedValue) {
     if ((!(owner instanceof SerializedVault))) {
@@ -220,7 +143,6 @@ public class FileBackedVaultManager extends AbstractVaultManager implements Vaul
     lock(svault);
     return unlock(svault.getId(), svault.getPassword());
   }
-
 
   @Override
   public void close() {
@@ -283,21 +205,8 @@ public class FileBackedVaultManager extends AbstractVaultManager implements Vaul
     }
   }
 
-  @SneakyThrows
-  private byte[] generateRandom(int i) {
-    val bytes = new byte[i];
-    val instance = SecureRandom.getInstance("SHA1PRNG");
-    instance.nextBytes(bytes);
-    return bytes;
-  }
-
-  private Vault vaultFrom(VaultDescriptor o) {
-    val vault = new DefaultVault();
-
-    return vault;
-  }
-
-  private VaultDescriptor getOpenVault(Identifier id) {
+  @Override
+  protected VaultDescriptor getOpenVault(Identifier id) {
     synchronized (lock) {
       val result = openVaults.get(id);
       if (result == null) {
@@ -307,8 +216,9 @@ public class FileBackedVaultManager extends AbstractVaultManager implements Vaul
     }
   }
 
+  @Override
   @SneakyThrows
-  private void encryptAndClose(
+  protected void encryptAndClose(
       Vault vault, VaultDescriptor vaultDescriptor, EncryptionService encryptionService) {
 
     synchronized (lock) {
@@ -375,12 +285,7 @@ public class FileBackedVaultManager extends AbstractVaultManager implements Vaul
 
   @Override
   public String toString() {
-    return "Vault Manager{\n"
-           + "provider: File\n"
-           + "root directory: " + directory + "\n"
-           + "}";
-
-
+    return "Vault Manager{\n" + "provider: File\n" + "root directory: " + directory + "\n" + "}";
   }
 
   @Data

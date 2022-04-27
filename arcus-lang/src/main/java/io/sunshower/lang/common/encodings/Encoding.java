@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /** Created by haswell on 7/17/17. */
 public interface Encoding {
@@ -37,7 +38,7 @@ public interface Encoding {
    * @throws IOException if an exception is encountered
    */
   default void encode(InputStream inputStream, OutputStream outputStream) throws IOException {
-    encode(inputStream, outputStream, Charset.defaultCharset());
+    encode(inputStream, outputStream, StandardCharsets.UTF_8);
   }
 
   /**
@@ -59,7 +60,7 @@ public interface Encoding {
    * @throws IOException if an exception is encountered
    */
   default void decode(InputStream inputStream, OutputStream outputStream) throws IOException {
-    decode(inputStream, outputStream, Charset.defaultCharset());
+    decode(inputStream, outputStream, StandardCharsets.UTF_8);
   }
 
   /**
@@ -96,7 +97,7 @@ public interface Encoding {
   byte[] decode(CharSequence input, Charset charset);
 
   default byte[] decode(CharSequence input) {
-    return decode(input, Charset.defaultCharset());
+    return decode(input, StandardCharsets.UTF_8);
   }
 
   /**
@@ -108,7 +109,7 @@ public interface Encoding {
   byte[] decode(char[] input, Charset charset);
 
   default byte[] decode(char[] input) {
-    return decode(input, Charset.defaultCharset());
+    return decode(input, StandardCharsets.UTF_8);
   }
 
   /**
@@ -134,12 +135,12 @@ public interface Encoding {
   Rope encode(Rope input, Charset charset);
 
   default Rope encode(Rope input) {
-    return encode(input, Charset.defaultCharset());
+    return encode(input, StandardCharsets.UTF_8);
   }
 
   Rope decode(Rope value, Charset charset);
 
   default Rope decode(Rope value) {
-    return decode(value, Charset.defaultCharset());
+    return decode(value, StandardCharsets.UTF_8);
   }
 }

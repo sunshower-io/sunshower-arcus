@@ -34,7 +34,7 @@ class DefaultSecretServiceTest {
   void setUp(@TempDir File tempdir) {
     service = new DefaultSecretService(tempdir);
     secret = new StringSecret("hello", "world", "material");
-    leaseRequest = Leases.forPassword("password!").expiresIn(100, TimeUnit.MILLISECONDS);
+    leaseRequest = Leases.forPassword("password!").expiresIn(1, TimeUnit.MILLISECONDS);
     vault = new DefaultVault("test vault", "just the coolest vault");
   }
 
@@ -51,8 +51,7 @@ class DefaultSecretServiceTest {
       vault = new DefaultVault("test vault" + i, "just the coolest vault");
       ids.add(service.add(vault, "password!"));
       val vault =
-          service.lease(
-              ids.get(i), Leases.forPassword("password!").expiresIn(10, TimeUnit.MILLISECONDS));
+          service.lease(ids.get(i), Leases.forPassword("password!").expiresIn(100, TimeUnit.DAYS));
       vault.save(secret);
       assertEquals(1, vault.list().size());
     }
@@ -64,11 +63,7 @@ class DefaultSecretServiceTest {
     val id = service.add(vault, "password!");
     val lease = service.lease(id, leaseRequest);
     assertTrue(lease.list().isEmpty());
-    Thread.sleep(TimeUnit.MILLISECONDS.toMillis(1000));
-    assertThrows(
-        LockedVaultException.class,
-        () -> {
-          lease.list();
-        });
+    Thread.sleep(1000);
+    assertThrows(LockedVaultException.class, lease::list);
   }
 }

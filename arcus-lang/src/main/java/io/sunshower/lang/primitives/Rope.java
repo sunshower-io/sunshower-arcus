@@ -7,6 +7,7 @@ import static java.util.Arrays.copyOfRange;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.nio.CharBuffer;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.function.Consumer;
@@ -43,7 +44,7 @@ public final class Rope implements CharSequence, Comparable<CharSequence>, Itera
    */
   @SuppressFBWarnings
   public Rope(@NonNull byte[] bytes) {
-    this(bytes, Charset.defaultCharset());
+    this(bytes, StandardCharsets.UTF_8);
   }
 
   /**
@@ -57,7 +58,7 @@ public final class Rope implements CharSequence, Comparable<CharSequence>, Itera
   }
 
   public Rope(byte[] bytes, int from, int length) {
-    this(bytes, from, length, Charset.defaultCharset());
+    this(bytes, from, length, StandardCharsets.UTF_8);
   }
 
   public Rope(byte[] bytes, int from, int length, Charset charset) {
@@ -98,7 +99,7 @@ public final class Rope implements CharSequence, Comparable<CharSequence>, Itera
    */
   @SuppressFBWarnings
   public Rope(String s) {
-    this(s.getBytes(), Charset.defaultCharset());
+    this(s.getBytes(), StandardCharsets.UTF_8);
   }
 
   /**
