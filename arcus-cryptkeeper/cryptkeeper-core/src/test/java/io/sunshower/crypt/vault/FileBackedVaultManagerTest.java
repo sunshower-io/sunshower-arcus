@@ -10,12 +10,12 @@ import io.sunshower.crypt.core.LockedVaultException;
 import io.sunshower.crypt.core.NoSuchVaultException;
 import io.sunshower.crypt.secrets.StringSecret;
 import io.sunshower.lang.primitives.Rope;
-import io.sunshower.test.common.Tests;
 import java.io.File;
 import lombok.SneakyThrows;
 import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 class FileBackedVaultManagerTest {
 
@@ -26,8 +26,7 @@ class FileBackedVaultManagerTest {
   private FileBackedVaultManager manager;
 
   @BeforeEach
-  void setUp() {
-    root = Tests.createTemp();
+  void setUp(@TempDir File root) {
     manager =
         new FileBackedVaultManager(
             root,

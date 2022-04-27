@@ -1,6 +1,7 @@
 package io.sunshower.crypt.vault;
 
 import io.sunshower.arcus.condensation.Attribute;
+import io.sunshower.arcus.condensation.Convert;
 import io.sunshower.arcus.condensation.Element;
 import io.sunshower.arcus.condensation.RootElement;
 import io.sunshower.crypt.core.DecryptedValue;
@@ -15,25 +16,35 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.val;
 
 @RootElement
+@ToString(exclude = "password")
+@EqualsAndHashCode(exclude = "password")
 @SuppressWarnings("PMD")
 public class SerializedVault implements Vault {
 
-  @Attribute private Identifier id;
+  @Attribute
+  @Convert(IdentifierConverter.class)
+  private Identifier id;
 
-  @Getter @Setter private transient CharSequence password;
+  @Getter
+  @Setter
+  private transient CharSequence password;
 
   private transient boolean closed;
   private transient VaultManager vaultManager;
   private transient VaultDescriptor vaultDescriptor;
 
-  @Element private String icon;
-  @Element private Map<Identifier, SerializedEncryptedValue> encryptedValues;
+  @Element
+  private String icon;
+  @Element
+  private Map<Identifier, SerializedEncryptedValue> encryptedValues;
 
   public SerializedVault() {
     this(Identifiers.newSequence().next());

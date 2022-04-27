@@ -1,6 +1,7 @@
 package io.sunshower.crypt.vault;
 
 import io.sunshower.arcus.condensation.Attribute;
+import io.sunshower.arcus.condensation.Convert;
 import io.sunshower.arcus.condensation.RootElement;
 import io.sunshower.persistence.id.Identifier;
 import lombok.EqualsAndHashCode;
@@ -11,6 +12,7 @@ import lombok.ToString;
 @EqualsAndHashCode
 public class VaultDescriptor {
 
+  @Convert(IdentifierConverter.class)
   @Attribute private Identifier id;
 
   @Attribute private String icon;

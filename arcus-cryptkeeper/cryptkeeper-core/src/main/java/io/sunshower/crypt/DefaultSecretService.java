@@ -248,7 +248,8 @@ public class DefaultSecretService implements SecretService {
               if (closed.get()) {
                 throw new VaultException("Secret closed");
               }
-              return request.getExpiration();
+              return new Date(date.getTime() + request.getExpiration().getTime());
+//              return new Date(date.)
             }
 
             @Override
@@ -305,7 +306,7 @@ public class DefaultSecretService implements SecretService {
           if (vaultClosed.get()) {
             throw new VaultException("Vault closed");
           }
-          return request.getExpiration();
+          return new Date(date.getTime() + request.getExpiration().getTime());
         }
 
         @Override

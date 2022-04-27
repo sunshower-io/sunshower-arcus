@@ -29,11 +29,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.logging.Level;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.SneakyThrows;
+import lombok.extern.java.Log;
 import lombok.val;
 
+@Log
 @SuppressWarnings("PMD")
 public class FileBackedVaultManager extends AbstractVaultManager implements VaultManager {
 
@@ -74,6 +77,7 @@ public class FileBackedVaultManager extends AbstractVaultManager implements Vaul
   @Override
   public void lock(Vault vault) {
     synchronized (lock) {
+      log.log(Level.INFO, "Locking vault {0}", vault);
       val vaultDescriptor = getOpenVault(vault.getId());
       val encryptionService =
           encryptionServiceFactory.create(
@@ -82,6 +86,7 @@ public class FileBackedVaultManager extends AbstractVaultManager implements Vaul
               ((SerializedVault) vault).getPassword());
       encryptAndClose(vault, vaultDescriptor, encryptionService);
       openVaults.remove(vault.getId());
+      log.log(Level.INFO, "Vault {0} locked", vault);
     }
   }
 
@@ -220,10 +225,12 @@ public class FileBackedVaultManager extends AbstractVaultManager implements Vaul
 
   @Override
   public void close() {
-    for (val open : Collections.unmodifiableMap(openVaults).values()) {
-      lock(open.vault);
+    synchronized (lock) {
+      for (val open : new HashMap<>(openVaults).values()) {
+        lock(open.vault);
+      }
+      openVaults.clear();
     }
-    this.openVaults.clear();
   }
 
   @SneakyThrows
@@ -292,11 +299,13 @@ public class FileBackedVaultManager extends AbstractVaultManager implements Vaul
   }
 
   private VaultDescriptor getOpenVault(Identifier id) {
-    val result = openVaults.get(id);
-    if (result == null) {
-      throw new NoSuchVaultException("No vault opened with id: '%s'".formatted(id));
+    synchronized (lock) {
+      val result = openVaults.get(id);
+      if (result == null) {
+        throw new NoSuchVaultException("No vault opened with id: '%s'".formatted(id));
+      }
+      return result.getDescriptor();
     }
-    return result.getDescriptor();
   }
 
   @SneakyThrows

@@ -2,6 +2,7 @@ package io.sunshower.crypt.vault;
 
 import io.sunshower.arcus.condensation.Alias;
 import io.sunshower.arcus.condensation.Attribute;
+import io.sunshower.arcus.condensation.Convert;
 import io.sunshower.arcus.condensation.Element;
 import io.sunshower.arcus.condensation.RootElement;
 import io.sunshower.crypt.core.EncryptedValue;
@@ -21,6 +22,7 @@ import lombok.val;
 public class SerializedEncryptedValue implements EncryptedValue {
 
   @Attribute
+  @Convert(IdentifierConverter.class)
   private Identifier id;
 
   @Attribute
