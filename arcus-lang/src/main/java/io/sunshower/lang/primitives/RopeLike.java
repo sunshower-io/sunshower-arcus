@@ -3,6 +3,7 @@ package io.sunshower.lang.primitives;
 import io.sunshower.lang.tuple.Pair;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
@@ -65,7 +66,7 @@ interface RopeLike extends CharSequence, Cloneable, Iterable<RopeLike> {
   Type getType();
 
   default byte[] getBytes() {
-    return getBytes(Charset.defaultCharset());
+    return getBytes(StandardCharsets.UTF_8);
   }
 
   default byte[] getBytes(Charset charset) {

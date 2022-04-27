@@ -1,7 +1,5 @@
 package io.sunshower.lang.primitives;
 
-import static java.util.Arrays.copyOfRange;
-
 import io.sunshower.checks.SuppressFBWarnings;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
@@ -126,13 +124,6 @@ public class Bytes {
   public static char[] getCharacters(byte[] bytes, Charset charset) {
     val result = ByteBuffer.wrap(bytes);
     val rs = charset.decode(result).array();
-    var len = rs.length - 1;
-    while (rs[len] == '\0') {
-      len--;
-    }
-    if (len != rs.length - 1) {
-      return copyOfRange(rs, 0, len);
-    }
     return rs;
   }
 }

@@ -31,5 +31,8 @@ include(
         'arcus-persist:persist-core',
         'arcus-persist:persist-jpa',
         'arcus-persist:persist-hibernate',
+
+        'arcus-cryptkeeper:cryptkeeper-api',
+        'arcus-cryptkeeper:cryptkeeper-core'
 )
 

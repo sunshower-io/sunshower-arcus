@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.BitSet;
 import lombok.val;
@@ -176,7 +177,7 @@ public class Base58 implements Encoding {
 
   @Override
   public String encode(String input) {
-    return encode(input.getBytes(Charset.defaultCharset()));
+    return encode(input.getBytes(StandardCharsets.UTF_8));
   }
 
   @Override
