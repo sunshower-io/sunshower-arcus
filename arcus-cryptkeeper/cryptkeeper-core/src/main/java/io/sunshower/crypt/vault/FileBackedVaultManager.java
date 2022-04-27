@@ -24,7 +24,6 @@ import java.nio.file.StandardOpenOption;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -372,6 +371,16 @@ public class FileBackedVaultManager extends AbstractVaultManager implements Vaul
 
   private boolean isJson(CharSequence plaintextContext) {
     return plaintextContext.toString().startsWith("{\"id\":");
+  }
+
+  @Override
+  public String toString() {
+    return "Vault Manager{\n"
+           + "provider: File\n"
+           + "root directory: " + directory + "\n"
+           + "}";
+
+
   }
 
   @Data

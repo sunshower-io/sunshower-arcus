@@ -5,7 +5,6 @@ import io.sunshower.persistence.id.Identifier;
 
 public class IdentifierConverter implements Converter<Identifier, String> {
 
-
   @Override
   public Identifier read(String s) {
     return Identifier.valueOf(s);

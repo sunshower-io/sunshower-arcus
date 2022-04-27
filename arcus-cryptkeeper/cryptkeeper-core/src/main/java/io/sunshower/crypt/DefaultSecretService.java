@@ -38,9 +38,7 @@ public class DefaultSecretService implements SecretService {
   private final LeaseReaper leaseReaper;
   private final VaultManager vaultManager;
 
-
   private final Map<Identifier, Vault> openVaults;
-
 
   protected DefaultSecretService(@NonNull VaultManager vaultManager) {
     this.vaultManager = vaultManager;
@@ -48,12 +46,12 @@ public class DefaultSecretService implements SecretService {
     this.leaseReaper = new ConcurrentLeaseReaper(this);
   }
 
-
-  public DefaultSecretService(@NonNull final File file, @NonNull Condensation condensation, @NonNull
-      EncryptionServiceFactory factory) {
+  public DefaultSecretService(
+      @NonNull final File file,
+      @NonNull Condensation condensation,
+      @NonNull EncryptionServiceFactory factory) {
     this(new FileBackedVaultManager(file, condensation, factory));
   }
-
 
   public DefaultSecretService(File file, Condensation condensation) {
     this(file, condensation, new DefaultEncryptionServiceFactory());
@@ -63,145 +61,144 @@ public class DefaultSecretService implements SecretService {
     this(root, Condensation.create("json"));
   }
 
-
   @Override
   public SecretCollection list(@NonNull Identifier vaultId, @NonNull LeaseRequest request) {
     val date = new Date();
     val closed = new AtomicBoolean(false);
     val delegate = new ArrayList<Secret>();
     val vault = this.lease(vaultId, request);
-    val lease = new SecretCollection() {
-      @Override
-      public int size() {
-        check(closed);
-        return delegate.size();
-      }
-
-
-      @Override
-      public boolean isEmpty() {
-        check(closed);
-        return delegate.isEmpty();
-      }
-
-      @Override
-      public boolean contains(Object o) {
-        check(closed);
-        return delegate.isEmpty();
-      }
-
-      @Override
-      public Iterator<Secret> iterator() {
-        check(closed);
-        return delegate.iterator();
-      }
-
-      @Override
-      public Object[] toArray() {
-        check(closed);
-        return delegate.toArray();
-      }
-
-      @Override
-      public <T> T[] toArray(T[] ts) {
-        check(closed);
-        return delegate.toArray(ts);
-      }
-
-      @Override
-      public boolean add(Secret secret) {
-        check(closed);
-        val result = delegate.add(secret);
-        vault.save(secret);
-        return result;
-      }
-
-      @Override
-      public boolean remove(Object o) {
-        check(closed);
-        val result = delegate.remove(o);
-        vault.delete(((Secret) o).getId());
-        return result;
-      }
-
-      @Override
-      public boolean containsAll(Collection<?> collection) {
-        boolean contains = true;
-        for (val c : collection) {
-          contains &= contains(c);
-        }
-        return contains;
-      }
-
-      @Override
-      public boolean addAll(Collection<? extends Secret> collection) {
-        boolean contains = true;
-        for (val c : collection) {
-          contains &= add(c);
-        }
-        return contains;
-      }
-
-      @Override
-      public boolean removeAll(Collection<?> collection) {
-        boolean contains = true;
-        for (val c : collection) {
-          contains &= remove(c);
-        }
-        return contains;
-      }
-
-      @Override
-      public boolean retainAll(Collection<?> collection) {
-        boolean contains = true;
-        for (val c : collection) {
-          if (!contains(c)) {
-            contains &= remove(c);
+    val lease =
+        new SecretCollection() {
+          @Override
+          public int size() {
+            check(closed);
+            return delegate.size();
           }
-        }
-        return contains;
-      }
 
-      @Override
-      public void clear() {
-        for (val c : delegate) {
-          remove(c);
-        }
-        delegate.clear();
-      }
+          @Override
+          public boolean isEmpty() {
+            check(closed);
+            return delegate.isEmpty();
+          }
 
-      @Override
-      public boolean closed() {
-        return closed.get();
-      }
+          @Override
+          public boolean contains(Object o) {
+            check(closed);
+            return delegate.isEmpty();
+          }
 
-      @Override
-      public Date getExpiration() {
-        return request.getExpiration();
-      }
+          @Override
+          public Iterator<Secret> iterator() {
+            check(closed);
+            return delegate.iterator();
+          }
 
-      @Override
-      public Date getLeaseDate() {
-        return date;
-      }
+          @Override
+          public Object[] toArray() {
+            check(closed);
+            return delegate.toArray();
+          }
 
-      @Override
-      public SecretCollection get() throws LeaseExpiredException {
-        return this;
-      }
+          @Override
+          public <T> T[] toArray(T[] ts) {
+            check(closed);
+            return delegate.toArray(ts);
+          }
 
-      @Override
-      public void close() {
-        closed.set(true);
-        vault.close();
-      }
+          @Override
+          public boolean add(Secret secret) {
+            check(closed);
+            val result = delegate.add(secret);
+            vault.save(secret);
+            return result;
+          }
 
-      private void check(AtomicBoolean closed) {
-        if (closed.get()) {
-          throw new VaultException("Collection closed!");
-        }
-      }
-    };
+          @Override
+          public boolean remove(Object o) {
+            check(closed);
+            val result = delegate.remove(o);
+            vault.delete(((Secret) o).getId());
+            return result;
+          }
+
+          @Override
+          public boolean containsAll(Collection<?> collection) {
+            boolean contains = true;
+            for (val c : collection) {
+              contains &= contains(c);
+            }
+            return contains;
+          }
+
+          @Override
+          public boolean addAll(Collection<? extends Secret> collection) {
+            boolean contains = true;
+            for (val c : collection) {
+              contains &= add(c);
+            }
+            return contains;
+          }
+
+          @Override
+          public boolean removeAll(Collection<?> collection) {
+            boolean contains = true;
+            for (val c : collection) {
+              contains &= remove(c);
+            }
+            return contains;
+          }
+
+          @Override
+          public boolean retainAll(Collection<?> collection) {
+            boolean contains = true;
+            for (val c : collection) {
+              if (!contains(c)) {
+                contains &= remove(c);
+              }
+            }
+            return contains;
+          }
+
+          @Override
+          public void clear() {
+            for (val c : delegate) {
+              remove(c);
+            }
+            delegate.clear();
+          }
+
+          @Override
+          public boolean closed() {
+            return closed.get();
+          }
+
+          @Override
+          public Date getExpiration() {
+            return request.getExpiration();
+          }
+
+          @Override
+          public Date getLeaseDate() {
+            return date;
+          }
+
+          @Override
+          public SecretCollection get() throws LeaseExpiredException {
+            return this;
+          }
+
+          @Override
+          public void close() {
+            closed.set(true);
+            vault.close();
+          }
+
+          private void check(AtomicBoolean closed) {
+            if (closed.get()) {
+              throw new VaultException("Collection closed!");
+            }
+          }
+        };
     leaseReaper.schedule(lease);
     return lease;
   }
@@ -217,123 +214,129 @@ public class DefaultSecretService implements SecretService {
       val vault = new AtomicReference<>(vaultManager.unlock(identifier, request.password()));
       val date = new Date();
       val vaultClosed = new AtomicBoolean(false);
-      val lease = new VaultLease() {
-        @Override
-        public List<Secret> list() {
-          return vault.get().getSecrets().stream().map(secret -> new Secret() {
+      val lease =
+          new VaultLease() {
             @Override
-            public CharSequence getName() {
-              return secret.getName();
+            public List<Secret> list() {
+              return vault.get().getSecrets().stream()
+                  .map(
+                      secret ->
+                          new Secret() {
+                            @Override
+                            public CharSequence getName() {
+                              return secret.getName();
+                            }
+
+                            @Override
+                            public CharSequence getDescription() {
+                              return secret.getDescription();
+                            }
+
+                            @Override
+                            public Identifier getId() {
+                              return secret.getId();
+                            }
+                          })
+                  .collect(Collectors.toList());
             }
 
             @Override
-            public CharSequence getDescription() {
-              return secret.getDescription();
+            public Lease<Secret> lease(Identifier id) {
+              val secret = vault.get().getSecret(id);
+              val closed = new AtomicBoolean(false);
+              val lease =
+                  new SecretLease() {
+                    @Override
+                    public Date getExpiration() {
+                      if (closed.get()) {
+                        throw new VaultException("Secret closed");
+                      }
+                      return new Date(date.getTime() + request.getExpiration().getTime());
+                      //              return new Date(date.)
+                    }
+
+                    @Override
+                    public Date getLeaseDate() {
+                      if (closed.get()) {
+                        throw new VaultException("Secret closed");
+                      }
+                      return date;
+                    }
+
+                    @Override
+                    public Secret get() throws LeaseExpiredException {
+                      if (closed.get()) {
+                        throw new VaultException("Secret closed");
+                      }
+                      return secret;
+                    }
+
+                    @Override
+                    public void close() {
+                      closed.set(true);
+                    }
+                  };
+              leaseReaper.schedule(lease);
+              return lease;
             }
 
             @Override
-            public Identifier getId() {
-              return secret.getId();
+            public void close(SecretLease lease) {
+              if (vaultClosed.get()) {
+                throw new VaultException("Vault closed");
+              }
+              lease.close();
             }
-          }).collect(Collectors.toList());
-        }
 
-        @Override
-        public Lease<Secret> lease(Identifier id) {
-          val secret = vault.get().getSecret(id);
-          val closed = new AtomicBoolean(false);
-          val lease = new SecretLease() {
+            @Override
+            public Identifier save(@NonNull Secret secret) {
+              if (vaultClosed.get()) {
+                throw new VaultException("Vault closed");
+              }
+              return vault.get().addSecret(secret);
+            }
+
+            @Override
+            public boolean delete(Identifier identifier) {
+              if (vaultClosed.get()) {
+                throw new VaultException("Vault closed");
+              }
+              return vault.get().deleteSecret(identifier);
+            }
+
             @Override
             public Date getExpiration() {
-              if (closed.get()) {
-                throw new VaultException("Secret closed");
+              if (vaultClosed.get()) {
+                throw new VaultException("Vault closed");
               }
               return new Date(date.getTime() + request.getExpiration().getTime());
-//              return new Date(date.)
             }
 
             @Override
             public Date getLeaseDate() {
-              if (closed.get()) {
-                throw new VaultException("Secret closed");
+              if (vaultClosed.get()) {
+                throw new VaultException("Vault closed");
               }
               return date;
             }
 
             @Override
-            public Secret get() throws LeaseExpiredException {
-              if (closed.get()) {
-                throw new VaultException("Secret closed");
+            public Vault get() throws LeaseExpiredException {
+              if (vaultClosed.get()) {
+                throw new VaultException("Vault closed");
               }
-              return secret;
+              return vault.get();
             }
 
             @Override
             public void close() {
-              closed.set(true);
+              try {
+                vault.get().close();
+              } finally {
+                vaultClosed.set(true);
+              }
             }
           };
-          leaseReaper.schedule(lease);
-          return lease;
-        }
-
-        @Override
-        public void close(SecretLease lease) {
-          if (vaultClosed.get()) {
-            throw new VaultException("Vault closed");
-          }
-          lease.close();
-        }
-
-        @Override
-        public Identifier save(@NonNull Secret secret) {
-          if (vaultClosed.get()) {
-            throw new VaultException("Vault closed");
-          }
-          return vault.get().addSecret(secret);
-        }
-
-        @Override
-        public boolean delete(Identifier identifier) {
-          if (vaultClosed.get()) {
-            throw new VaultException("Vault closed");
-          }
-          return vault.get().deleteSecret(identifier);
-        }
-
-        @Override
-        public Date getExpiration() {
-          if (vaultClosed.get()) {
-            throw new VaultException("Vault closed");
-          }
-          return new Date(date.getTime() + request.getExpiration().getTime());
-        }
-
-        @Override
-        public Date getLeaseDate() {
-          if (vaultClosed.get()) {
-            throw new VaultException("Vault closed");
-          }
-          return date;
-        }
-
-        @Override
-        public Vault get() throws LeaseExpiredException {
-          if (vaultClosed.get()) {
-            throw new VaultException("Vault closed");
-          }
-          return vault.get();
-        }
-
-        @Override
-        public void close() {
-          try {
-            vault.get().close();
-          } finally {
-            vaultClosed.set(true);
-          }
-        }
-      };
       leaseReaper.schedule(lease);
       return lease;
     }

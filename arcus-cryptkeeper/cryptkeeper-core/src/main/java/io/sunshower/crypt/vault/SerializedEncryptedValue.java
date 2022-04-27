@@ -25,17 +25,14 @@ public class SerializedEncryptedValue implements EncryptedValue {
   @Convert(IdentifierConverter.class)
   private Identifier id;
 
-  @Attribute
-  private String name;
+  @Attribute private String name;
 
-  @Attribute
-  private String description;
+  @Attribute private String description;
 
   @Element(alias = @Alias(read = "cipher-text", write = "cipher-text"))
   private String ciphertext;
 
-  @Element
-  private String salt;
+  @Element private String salt;
 
   @Element(alias = @Alias(read = "initialization-vector", write = "initialization-vector"))
   private String initializationVector;
@@ -50,8 +47,7 @@ public class SerializedEncryptedValue implements EncryptedValue {
     this.ciphertext = encryptedValue.getCipherText().toString();
   }
 
-  public SerializedEncryptedValue() {
-  }
+  public SerializedEncryptedValue() {}
 
   @Override
   public String getName() {

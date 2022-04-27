@@ -58,9 +58,7 @@ class FileBackedVaultManagerTest {
   void ensureRetrievingSecretsFromLockedVaultDoesntWork() {
     val v = manager.addVault(vault, password);
     v.close();
-    assertThrows(
-        LockedVaultException.class,
-        v::getSecrets);
+    assertThrows(LockedVaultException.class, v::getSecrets);
   }
 
   @Test
@@ -95,7 +93,6 @@ class FileBackedVaultManagerTest {
     assertEquals(secret.getMaterial(), material);
   }
 
-
   @Test
   void ensureDeletingVaultWorks() {
     var result = manager.addVault(vault, password);
@@ -105,11 +102,11 @@ class FileBackedVaultManagerTest {
                 "This is a cool secret", "Just a secret with a description", material));
     assertEquals(1, result.getSecrets().size());
     assertTrue(manager.deleteVault(result, password));
-    assertThrows(NoSuchVaultException.class, () -> {
-      manager.unlock(result.getId(), password);
-    });
-
-
+    assertThrows(
+        NoSuchVaultException.class,
+        () -> {
+          manager.unlock(result.getId(), password);
+        });
   }
 
   @Test

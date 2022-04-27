@@ -13,7 +13,6 @@ import lombok.extern.java.Log;
 @Log
 public class ConcurrentLeaseReaper implements LeaseReaper {
 
-
   private final Timer timer;
   private final Queue<Lease<?>> leases;
   private final SecretService service;
@@ -28,7 +27,6 @@ public class ConcurrentLeaseReaper implements LeaseReaper {
     this.timer = new Timer("concurrent-lease-reaper-1", daemon);
   }
 
-
   @Override
   public Queue<Lease<?>> getReapedLeases() {
     return leases;
@@ -39,7 +37,7 @@ public class ConcurrentLeaseReaper implements LeaseReaper {
     log.log(
         Level.INFO,
         "Scheduling new lease ''{0}'': Start: ''{1}'', end: ''{2}''...",
-        new Object[]{lease, lease.getLeaseDate(), lease.getExpiration()});
+        new Object[] {lease, lease.getLeaseDate(), lease.getExpiration()});
     timer.schedule(new LeaseTimerTask(lease), lease.getExpiration());
     return true;
   }

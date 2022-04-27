@@ -13,7 +13,8 @@ import lombok.ToString;
 public class VaultDescriptor {
 
   @Convert(IdentifierConverter.class)
-  @Attribute private Identifier id;
+  @Attribute
+  private Identifier id;
 
   @Attribute private String icon;
 

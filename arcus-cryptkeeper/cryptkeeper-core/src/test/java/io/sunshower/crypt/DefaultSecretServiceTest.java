@@ -1,6 +1,5 @@
 package io.sunshower.crypt;
 
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -44,15 +43,16 @@ class DefaultSecretServiceTest {
     service.close();
   }
 
-
   @Test
   @SneakyThrows
   void ensureAddingMultipleVaultsWorks() {
     val ids = new ArrayList<Identifier>();
-    for(int i = 0; i < 5; i++) {
+    for (int i = 0; i < 5; i++) {
       vault = new DefaultVault("test vault" + i, "just the coolest vault");
       ids.add(service.add(vault, "password!"));
-      val vault = service.lease(ids.get(i), Leases.forPassword("password!").expiresIn(10, TimeUnit.MILLISECONDS));
+      val vault =
+          service.lease(
+              ids.get(i), Leases.forPassword("password!").expiresIn(10, TimeUnit.MILLISECONDS));
       vault.save(secret);
       assertEquals(1, vault.list().size());
     }
@@ -65,9 +65,10 @@ class DefaultSecretServiceTest {
     val lease = service.lease(id, leaseRequest);
     assertTrue(lease.list().isEmpty());
     Thread.sleep(TimeUnit.MILLISECONDS.toMillis(1000));
-    assertThrows(LockedVaultException.class, () -> {
-      lease.list();
-    });
+    assertThrows(
+        LockedVaultException.class,
+        () -> {
+          lease.list();
+        });
   }
-
 }

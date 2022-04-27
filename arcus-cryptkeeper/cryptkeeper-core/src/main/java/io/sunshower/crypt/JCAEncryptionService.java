@@ -37,36 +37,27 @@ import lombok.val;
 @SuppressFBWarnings
 public class JCAEncryptionService implements EncryptionService {
 
-  /**
-   * default key length
-   */
+  /** default key length */
   public static final int DEFAULT_LENGTH = 256;
-  /**
-   * default number of rounds
-   */
+  /** default number of rounds */
   public static final int DEFAULT_ROUNDS = 65_536;
 
   public static final String AES_CTR_NO_PADDING = "AES/CTR/NoPadding";
   final Charset charset = StandardCharsets.UTF_8;
-  /**
-   * the salt for this service
-   */
+  /** the salt for this service */
   private final CharSequence salt;
-  /**
-   * the algorithm for this service
-   */
+  /** the algorithm for this service */
   private final String algorithm;
+
   private final int size;
   private final int rounds;
-  /**
-   * the password for this service. Probably better to not use a string
-   */
+  /** the password for this service. Probably better to not use a string */
   private final CharSequence password;
+
   private final Object lock;
-  /**
-   * the encoding to use--base58, base64, etc.
-   */
+  /** the encoding to use--base58, base64, etc. */
   private final Encoding encoding;
+
   private volatile SecretKey key;
   private volatile IvParameterSpec initializationVector;
 
