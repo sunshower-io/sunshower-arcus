@@ -44,6 +44,17 @@
                 <version>${arcus.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>io.sunshower.arcus.cryptkeeper</groupId>
+                <artifactId>cryptkeeper-api</artifactId>
+                <version>${arcus.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.sunshower.arcus.cryptkeeper</groupId>
+                <artifactId>cryptkeeper-core</artifactId>
+                <version>${arcus.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>io.sunshower.arcus</groupId>
