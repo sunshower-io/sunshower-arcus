@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface VaultManager extends AutoCloseable {
 
+  void close();
+
   Vault unlock(Identifier id, CharSequence password);
 
   void lock(Vault vault);

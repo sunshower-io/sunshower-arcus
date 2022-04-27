@@ -219,7 +219,7 @@ public class FileBackedVaultManager extends AbstractVaultManager implements Vaul
 
 
   @Override
-  public void close() throws Exception {
+  public void close() {
     for (val open : Collections.unmodifiableMap(openVaults).values()) {
       lock(open.vault);
     }

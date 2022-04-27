@@ -30,4 +30,6 @@ public interface Vault extends AutoCloseable {
   boolean deleteSecret(Identifier id);
 
   <T extends Secret> T getSecret(Identifier id);
+
+  void close();
 }

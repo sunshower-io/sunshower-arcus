@@ -18,7 +18,7 @@ public interface VaultLease extends Lease<Vault> {
   /** @param lease the lease to close */
   void close(SecretLease lease);
 
-  boolean save(@NonNull Secret secret);
+  Identifier save(@NonNull Secret secret);
 
   /**
    * @param secret the secret to delete

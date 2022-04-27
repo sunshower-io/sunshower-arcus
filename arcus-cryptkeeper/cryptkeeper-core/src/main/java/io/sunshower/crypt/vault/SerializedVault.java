@@ -125,7 +125,7 @@ public class SerializedVault implements Vault {
   }
 
   @Override
-  public void close() throws Exception {
+  public void close() {
     vaultManager.lock(this);
     encryptedValues.clear();
     this.password = null;

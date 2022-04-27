@@ -30,6 +30,17 @@ public class DefaultVault implements Vault {
     this(idSequence.next());
   }
 
+  public DefaultVault(String name, String description, String icon) {
+    this.name = name;
+    this.icon = icon;
+    this.description = description;
+    this.id = idSequence.next();
+  }
+
+  public DefaultVault(String name, String description) {
+    this(name, description, null);
+  }
+
   public DefaultVault(Identifier id) {
     this.id = id;
   }
@@ -106,7 +117,7 @@ public class DefaultVault implements Vault {
   }
 
   @Override
-  public void close() throws Exception {
+  public void close() {
     check();
     delegate.setName(name);
     delegate.setIcon(icon);

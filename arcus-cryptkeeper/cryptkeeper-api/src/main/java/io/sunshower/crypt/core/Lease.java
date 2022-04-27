@@ -27,4 +27,6 @@ public interface Lease<T> extends AutoCloseable {
    * @throws LeaseExpiredException if this lease is not active
    */
   T get() throws LeaseExpiredException;
+
+  void close();
 }

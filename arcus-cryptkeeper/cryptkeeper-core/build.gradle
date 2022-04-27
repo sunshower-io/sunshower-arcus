@@ -12,6 +12,6 @@ dependencies {
     api project(':condensation:condensation-json')
     api project(':arcus-cryptkeeper:cryptkeeper-api')
 
-    testImplementation project(':arcus-tests:test-lang')
+    testImplementation project(':arcus-test:test-lang')
 
 }

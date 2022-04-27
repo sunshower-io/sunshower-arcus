@@ -1,5 +1,6 @@
 package io.sunshower.crypt;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.sunshower.crypt.core.DecryptedValue;
 import io.sunshower.crypt.core.EncryptedValue;
 import io.sunshower.crypt.core.EncryptionService;
@@ -33,6 +34,7 @@ import lombok.SneakyThrows;
 import lombok.val;
 
 @SuppressWarnings("PMD")
+@SuppressFBWarnings
 public class JCAEncryptionService implements EncryptionService {
 
   /**
