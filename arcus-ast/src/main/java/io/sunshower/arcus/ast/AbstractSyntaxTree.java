@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Objects;
 import java.util.function.BiFunction;
 import javax.annotation.Nonnull;
 import lombok.Getter;
@@ -23,7 +24,8 @@ public class AbstractSyntaxTree<T, U> implements Iterable<SyntaxNode<T, U>> {
         }
       };
 
-  @Getter private final SyntaxNode<T, U> root;
+  @Getter
+  private final SyntaxNode<T, U> root;
 
   /**
    * construct a new AST with the provided root
@@ -56,8 +58,8 @@ public class AbstractSyntaxTree<T, U> implements Iterable<SyntaxNode<T, U>> {
 
   /**
    * @param initial the initial value (nonnul)
-   * @param f the function to reduce the abstract syntax tree over
-   * @param <V> the type-parameter of the initial value (and result)
+   * @param f       the function to reduce the abstract syntax tree over
+   * @param <V>     the type-parameter of the initial value (and result)
    * @return the result of reducing the AST over the function
    */
   public <V> V reduce(@Nonnull V initial, @Nonnull BiFunction<SyntaxNode<T, U>, V, V> f) {
@@ -65,10 +67,10 @@ public class AbstractSyntaxTree<T, U> implements Iterable<SyntaxNode<T, U>> {
   }
 
   /**
-   * @param order reduce in either pre-order or post-order
+   * @param order   reduce in either pre-order or post-order
    * @param initial the initial value
-   * @param f the function to reduce this abstract syntax tree over
-   * @param <V> the type of the initial value (and result)
+   * @param f       the function to reduce this abstract syntax tree over
+   * @param <V>     the type of the initial value (and result)
    * @return the reduction result
    */
   public <V> V reduce(
@@ -166,6 +168,46 @@ public class AbstractSyntaxTree<T, U> implements Iterable<SyntaxNode<T, U>> {
       val isLast = !iter.hasNext();
       toString(child, out, indent, isLast);
     }
+  }
+
+  @Override
+  @SuppressWarnings("unchecked")
+  public int hashCode() {
+
+    var result = 31;
+    for(val node : this) {
+      result = 37 * Objects.hashCode(node) + result;
+    }
+    return result;
+  }
+
+  @Override
+  @SuppressWarnings("unchecked")
+  public boolean equals(Object o) {
+    if (o == this) {
+      return true;
+    }
+    if (o == null) {
+      return false;
+    }
+
+    if (o instanceof AbstractSyntaxTree) {
+      val ot = (AbstractSyntaxTree<T, U>) o;
+      val oti = ot.iterator();
+      val ti = iterator();
+
+      while (ti.hasNext()) {
+        if (!oti.hasNext()) {
+          return false;
+        }
+        val tnext = ti.next();
+        val onext = oti.next();
+        if (!Objects.equals(tnext, onext)) {
+          return false;
+        }
+      }
+    }
+    return true;
   }
 
   public enum Order {

@@ -3,7 +3,9 @@ package io.sunshower.arcus.condensation.json;
 import io.sunshower.arcus.condensation.Value;
 import io.sunshower.arcus.condensation.json.JsonValue.Type;
 import javax.annotation.Nonnull;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode
 public class JsonValue<T> implements Value<T, Type> {
 
   public enum Type {

@@ -9,22 +9,26 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import javax.annotation.Nonnull;
 import lombok.val;
 
 @SuppressFBWarnings
 public class AbstractSyntaxNode<T, U> implements SyntaxNode<T, U> {
 
-  /** immutable state */
+  /**
+   * immutable state
+   */
   final Symbol symbol;
 
   final T value;
   final U source;
-  private SyntaxNode<T, U> parent;
   final Map<String, String> properties;
   final List<SyntaxNode<T, U>> children;
-
-  /** private state */
+  private SyntaxNode<T, U> parent;
+  /**
+   * private state
+   */
   private String content;
 
   public AbstractSyntaxNode(Symbol symbol, U source, T value) {
@@ -36,10 +40,10 @@ public class AbstractSyntaxNode<T, U> implements SyntaxNode<T, U> {
   }
 
   /**
-   * @param symbol the associated symbol (element type)
-   * @param source the language element this was retrieved from
+   * @param symbol  the associated symbol (element type)
+   * @param source  the language element this was retrieved from
    * @param content the String content (if any)
-   * @param value the actual value node (if any)
+   * @param value   the actual value node (if any)
    */
   public AbstractSyntaxNode(
       SyntaxNode<T, U> parent, Symbol symbol, U source, String content, T value) {
@@ -100,6 +104,11 @@ public class AbstractSyntaxNode<T, U> implements SyntaxNode<T, U> {
   @Override
   public SyntaxNode<T, U> getParent() {
     return parent;
+  }
+
+  @Override
+  public void setParent(SyntaxNode<T, U> parent) {
+    this.parent = parent;
   }
 
   @Override
@@ -204,7 +213,9 @@ public class AbstractSyntaxNode<T, U> implements SyntaxNode<T, U> {
     return false;
   }
 
-  /** @return a shallow copy of this node (i.e. discards hierarchical structure) */
+  /**
+   * @return a shallow copy of this node (i.e. discards hierarchical structure)
+   */
   @Override
   @SuppressFBWarnings
   @SuppressWarnings("PMD")
@@ -214,12 +225,31 @@ public class AbstractSyntaxNode<T, U> implements SyntaxNode<T, U> {
   }
 
   @Override
-  public void setParent(SyntaxNode<T, U> parent) {
-    this.parent = parent;
-  }
-
-  @Override
   public String toString() {
     return format("Node[value: %s]", value);
+  }
+
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(symbol, value, content, source);
+  }
+
+  @SuppressWarnings("unchecked")
+  public boolean equals(Object o) {
+    if (o == null) {
+      return false;
+    }
+    if (o == this) {
+      return true;
+    }
+
+    if (o instanceof AbstractSyntaxNode) {
+      val on = (AbstractSyntaxNode<T, U>) o;
+      return Objects.equals(this.symbol, on.symbol)
+             && Objects.equals(this.source, on.source)
+             && Objects.equals(this.value, on.value);
+    }
+    return false;
   }
 }
