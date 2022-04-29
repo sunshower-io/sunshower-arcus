@@ -7,10 +7,9 @@ import lombok.val;
 
 public interface Type {
 
-
   default Type getMatching(CharSequence toMatch) {
-    for(val t : enumerate()) {
-      if(t.matcher(toMatch).matches()) {
+    for (val t : enumerate()) {
+      if (t.matcher(toMatch).matches()) {
         return t;
       }
     }

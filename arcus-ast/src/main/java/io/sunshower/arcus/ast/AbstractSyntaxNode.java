@@ -16,9 +16,7 @@ import lombok.val;
 @SuppressFBWarnings
 public class AbstractSyntaxNode<T, U> implements SyntaxNode<T, U> {
 
-  /**
-   * immutable state
-   */
+  /** immutable state */
   final Symbol symbol;
 
   final T value;
@@ -26,9 +24,7 @@ public class AbstractSyntaxNode<T, U> implements SyntaxNode<T, U> {
   final Map<String, String> properties;
   final List<SyntaxNode<T, U>> children;
   private SyntaxNode<T, U> parent;
-  /**
-   * private state
-   */
+  /** private state */
   private String content;
 
   public AbstractSyntaxNode(Symbol symbol, U source, T value) {
@@ -40,10 +36,10 @@ public class AbstractSyntaxNode<T, U> implements SyntaxNode<T, U> {
   }
 
   /**
-   * @param symbol  the associated symbol (element type)
-   * @param source  the language element this was retrieved from
+   * @param symbol the associated symbol (element type)
+   * @param source the language element this was retrieved from
    * @param content the String content (if any)
-   * @param value   the actual value node (if any)
+   * @param value the actual value node (if any)
    */
   public AbstractSyntaxNode(
       SyntaxNode<T, U> parent, Symbol symbol, U source, String content, T value) {
@@ -213,9 +209,7 @@ public class AbstractSyntaxNode<T, U> implements SyntaxNode<T, U> {
     return false;
   }
 
-  /**
-   * @return a shallow copy of this node (i.e. discards hierarchical structure)
-   */
+  /** @return a shallow copy of this node (i.e. discards hierarchical structure) */
   @Override
   @SuppressFBWarnings
   @SuppressWarnings("PMD")
@@ -228,7 +222,6 @@ public class AbstractSyntaxNode<T, U> implements SyntaxNode<T, U> {
   public String toString() {
     return format("Node[value: %s]", value);
   }
-
 
   @Override
   public int hashCode() {
@@ -247,8 +240,8 @@ public class AbstractSyntaxNode<T, U> implements SyntaxNode<T, U> {
     if (o instanceof AbstractSyntaxNode) {
       val on = (AbstractSyntaxNode<T, U>) o;
       return Objects.equals(this.symbol, on.symbol)
-             && Objects.equals(this.source, on.source)
-             && Objects.equals(this.value, on.value);
+          && Objects.equals(this.source, on.source)
+          && Objects.equals(this.value, on.value);
     }
     return false;
   }

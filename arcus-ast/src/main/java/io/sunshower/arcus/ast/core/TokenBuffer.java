@@ -1,6 +1,7 @@
 package io.sunshower.arcus.ast.core;
 
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -20,7 +21,7 @@ public final class TokenBuffer {
 
   /**
    * @param buffer the buffer to build this from note that the first character is '|' so we'll strip
-   *               that
+   *     that
    */
   public TokenBuffer(final Type type, final StringBuilder buffer) {
     this.type = type;
@@ -37,11 +38,18 @@ public final class TokenBuffer {
   }
 
   public Iterable<Token> tokenize(InputStream inputStream) {
-    return () -> new Scanner(inputStream).findAll(patternBuffer)
-        .map(matchResult -> (Token) new TokenWord(
-            matchResult.start(),
-            matchResult.end(),
-            matchResult.group(), type.getMatching(matchResult.group()))).iterator();
+    return () ->
+        new Scanner(inputStream, StandardCharsets.UTF_8)
+            .findAll(patternBuffer)
+            .map(
+                matchResult ->
+                    (Token)
+                        new TokenWord(
+                            matchResult.start(),
+                            matchResult.end(),
+                            matchResult.group(),
+                            type.getMatching(matchResult.group())))
+            .iterator();
   }
 
   public Iterable<Token> tokenize(CharSequence sequence) {
@@ -79,5 +87,4 @@ public final class TokenBuffer {
           }
         };
   }
-
 }

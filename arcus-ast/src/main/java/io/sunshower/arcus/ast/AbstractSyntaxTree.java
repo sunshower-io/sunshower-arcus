@@ -24,8 +24,7 @@ public class AbstractSyntaxTree<T, U> implements Iterable<SyntaxNode<T, U>> {
         }
       };
 
-  @Getter
-  private final SyntaxNode<T, U> root;
+  @Getter private final SyntaxNode<T, U> root;
 
   /**
    * construct a new AST with the provided root
@@ -58,8 +57,8 @@ public class AbstractSyntaxTree<T, U> implements Iterable<SyntaxNode<T, U>> {
 
   /**
    * @param initial the initial value (nonnul)
-   * @param f       the function to reduce the abstract syntax tree over
-   * @param <V>     the type-parameter of the initial value (and result)
+   * @param f the function to reduce the abstract syntax tree over
+   * @param <V> the type-parameter of the initial value (and result)
    * @return the result of reducing the AST over the function
    */
   public <V> V reduce(@Nonnull V initial, @Nonnull BiFunction<SyntaxNode<T, U>, V, V> f) {
@@ -67,10 +66,10 @@ public class AbstractSyntaxTree<T, U> implements Iterable<SyntaxNode<T, U>> {
   }
 
   /**
-   * @param order   reduce in either pre-order or post-order
+   * @param order reduce in either pre-order or post-order
    * @param initial the initial value
-   * @param f       the function to reduce this abstract syntax tree over
-   * @param <V>     the type of the initial value (and result)
+   * @param f the function to reduce this abstract syntax tree over
+   * @param <V> the type of the initial value (and result)
    * @return the reduction result
    */
   public <V> V reduce(
@@ -175,7 +174,7 @@ public class AbstractSyntaxTree<T, U> implements Iterable<SyntaxNode<T, U>> {
   public int hashCode() {
 
     var result = 31;
-    for(val node : this) {
+    for (val node : this) {
       result = 37 * Objects.hashCode(node) + result;
     }
     return result;
