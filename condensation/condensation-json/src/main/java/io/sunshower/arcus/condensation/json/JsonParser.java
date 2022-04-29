@@ -7,11 +7,18 @@ import io.sunshower.arcus.ast.core.LookaheadIterator;
 import io.sunshower.arcus.ast.core.Token;
 import io.sunshower.arcus.condensation.Value;
 import io.sunshower.arcus.condensation.json.JsonValue.Type;
+import java.io.InputStream;
 import java.util.NoSuchElementException;
 import lombok.val;
 
 @SuppressWarnings("PMD.CompareObjectsWithEquals")
 public class JsonParser {
+
+
+  public AbstractSyntaxTree<Value<?, Type>, Token> parse(InputStream inputStream) {
+    val tokens = tokenize(inputStream);
+    return new AbstractSyntaxTree<>(json(tokens));
+  }
 
   public AbstractSyntaxTree<Value<?, Type>, Token> parse(CharSequence sequence) {
     val tokens = tokenize(sequence);
@@ -139,6 +146,11 @@ public class JsonParser {
         return;
       }
     }
+  }
+
+
+  private LookaheadIterator<Token> tokenize(InputStream inputStream) {
+    return LookaheadIterator.wrap(JsonToken.createTokenBuffer().tokenize(inputStream).iterator());
   }
 
   private LookaheadIterator<Token> tokenize(CharSequence sequence) {

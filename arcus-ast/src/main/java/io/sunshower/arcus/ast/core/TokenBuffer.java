@@ -1,7 +1,9 @@
 package io.sunshower.arcus.ast.core;
 
+import java.io.InputStream;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Scanner;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.regex.Pattern;
@@ -17,6 +19,15 @@ public final class TokenBuffer {
   private final Pattern patternBuffer;
 
   /**
+   * @param buffer the buffer to build this from note that the first character is '|' so we'll strip
+   *               that
+   */
+  public TokenBuffer(final Type type, final StringBuilder buffer) {
+    this.type = type;
+    this.patternBuffer = Pattern.compile(buffer.substring(1), Pattern.CASE_INSENSITIVE);
+  }
+
+  /**
    * @param seq the sequence to scan
    * @return a stream of the tokens
    */
@@ -24,13 +35,13 @@ public final class TokenBuffer {
     return StreamSupport.stream(
         Spliterators.spliteratorUnknownSize(tokenize(seq).iterator(), Spliterator.ORDERED), false);
   }
-  /**
-   * @param buffer the buffer to build this from note that the first character is '|' so we'll strip
-   *     that
-   */
-  public TokenBuffer(final Type type, final StringBuilder buffer) {
-    this.type = type;
-    this.patternBuffer = Pattern.compile(buffer.substring(1), Pattern.CASE_INSENSITIVE);
+
+  public Iterable<Token> tokenize(InputStream inputStream) {
+    return () -> new Scanner(inputStream).findAll(patternBuffer)
+        .map(matchResult -> (Token) new TokenWord(
+            matchResult.start(),
+            matchResult.end(),
+            matchResult.group(), type.getMatching(matchResult.group()))).iterator();
   }
 
   public Iterable<Token> tokenize(CharSequence sequence) {
@@ -68,4 +79,5 @@ public final class TokenBuffer {
           }
         };
   }
+
 }
