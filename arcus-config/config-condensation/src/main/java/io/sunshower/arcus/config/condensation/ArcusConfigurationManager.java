@@ -5,8 +5,12 @@ import io.sunshower.arcus.config.Configuration;
 import io.sunshower.arcus.config.ConfigurationManager;
 import java.io.File;
 import java.io.InputStream;
+import javax.annotation.WillNotClose;
+import javax.annotation.concurrent.ThreadSafe;
 import lombok.NonNull;
+import lombok.val;
 
+@ThreadSafe
 public class ArcusConfigurationManager implements ConfigurationManager {
 
 
@@ -20,8 +24,9 @@ public class ArcusConfigurationManager implements ConfigurationManager {
 
 
   @Override
-  public <T> Configuration<T> read(Class<T> type, InputStream source, String name) {
-    return null;
-//    condensation.
+  public <T> Configuration<T> read(@NonNull Class<T> type,
+      @NonNull @WillNotClose InputStream source, @NonNull String name) {
+    val configObject = condensation.read(type, source);
+    val result = new DefaultConfiguration<T>(configObject, name);
   }
 }

@@ -229,6 +229,12 @@ public class Reflect {
     return Option.none();
   }
 
+
+
+  public static Stream<Class<?>> hierarchyOf(@Nonnull Class<?> type, HierarchyTraversalMode mode) {
+    return mode.apply(type);
+  }
+
   /**
    * @param type the type to search for a matching method
    * @param methodName the name of the method
