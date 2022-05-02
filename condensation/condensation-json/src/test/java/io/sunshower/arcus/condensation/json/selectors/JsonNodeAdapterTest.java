@@ -24,9 +24,7 @@ class JsonNodeAdapterTest {
   }
 
   @Test
-  void ensureQueryingFriendsWorks() {
-  }
-
+  void ensureQueryingFriendsWorks() {}
 
   @Test
   void ensureASTsAreEqualForLargeDocument() {

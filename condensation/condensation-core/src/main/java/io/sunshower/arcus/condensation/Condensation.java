@@ -1,7 +1,6 @@
 package io.sunshower.arcus.condensation;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -65,12 +64,10 @@ public class Condensation {
     return pf.newParser().parse(data);
   }
 
-
   public static <E extends Enum<E>> Document<E> parse(String format, InputStream data) {
     val pf = getParserFactory(format);
     return pf.newParser().parse(data);
   }
-
 
   @SuppressWarnings("unchecked")
   public static <T, E extends Enum<E>> T read(
@@ -78,7 +75,6 @@ public class Condensation {
     Document<E> doc = parse(format, data);
     return doc.read(type, strategy);
   }
-
 
   public static <T, E extends Enum<E>> T read(
       Class<T> type, String format, InputStream data, TypeBinder<E> strategy) {
@@ -99,7 +95,6 @@ public class Condensation {
     return (T) read(type, format, sequence, typeBinder);
   }
 
-
   public <T> T read(Class<T> type, InputStream sequence) {
     return (T) read(type, format, sequence, typeBinder);
   }
@@ -118,7 +113,6 @@ public class Condensation {
     val document = parser.parse(s);
     return (U) document.readAll(type, instantiator, typeBinder);
   }
-
 
   @SuppressWarnings("unchecked")
   public <T, U extends Collection<? super T>> U readAll(

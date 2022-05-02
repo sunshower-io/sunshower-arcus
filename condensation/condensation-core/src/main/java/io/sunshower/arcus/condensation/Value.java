@@ -1,7 +1,5 @@
 package io.sunshower.arcus.condensation;
 
-import javax.annotation.Nonnull;
-
 public interface Value<T, E extends Enum<E>> {
 
   //  enum Type {
@@ -14,7 +12,6 @@ public interface Value<T, E extends Enum<E>> {
   //    Null
   //  }
   //
-  @Nonnull
   E getType();
 
   T getValue();

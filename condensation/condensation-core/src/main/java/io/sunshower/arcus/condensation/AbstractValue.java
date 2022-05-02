@@ -1,6 +1,5 @@
 package io.sunshower.arcus.condensation;
 
-import javax.annotation.Nonnull;
 import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode
@@ -14,8 +13,6 @@ public abstract class AbstractValue<T, E extends Enum<E>> implements Value<T, E>
     this.value = value;
   }
 
-
-  @Nonnull
   @Override
   public E getType() {
     return type;

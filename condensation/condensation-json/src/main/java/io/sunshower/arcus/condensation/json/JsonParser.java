@@ -14,7 +14,6 @@ import lombok.val;
 @SuppressWarnings("PMD.CompareObjectsWithEquals")
 public class JsonParser {
 
-
   public AbstractSyntaxTree<Value<?, Type>, Token> parse(InputStream inputStream) {
     val tokens = tokenize(inputStream);
     return new AbstractSyntaxTree<>(json(tokens));
@@ -147,7 +146,6 @@ public class JsonParser {
       }
     }
   }
-
 
   private LookaheadIterator<Token> tokenize(InputStream inputStream) {
     return LookaheadIterator.wrap(JsonToken.createTokenBuffer().tokenize(inputStream).iterator());

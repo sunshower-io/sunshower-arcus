@@ -28,14 +28,12 @@ import org.junit.jupiter.api.Test;
 
 class CondensationTest {
 
-
   private Condensation condensation;
 
   @BeforeEach
   void setUp() {
     condensation = Condensation.create("json");
   }
-
 
   @Test
   @SneakyThrows
@@ -44,11 +42,11 @@ class CondensationTest {
     @RootElement
     class Value {
 
-      @Attribute
-      String name;
+      @Attribute String name;
     }
 
-    val source = """
+    val source =
+        """
         [{
           "name": "Josiah"
         },
@@ -58,9 +56,11 @@ class CondensationTest {
         ]
         """;
     register(Value.class, Value::new);
-    val v = condensation.readAll(Value.class,
-        ArrayList::new,
-        new ByteArrayInputStream(source.getBytes(StandardCharsets.UTF_8)));
+    val v =
+        condensation.readAll(
+            Value.class,
+            ArrayList::new,
+            new ByteArrayInputStream(source.getBytes(StandardCharsets.UTF_8)));
     assertEquals(2, v.size());
 
     assertEquals(v.get(0).name, "Josiah");
@@ -74,8 +74,7 @@ class CondensationTest {
     @RootElement
     class Value {
 
-      @Attribute
-      String name;
+      @Attribute String name;
     }
 
     val source = """
@@ -84,11 +83,11 @@ class CondensationTest {
         }
         """;
     register(Value.class, Value::new);
-    val v = condensation.read(Value.class,
-        new ByteArrayInputStream(source.getBytes(StandardCharsets.UTF_8)));
+    val v =
+        condensation.read(
+            Value.class, new ByteArrayInputStream(source.getBytes(StandardCharsets.UTF_8)));
     assertEquals(v.name, "Josiah");
   }
-
 
   @Test
   @SneakyThrows
@@ -100,8 +99,7 @@ class CondensationTest {
     @RootElement
     class TestType {
 
-      @Attribute
-      Test t;
+      @Attribute Test t;
     }
 
     val condensation = Condensation.create("json");
@@ -144,8 +142,7 @@ class CondensationTest {
     @RootElement
     class A {
 
-      @Attribute
-      String name;
+      @Attribute String name;
     }
     val condensation = Condensation.create("json");
     val list = List.of(new A("a"), new A("b"));
@@ -158,8 +155,7 @@ class CondensationTest {
     @RootElement
     class A {
 
-      @Attribute
-      String name;
+      @Attribute String name;
     }
     val condensation = Condensation.create("json");
     ((ReflectiveTypeInstantiator) condensation.getInstantiator()).register(A.class, A::new);
@@ -173,8 +169,7 @@ class CondensationTest {
     @RootElement
     class A {
 
-      @Attribute
-      String name;
+      @Attribute String name;
     }
     val condensation = Condensation.create("json");
     ((ReflectiveTypeInstantiator) condensation.getInstantiator()).register(A.class, A::new);
@@ -187,7 +182,7 @@ class CondensationTest {
 
     Condensation condensation = Condensation.create("json");
     double[] values = condensation.read(double[].class, "[1,2,3,4]");
-    assertArrayEquals(new double[]{1d, 2d, 3d, 4d}, values);
+    assertArrayEquals(new double[] {1d, 2d, 3d, 4d}, values);
   }
 
   @Test
@@ -195,7 +190,7 @@ class CondensationTest {
 
     Condensation condensation = Condensation.create("json");
     int[] values = condensation.read(int[].class, "[1,2,3,4]");
-    assertArrayEquals(new int[]{1, 2, 3, 4}, values);
+    assertArrayEquals(new int[] {1, 2, 3, 4}, values);
   }
 
   @Test
@@ -203,8 +198,7 @@ class CondensationTest {
     @RootElement
     class KV {
 
-      @Element
-      Map<String, Integer> elements;
+      @Element Map<String, Integer> elements;
     }
 
     val value = "{" + "\"elements\": {" + "\"1\": 1," + "\"2\": 3}" + "} ";
@@ -249,13 +243,11 @@ class CondensationTest {
     assertEquals(result.elements.get(2), 3);
   }
 
-
   private <T> void register(Class<T> type) {
     register(type, () -> Reflect.instantiate(type));
   }
 
   private <T> void register(Class<T> type, Supplier<T> instantiator) {
-    ((ReflectiveTypeInstantiator) condensation.getInstantiator())
-        .register(type, instantiator);
+    ((ReflectiveTypeInstantiator) condensation.getInstantiator()).register(type, instantiator);
   }
 }

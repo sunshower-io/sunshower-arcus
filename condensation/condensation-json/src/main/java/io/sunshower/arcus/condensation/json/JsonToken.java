@@ -8,9 +8,7 @@ import io.sunshower.arcus.ast.core.Type;
 import io.sunshower.arcus.condensation.mappings.LRUCache;
 import java.util.Arrays;
 import java.util.Map;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.annotation.Nonnull;
 import lombok.NonNull;
 import lombok.val;
 
@@ -62,7 +60,7 @@ public enum JsonToken implements Type, Symbol {
   public Type getMatching(CharSequence toMatch) {
 
     val r = internmap.get(toMatch);
-    if(r != null) {
+    if (r != null) {
       internmap.put(toMatch, r);
       return r;
     }
@@ -74,7 +72,6 @@ public enum JsonToken implements Type, Symbol {
   public <T extends Type> Iterable<T> enumerate() {
     return () -> Arrays.stream(JsonToken.values()).map(t -> (T) t).iterator();
   }
-
 
   @NonNull
   @Override
@@ -90,9 +87,4 @@ public enum JsonToken implements Type, Symbol {
     }
     return result;
   }
-
-
-
-
-
 }

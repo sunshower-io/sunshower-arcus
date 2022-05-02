@@ -23,7 +23,6 @@ dependencies {
     [
             'org.hibernate:hibernate-core',
             'org.hibernate:hibernate-entitymanager',
-            project(':arcus-config:config-spring'),
             'org.springframework.data:spring-data-jpa'
     ].each {
         implementation it
