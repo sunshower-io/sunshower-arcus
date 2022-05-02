@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import javax.annotation.Nonnull;
 import lombok.val;
 
@@ -20,10 +21,9 @@ public class AbstractSyntaxNode<T, U> implements SyntaxNode<T, U> {
 
   final T value;
   final U source;
-  private SyntaxNode<T, U> parent;
   final Map<String, String> properties;
   final List<SyntaxNode<T, U>> children;
-
+  private SyntaxNode<T, U> parent;
   /** private state */
   private String content;
 
@@ -100,6 +100,11 @@ public class AbstractSyntaxNode<T, U> implements SyntaxNode<T, U> {
   @Override
   public SyntaxNode<T, U> getParent() {
     return parent;
+  }
+
+  @Override
+  public void setParent(SyntaxNode<T, U> parent) {
+    this.parent = parent;
   }
 
   @Override
@@ -214,12 +219,30 @@ public class AbstractSyntaxNode<T, U> implements SyntaxNode<T, U> {
   }
 
   @Override
-  public void setParent(SyntaxNode<T, U> parent) {
-    this.parent = parent;
+  public String toString() {
+    return format("Node[value: %s]", value);
   }
 
   @Override
-  public String toString() {
-    return format("Node[value: %s]", value);
+  public int hashCode() {
+    return Objects.hash(symbol, value, content, source);
+  }
+
+  @SuppressWarnings("unchecked")
+  public boolean equals(Object o) {
+    if (o == null) {
+      return false;
+    }
+    if (o == this) {
+      return true;
+    }
+
+    if (o instanceof AbstractSyntaxNode) {
+      val on = (AbstractSyntaxNode<T, U>) o;
+      return Objects.equals(this.symbol, on.symbol)
+          && Objects.equals(this.source, on.source)
+          && Objects.equals(this.value, on.value);
+    }
+    return false;
   }
 }

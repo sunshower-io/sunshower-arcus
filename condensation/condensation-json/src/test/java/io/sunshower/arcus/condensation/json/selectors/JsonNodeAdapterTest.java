@@ -1,6 +1,8 @@
 package io.sunshower.arcus.condensation.json.selectors;
 
 import static com.aire.ux.condensation.json.JsonParserTest.read;
+import static com.aire.ux.condensation.json.JsonParserTest.readStream;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import io.sunshower.arcus.condensation.json.JsonParser;
 import io.sunshower.arcus.selectors.css.CssSelectorParser;
@@ -22,7 +24,35 @@ class JsonNodeAdapterTest {
   }
 
   @Test
-  void ensureQueryingFriendsWorks() {}
+  void ensureQueryingFriendsWorks() {
+  }
+
+
+  @Test
+  void ensureASTsAreEqualForLargeDocument() {
+    val parser = new JsonParser();
+    val document = readStream("test.json");
+    val docString = read("test.json");
+    val result = parser.parse(document);
+    assertEquals(parser.parse(docString), result);
+  }
+
+  @Test
+  void ensureParsingLargeFileWorksFromInputStreamWorks() {
+    long average = 0;
+    val parser = new JsonParser();
+    for (int i = 0; i < 100; i++) {
+      val document = readStream("large.json");
+      long fst = System.currentTimeMillis();
+      val result = parser.parse(document);
+      long snd = System.currentTimeMillis();
+      val time = (snd - fst);
+      System.out.println("Time: " + time);
+      average = (average + (snd - fst));
+      System.out.println(average);
+    }
+    System.out.println("Average: " + average / 100);
+  }
 
   @Test
   void ensureParsingLargeFileWorks() {

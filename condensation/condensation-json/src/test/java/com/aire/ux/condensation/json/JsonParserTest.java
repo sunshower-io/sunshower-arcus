@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import io.sunshower.arcus.condensation.json.JsonParser;
 import io.sunshower.arcus.condensation.json.JsonValue.Type;
+import java.io.BufferedInputStream;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.NoSuchElementException;
@@ -52,6 +54,16 @@ public class JsonParserTest {
     val str = read("test.json");
     val ast = new JsonParser().parse(str);
     System.out.println(ast);
+  }
+
+
+  @SneakyThrows
+  public static InputStream readStream(String s) {
+    val resource = ClassLoader.getSystemClassLoader().getResourceAsStream(s);
+    if (resource == null) {
+      throw new NoSuchElementException("No resource: " + s);
+    }
+    return new BufferedInputStream(resource);
   }
 
   @SneakyThrows

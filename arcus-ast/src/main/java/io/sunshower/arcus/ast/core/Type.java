@@ -3,8 +3,18 @@ package io.sunshower.arcus.ast.core;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.Nonnull;
+import lombok.val;
 
 public interface Type {
+
+  default Type getMatching(CharSequence toMatch) {
+    for (val t : enumerate()) {
+      if (t.matcher(toMatch).matches()) {
+        return t;
+      }
+    }
+    throw new IllegalArgumentException(String.format("No matching type for '%s'", toMatch));
+  }
 
   /**
    * @param <T> this type

@@ -10,6 +10,7 @@ include(
         'condensation:css-selectors',
         'condensation:condensation-core',
         'condensation:condensation-json',
+        'condensation:condensation-beans',
 
         /**
          * arcus
@@ -24,6 +25,7 @@ include(
         'arcus-config:config-json',
         'arcus-config:config-yaml',
         'arcus-config:config-spring',
+        'arcus-config:config-condensation',
         'arcus-reflect',
         'arcus-test:test-lang',
         'annotations:arcus-jsr-305',

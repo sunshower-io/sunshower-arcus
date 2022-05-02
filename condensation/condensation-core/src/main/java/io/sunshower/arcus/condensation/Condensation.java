@@ -1,8 +1,10 @@
 package io.sunshower.arcus.condensation;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
@@ -63,30 +65,24 @@ public class Condensation {
     return pf.newParser().parse(data);
   }
 
-  private static WriterFactory getWriterFactory(String format) {
-    return ServiceLoader.load(WriterFactory.class, Thread.currentThread().getContextClassLoader())
-        .stream()
-        .map(Provider::get)
-        .filter(parserFactory -> parserFactory.supports(format))
-        .findAny()
-        .orElseThrow(
-            () -> new NoSuchElementException(String.format("Unsupported format: '%s'", format)));
+
+  public static <E extends Enum<E>> Document<E> parse(String format, InputStream data) {
+    val pf = getParserFactory(format);
+    return pf.newParser().parse(data);
   }
 
-  private static ParserFactory getParserFactory(String format) {
-    return ServiceLoader.load(ParserFactory.class, Thread.currentThread().getContextClassLoader())
-        .stream()
-        .map(Provider::get)
-        .filter(parserFactory -> parserFactory.supports(format))
-        .findAny()
-        .orElseThrow(
-            () -> new NoSuchElementException(String.format("Unsupported format: '%s'", format)));
-  }
 
   @SuppressWarnings("unchecked")
   public static <T, E extends Enum<E>> T read(
       Class<T> type, String format, CharSequence data, TypeBinder<E> strategy) {
-    Document<E> doc = (Document<E>) parse(format, data);
+    Document<E> doc = parse(format, data);
+    return doc.read(type, strategy);
+  }
+
+
+  public static <T, E extends Enum<E>> T read(
+      Class<T> type, String format, InputStream data, TypeBinder<E> strategy) {
+    Document<E> doc = parse(format, data);
     return doc.read(type, strategy);
   }
 
@@ -100,6 +96,11 @@ public class Condensation {
 
   @SuppressWarnings("unchecked")
   public <T> T read(Class<T> type, CharSequence sequence) {
+    return (T) read(type, format, sequence, typeBinder);
+  }
+
+
+  public <T> T read(Class<T> type, InputStream sequence) {
     return (T) read(type, format, sequence, typeBinder);
   }
 
@@ -118,7 +119,35 @@ public class Condensation {
     return (U) document.readAll(type, instantiator, typeBinder);
   }
 
+
+  @SuppressWarnings("unchecked")
+  public <T, U extends Collection<? super T>> U readAll(
+      Class<T> type, Supplier<U> instantiator, InputStream s) {
+    val document = parser.parse(s);
+    return (U) document.readAll(type, instantiator, typeBinder);
+  }
+
   public <T> T copy(Class<T> type, T value) throws IOException {
     return read(type, write(type, value));
+  }
+
+  private static WriterFactory getWriterFactory(String format) {
+    return ServiceLoader.load(WriterFactory.class, Thread.currentThread().getContextClassLoader())
+        .stream()
+        .map(Provider::get)
+        .filter(parserFactory -> parserFactory.supports(format))
+        .findAny()
+        .orElseThrow(
+            () -> new NoSuchElementException(String.format("Unsupported format: '%s'", format)));
+  }
+
+  private static ParserFactory getParserFactory(String format) {
+    return ServiceLoader.load(ParserFactory.class, Thread.currentThread().getContextClassLoader())
+        .stream()
+        .map(Provider::get)
+        .filter(parserFactory -> parserFactory.supports(format))
+        .findAny()
+        .orElseThrow(
+            () -> new NoSuchElementException(String.format("Unsupported format: '%s'", format)));
   }
 }

@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Objects;
 import java.util.function.BiFunction;
 import javax.annotation.Nonnull;
 import lombok.Getter;
@@ -166,6 +167,46 @@ public class AbstractSyntaxTree<T, U> implements Iterable<SyntaxNode<T, U>> {
       val isLast = !iter.hasNext();
       toString(child, out, indent, isLast);
     }
+  }
+
+  @Override
+  @SuppressWarnings("unchecked")
+  public int hashCode() {
+
+    var result = 31;
+    for (val node : this) {
+      result = 37 * Objects.hashCode(node) + result;
+    }
+    return result;
+  }
+
+  @Override
+  @SuppressWarnings("unchecked")
+  public boolean equals(Object o) {
+    if (o == this) {
+      return true;
+    }
+    if (o == null) {
+      return false;
+    }
+
+    if (o instanceof AbstractSyntaxTree) {
+      val ot = (AbstractSyntaxTree<T, U>) o;
+      val oti = ot.iterator();
+      val ti = iterator();
+
+      while (ti.hasNext()) {
+        if (!oti.hasNext()) {
+          return false;
+        }
+        val tnext = ti.next();
+        val onext = oti.next();
+        if (!Objects.equals(tnext, onext)) {
+          return false;
+        }
+      }
+    }
+    return true;
   }
 
   public enum Order {
