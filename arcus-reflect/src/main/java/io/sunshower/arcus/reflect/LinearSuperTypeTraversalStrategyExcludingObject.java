@@ -1,15 +1,16 @@
 package io.sunshower.arcus.reflect;
 
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 import lombok.val;
 
-public class LinearSuperTypeTraversalStrategy implements HierarchyTraversalStrategy {
+public class LinearSuperTypeTraversalStrategyExcludingObject implements HierarchyTraversalStrategy {
 
-  public LinearSuperTypeTraversalStrategy() {}
+  public LinearSuperTypeTraversalStrategyExcludingObject() {}
 
   @Override
   public Stream<Class<?>> apply(Class<?> t) {
@@ -19,6 +20,7 @@ public class LinearSuperTypeTraversalStrategy implements HierarchyTraversalStrat
   }
 
   private static final class LinearSupertypeIterator implements Iterator<Class<?>> {
+
     Class<?> type;
 
     LinearSupertypeIterator(Class<?> type) {
@@ -27,7 +29,7 @@ public class LinearSuperTypeTraversalStrategy implements HierarchyTraversalStrat
 
     @Override
     public boolean hasNext() {
-      return type.getSuperclass() != null;
+      return !Objects.equals(type, Object.class);
     }
 
     @Override

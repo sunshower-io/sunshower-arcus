@@ -15,6 +15,7 @@ import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 import javax.annotation.Nonnull;
 import lombok.val;
@@ -229,10 +230,30 @@ public class Reflect {
     return Option.none();
   }
 
-
-
+  /**
+   * construct a stream over the specified hierarchy with the specified hierarchy traversal mode
+   *
+   * @param type the base type
+   * @param mode the traversal mode
+   * @return a stream of types adhering to the traversal mode
+   */
   public static Stream<Class<?>> hierarchyOf(@Nonnull Class<?> type, HierarchyTraversalMode mode) {
     return mode.apply(type);
+  }
+
+  /**
+   * Filter all of the methods from all of the types over the specified hierarchytraversalmode
+   *
+   * @param type the base of the hierarchy
+   * @param mode the traversal mode
+   * @param filter the method filter to apply
+   * @return a list of methods matching the filter
+   */
+  public static Stream<Method> methodsMatching(
+      @Nonnull Class<?> type, HierarchyTraversalMode mode, Predicate<Method> filter) {
+    return hierarchyOf(type, mode)
+        .flatMap(c -> Arrays.stream(c.getDeclaredMethods()))
+        .filter(filter);
   }
 
   /**

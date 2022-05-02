@@ -1,7 +1,7 @@
 package io.sunshower.arcus.config.condensation;
 
 import io.sunshower.arcus.condensation.RootElement;
-import io.sunshower.arcus.config.Configuration;
+import io.sunshower.arcus.config.ConfigurationMapping;
 import io.sunshower.arcus.reflect.HierarchyTraversalMode;
 import io.sunshower.arcus.reflect.Reflect;
 import io.sunshower.lang.tuple.Pair;
@@ -11,7 +11,7 @@ import lombok.NonNull;
 import lombok.val;
 
 @RootElement
-public class ArcusConfigurationObject<T> implements Configuration<T> {
+public class ArcusConfigurationObject<T> implements ConfigurationMapping<T> {
 
   private final String key;
   private final @NonNull T value;
@@ -52,6 +52,16 @@ public class ArcusConfigurationObject<T> implements Configuration<T> {
     return Optional.ofNullable((U) host);
 
 
+  }
+
+  @Override
+  public <U> @NonNull void setValue(@NonNull String path, @NonNull U value) {
+
+  }
+
+  @Override
+  public @NonNull <U> Optional<U> getValue(String s) {
+    return Optional.empty();
   }
 
   private Optional<
