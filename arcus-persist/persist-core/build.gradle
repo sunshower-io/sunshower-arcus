@@ -7,8 +7,6 @@ dependencies {
      */
     [
             project(':arcus-lang'),
-            project(':arcus-config:config-yaml'),
-            project(':arcus-config:config-core'),
             project(':arcus-persist:persist-api'),
             'org.springframework:spring-beans',
             'org.springframework:spring-context',
