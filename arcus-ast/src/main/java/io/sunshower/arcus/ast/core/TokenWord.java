@@ -4,7 +4,9 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.Objects;
 import lombok.val;
 
-/** idk why lombok isn't recognizing generated getters */
+/**
+ * idk why lombok isn't recognizing generated getters
+ */
 @SuppressFBWarnings
 public final class TokenWord implements Token {
 
@@ -45,26 +47,4 @@ public final class TokenWord implements Token {
     return type;
   }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(start, end, type, lexeme);
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (o == this) {
-      return true;
-    }
-    if (o == null) {
-      return false;
-    }
-    if (o instanceof TokenWord) {
-      val tw = (TokenWord) o;
-      return start == tw.start
-          && end == tw.end
-          && type == tw.type
-          && Objects.equals(lexeme, tw.lexeme);
-    }
-    return false;
-  }
 }

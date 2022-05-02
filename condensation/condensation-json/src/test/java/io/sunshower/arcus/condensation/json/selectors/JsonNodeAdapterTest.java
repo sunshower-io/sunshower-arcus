@@ -32,7 +32,7 @@ class JsonNodeAdapterTest {
     val document = readStream("test.json");
     val docString = read("test.json");
     val result = parser.parse(document);
-    assertEquals(parser.parse(docString), result);
+    assertEquals(parser.parse(docString).toString(), result.toString());
   }
 
   @Test
