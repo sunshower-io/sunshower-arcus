@@ -56,7 +56,6 @@ public class JsonParserTest {
     System.out.println(ast);
   }
 
-
   @SneakyThrows
   public static InputStream readStream(String s) {
     val resource = ClassLoader.getSystemClassLoader().getResourceAsStream(s);

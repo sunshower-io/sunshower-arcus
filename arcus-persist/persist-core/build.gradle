@@ -7,8 +7,6 @@ dependencies {
      */
     [
             project(':arcus-lang'),
-            project(':arcus-config:config-yaml'),
-            project(':arcus-config:config-core'),
             project(':arcus-persist:persist-api'),
             'org.springframework:spring-beans',
             'org.springframework:spring-context',
@@ -25,7 +23,6 @@ dependencies {
     [
             'org.hibernate:hibernate-core',
             'org.hibernate:hibernate-entitymanager',
-            project(':arcus-config:config-spring'),
             'org.springframework.data:spring-data-jpa'
     ].each {
         implementation it

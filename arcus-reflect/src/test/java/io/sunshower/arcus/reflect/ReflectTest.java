@@ -15,13 +15,16 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import lombok.val;
 import org.junit.jupiter.api.Test;
@@ -29,8 +32,69 @@ import org.junit.jupiter.api.Test;
 public class ReflectTest {
 
   @Test
+  void ensureCollectingPublicMethodsWorksDisjunction() {
+
+    class A {
+
+      private void b() {}
+
+      public void c() {}
+    }
+
+    class B extends A {
+
+      private void b1() {}
+
+      public void c1() {}
+    }
+
+    val result =
+        Reflect.methodsMatching(
+                B.class,
+                HierarchyTraversalMode.LinearSupertypes,
+                MethodFilters.PUBLIC_METHODS.and(
+                    ((Predicate<Method>) method -> method.getDeclaringClass() == Object.class)
+                        .negate()))
+            .map(Method::getName)
+            .collect(Collectors.toList());
+
+    assertEquals(2, result.size());
+    assertTrue(result.containsAll(Set.of("c1", "c")));
+  }
+
+  @Test
+  void ensureCollectingPublicMethodsWorks() {
+
+    class A {
+
+      private void b() {}
+
+      public void c() {}
+    }
+
+    class B extends A {
+
+      private void b1() {}
+
+      public void c1() {}
+    }
+
+    val result =
+        Reflect.methodsMatching(
+                B.class,
+                HierarchyTraversalMode.LinearSupertypesExcludingObject,
+                MethodFilters.PUBLIC_METHODS)
+            .map(Method::getName)
+            .collect(Collectors.toList());
+
+    assertEquals(2, result.size());
+    assertTrue(result.containsAll(Set.of("c1", "c")));
+  }
+
+  @Test
   void ensureResolvingMethodParameterTypesWorks() {
     class A {
+
       void b(List<String> list) {}
     }
     val types =
@@ -50,6 +114,7 @@ public class ReflectTest {
   void ensureHasMethodWorks() {
 
     class A {
+
       void b(List<String> list) {}
     }
     assertTrue(Reflect.hasMethod(A.class, "b", List.class));

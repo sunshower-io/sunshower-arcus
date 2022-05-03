@@ -1,6 +1,0 @@
-
-dependencies {
-    api project(':arcus-config:config-core')
-    implementation project(':condensation:condensation-json')
-    implementation project(':condensation:condensation-core')
-}
