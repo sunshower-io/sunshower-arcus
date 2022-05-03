@@ -5,6 +5,7 @@ import io.sunshower.arcus.condensation.Condensation;
 import io.sunshower.crypt.core.EncryptedValue;
 import io.sunshower.crypt.core.EncryptionService;
 import io.sunshower.crypt.core.EncryptionServiceFactory;
+import io.sunshower.crypt.core.EncryptionServiceSet;
 import io.sunshower.crypt.core.NoSuchVaultException;
 import io.sunshower.crypt.core.Secret;
 import io.sunshower.crypt.core.Vault;
@@ -98,6 +99,37 @@ public class FileBackedVaultManager extends AbstractVaultManager implements Vaul
       }
       return openVaults.remove(vault.getId()) != null;
     }
+  }
+
+  @Override
+  public EncryptionServiceSet createEncryptionServiceSet() {
+    val salt = generateRandom(64);
+    val iv = generateRandom(16);
+    val tempPassword = encoding.encode(generateRandom(32));
+
+    val factory =
+        encryptionServiceFactory.create(encoding.encode(salt), encoding.encode(iv), tempPassword);
+    return new EncryptionServiceSet() {
+      @Override
+      public byte[] getSalt() {
+        return salt;
+      }
+
+      @Override
+      public byte[] getInitializationVector() {
+        return iv;
+      }
+
+      @Override
+      public byte[] getPassword() {
+        return encoding.decode(tempPassword);
+      }
+
+      @Override
+      public EncryptionService getEncryptionService() {
+        return factory;
+      }
+    };
   }
 
   /**

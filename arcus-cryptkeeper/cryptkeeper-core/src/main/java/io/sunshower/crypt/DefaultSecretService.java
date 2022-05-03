@@ -3,6 +3,7 @@ package io.sunshower.crypt;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.sunshower.arcus.condensation.Condensation;
 import io.sunshower.crypt.core.EncryptionServiceFactory;
+import io.sunshower.crypt.core.EncryptionServiceSet;
 import io.sunshower.crypt.core.Lease;
 import io.sunshower.crypt.core.LeaseExpiredException;
 import io.sunshower.crypt.core.LeaseReaper;
@@ -37,7 +38,6 @@ public class DefaultSecretService implements SecretService {
 
   private final LeaseReaper leaseReaper;
   private final VaultManager vaultManager;
-
   private final Map<Identifier, Vault> openVaults;
 
   protected DefaultSecretService(@NonNull VaultManager vaultManager) {
@@ -345,5 +345,10 @@ public class DefaultSecretService implements SecretService {
   @Override
   public Identifier add(Vault vault, CharSequence password) {
     return vaultManager.addVault(vault, password).getId();
+  }
+
+  @Override
+  public EncryptionServiceSet createEncryptionServiceSet() {
+    return vaultManager.createEncryptionServiceSet();
   }
 }

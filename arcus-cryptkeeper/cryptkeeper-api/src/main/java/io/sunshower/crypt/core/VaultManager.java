@@ -27,4 +27,6 @@ public interface VaultManager extends AutoCloseable {
   Vault flush(Vault vault);
 
   boolean deleteVault(Vault vault, CharSequence password);
+
+  EncryptionServiceSet createEncryptionServiceSet();
 }
