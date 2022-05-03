@@ -11,6 +11,7 @@ import io.sunshower.crypt.core.Secret;
 import io.sunshower.crypt.core.Vault;
 import io.sunshower.crypt.core.VaultManager;
 import io.sunshower.persistence.id.Identifier;
+import io.sunshower.persistence.id.Identifiers;
 import java.io.File;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
@@ -51,6 +52,32 @@ public class FileBackedVaultManager extends AbstractVaultManager implements Vaul
           encryptionServiceFactory.create(
               vaultDescriptor.getSalt(), vaultDescriptor.getInitializationVector(), password);
       return readVault(vaultDescriptor, encryptionService, password);
+    }
+  }
+
+  @Override
+  public Vault createVault(
+      String name, String description, CharSequence password, byte[] salt, byte[] iv) {
+    synchronized (lock) {
+      val id = Identifiers.newSequence().next();
+      val serializedVault = new SerializedVault(id);
+      serializedVault.setVaultManager(this);
+
+      val vaultDescriptor = new VaultDescriptor();
+      serializedVault.setDescriptor(vaultDescriptor);
+      vaultDescriptor.setId(id);
+      val encodedSalt = encoding.encode(salt);
+
+      val encryptionService =
+          encryptionServiceFactory.create(encodedSalt, encoding.encode(iv), password, encoding);
+      vaultDescriptor.setDescription(description);
+      vaultDescriptor.setName(name);
+      vaultDescriptor.setInitializationVector(encoding.encode(iv));
+      vaultDescriptor.setSalt(encodedSalt);
+      vaultDescriptor.setVaultPath(UUID.randomUUID() + ".vault");
+      serializedVault.setPassword(password);
+      encryptAndClose(serializedVault, vaultDescriptor, encryptionService);
+      return unlock(serializedVault.getId(), password);
     }
   }
 
@@ -103,12 +130,16 @@ public class FileBackedVaultManager extends AbstractVaultManager implements Vaul
 
   @Override
   public EncryptionServiceSet createEncryptionServiceSet() {
+    return createEncryptionServiceSet(encoding.encode(generateRandom(32)));
+  }
+
+  @Override
+  public EncryptionServiceSet createEncryptionServiceSet(CharSequence password) {
     val salt = generateRandom(64);
     val iv = generateRandom(16);
-    val tempPassword = encoding.encode(generateRandom(32));
 
     val factory =
-        encryptionServiceFactory.create(encoding.encode(salt), encoding.encode(iv), tempPassword);
+        encryptionServiceFactory.create(encoding.encode(salt), encoding.encode(iv), password);
     return new EncryptionServiceSet() {
       @Override
       public byte[] getSalt() {
@@ -122,7 +153,7 @@ public class FileBackedVaultManager extends AbstractVaultManager implements Vaul
 
       @Override
       public byte[] getPassword() {
-        return encoding.decode(tempPassword);
+        return encoding.decode(password);
       }
 
       @Override
@@ -130,6 +161,14 @@ public class FileBackedVaultManager extends AbstractVaultManager implements Vaul
         return factory;
       }
     };
+  }
+
+  @Override
+  public Vault createDefaultVault(String name, String description, CharSequence password) {
+    val vault = new DefaultVault();
+    vault.setName(name);
+    vault.setDescription(description);
+    return addVault(vault, password);
   }
 
   /**

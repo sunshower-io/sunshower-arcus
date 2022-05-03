@@ -343,6 +343,12 @@ public class DefaultSecretService implements SecretService {
   }
 
   @Override
+  public VaultLease createVault(String name, String description, LeaseRequest request) {
+    val vault = createVault(name, description, request.password());
+    return lease(vault.getId(), request);
+  }
+
+  @Override
   public Identifier add(Vault vault, CharSequence password) {
     return vaultManager.addVault(vault, password).getId();
   }
@@ -350,5 +356,18 @@ public class DefaultSecretService implements SecretService {
   @Override
   public EncryptionServiceSet createEncryptionServiceSet() {
     return vaultManager.createEncryptionServiceSet();
+  }
+
+  @Override
+  public EncryptionServiceSet createEncryptionServiceSet(CharSequence password) {
+    return vaultManager.createEncryptionServiceSet(password);
+  }
+
+  public VaultManager getVaultManager() {
+    return vaultManager;
+  }
+
+  public Vault createVault(String name, String description, CharSequence password) {
+    return vaultManager.createDefaultVault(name, description, password);
   }
 }
