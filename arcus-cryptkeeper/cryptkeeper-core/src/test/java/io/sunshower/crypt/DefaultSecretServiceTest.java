@@ -66,4 +66,36 @@ class DefaultSecretServiceTest {
     Thread.sleep(1000);
     assertThrows(LockedVaultException.class, lease::list);
   }
+
+  @Test
+  void ensureAttemptingToLeaseSecretFromClosedVaultFails() {
+    val vault =
+        service.createVault(
+            "test vault",
+            "test vault",
+            Leases.forPassword("password").expiresIn(100, TimeUnit.SECONDS));
+    val secret = vault.save(new StringSecret("hello", "world", "how are you?"));
+    vault.close();
+    assertThrows(
+        LockedVaultException.class,
+        () -> {
+          vault.lease(secret);
+        });
+  }
+
+  @Test
+  void ensureCreatingDefaultVaultWorks() {
+    val set = service.createEncryptionServiceSet("password");
+    val manager = service.getVaultManager();
+
+    var vault =
+        manager.createVault(
+            "test vault", "test vault", "password", set.getSalt(), set.getInitializationVector());
+
+    vault.getSecrets();
+    vault.close();
+    assertThrows(LockedVaultException.class, vault::getSecrets);
+    vault = manager.unlock(vault.getId(), "password");
+    vault.getSecrets();
+  }
 }

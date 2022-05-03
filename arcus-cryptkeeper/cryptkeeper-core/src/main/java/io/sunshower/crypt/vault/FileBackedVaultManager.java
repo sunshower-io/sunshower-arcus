@@ -5,11 +5,13 @@ import io.sunshower.arcus.condensation.Condensation;
 import io.sunshower.crypt.core.EncryptedValue;
 import io.sunshower.crypt.core.EncryptionService;
 import io.sunshower.crypt.core.EncryptionServiceFactory;
+import io.sunshower.crypt.core.EncryptionServiceSet;
 import io.sunshower.crypt.core.NoSuchVaultException;
 import io.sunshower.crypt.core.Secret;
 import io.sunshower.crypt.core.Vault;
 import io.sunshower.crypt.core.VaultManager;
 import io.sunshower.persistence.id.Identifier;
+import io.sunshower.persistence.id.Identifiers;
 import java.io.File;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
@@ -50,6 +52,32 @@ public class FileBackedVaultManager extends AbstractVaultManager implements Vaul
           encryptionServiceFactory.create(
               vaultDescriptor.getSalt(), vaultDescriptor.getInitializationVector(), password);
       return readVault(vaultDescriptor, encryptionService, password);
+    }
+  }
+
+  @Override
+  public Vault createVault(
+      String name, String description, CharSequence password, byte[] salt, byte[] iv) {
+    synchronized (lock) {
+      val id = Identifiers.newSequence().next();
+      val serializedVault = new SerializedVault(id);
+      serializedVault.setVaultManager(this);
+
+      val vaultDescriptor = new VaultDescriptor();
+      serializedVault.setDescriptor(vaultDescriptor);
+      vaultDescriptor.setId(id);
+      val encodedSalt = encoding.encode(salt);
+
+      val encryptionService =
+          encryptionServiceFactory.create(encodedSalt, encoding.encode(iv), password, encoding);
+      vaultDescriptor.setDescription(description);
+      vaultDescriptor.setName(name);
+      vaultDescriptor.setInitializationVector(encoding.encode(iv));
+      vaultDescriptor.setSalt(encodedSalt);
+      vaultDescriptor.setVaultPath(UUID.randomUUID() + ".vault");
+      serializedVault.setPassword(password);
+      encryptAndClose(serializedVault, vaultDescriptor, encryptionService);
+      return unlock(serializedVault.getId(), password);
     }
   }
 
@@ -98,6 +126,49 @@ public class FileBackedVaultManager extends AbstractVaultManager implements Vaul
       }
       return openVaults.remove(vault.getId()) != null;
     }
+  }
+
+  @Override
+  public EncryptionServiceSet createEncryptionServiceSet() {
+    return createEncryptionServiceSet(encoding.encode(generateRandom(32)));
+  }
+
+  @Override
+  public EncryptionServiceSet createEncryptionServiceSet(CharSequence password) {
+    val salt = generateRandom(64);
+    val iv = generateRandom(16);
+
+    val factory =
+        encryptionServiceFactory.create(encoding.encode(salt), encoding.encode(iv), password);
+    return new EncryptionServiceSet() {
+      @Override
+      public byte[] getSalt() {
+        return salt;
+      }
+
+      @Override
+      public byte[] getInitializationVector() {
+        return iv;
+      }
+
+      @Override
+      public byte[] getPassword() {
+        return encoding.decode(password);
+      }
+
+      @Override
+      public EncryptionService getEncryptionService() {
+        return factory;
+      }
+    };
+  }
+
+  @Override
+  public Vault createDefaultVault(String name, String description, CharSequence password) {
+    val vault = new DefaultVault();
+    vault.setName(name);
+    vault.setDescription(description);
+    return addVault(vault, password);
   }
 
   /**

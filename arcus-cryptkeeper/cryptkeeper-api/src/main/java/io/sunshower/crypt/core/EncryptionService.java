@@ -1,6 +1,7 @@
 package io.sunshower.crypt.core;
 
 import io.sunshower.lang.primitives.Rope;
+import io.sunshower.lang.tuple.Pair;
 import java.io.Serializable;
 import java.util.function.Function;
 import javax.crypto.SealedObject;
@@ -33,4 +34,12 @@ public interface EncryptionService {
   }
 
   SecretKey generatePassword(CharSequence input);
+
+  byte[] createSalt();
+
+  byte[] createInitializationVector();
+
+  CharSequence createSaltAndInitializationVector();
+
+  Pair<byte[], byte[]> decodeSaltAndInitializationVector(CharSequence saltAndIv);
 }

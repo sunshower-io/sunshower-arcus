@@ -25,6 +25,14 @@ class JCAEncryptionServiceTest {
   }
 
   @Test
+  void ensureSaltAndIvAreEncodedAndDecodedCorrectly() {
+    val siv = encryptionService.createSaltAndInitializationVector();
+    val siv2 = encryptionService.decodeSaltAndInitializationVector(siv);
+    assertEquals(64, siv2.fst().length);
+    assertEquals(16, siv2.snd().length);
+  }
+
+  @Test
   void ensureEncryptingWorks() {
     val result = encryptionService.encrypt((CharSequence) plaintext);
     assertNotEquals(plaintext, result);

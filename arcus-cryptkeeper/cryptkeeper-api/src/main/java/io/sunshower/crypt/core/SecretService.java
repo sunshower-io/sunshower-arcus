@@ -19,6 +19,14 @@ public interface SecretService extends AutoCloseable {
    */
   VaultLease lease(Identifier identifier, LeaseRequest request);
 
+  /**
+   * @param name
+   * @param description
+   * @param request
+   * @return
+   */
+  VaultLease createVault(String name, String description, LeaseRequest request);
+
   Identifier add(Vault vault, CharSequence password);
 
   /**
@@ -33,4 +41,12 @@ public interface SecretService extends AutoCloseable {
       return false;
     }
   }
+
+  EncryptionServiceSet createEncryptionServiceSet();
+
+  VaultManager getVaultManager();
+
+  Vault createVault(String name, String description, CharSequence password);
+
+  EncryptionServiceSet createEncryptionServiceSet(CharSequence password);
 }

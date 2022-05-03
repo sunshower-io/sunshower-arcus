@@ -16,6 +16,8 @@ public interface VaultManager extends AutoCloseable {
 
   Vault addVault(Vault vault, CharSequence password);
 
+  Vault createVault(String name, String description, CharSequence password, byte[] salt, byte[] iv);
+
   Vault addSecret(Vault vault, Secret secret);
 
   Vault addSecrets(Vault vault, Collection<? extends Secret> secrets);
@@ -27,4 +29,10 @@ public interface VaultManager extends AutoCloseable {
   Vault flush(Vault vault);
 
   boolean deleteVault(Vault vault, CharSequence password);
+
+  EncryptionServiceSet createEncryptionServiceSet();
+
+  EncryptionServiceSet createEncryptionServiceSet(CharSequence password);
+
+  Vault createDefaultVault(String name, String description, CharSequence password);
 }
