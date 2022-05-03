@@ -1,4 +1,4 @@
-package io.sunshower.arcus.identicon.renderers;
+package io.sunshower.arcus.identicon.renderers.svg;
 
 import static java.lang.String.format;
 
@@ -15,11 +15,11 @@ public final class SvgPath {
     shape = new Rope();
   }
 
-  static int intValue(float v) {
+  private static int intValue(float v) {
     return (int) Math.floor(v);
   }
 
-  public void addPoints(Collection<Point> points) {
+  public SvgPath addPoints(Collection<Point> points) {
     val piter = points.iterator();
     Rope pathStart = null;
     if (piter.hasNext()) {
@@ -32,9 +32,10 @@ public final class SvgPath {
     if (pathStart != null) {
       shape = pathStart.append("Z");
     }
+    return this;
   }
 
-  public void addCircle(Point center, float dia, boolean counterclockwise) {
+  public SvgPath addCircle(Point center, float dia, boolean counterclockwise) {
     val sweep = counterclockwise ? 0 : 1;
     val radius = intValue(dia / 2);
     val diameter = intValue(dia);
@@ -43,19 +44,28 @@ public final class SvgPath {
             intValue(center.x),
             intValue(center.y + dia / 2F))
     ).append(
-        format("a%d,%d 0 1,%b %d,0",
+        format("a%d,%d 0 1,%d %d,0",
             radius,
             radius,
             sweep,
             diameter
         )
     ).append(
-        format("a%d,%d 0 1,%b %d,0",
+        format("a%d,%d 0 1,%d %d,0",
             radius,
             radius,
             sweep,
             -diameter
         )
     );
+    return this;
+  }
+
+  public SvgPath addCircle(Point c, int diameter) {
+    return addCircle(c, diameter, false);
+  }
+
+  public CharSequence getPath() {
+    return shape.toString();
   }
 }
