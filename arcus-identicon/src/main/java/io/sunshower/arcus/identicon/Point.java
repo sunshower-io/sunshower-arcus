@@ -14,4 +14,8 @@ public class Point {
     this.x = x;
     this.y = y;
   }
+
+  public static Point at(float x, float y) {
+    return new Point(x, y);
+  }
 }

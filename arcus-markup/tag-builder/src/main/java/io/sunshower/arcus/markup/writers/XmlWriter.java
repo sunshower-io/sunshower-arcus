@@ -41,7 +41,6 @@ public class XmlWriter implements TagWriter {
     writer.write("<");
     writer.write(tag.name());
     writer.write("\n");
-
   }
 
 

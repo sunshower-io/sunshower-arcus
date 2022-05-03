@@ -2,12 +2,14 @@ package io.sunshower.arcus.identicon.renderers.svg;
 
 import static java.lang.String.format;
 
+import io.sunshower.arcus.identicon.Path;
 import io.sunshower.arcus.identicon.Point;
+import io.sunshower.arcus.identicon.Renderer;
 import io.sunshower.lang.primitives.Rope;
 import java.util.Collection;
 import lombok.val;
 
-public final class SvgPath {
+final class SvgPath implements Path {
 
   private Rope shape;
 
@@ -19,6 +21,7 @@ public final class SvgPath {
     return (int) Math.floor(v);
   }
 
+  @Override
   public SvgPath addPoints(Collection<Point> points) {
     val piter = points.iterator();
     Rope pathStart = null;
@@ -35,6 +38,7 @@ public final class SvgPath {
     return this;
   }
 
+  @Override
   public SvgPath addCircle(Point center, float dia, boolean counterclockwise) {
     val sweep = counterclockwise ? 0 : 1;
     val radius = intValue(dia / 2);
@@ -61,11 +65,19 @@ public final class SvgPath {
     return this;
   }
 
+  @Override
   public SvgPath addCircle(Point c, int diameter) {
     return addCircle(c, diameter, false);
   }
 
+  @Override
   public CharSequence getPath() {
     return shape.toString();
+  }
+
+  @Override
+  public Path add(Renderer renderer) {
+//    renderer.
+    return this;
   }
 }

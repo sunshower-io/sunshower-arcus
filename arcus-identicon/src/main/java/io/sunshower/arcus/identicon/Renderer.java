@@ -13,14 +13,27 @@ public interface Renderer {
   /**
    * begin a shape
    * @param color the color of the shape
+   * @param alpha the alpha
    */
-  void beginShape(Color color);
+  void beginShape(Color color, float alpha);
+  default void beginShape(Color color) {
+    beginShape(color, 1);
+  }
 
   /**
    * set the background color of this polygon
    * @param color the color
+   * @param alpha the alpha
    */
-  void setBackgroundColor(Color color);
+  void setBackgroundColor(Color color, float alpha);
+
+  /**
+   * set the background color
+   * @param color
+   */
+  default void setBackgroundColor(Color color) {
+    setBackgroundColor(color, 1);
+  }
 
 
   void addPoint(Point point);

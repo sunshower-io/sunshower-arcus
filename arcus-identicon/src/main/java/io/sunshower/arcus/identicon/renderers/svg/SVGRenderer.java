@@ -16,12 +16,12 @@ public class SVGRenderer implements Renderer {
   }
 
   @Override
-  public void beginShape(Color color) {
+  public void beginShape(Color color, float alpha) {
 
   }
 
   @Override
-  public void setBackgroundColor(Color color) {
+  public void setBackgroundColor(Color color, float alpha) {
 
   }
 
