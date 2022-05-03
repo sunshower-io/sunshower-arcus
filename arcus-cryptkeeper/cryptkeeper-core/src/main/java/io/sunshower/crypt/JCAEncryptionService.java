@@ -1,5 +1,7 @@
 package io.sunshower.crypt;
 
+import static java.lang.String.format;
+
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.sunshower.crypt.core.DecryptedValue;
 import io.sunshower.crypt.core.EncryptedValue;
@@ -8,6 +10,7 @@ import io.sunshower.lang.common.encodings.Encoding;
 import io.sunshower.lang.common.encodings.Encodings;
 import io.sunshower.lang.common.encodings.Encodings.Type;
 import io.sunshower.lang.primitives.Rope;
+import io.sunshower.lang.tuple.Pair;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
@@ -222,6 +225,46 @@ public class JCAEncryptionService implements EncryptionService {
     return new SecretKeySpec(factory.generateSecret(keySpec).getEncoded(), "AES");
   }
 
+  @Override
+  @SneakyThrows
+  public byte[] createSalt() {
+    val initializationVector = new byte[64];
+    val instance = SecureRandom.getInstance("SHA1PRNG");
+    instance.nextBytes(initializationVector);
+    return initializationVector;
+  }
+
+  @Override
+  @SneakyThrows
+  public byte[] createInitializationVector() {
+    val initializationVector = new byte[16];
+    val instance = SecureRandom.getInstance("SHA1PRNG");
+    instance.nextBytes(initializationVector);
+    return initializationVector;
+  }
+
+  @Override
+  public CharSequence createSaltAndInitializationVector() {
+    val salt = createSalt();
+    val iv = createInitializationVector();
+
+    val encodedSalt = encoding.encode(salt);
+    val encodedIv = encoding.encode(iv);
+    return encoding.encode(encodedSalt + ":" + encodedIv);
+  }
+
+  @Override
+  public Pair<byte[], byte[]> decodeSaltAndInitializationVector(CharSequence saltAndIv) {
+    val siv = new String(encoding.decode(saltAndIv), StandardCharsets.UTF_8).split(":");
+    if (siv.length != 2) {
+      throw new IllegalArgumentException(
+          format("Error: invalid salt and initialization vector: %s", saltAndIv));
+    }
+    val encodedIv = siv[1];
+    val encodedSalt = siv[0];
+    return Pair.of(encoding.decode(encodedSalt), encoding.decode(encodedIv));
+  }
+
   @SneakyThrows
   private IvParameterSpec generateInitializationVector() {
     var iv = initializationVector;
@@ -233,9 +276,7 @@ public class JCAEncryptionService implements EncryptionService {
       if (iv != null) {
         return iv;
       } else {
-        val initializationVector = new byte[16];
-        val instance = SecureRandom.getInstance("SHA1PRNG");
-        instance.nextBytes(initializationVector);
+        byte[] initializationVector = createInitializationVector();
         return (this.initializationVector = new IvParameterSpec(initializationVector));
       }
     }
