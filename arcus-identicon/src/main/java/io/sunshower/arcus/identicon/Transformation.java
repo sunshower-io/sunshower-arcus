@@ -19,7 +19,6 @@ public final class Transformation {
     this.y = y;
     this.size = size;
     this.rotation = rotation;
-//    System.out.format("Transformation: %f %f %f %d\n", x, y, size, rotation);
   }
 
   public Point transform(Point location, Float w, Float h) {

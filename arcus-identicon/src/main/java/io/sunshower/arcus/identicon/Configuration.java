@@ -11,11 +11,13 @@ public final class Configuration {
 
   static final int DEFAULT_SIZE = 100;
   static final int DEFAULT_PADDING = 0;
+  private static final float DEFAULT_OPACITY = 1f;
 
   private final float x;
   private final float y;
-  private final float size;
-  private final float padding;
+  private final int size;
+  private final int padding;
+  private final float opacity;
   private final float saturation;
   private final String backgroundColor;
   private final LightnessTransformations transformations;
@@ -23,26 +25,32 @@ public final class Configuration {
   public Configuration(
       float x,
       float y,
-      float size,
+      int size,
+      float opacity,
       float saturation,
-      float padding,
+      int padding,
       String backgroundColor,
       LightnessTransformations transformations) {
     this.x = x;
     this.y = y;
     this.size = size;
+    this.opacity = opacity;
     this.padding = padding;
     this.saturation = saturation;
     this.backgroundColor = backgroundColor;
     this.transformations = transformations;
   }
 
-
   public static Configuration getConfiguration(int size, int padding) {
+    return getConfiguration(size, padding, DEFAULT_OPACITY);
+  }
+
+  public static Configuration getConfiguration(int size, int padding, float opacity) {
     return new Configuration(
         0f,
         0f,
         size,
+        opacity,
         0.5F,
         padding,
         "#FFFFFF",

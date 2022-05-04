@@ -76,20 +76,17 @@ public class IconGenerator {
   ) {
     val r = rotationIndex != -1 ? hex(sequence.charAt(rotationIndex)) : 0;
 
-    System.out.printf("Rotation index: %d%n", r);
     val subshape = shape.subshape((hex(sequence.charAt(index))) % shape.subshapeCount());
-
     val hue = computeHue(sequence);
     val colors = configuration.colors(hue);
-    val colorIndexes = new ArrayList<Integer>();
-    calculateColorIndexes(colors, colorIndexes, sequence);
+    val colorIndexes = calculateColorIndexes(colors, sequence);
     doRender(colors[colorIndexes.get(colorIndex)], subshape, r, positions);
 
 
   }
 
   private void doRender(Color color, Shape shape, int r, int[][] positions) {
-    renderer.beginShape(color);
+    renderer.beginShape(color, configuration.getOpacity());
     for (int i = 0; i < positions.length; i++) {
       val g = graphics.withNewTransformation(new Transformation(
           x + positions[i][0] * cellSize,
@@ -102,13 +99,20 @@ public class IconGenerator {
     renderer.endShape();
   }
 
-  private void calculateColorIndexes(Color[] availableColors, List<Integer> colorIndexes,
+  private List<Integer> calculateColorIndexes(Color[] availableColors,
       CharSequence sequence) {
+    val colorIndexes = new ArrayList<Integer>();
     for (int i = 0; i < 3; i++) {
-      //need to figure out what isDuplicate is doing
       val index = indexOf(sequence, colorIndexes, availableColors, i);
-      colorIndexes.add(index);
+      if(
+          isDuplicatedIn(index, List.of(0, 4), colorIndexes)
+          || isDuplicatedIn(index, List.of(2, 3), colorIndexes)) {
+        colorIndexes.add(1);
+      } else {
+        colorIndexes.add(index);
+      }
     }
+    return colorIndexes;
   }
 
   boolean isDuplicatedIn(Integer index, List<Integer> values, List<Integer> colorIndexes) {

@@ -3,11 +3,13 @@ package io.sunshower.arcus.identicon;
 import io.sunshower.arcus.identicon.renderers.svg.SVGRenderer;
 import io.sunshower.arcus.identicon.renderers.svg.SVGWriter;
 import io.sunshower.arcus.markup.Tag;
+import io.sunshower.arcus.markup.writers.XmlWriter;
 import io.sunshower.lang.common.hash.Hashes;
 import io.sunshower.lang.common.hash.Hashes.Algorithm;
 import io.sunshower.lang.common.hash.Hashes.HashCode;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Writer;
@@ -20,7 +22,6 @@ public class Identicon {
 
   static final HashCode hashcode;
 
-  static final int defaultSize = 128;
 
   static {
     hashcode = Hashes.hashCode(Algorithm.SHA1);
@@ -44,33 +45,61 @@ public class Identicon {
   }
 
 
-
   public static Tag toSvg(Object o) {
     return toSvg(o, Configuration.DEFAULT_SIZE, Configuration.DEFAULT_PADDING);
   }
+
   public static Tag toSvg(Object o, int size, int padding) {
     return toSvg(o, size, padding, 1);
   }
 
   public static Tag toSvg(Object o, int size, int padding, float opacity) {
-    try (val outpustream = new ByteArrayOutputStream();
-        val result = new PrintWriter(new OutputStreamWriter(outpustream));
+    return toSvg(o, Configuration.getConfiguration(size, padding, opacity));
+  }
+
+  public static void toSvg(Object o, Configuration cfg, OutputStream outputStream) {
+    try {
+      val tag = toSvg(o, cfg);
+      tag.write(new XmlWriter(outputStream));
+      outputStream.flush();
+    } catch (IOException ex) {
+      throw new RuntimeException(ex);
+    }
+  }
+
+  public static Tag toSvg(Object o, Configuration configuration) {
+    try (
+        val baos = new ByteArrayOutputStream();
+        val actualOutput = new ByteArrayOutputStream();
+        val result = new PrintWriter(new OutputStreamWriter(actualOutput));
     ) {
       create(o, result);
       result.flush();
-      outpustream.flush();
-      return generateSvg(outpustream.toString(StandardCharsets.UTF_8), size, padding, opacity);
+      actualOutput.flush();
+      val tag = generateSvg(actualOutput.toString(StandardCharsets.UTF_8), configuration);
+      tag.write(new XmlWriter(baos));
+      baos.flush();
+      return tag;
     } catch (IOException ex) {
       throw new IllegalStateException(ex);
     }
   }
 
-  private static Tag generateSvg(String toString, int size, int padding, float opacity) {
-    val writer = new SVGWriter(size);
-    val generator = new IconGenerator(new SVGRenderer(writer, opacity),
-        Configuration.getConfiguration(size, padding));
+  private static Tag generateSvg(String toString, Configuration configuration) {
+    val writer = new SVGWriter(configuration.getSize());
+    val generator = new IconGenerator(new SVGRenderer(writer, configuration.getOpacity()),
+        configuration);
     generator.apply(toString);
     return writer.getRoot();
   }
 
+  public static void writeHashToSvg(String hash, Configuration cfg, OutputStream outputStream) {
+    try {
+      val tag = generateSvg(hash, cfg);
+      tag.write(new XmlWriter(outputStream));
+      outputStream.flush();
+    } catch (IOException ex) {
+      throw new RuntimeException(ex);
+    }
+  }
 }
