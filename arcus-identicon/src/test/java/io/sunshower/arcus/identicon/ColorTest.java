@@ -30,5 +30,4 @@ class ColorTest {
     val hsl = Colors.hueSaturationLightness(.18f, .40f, .49f);
     assertEquals("#A7AF4B", hsl.toHexadecimal());
   }
-
 }

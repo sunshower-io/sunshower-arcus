@@ -5,10 +5,8 @@ import lombok.val;
 
 public class Colors {
 
-
-  private static final float[] correctors = new float[]{
-      0.55f, 0.5f, 0.5f, 0.46f, 0.6f, 0.55f, 0.55f
-  };
+  private static final float[] correctors =
+      new float[] {0.55f, 0.5f, 0.5f, 0.46f, 0.6f, 0.55f, 0.55f};
 
   public static Color fromHexadecimal(@NonNull String value) {
     val normalized = value.charAt(0) == '#' ? value.substring(1) : value;
@@ -23,13 +21,13 @@ public class Colors {
   /**
    * create a color from hsl
    *
-   * @param hue        the hue
+   * @param hue the hue
    * @param saturation the saturation
-   * @param lightness  the lightness
+   * @param lightness the lightness
    * @return a color from HSL
    */
-  public static Color hueSaturationLightness(float hue, float saturation, float lightness,
-      boolean correct) {
+  public static Color hueSaturationLightness(
+      float hue, float saturation, float lightness, boolean correct) {
     if (correct) {
       lightness = correct(hue, lightness);
     }
@@ -70,9 +68,8 @@ public class Colors {
 
   private static float correct(float hue, float lightness) {
     val cfactor = correctors[(int) Math.floor(hue * 6 + 0.5)];
-    return lightness < 0.5F ?
-        lightness * cfactor * 2F
+    return lightness < 0.5F
+        ? lightness * cfactor * 2F
         : cfactor + (lightness - 0.5F) * (1F - cfactor) * 2F;
   }
-
 }

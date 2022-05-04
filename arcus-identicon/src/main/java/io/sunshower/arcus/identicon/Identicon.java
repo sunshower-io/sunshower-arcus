@@ -22,11 +22,9 @@ public class Identicon {
 
   static final HashCode hashcode;
 
-
   static {
     hashcode = Hashes.hashCode(Algorithm.SHA1);
   }
-
 
   public static void create(@NonNull Object toHash, @WillNotClose Writer writer)
       throws IOException {
@@ -43,7 +41,6 @@ public class Identicon {
     }
     writer.flush();
   }
-
 
   public static Tag toSvg(Object o) {
     return toSvg(o, Configuration.DEFAULT_SIZE, Configuration.DEFAULT_PADDING);
@@ -68,11 +65,10 @@ public class Identicon {
   }
 
   public static Tag toSvg(Object o, Configuration configuration) {
-    try (
-        val baos = new ByteArrayOutputStream();
+    try (val baos = new ByteArrayOutputStream();
         val actualOutput = new ByteArrayOutputStream();
-        val result = new PrintWriter(new OutputStreamWriter(actualOutput));
-    ) {
+        val result =
+            new PrintWriter(new OutputStreamWriter(actualOutput, StandardCharsets.UTF_8)); ) {
       create(o, result);
       result.flush();
       actualOutput.flush();
@@ -87,8 +83,8 @@ public class Identicon {
 
   private static Tag generateSvg(String toString, Configuration configuration) {
     val writer = new SVGWriter(configuration.getSize());
-    val generator = new IconGenerator(new SVGRenderer(writer, configuration.getOpacity()),
-        configuration);
+    val generator =
+        new IconGenerator(new SVGRenderer(writer, configuration.getOpacity()), configuration);
     generator.apply(toString);
     return writer.getRoot();
   }

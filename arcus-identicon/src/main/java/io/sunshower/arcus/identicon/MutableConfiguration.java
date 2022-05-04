@@ -34,7 +34,8 @@ class MutableConfiguration implements ConfigurationBuilder {
   }
 
   public MutableConfiguration(Configuration cfg) {
-    this(cfg.getX(),
+    this(
+        cfg.getX(),
         cfg.getY(),
         cfg.getSize(),
         cfg.getOpacity(),
@@ -44,18 +45,15 @@ class MutableConfiguration implements ConfigurationBuilder {
         cfg.getTransformations());
   }
 
-
   public Configuration build() {
-    return new Configuration(x, y, size, opacity, saturation, padding, backgroundColor,
-        transformations);
+    return new Configuration(
+        x, y, size, opacity, saturation, padding, backgroundColor, transformations);
   }
-
 
   public ConfigurationBuilder withX(float x) {
     this.x = x;
     return this;
   }
-
 
   @Override
   public ConfigurationBuilder withY(float y) {
@@ -63,13 +61,11 @@ class MutableConfiguration implements ConfigurationBuilder {
     return this;
   }
 
-
   @Override
   public ConfigurationBuilder withSize(int size) {
     this.size = size;
     return this;
   }
-
 
   @Override
   public ConfigurationBuilder withOpacity(float opacity) {

@@ -9,14 +9,11 @@ import org.junit.jupiter.api.Test;
 
 class SvgPathTest {
 
-
   @Test
   void ensureBuildingPathWorks() {
     val c = new Point(20, 20);
     val r = 40;
     val p = new SvgPath(Colors.fromHexadecimal("#FFFFFF"), 1f).addCircle(c, r).getPath();
-    assertEquals("M20 40a20,20 0 1,1 40,0a20,20 0 1,1 -40,0", p.toString());
+    assertEquals("M20 40a20,20 0 1, 1 40,0a20,20 0 1, 1 -40,0", p.toString());
   }
-
-
 }

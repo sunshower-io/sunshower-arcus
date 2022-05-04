@@ -5,6 +5,7 @@ import java.util.Collection;
 public interface Path {
 
   Color getColor();
+
   float getAlpha();
 
   Path addPoints(Collection<Point> points);
@@ -14,5 +15,4 @@ public interface Path {
   Path addCircle(Point c, int diameter);
 
   CharSequence getPath();
-
 }

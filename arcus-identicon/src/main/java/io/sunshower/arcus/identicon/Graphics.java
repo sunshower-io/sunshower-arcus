@@ -31,32 +31,23 @@ public class Graphics {
    * @param points the points
    */
   public void addPolygon(boolean invert, Point... points) {
-    val pts = (invert ? reverse(points) : List.of(points))
-        .stream()
-        .map(transformation::transform).collect(Collectors.toList());
+    val pts =
+        (invert ? reverse(points) : List.of(points))
+            .stream().map(transformation::transform).collect(Collectors.toList());
     renderer.addPolygon(pts);
   }
-
 
   public Graphics withNewTransformation(@NonNull Transformation transformation) {
     return new Graphics(renderer, transformation);
   }
 
-
-  /**
-   * @param points the points to add.  Does not invert
-   */
+  /** @param points the points to add. Does not invert */
   public void addPolygon(Point... points) {
     addPolygon(false, points);
   }
 
   public void addTriangle(boolean invert, float x, float y, float w, float h, float r) {
-    var points = new ArrayList<>(List.of(
-        at(x + w, y),
-        at(x + w, y + h),
-        at(x, y + h),
-        at(x, y)
-    ));
+    var points = new ArrayList<>(List.of(at(x + w, y), at(x + w, y + h), at(x, y + h), at(x, y)));
     points.remove(((int) floor(r)) % 4);
     addPolygon(invert, points.toArray(new Point[0]));
   }
@@ -66,25 +57,11 @@ public class Graphics {
   }
 
   public void addRectangle(boolean invert, float x, float y, float w, float h) {
-    addPolygon(
-        invert,
-        at(x, y),
-        at(x + w, y),
-        at(x + w, y + h),
-        at(x, y + h)
-    );
-
+    addPolygon(invert, at(x, y), at(x + w, y), at(x + w, y + h), at(x, y + h));
   }
 
   public void addRectangle(float x, float y, float w, float h) {
-    addPolygon(
-        false,
-        at(x, y),
-        at(x + w, y),
-        at(x + w, y + h),
-        at(x, y + h)
-    );
-
+    addPolygon(false, at(x, y), at(x + w, y), at(x + w, y + h), at(x, y + h));
   }
 
   public void addCircle(float x, float y, float s) {
@@ -98,12 +75,7 @@ public class Graphics {
 
   public void addRhombus(boolean invert, float x, float y, float w, float h) {
     addPolygon(
-        invert,
-        at(x + w / 2f, y),
-        at(x + w, y + h / 2f),
-        at(x + w / 2f, y + h),
-        at(x, y + h / 2f)
-    );
+        invert, at(x + w / 2f, y), at(x + w, y + h / 2f), at(x + w / 2f, y + h), at(x, y + h / 2f));
   }
 
   public void addRhombus(float x, float y, float w, float h) {

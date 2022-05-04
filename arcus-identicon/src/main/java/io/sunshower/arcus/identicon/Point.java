@@ -5,10 +5,8 @@ import lombok.ToString;
 
 @ToString
 public final class Point {
-  @Getter
-  public final float x;
-  @Getter
-  public final float y;
+  @Getter public final float x;
+  @Getter public final float y;
 
   public Point(float x, float y) {
     this.x = x;

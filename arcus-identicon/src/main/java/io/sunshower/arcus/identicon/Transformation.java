@@ -13,7 +13,6 @@ public final class Transformation {
   final float size;
   final int rotation;
 
-
   public Transformation(float x, float y, float size, int rotation) {
     this.x = x;
     this.y = y;

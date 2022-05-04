@@ -20,7 +20,6 @@ final class SvgPath implements Path {
     this.shape = new StringBuilder();
   }
 
-
   private static int intValue(float v) {
     return (int) Math.floor(v);
   }
@@ -56,27 +55,10 @@ final class SvgPath implements Path {
     val sweep = counterclockwise ? 0 : 1;
     val radius = intValue(dia / 2);
     val diameter = intValue(dia);
-    shape.append(
-        format("M%d %d",
-            intValue(center.x),
-            intValue(center.y + diameter / 2f))
-    ).append(
-        format(
-            "a%d,%d 0 1, %d %d,0",
-            radius,
-            radius,
-            sweep,
-            diameter
-        )
-    ).append(
-        format(
-            "a%d,%d 0 1, %d %d,0",
-            radius,
-            radius,
-            sweep,
-            -diameter
-        )
-    );
+    shape
+        .append(format("M%d %d", intValue(center.x), intValue(center.y + diameter / 2f)))
+        .append(format("a%d,%d 0 1, %d %d,0", radius, radius, sweep, diameter))
+        .append(format("a%d,%d 0 1, %d %d,0", radius, radius, sweep, -diameter));
     return this;
   }
 
@@ -89,5 +71,4 @@ final class SvgPath implements Path {
   public CharSequence getPath() {
     return shape.toString();
   }
-
 }

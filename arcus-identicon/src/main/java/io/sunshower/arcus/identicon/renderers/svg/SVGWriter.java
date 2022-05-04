@@ -11,49 +11,48 @@ import io.sunshower.arcus.markup.Tags;
 
 public class SVGWriter implements IconWriter {
 
+  public static final String FULL_SCALE = "100%";
   private final Tag tag;
 
   public SVGWriter(final int size) {
-    this.tag = Tags.root("svg")
-        .attribute("xmlns", "http://www.w3.org/2000/svg")
-        .attribute("width", size)
-        .attribute("height", size)
-        .attribute("viewBox", format("0 0 %d %d", size, size))
-        .attribute("preserveAspectRatio", "xMidYMid meet");
+    this.tag =
+        Tags.root("svg")
+            .attribute("xmlns", "http://www.w3.org/2000/svg")
+            .attribute("width", size)
+            .attribute("height", size)
+            .attribute("viewBox", format("0 0 %d %d", size, size))
+            .attribute("preserveAspectRatio", "xMidYMid meet");
   }
 
   @Override
   public void setBackground(Color fillColor) {
     tag.child(
         tag("rect")
-            .attribute("width", "100%")
-            .attribute("height", "100%")
-            .attribute("fill", fillColor.toHexadecimal())
-    );
+            .attribute("width", FULL_SCALE)
+            .attribute("height", FULL_SCALE)
+            .attribute("fill", fillColor.toHexadecimal()));
   }
 
   @Override
   public void setBackground(Color fillColor, float opacity) {
     tag.child(
         tag("rect")
-            .attribute("width", "100%")
-            .attribute("height", "100%")
+            .attribute("width", FULL_SCALE)
+            .attribute("height", FULL_SCALE)
             .attribute("fill", fillColor.toHexadecimal())
-            .attribute("opacity", String.format("%2f", opacity))
-    );
+            .attribute("opacity", String.format("%2f", opacity)));
   }
 
   @Override
   public void addPath(Path path) {
-    tag.child(Tags.tag("path")
-        .attribute("fill", path.getColor().toHexadecimal())
-        .attribute("d", path.getPath().toString())
-        .attribute("fill-opacity", path.getAlpha()));
+    tag.child(
+        Tags.tag("path")
+            .attribute("fill", path.getColor().toHexadecimal())
+            .attribute("d", path.getPath().toString())
+            .attribute("fill-opacity", path.getAlpha()));
   }
-
 
   public Tag getRoot() {
     return tag;
   }
-
 }

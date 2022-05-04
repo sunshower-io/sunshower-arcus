@@ -7,5 +7,4 @@ public class Shapes {
 
   static final Shape outer = new OuterShapes();
   static final Shape inner = new CenterShapes();
-
 }

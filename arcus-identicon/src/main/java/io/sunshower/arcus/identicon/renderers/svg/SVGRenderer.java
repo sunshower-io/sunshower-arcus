@@ -6,7 +6,6 @@ import io.sunshower.arcus.identicon.Path;
 import io.sunshower.arcus.identicon.Point;
 import io.sunshower.arcus.identicon.Renderer;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,9 +28,7 @@ public class SVGRenderer implements Renderer {
   }
 
   @Override
-  public void endShape() {
-
-  }
+  public void endShape() {}
 
   @Override
   public void beginShape(Color color, float alpha) {
@@ -54,7 +51,6 @@ public class SVGRenderer implements Renderer {
     currentPath.addPoints(points);
   }
 
-
   @Override
   public void addCircle(Point center, float diameter, boolean counterclockwise) {
     check();
@@ -69,14 +65,13 @@ public class SVGRenderer implements Renderer {
   @Override
   public void finish() {
 
-    for(val kv : paths.entrySet()) {
+    for (val kv : paths.entrySet()) {
       writer.addPath(kv.getValue());
     }
-
   }
 
   private void check() {
-    if(currentPath == null) {
+    if (currentPath == null) {
       throw new IllegalStateException("Error: current path is null");
     }
   }

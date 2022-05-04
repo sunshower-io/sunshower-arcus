@@ -14,5 +14,4 @@ class SVGRendererTest {
     assertTrue(matcher.matches());
     assertEquals(matcher.group(0), "#FFFFFF");
   }
-
 }

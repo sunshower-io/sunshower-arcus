@@ -55,9 +55,7 @@ public final class Configuration {
         padding,
         "#FFFFFF",
         new LightnessTransformations(createLightness(0.4F, 0.8F), createLightness(0.3f, 0.9f)));
-
   }
-
 
   public static Configuration getDefault() {
     return getConfiguration(DEFAULT_SIZE, DEFAULT_PADDING);
@@ -75,12 +73,12 @@ public final class Configuration {
   }
 
   Color[] colors(float hue) {
-    return new Color[]{
-        hueSaturationLightness(0f, 0f, transformations.grayscale.apply(0f)),
-        hueSaturationLightness(hue, saturation, transformations.color.apply(0.5F), true),
-        hueSaturationLightness(0f, 0f, transformations.grayscale.apply(1f)),
-        hueSaturationLightness(hue, saturation, transformations.color.apply(1F), true),
-        hueSaturationLightness(hue, saturation, transformations.color.apply(0F), true)
+    return new Color[] {
+      hueSaturationLightness(0f, 0f, transformations.grayscale.apply(0f)),
+      hueSaturationLightness(hue, saturation, transformations.color.apply(0.5F), true),
+      hueSaturationLightness(0f, 0f, transformations.grayscale.apply(1f)),
+      hueSaturationLightness(hue, saturation, transformations.color.apply(1F), true),
+      hueSaturationLightness(hue, saturation, transformations.color.apply(0F), true)
     };
   }
 
@@ -90,8 +88,7 @@ public final class Configuration {
     final Function<Float, Float> grayscale;
 
     public LightnessTransformations(
-        Function<Float, Float> color,
-        Function<Float, Float> grayscale) {
+        Function<Float, Float> color, Function<Float, Float> grayscale) {
       this.color = color;
       this.grayscale = grayscale;
     }

@@ -10,9 +10,7 @@ public interface ConfigurationBuilder {
 
   ConfigurationBuilder withSaturation(float saturation);
 
-  ConfigurationBuilder withBackgroundColor(
-      String s);
-
+  ConfigurationBuilder withBackgroundColor(String s);
 
   Configuration build();
 }

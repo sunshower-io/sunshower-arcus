@@ -7,7 +7,6 @@ public interface Shape {
     return this;
   }
 
-
   void draw(Graphics graphics, float cell, int index);
 
   default void draw(Graphics graphics, float cell) {
