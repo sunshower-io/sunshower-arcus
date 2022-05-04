@@ -13,14 +13,44 @@ import org.junit.jupiter.api.Test;
 class IdenticonTest {
 
   @Test
+  void ensureBackgroundColorWorks() {
+    Configuration.defaultBuilder()
+        .withBackgroundColor("#00FF00").build();
+
+  }
+
+  @Test
   void ensureOpacityWorks() {
-    val result = Jdenticon.toSvg("35318264c9a98faf79965c270ac80c5606774df1", Configuration.getConfiguration(128, 0, 0.5f));
-    System.out.println(result);
+    val result = Jdenticon.toSvg("35318264c9a98faf79965c270ac80c5606774df1",
+        Configuration.getConfiguration(128, 0, 0.5f));
+    assertEquals("<svg\n"
+                 + " xmlns=\"http://www.w3.org/2000/svg\"\n"
+                 + " width=\"128\"\n"
+                 + " height=\"128\"\n"
+                 + " viewBox=\"0 0 128 128\"\n"
+                 + " preserveAspectRatio=\"xMidYMid meet\"\n"
+                 + "> <path\n"
+                 + "  fill=\"#E6E6E6\"\n"
+                 + "  d=\"M37 15a10,10 0 1, 1 21,0a10,10 0 1, 1 -21,0M69 15a10,10 0 1, 1 21,0a10,10 0 1, 1 -21,0M69 111a10,10 0 1, 1 21,0a10,10 0 1, 1 -21,0M37 111a10,10 0 1, 1 21,0a10,10 0 1, 1 -21,0M5 47a10,10 0 1, 1 21,0a10,10 0 1, 1 -21,0M101 47a10,10 0 1, 1 21,0a10,10 0 1, 1 -21,0M101 79a10,10 0 1, 1 21,0a10,10 0 1, 1 -21,0M5 79a10,10 0 1, 1 21,0a10,10 0 1, 1 -21,0\"\n"
+                 + "  fill-opacity=\"0.5\"\n"
+                 + " > </path>\n"
+                 + " <path\n"
+                 + "  fill=\"#33995E\"\n"
+                 + "  d=\"M0 0L32 0L32 32ZM128 0L128 32L96 32ZM128 128L96 128L96 96ZM0 128L0 96L32 96Z\"\n"
+                 + "  fill-opacity=\"0.5\"\n"
+                 + " > </path>\n"
+                 + " <path\n"
+                 + "  fill=\"#66CC91\"\n"
+                 + "  d=\"M32 32L64 32L64 64L32 64ZM52 60L60 44L44 44ZM96 32L96 64L64 64L64 32ZM67 52L84 60L84 44ZM96 96L64 96L64 64L96 64ZM75 67L67 84L83 84ZM32 96L32 64L64 64L64 96ZM60 75L44 67L44 83Z\"\n"
+                 + "  fill-opacity=\"0.5\"\n"
+                 + " > </path>\n"
+                 + "</svg>\n", result);
   }
 
   @Test
   void ensurePaddingWorks() {
-    val result = Jdenticon.toSvg("35318264c9a98faf79965c270ac80c5606774df1", Configuration.getConfiguration(128, 2));
+    val result = Jdenticon.toSvg("35318264c9a98faf79965c270ac80c5606774df1",
+        Configuration.getConfiguration(128, 2));
 
     assertEquals("<svg\n"
                  + " xmlns=\"http://www.w3.org/2000/svg\"\n"

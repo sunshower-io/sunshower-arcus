@@ -70,6 +70,10 @@ public final class Configuration {
     };
   }
 
+  public static ConfigurationBuilder defaultBuilder() {
+    return new MutableConfiguration(getDefault());
+  }
+
   Color[] colors(float hue) {
     return new Color[]{
         hueSaturationLightness(0f, 0f, transformations.grayscale.apply(0f)),
