@@ -11,10 +11,8 @@ import io.sunshower.arcus.markup.Tags;
 public class SVGWriter implements IconWriter {
 
   private final Tag tag;
-  private final int size;
 
   public SVGWriter(final int size) {
-    this.size = size;
     this.tag = Tags.root("svg")
         .attribute("xmlns", "http://www.w3.org/2000/svg")
         .attribute("width", size)
@@ -44,5 +42,9 @@ public class SVGWriter implements IconWriter {
     );
   }
 
+
+  public Tag getRoot() {
+    return tag;
+  }
 
 }

@@ -1,6 +1,7 @@
 package io.sunshower.arcus.identicon;
 
 import java.util.Collection;
+import java.util.List;
 
 public interface Renderer {
 
@@ -59,5 +60,7 @@ public interface Renderer {
   }
 
 
+  void addPolygon(List<Point> pts);
 
+  void finish();
 }

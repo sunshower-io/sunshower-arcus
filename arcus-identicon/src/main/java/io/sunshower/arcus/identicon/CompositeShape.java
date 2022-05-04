@@ -23,4 +23,13 @@ public class CompositeShape implements Shape {
     shapes.add(shape);
     return this;
   }
+
+  public Shape subshape(int idx) {
+    return shapes.get(idx);
+  }
+
+  @Override
+  public int subshapeCount() {
+    return shapes.size();
+  }
 }

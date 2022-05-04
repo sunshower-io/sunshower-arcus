@@ -29,8 +29,8 @@ public class CenterShapes extends CompositeShape {
      * triangle
      */
     add((graphics, cell, index) -> {
-      val w = floor(cell * 0.5F);
-      val h = floor(cell * 0.8F);
+      val w = (float) floor(cell * 0.5F);
+      val h = (float) floor(cell * 0.8F);
       graphics.addTriangle(cell - w, 0f, w, h, 2f);
     });
 
@@ -38,25 +38,25 @@ public class CenterShapes extends CompositeShape {
      * rectangle
      */
     add(((graphics, cell, index) -> {
-      val s = floor(cell / 3f);
+      val s = (float) floor(cell / 3f);
       graphics.addRectangle(s, s, cell - s, cell - s);
     }));
 
     add((graphics, cell, index) -> {
       val innert = cell * 0.1F;
 
-      val inner = innert > 1F ?
-          Math.floor(innert)
-          : innert > 0.5F ? 1F : innert;
+      val inner = (float) (innert > 1F ?
+          floor(innert)
+          : innert > 0.5F ? 1F : innert);
 
-      val outer = cell < 6F ? 1F
-          : cell < 8F ? 2F : Math.floor(cell * 0.25f);
+      val outer = (float) (cell < 6F ? 1F
+          : cell < 8F ? 2F : floor(cell * 0.25f));
       graphics.addRectangle(outer, outer, cell - inner - outer, cell - inner - outer);
     });
 
     add((graphics, cell, index) -> {
-      val m = floor(cell * 0.15f);
-      val s = floor(cell * 0.5f);
+      val m = (float) floor(cell * 0.15f);
+      val s = (float) floor(cell * 0.5f);
       graphics.addCircle(cell - s - m, cell - s - m, s);
     });
 
@@ -94,10 +94,10 @@ public class CenterShapes extends CompositeShape {
 
     add((graphics, cell, index) -> {
       val innert = cell * 0.14f;
-      val inner = cell < 8F ? innert : floor(innert);
+      val inner = (float) (cell < 8F ? innert : floor(innert));
 
-      val outer = cell < 4F ? 1F
-          : cell < 6F ? 2F : floor(cell * 0.35F);
+      val outer = (float) (cell < 4F ? 1F
+          : cell < 6F ? 2F : floor(cell * 0.35F));
       graphics.addRectangle(0f, 0f, cell, cell);
       graphics.addRectangle(true, outer, outer, cell - outer - inner, cell - outer - inner);
     });
