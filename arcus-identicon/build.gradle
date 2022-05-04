@@ -1,0 +1,6 @@
+
+dependencies {
+    implementation project(':arcus-lang')
+
+    implementation project(':arcus-markup:tag-builder')
+}

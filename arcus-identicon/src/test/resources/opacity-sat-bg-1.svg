@@ -1,0 +1,22 @@
+<svg
+ xmlns="http://www.w3.org/2000/svg"
+ width="100"
+ height="100"
+ viewBox="0 0 100 100"
+ preserveAspectRatio="xMidYMid meet"
+> <path
+  fill="#E6E6E6"
+  d="M29 12a8,8 0 1, 1 16,0a8,8 0 1, 1 -16,0M54 12a8,8 0 1, 1 16,0a8,8 0 1, 1 -16,0M54 87a8,8 0 1, 1 16,0a8,8 0 1, 1 -16,0M29 87a8,8 0 1, 1 16,0a8,8 0 1, 1 -16,0M4 37a8,8 0 1, 1 16,0a8,8 0 1, 1 -16,0M79 37a8,8 0 1, 1 16,0a8,8 0 1, 1 -16,0M79 62a8,8 0 1, 1 16,0a8,8 0 1, 1 -16,0M4 62a8,8 0 1, 1 16,0a8,8 0 1, 1 -16,0"
+  fill-opacity="0.8"
+ > </path>
+ <path
+  fill="#4D4D4D"
+  d="M25 0L25 25L12 25ZM100 25L75 25L75 12ZM75 100L75 75L87 75ZM0 75L25 75L25 87Z"
+  fill-opacity="0.8"
+ > </path>
+ <path
+  fill="#F651CC"
+  d="M25 25L50 25L50 29L39 50L25 50ZM75 25L75 50L71 50L50 39L50 25ZM75 75L50 75L50 71L60 50L75 50ZM25 75L25 50L29 50L50 60L50 75Z"
+  fill-opacity="0.8"
+ > </path>
+</svg>
