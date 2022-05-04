@@ -50,6 +50,12 @@ class MutableConfiguration implements ConfigurationBuilder {
         x, y, size, opacity, saturation, padding, backgroundColor, transformations);
   }
 
+  public ConfigurationBuilder withPadding(int i) {
+    this.padding = i;
+    return this;
+  }
+
+  @Override
   public ConfigurationBuilder withX(float x) {
     this.x = x;
     return this;

@@ -1,0 +1,22 @@
+<svg
+ xmlns="http://www.w3.org/2000/svg"
+ width="100"
+ height="100"
+ viewBox="0 0 100 100"
+ preserveAspectRatio="xMidYMid meet"
+> <path
+  fill="#DFE6B3"
+  d="M50 25L25 25L25 12ZM50 25L50 0L62 0ZM50 75L75 75L75 87ZM50 75L50 100L37 100ZM25 50L0 50L0 37ZM75 50L75 25L87 25ZM75 50L100 50L100 62ZM25 50L25 75L12 75Z"
+  fill-opacity="1.0"
+ > </path>
+ <path
+  fill="#BFCC66"
+  d="M12 0L25 12L12 25L0 12ZM100 12L87 25L75 12L87 0ZM87 100L75 87L87 75L100 87ZM0 87L12 75L25 87L12 100Z"
+  fill-opacity="1.0"
+ > </path>
+ <path
+  fill="#4D4D4D"
+  d="M35 50a15,15 0 1, 1 30,0a15,15 0 1, 1 -30,0"
+  fill-opacity="1.0"
+ > </path>
+</svg>

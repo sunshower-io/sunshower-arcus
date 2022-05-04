@@ -2,6 +2,8 @@ package io.sunshower.arcus.identicon;
 
 public interface ConfigurationBuilder {
 
+  ConfigurationBuilder withX(float x);
+
   ConfigurationBuilder withY(float y);
 
   ConfigurationBuilder withSize(int size);
@@ -13,4 +15,6 @@ public interface ConfigurationBuilder {
   ConfigurationBuilder withBackgroundColor(String s);
 
   Configuration build();
+
+  ConfigurationBuilder withPadding(int i);
 }
