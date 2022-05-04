@@ -25,6 +25,11 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>io.sunshower.arcus</groupId>
+                <artifactId>arcus-identicon</artifactId>
+                <version>${arcus.version}</version>
+            </dependency>
 
             <!--
                 annotations/arcus-jsr-305

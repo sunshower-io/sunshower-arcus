@@ -13,7 +13,6 @@ import lombok.val;
 
 public class Tags {
 
-
   public static Tag root(String type) {
     return new DefaultTag(type);
   }
@@ -21,10 +20,9 @@ public class Tags {
   public static Tag tag(String type) {
     return new DefaultTag(type);
   }
-
-
 }
 
+@SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
 final class DefaultTag implements Tag {
 
   private final String name;
@@ -45,7 +43,8 @@ final class DefaultTag implements Tag {
     this(name, parent, children, Collections.emptyMap());
   }
 
-  DefaultTag(@NonNull String name,
+  DefaultTag(
+      @NonNull String name,
       @Nullable Tag parent,
       @NonNull Collection<Tag> children,
       @NonNull Map<String, Serializable> attributes) {

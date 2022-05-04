@@ -35,7 +35,6 @@ public interface Tag {
     return result;
   }
 
-
   @NonNull
   default Tag children(@NonNull Tag... children) {
     Tag result = this;
@@ -55,7 +54,6 @@ public interface Tag {
   Tag attribute(CharSequence key, Serializable value);
 
   void write(TagWriter writer);
-
 
   Map<CharSequence, Serializable> attributes();
 }

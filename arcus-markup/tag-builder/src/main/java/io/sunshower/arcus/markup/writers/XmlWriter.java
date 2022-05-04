@@ -6,19 +6,18 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.regex.Pattern;
 import lombok.val;
 
 public class XmlWriter implements TagWriter {
 
-
   private static final Pattern pattern = Pattern.compile("\n");
   private final PrintWriter writer;
 
-
   public XmlWriter(OutputStream outputStream) {
-    this.writer = new PrintWriter(new OutputStreamWriter(outputStream));
+    this.writer = new PrintWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
   }
 
   @Override
@@ -32,7 +31,6 @@ public class XmlWriter implements TagWriter {
         writer.append("\n");
       }
     }
-
   }
 
   @Override
@@ -42,7 +40,6 @@ public class XmlWriter implements TagWriter {
     writer.write(tag.name());
     writer.write("\n");
   }
-
 
   @Override
   public void writeAttributes(Map<CharSequence, Serializable> attributes, int i) {
