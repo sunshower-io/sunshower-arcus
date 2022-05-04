@@ -44,22 +44,30 @@ public class Identicon {
   }
 
 
+
+  public static Tag toSvg(Object o) {
+    return toSvg(o, Configuration.DEFAULT_SIZE, Configuration.DEFAULT_PADDING);
+  }
   public static Tag toSvg(Object o, int size, int padding) {
+    return toSvg(o, size, padding, 1);
+  }
+
+  public static Tag toSvg(Object o, int size, int padding, float opacity) {
     try (val outpustream = new ByteArrayOutputStream();
         val result = new PrintWriter(new OutputStreamWriter(outpustream));
     ) {
       create(o, result);
       result.flush();
       outpustream.flush();
-      return generateSvg(outpustream.toString(StandardCharsets.UTF_8), size, padding);
+      return generateSvg(outpustream.toString(StandardCharsets.UTF_8), size, padding, opacity);
     } catch (IOException ex) {
       throw new IllegalStateException(ex);
     }
   }
 
-  private static Tag generateSvg(String toString, int size, int padding) {
+  private static Tag generateSvg(String toString, int size, int padding, float opacity) {
     val writer = new SVGWriter(size);
-    val generator = new IconGenerator(new SVGRenderer(writer),
+    val generator = new IconGenerator(new SVGRenderer(writer, opacity),
         Configuration.getConfiguration(size, padding));
     generator.apply(toString);
     return writer.getRoot();

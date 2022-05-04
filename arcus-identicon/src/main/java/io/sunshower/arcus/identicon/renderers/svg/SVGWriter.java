@@ -5,6 +5,7 @@ import static java.lang.String.format;
 
 import io.sunshower.arcus.identicon.Color;
 import io.sunshower.arcus.identicon.IconWriter;
+import io.sunshower.arcus.identicon.Path;
 import io.sunshower.arcus.markup.Tag;
 import io.sunshower.arcus.markup.Tags;
 
@@ -40,6 +41,14 @@ public class SVGWriter implements IconWriter {
             .attribute("fill", fillColor.toHexadecimal())
             .attribute("opacity", String.format("%2f", opacity))
     );
+  }
+
+  @Override
+  public void addPath(Path path) {
+    tag.child(Tags.tag("path")
+        .attribute("fill", path.getColor().toHexadecimal())
+        .attribute("d", path.getPath().toString())
+        .attribute("fill-opacity", path.getAlpha()));
   }
 
 

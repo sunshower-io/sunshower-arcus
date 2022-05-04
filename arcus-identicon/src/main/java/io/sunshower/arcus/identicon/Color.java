@@ -1,8 +1,6 @@
 package io.sunshower.arcus.identicon;
 
 import lombok.Data;
-import lombok.NonNull;
-import lombok.val;
 
 @Data
 public class Color {

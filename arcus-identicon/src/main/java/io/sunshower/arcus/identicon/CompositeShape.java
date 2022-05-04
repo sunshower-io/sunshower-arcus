@@ -2,8 +2,10 @@ package io.sunshower.arcus.identicon;
 
 import java.util.ArrayList;
 import java.util.List;
+import lombok.ToString;
 import lombok.val;
 
+@ToString
 public class CompositeShape implements Shape {
 
   private final List<Shape> shapes;

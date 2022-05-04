@@ -8,6 +8,28 @@ import lombok.val;
 
 public class IconGenerator {
 
+  static final int[][] INNER = {
+      {1, 1},
+      {2, 1},
+      {2, 2},
+      {1, 2}
+  };
+  static final int[][] OUTER_1 = new int[][]{
+      {1, 0},
+      {2, 0},
+      {2, 3},
+      {1, 3},
+      {0, 1},
+      {3, 1},
+      {3, 2},
+      {0, 2}
+  };
+  static final int[][] OUTER_2 = new int[][]{
+      {0, 0},
+      {3, 0},
+      {3, 3},
+      {0, 3}
+  };
   private final float x;
   private final float y;
   private final double size;
@@ -31,44 +53,19 @@ public class IconGenerator {
   }
 
   private static int indexOf(CharSequence sequence,
-      List<Integer> colorIndexes, int i) {
-    return Integer.parseInt(String.valueOf(sequence.charAt(8 + i)), 16) % colorIndexes.size();
+      List<Integer> colorIndexes, Color[] availableColors, int i) {
+    return Integer.parseInt(String.valueOf(sequence.charAt(8 + i)), 16) % availableColors.length;
   }
 
-
   public void apply(CharSequence sequence) {
+    System.out.println("Rendering " + sequence);
     render(sequence, 0, Shapes.outer, 2, 3, OUTER_1);
     render(sequence, 1, Shapes.outer, 4, 5, OUTER_2);
     render(sequence, 2, Shapes.inner, 1, -1, INNER);
     renderer.finish();
   }
 
-
-
-  static final int[][] INNER = {
-      {1, 1},
-      {2, 1},
-      {2, 2},
-      {1, 2}
-  };
-  static final int[][] OUTER_1 = new int[][] {
-      {1, 0},
-      {2, 0},
-      {2, 3},
-      {1, 3},
-      {0, 1},
-      {3, 1},
-      {3, 2},
-      {0, 2}
-  };
-
-  static final int[][] OUTER_2 = new int[][] {
-      {0, 0},
-      {3, 0},
-      {3, 3},
-      {0, 3}
-  };
-
+  static int count;
   private void render(
       CharSequence sequence,
       int colorIndex,
@@ -78,7 +75,9 @@ public class IconGenerator {
       int[][] positions
   ) {
     val r = rotationIndex != -1 ? hex(sequence.charAt(rotationIndex)) : 0;
-    val subshape = shape.subshape(hex(sequence.charAt(index)) % shape.subshapeCount());
+
+    System.out.printf("Rotation index: %d%n", r);
+    val subshape = shape.subshape((hex(sequence.charAt(index))) % shape.subshapeCount());
 
     val hue = computeHue(sequence);
     val colors = configuration.colors(hue);
@@ -94,7 +93,7 @@ public class IconGenerator {
     for (int i = 0; i < positions.length; i++) {
       val g = graphics.withNewTransformation(new Transformation(
           x + positions[i][0] * cellSize,
-          y + positions[i][1] + cellSize,
+          y + positions[i][1] * cellSize,
           cellSize,
           r++ % 4
       ));
@@ -107,7 +106,7 @@ public class IconGenerator {
       CharSequence sequence) {
     for (int i = 0; i < 3; i++) {
       //need to figure out what isDuplicate is doing
-      val index = indexOf(sequence, colorIndexes, i);
+      val index = indexOf(sequence, colorIndexes, availableColors, i);
       colorIndexes.add(index);
     }
   }
@@ -125,7 +124,8 @@ public class IconGenerator {
 
 
   private float computeHue(CharSequence sequence) {
-    val subseq = sequence.subSequence(0, sequence.length() - 7).toString();
+//    val subseq = sequence.subSequence(0, 7).toString();
+    val subseq = sequence.toString().substring(sequence.length() - 7);
     return ((float) Integer.parseInt(subseq, 16)) / 0xfffffff;
   }
 

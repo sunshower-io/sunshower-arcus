@@ -54,12 +54,16 @@ public class XmlWriter implements TagWriter {
       writer.write("\"");
       writer.write("\n");
     }
+    indent(i);
+    writer.write(">");
   }
 
   @Override
   public void closeTag(Tag tag, int depth) {
     indent(depth);
-    writer.write("/>\n");
+    writer.write("</");
+    writer.write(tag.name());
+    writer.write(">\n");
     writer.flush();
   }
 

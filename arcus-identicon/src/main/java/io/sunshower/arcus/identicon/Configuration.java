@@ -9,7 +9,7 @@ import lombok.val;
 @Getter
 public final class Configuration {
 
-  static final int DEFAULT_SIZE = 128;
+  static final int DEFAULT_SIZE = 100;
   static final int DEFAULT_PADDING = 0;
 
   private final float x;

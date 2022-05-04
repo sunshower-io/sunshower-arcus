@@ -1,39 +1,51 @@
 package io.sunshower.arcus.identicon.renderers.svg;
 
-import static java.lang.String.format;
-
+import io.sunshower.arcus.identicon.Color;
 import io.sunshower.arcus.identicon.Path;
 import io.sunshower.arcus.identicon.Point;
-import io.sunshower.arcus.identicon.Renderer;
-import io.sunshower.lang.primitives.Rope;
 import java.util.Collection;
 import lombok.val;
 
 final class SvgPath implements Path {
 
-  private Rope shape;
+  private final Color color;
+  private final float alpha;
+  private final StringBuilder shape;
 
-  public SvgPath() {
-    shape = new Rope();
+  public SvgPath(Color color, float alpha) {
+    this.alpha = alpha;
+    this.color = color;
+    this.shape = new StringBuilder();
   }
+
 
   private static int intValue(float v) {
     return (int) Math.floor(v);
   }
 
   @Override
+  public Color getColor() {
+    return color;
+  }
+
+  @Override
+  public float getAlpha() {
+    return alpha;
+  }
+
+  @Override
   public SvgPath addPoints(Collection<Point> points) {
-    val piter = points.iterator();
-    Rope pathStart = null;
-    if (piter.hasNext()) {
-      val start = piter.next();
-      pathStart = new Rope(format("M%d %d", intValue(start.x), intValue(start.y)));
-      while (piter.hasNext()) {
-        pathStart = pathStart.append(format("L%d %d", intValue(start.x), intValue(start.y)));
+
+    System.out.printf("Rendering polygon: %s%n", points);
+    val iter = points.iterator();
+    if (iter.hasNext()) {
+      val first = iter.next();
+      var dataString = "M" + intValue(first.x) + " " + intValue(first.y);
+      while (iter.hasNext()) {
+        val next = iter.next();
+        dataString += "L" + intValue(next.x) + " " + intValue(next.y);
       }
-    }
-    if (pathStart != null) {
-      shape = pathStart.append("Z");
+      shape.append(dataString + "Z");
     }
     return this;
   }
@@ -43,24 +55,11 @@ final class SvgPath implements Path {
     val sweep = counterclockwise ? 0 : 1;
     val radius = intValue(dia / 2);
     val diameter = intValue(dia);
-    shape = shape.append(
-        format("M%d %d",
-            intValue(center.x),
-            intValue(center.y + dia / 2F))
-    ).append(
-        format("a%d,%d 0 1,%d %d,0",
-            radius,
-            radius,
-            sweep,
-            diameter
-        )
-    ).append(
-        format("a%d,%d 0 1,%d %d,0",
-            radius,
-            radius,
-            sweep,
-            -diameter
-        )
+
+    shape.append(
+        "M" + intValue(center.x) + " " + intValue(center.y + diameter / 2f) +
+        "a" + radius + "," + radius + " 0 1," + sweep + " " + diameter + ",0" +
+        "a" + radius + "," + radius + " 0 1," + sweep + " " + (-diameter) + ",0"
     );
     return this;
   }
@@ -75,9 +74,4 @@ final class SvgPath implements Path {
     return shape.toString();
   }
 
-  @Override
-  public Path add(Renderer renderer) {
-//    renderer.
-    return this;
-  }
 }

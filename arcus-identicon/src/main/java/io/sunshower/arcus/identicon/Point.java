@@ -1,10 +1,10 @@
 package io.sunshower.arcus.identicon;
 
 import lombok.Getter;
+import lombok.ToString;
 
-public class Point {
-
-
+@ToString
+public final class Point {
   @Getter
   public final float x;
   @Getter

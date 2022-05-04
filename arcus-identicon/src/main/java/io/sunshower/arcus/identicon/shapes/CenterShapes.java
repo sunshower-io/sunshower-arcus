@@ -37,10 +37,10 @@ public class CenterShapes extends CompositeShape {
     /**
      * rectangle
      */
-    add(((graphics, cell, index) -> {
+    add((graphics, cell, index) -> {
       val s = (float) floor(cell / 3f);
       graphics.addRectangle(s, s, cell - s, cell - s);
-    }));
+    });
 
     add((graphics, cell, index) -> {
       val innert = cell * 0.1F;
