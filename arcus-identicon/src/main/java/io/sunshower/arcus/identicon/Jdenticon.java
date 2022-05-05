@@ -12,7 +12,7 @@ import lombok.val;
 public class Jdenticon {
 
   static final Predicate<String> HASH_PATTERN =
-      Pattern.compile("^[a-fA-F0-9]{40}$").asMatchPredicate();
+      Pattern.compile("^[a-fA-F0-9]{20,60}$").asMatchPredicate();
 
   public static void toSvg(Object o, Configuration cfg, @WillNotClose OutputStream outputStream) {
     if (o instanceof String && isHash((String) o)) {
