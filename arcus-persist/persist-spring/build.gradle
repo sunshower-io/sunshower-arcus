@@ -1,0 +1,10 @@
+dependencies {
+    [
+            'org.springframework.security:spring-security-acl',
+            'org.springframework.security:spring-security-core'
+    ].each {
+        implementation it
+    }
+
+    api project(':arcus-persist:persist-api')
+}
