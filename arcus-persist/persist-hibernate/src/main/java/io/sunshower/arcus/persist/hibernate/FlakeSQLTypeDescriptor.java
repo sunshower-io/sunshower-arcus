@@ -7,12 +7,14 @@ import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.Comparator;
 import org.hibernate.HibernateException;
+import org.hibernate.dialect.Dialect;
 import org.hibernate.engine.jdbc.BinaryStream;
 import org.hibernate.engine.jdbc.internal.BinaryStreamImpl;
 import org.hibernate.type.descriptor.WrapperOptions;
 import org.hibernate.type.descriptor.java.AbstractClassJavaType;
 import org.hibernate.type.descriptor.java.DataHelper;
 import org.hibernate.type.descriptor.java.MutableMutabilityPlan;
+import org.hibernate.type.descriptor.jdbc.JdbcType;
 
 public class FlakeSQLTypeDescriptor extends AbstractClassJavaType<Identifier> {
 
@@ -40,6 +42,17 @@ public class FlakeSQLTypeDescriptor extends AbstractClassJavaType<Identifier> {
       hashCode = 31 * hashCode + aByte;
     }
     return hashCode;
+  }
+
+  /**
+   * flake ids are always 16 bytes long
+   * @param dialect
+   * @param jdbcType
+   * @return
+   */
+  @Override
+  public long getDefaultSqlLength(Dialect dialect, JdbcType jdbcType) {
+    return 16;
   }
 
   public String toString(Identifier bytes) {

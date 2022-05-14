@@ -11,6 +11,8 @@ public class FlakeIdentifierType extends AbstractSingleColumnStandardBasicType<I
     super(FlakeBinaryTypeDescriptor.INSTANCE, FlakeSQLTypeDescriptor.INSTANCE);
   }
 
+
+
   @Override
   public String getName() {
     return "flake-binary";

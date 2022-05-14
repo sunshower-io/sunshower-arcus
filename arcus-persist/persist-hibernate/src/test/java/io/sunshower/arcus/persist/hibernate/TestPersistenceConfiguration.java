@@ -11,8 +11,7 @@ import lombok.val;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.hibernate5.HibernateTransactionManager;
-import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -34,25 +33,12 @@ public class TestPersistenceConfiguration {
     return createDataSource(configuration);
   }
 
-  @Bean
-  public LocalSessionFactoryBean sessionFactoryBean(DataSource dataSource,
-      DataSourceConfiguration configuration) {
-    val result = new LocalSessionFactoryBean();
-    result.setDataSource(dataSource);
-    result.setPackagesToScan(configuration.getScannedPackages());
-
-    if (configuration.getAdditionalProperties() != null) {
-      result.setHibernateProperties(
-          fromMap(configuration.getAdditionalProperties(), k -> k.getKey().contains("hibernate")));
-    }
-    return result;
-  }
-
 
   @Bean
-  public PlatformTransactionManager transactionManager(LocalSessionFactoryBean factoryBean) {
-    val transactionManager = new HibernateTransactionManager();
-    transactionManager.setSessionFactory(factoryBean.getObject());
+  public PlatformTransactionManager transactionManager(
+      LocalContainerEntityManagerFactoryBean factoryBean) {
+    val transactionManager = new JpaTransactionManager();
+    transactionManager.setEntityManagerFactory(factoryBean.getObject());
     return transactionManager;
   }
 
@@ -60,9 +46,17 @@ public class TestPersistenceConfiguration {
   public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource,
       DataSourceConfiguration configuration) {
     val factorybean = new LocalContainerEntityManagerFactoryBean();
+    if(configuration.getAdditionalProperties() != null) {
+      factorybean.setJpaProperties(
+          fromMap(configuration.getAdditionalProperties(), p -> p.getKey().contains("hibernate")));
+    }
+
     factorybean.setDataSource(dataSource);
     factorybean.setPackagesToScan(configuration.getScannedPackages());
     val adapter = new HibernateJpaVendorAdapter();
+    adapter.setGenerateDdl(true);
+    adapter.setPrepareConnection(true);
+    adapter.setShowSql(true);
     factorybean.setJpaVendorAdapter(adapter);
     return factorybean;
   }

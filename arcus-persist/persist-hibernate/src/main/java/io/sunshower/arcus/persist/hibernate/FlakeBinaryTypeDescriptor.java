@@ -62,7 +62,7 @@ public class FlakeBinaryTypeDescriptor implements JdbcType {
     @Override
     protected X doExtract(ResultSet rs, int paramIndex, WrapperOptions options)
         throws SQLException {
-      return getJavaType().wrap(rs.getByte(paramIndex), options);
+      return getJavaType().wrap(rs.getBytes(paramIndex), options);
     }
 
     protected X doExtract(ResultSet rs, String name, WrapperOptions options) throws SQLException {

@@ -46,12 +46,35 @@
         <version>1.6.2</version>
         <scope>test</scope>
       </dependency>
+      <dependency>
+        <groupId>org.eclipse</groupId>
+        <artifactId>yasson</artifactId>
+        <version>2.0.4</version>
+        <scope>test</scope>
+      </dependency>
 
       <dependency>
         <groupId>jakarta.platform</groupId>
         <artifactId>jakarta.jakartaee-api</artifactId>
         <version>9.1.0</version>
         <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.glassfish</groupId>
+        <artifactId>jakarta.el</artifactId>
+        <version>5.0.0-M1</version>
+      </dependency>
+      <dependency>
+        <groupId>jakarta.el</groupId>
+        <artifactId>jakarta.el-api</artifactId>
+        <version>5.0.0</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.hibernate.validator</groupId>
+        <artifactId>hibernate-validator</artifactId>
+        <version>8.0.0.Alpha3</version>
       </dependency>
 
       <!-- benchmarks -->
@@ -191,26 +214,11 @@
         <scope>import</scope>
       </dependency>
 
-      <dependency>
-        <groupId>javax</groupId>
-        <artifactId>javaee-api</artifactId>
-        <version>8.0.1</version>
-        <scope>provided</scope>
-      </dependency>
 
-      <!--
-          API Dependencies
-      -->
       <dependency>
         <groupId>org.jboss.resteasy</groupId>
         <artifactId>jaxrs-api</artifactId>
         <version>3.0.12.Final</version>
-      </dependency>
-
-      <dependency>
-        <groupId>javax.inject</groupId>
-        <artifactId>javax.inject</artifactId>
-        <version>${jsr-330.version}</version>
       </dependency>
 
 
