@@ -56,7 +56,7 @@ public class TestPersistenceConfiguration {
     val adapter = new HibernateJpaVendorAdapter();
     adapter.setGenerateDdl(true);
     adapter.setPrepareConnection(true);
-    adapter.setShowSql(true);
+    adapter.setShowSql(false);
     factorybean.setJpaVendorAdapter(adapter);
     return factorybean;
   }
