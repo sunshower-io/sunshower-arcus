@@ -12,52 +12,26 @@ import lombok.Setter;
 @RootElement
 public class CondensationMappedDataSourceConfiguration implements DataSourceConfiguration {
 
-
-  @Element(alias =
-  @Alias(
-      read = "scanned-packages",
-      write = "scanned-packages"
-  ))
+  @Element(alias = @Alias(read = "scanned-packages", write = "scanned-packages"))
   @Setter
   private String[] scannedPackages;
 
-
   @Setter
-  @Attribute(
-      alias = @Alias(
-          read = "driver-class",
-          write = "driver-class"
-      ))
+  @Attribute(alias = @Alias(read = "driver-class", write = "driver-class"))
   private String driverClassName;
 
+  @Setter @Attribute private String username;
 
-  @Setter
-  @Attribute
-  private String username;
+  @Setter @Attribute private String password;
 
-  @Setter
-  @Attribute
-  private String password;
+  @Setter @Attribute private Mode mode;
 
-  @Setter
-  @Attribute
-  private Mode mode;
-
-  @Element(alias =
-  @Alias(
-      read = "additional-properties",
-      write = "additional-properties"
-  ))
+  @Element(alias = @Alias(read = "additional-properties", write = "additional-properties"))
   private Map<String, String> additionalProperties;
 
-  @Attribute(alias =
-  @Alias(
-      read = "connection-string",
-      write = "connection-string"
-  ))
+  @Attribute(alias = @Alias(read = "connection-string", write = "connection-string"))
   @Setter
   private String connectionString;
-
 
   @Override
   public String getConnectionString() {

@@ -80,6 +80,16 @@
       <name>Sunshower-env Github</name>
       <url>https://maven.pkg.github.com/sunshower-io/*</url>
     </repository>
+    <repository>
+      <id>repository.spring.milestone</id>
+      <name>Spring Milestone Repository</name>
+      <url>https://repo.spring.io/milestone</url>
+    </repository>
+    <repository>
+      <id>repository.spring.release</id>
+      <name>Spring GA Repository</name>
+      <url>https://repo.spring.io/release</url>
+    </repository>
   </repositories>
 
   <profiles>

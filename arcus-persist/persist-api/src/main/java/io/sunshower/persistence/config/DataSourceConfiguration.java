@@ -13,13 +13,17 @@ public interface DataSourceConfiguration {
 
   static List<DataSourceConfiguration> load(URL location) throws IOException {
     try (val stream = location.openStream()) {
-      return ServiceLoader.load(DataSourceConfigurationReader.class, Thread.currentThread()
-              .getContextClassLoader()).stream()
+      return ServiceLoader.load(
+              DataSourceConfigurationReader.class, Thread.currentThread().getContextClassLoader())
+          .stream()
           .map(Provider::get)
           .filter(p -> p.handles(location))
-          .map(p -> p.read(stream)).findAny()
-          .orElseThrow(() -> new NoSuchElementException(
-              String.format("No provider found for url '%s'", location)));
+          .map(p -> p.read(stream))
+          .findAny()
+          .orElseThrow(
+              () ->
+                  new NoSuchElementException(
+                      String.format("No provider found for url '%s'", location)));
     }
   }
 
@@ -34,7 +38,6 @@ public interface DataSourceConfiguration {
   String getPassword();
 
   Mode getMode();
-
 
   Map<String, String> getAdditionalProperties();
 

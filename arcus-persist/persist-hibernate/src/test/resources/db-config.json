@@ -4,8 +4,8 @@
     "how.are.you"
   ],
   "driver-class": "org.h2.Driver",
-  "username": "",
-  "password": "hello",
+  "username": null,
+  "password": null,
   "mode": "Both",
   "connection-string": "jdbc:h2:mem:",
   "additional-properties": null

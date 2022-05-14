@@ -10,11 +10,11 @@ import org.hibernate.HibernateException;
 import org.hibernate.engine.jdbc.BinaryStream;
 import org.hibernate.engine.jdbc.internal.BinaryStreamImpl;
 import org.hibernate.type.descriptor.WrapperOptions;
-import org.hibernate.type.descriptor.java.AbstractTypeDescriptor;
+import org.hibernate.type.descriptor.java.AbstractClassJavaType;
 import org.hibernate.type.descriptor.java.DataHelper;
 import org.hibernate.type.descriptor.java.MutableMutabilityPlan;
 
-public class FlakeSQLTypeDescriptor extends AbstractTypeDescriptor<Identifier> {
+public class FlakeSQLTypeDescriptor extends AbstractClassJavaType<Identifier> {
 
   public static final FlakeSQLTypeDescriptor INSTANCE = new FlakeSQLTypeDescriptor();
 

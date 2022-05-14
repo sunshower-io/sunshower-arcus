@@ -20,7 +20,6 @@ public class CondensationDataSourceConfigurationReader implements DataSourceConf
   public List<DataSourceConfiguration> read(InputStream inputStream) {
     val condensation = Condensation.create("json");
     return condensation.readAll(
-        CondensationMappedDataSourceConfiguration.class,
-        ArrayList::new, inputStream);
+        CondensationMappedDataSourceConfiguration.class, ArrayList::new, inputStream);
   }
 }

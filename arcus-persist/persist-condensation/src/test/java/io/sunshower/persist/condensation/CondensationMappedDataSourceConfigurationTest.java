@@ -10,17 +10,18 @@ import org.junit.jupiter.api.Test;
 
 class CondensationMappedDataSourceConfigurationTest {
 
-  static final String document = "{\n"
-                                 + "  \"scanned-packages\": [\n"
-                                 + "    \"hello.world\",\n"
-                                 + "    \"how.are.you\"\n"
-                                 + "  ],\n"
-                                 + "  \"driver-class\": \"org.hsqldb.Driver\",\n"
-                                 + "  \"username\": \"test\",\n"
-                                 + "  \"password\": \"hello\",\n"
-                                 + "  \"mode\": \"WriteOnly\",\n"
-                                 + "  \"additional-properties\": null\n"
-                                 + "}\n";
+  static final String document =
+      "{\n"
+          + "  \"scanned-packages\": [\n"
+          + "    \"hello.world\",\n"
+          + "    \"how.are.you\"\n"
+          + "  ],\n"
+          + "  \"driver-class\": \"org.hsqldb.Driver\",\n"
+          + "  \"username\": \"test\",\n"
+          + "  \"password\": \"hello\",\n"
+          + "  \"mode\": \"WriteOnly\",\n"
+          + "  \"additional-properties\": null\n"
+          + "}\n";
 
   @Test
   @SneakyThrows
@@ -30,7 +31,7 @@ class CondensationMappedDataSourceConfigurationTest {
 
     cfg.setPassword("hello");
     cfg.setUsername("test");
-    cfg.setScannedPackages(new String[]{"hello.world", "how.are.you"});
+    cfg.setScannedPackages(new String[] {"hello.world", "how.are.you"});
     cfg.setDriverClassName("org.hsqldb.Driver");
 
     val result = Condensation.write("json", CondensationMappedDataSourceConfiguration.class, cfg);
@@ -39,9 +40,9 @@ class CondensationMappedDataSourceConfigurationTest {
 
   @Test
   void ensureReadingDocumentWorks() {
-    val doc = Condensation.create("json").read(CondensationMappedDataSourceConfiguration.class, document);
+    val doc =
+        Condensation.create("json").read(CondensationMappedDataSourceConfiguration.class, document);
     assertEquals("hello", doc.getPassword());
     assertEquals(Mode.WriteOnly, doc.getMode());
   }
-
 }
