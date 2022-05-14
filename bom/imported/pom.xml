@@ -32,6 +32,7 @@
     <findbugs-annotations.version>3.0.1</findbugs-annotations.version>
     <jmh-generator-annprocess.version>1.35</jmh-generator-annprocess.version>
     <junit-bom.version>5.8.2</junit-bom.version>
+    <hibernate-core.version>6.0.1.Final</hibernate-core.version>
   </properties>
 
 
@@ -92,7 +93,7 @@
       <dependency>
         <groupId>org.hibernate</groupId>
         <artifactId>hibernate-core</artifactId>
-        <version>5.4.29.Final</version>
+        <version>${hibernate-core.version}</version>
       </dependency>
 
 

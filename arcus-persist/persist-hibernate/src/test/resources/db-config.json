@@ -1,0 +1,12 @@
+{
+  "scanned-packages": [
+    "hello.world",
+    "how.are.you"
+  ],
+  "driver-class": "org.h2.Driver",
+  "username": "",
+  "password": "hello",
+  "mode": "Both",
+  "connection-string": "jdbc:h2:mem:",
+  "additional-properties": null
+}

@@ -7,7 +7,7 @@ include(
         /**
          * condensation
          */
-	'arcus-markup:tag-builder',
+        'arcus-markup:tag-builder',
         'arcus-identicon',
         'condensation:css-selectors',
         'condensation:condensation-core',
@@ -28,6 +28,7 @@ include(
         'arcus-persist:persist-core',
         'arcus-persist:persist-jpa',
         'arcus-persist:persist-hibernate',
+        'arcus-persist:persist-condensation',
 
         'arcus-cryptkeeper:cryptkeeper-api',
         'arcus-cryptkeeper:cryptkeeper-core'

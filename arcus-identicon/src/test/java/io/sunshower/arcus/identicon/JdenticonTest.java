@@ -18,8 +18,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 class JdenticonTest {
 
-
-
   static int count = 0;
 
   @Test
@@ -27,18 +25,17 @@ class JdenticonTest {
     val sequence = Identifiers.newSequence(true);
     val matching = new File(locateFile(), "test/flake2");
     matching.mkdirs();
-    for(int i = 0; i < 100; i++) {
+    for (int i = 0; i < 100; i++) {
       val output = Jdenticon.toSvg(sequence.next().toInteger().toString(16));
       writeFile(matching, "test-" + i, output);
     }
-
   }
 
   @Test
   void testUuid() {
     val matching = new File(locateFile(), "test/porglers");
     matching.mkdirs();
-    for(int i = 0; i < 100; i++) {
+    for (int i = 0; i < 100; i++) {
       val output = Jdenticon.toSvg(UUID.randomUUID().toString());
       writeFile(matching, "test-" + i, output);
     }

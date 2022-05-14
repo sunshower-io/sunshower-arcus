@@ -59,7 +59,6 @@ public class IconGenerator {
   }
 
   public void apply(CharSequence sequence) {
-    System.out.println("Rendering " + sequence);
     render(sequence, 0, Shapes.outer, 2, 3, OUTER_1);
     render(sequence, 1, Shapes.outer, 4, 5, OUTER_2);
     render(sequence, 2, Shapes.inner, 1, -1, INNER);
