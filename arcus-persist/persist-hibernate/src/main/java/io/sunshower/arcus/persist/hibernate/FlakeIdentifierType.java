@@ -11,14 +11,13 @@ public class FlakeIdentifierType extends AbstractSingleColumnStandardBasicType<I
     super(FlakeBinaryTypeDescriptor.INSTANCE, FlakeSQLTypeDescriptor.INSTANCE);
   }
 
-
-
   @Override
   public String getName() {
     return "flake-binary";
   }
 
+  @Override
   public String[] getRegistrationKeys() {
-    return new String[]{this.getName(), "identifier", Identifier.class.getName()};
+    return new String[] {this.getName(), "identifier", Identifier.class.getName()};
   }
 }

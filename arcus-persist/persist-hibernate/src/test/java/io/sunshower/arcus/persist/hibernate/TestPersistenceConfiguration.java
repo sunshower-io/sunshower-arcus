@@ -33,7 +33,6 @@ public class TestPersistenceConfiguration {
     return createDataSource(configuration);
   }
 
-
   @Bean
   public PlatformTransactionManager transactionManager(
       LocalContainerEntityManagerFactoryBean factoryBean) {
@@ -43,10 +42,10 @@ public class TestPersistenceConfiguration {
   }
 
   @Bean
-  public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource,
-      DataSourceConfiguration configuration) {
+  public LocalContainerEntityManagerFactoryBean entityManagerFactory(
+      DataSource dataSource, DataSourceConfiguration configuration) {
     val factorybean = new LocalContainerEntityManagerFactoryBean();
-    if(configuration.getAdditionalProperties() != null) {
+    if (configuration.getAdditionalProperties() != null) {
       factorybean.setJpaProperties(
           fromMap(configuration.getAdditionalProperties(), p -> p.getKey().contains("hibernate")));
     }
@@ -60,7 +59,6 @@ public class TestPersistenceConfiguration {
     factorybean.setJpaVendorAdapter(adapter);
     return factorybean;
   }
-
 
   private DataSource createDataSource(DataSourceConfiguration configuration) {
     val ds = new DriverManagerDataSource();
@@ -81,8 +79,8 @@ public class TestPersistenceConfiguration {
     return ds;
   }
 
-  Properties fromMap(Map<String, String> properties,
-      Predicate<Map.Entry<String, String>> predicate) {
+  Properties fromMap(
+      Map<String, String> properties, Predicate<Map.Entry<String, String>> predicate) {
     val result = new Properties();
     for (val entry : properties.entrySet()) {
       if (predicate.test(entry)) {
@@ -90,8 +88,5 @@ public class TestPersistenceConfiguration {
       }
     }
     return result;
-
   }
-
-
 }

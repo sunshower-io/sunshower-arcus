@@ -10,16 +10,12 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import lombok.val;
-import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 @ArcusPersistenceTest
 public class IdentifierPersistenceTest {
 
-
-  @PersistenceContext
-  private EntityManager entityManager;
-
+  @PersistenceContext private EntityManager entityManager;
 
   @Test
   void ensureEntityManagerIsConfigured() {
@@ -51,7 +47,7 @@ public class IdentifierPersistenceTest {
       person.setFirstname("Josiah" + i);
       person.setLastName("Haswell" + i);
       entityManager.persist(person);
-      if(i % 1000 == 0) {
+      if (i % 1000 == 0) {
         entityManager.flush();
       }
     }
@@ -71,13 +67,13 @@ public class IdentifierPersistenceTest {
       person.setFirstname("Josiah" + i);
       person.setLastName("Haswell" + i);
       entityManager.persist(person);
-      if(i % 1000 == 0) {
+      if (i % 1000 == 0) {
         entityManager.flush();
       }
     }
     entityManager.flush();
     long l2 = System.currentTimeMillis();
 
-    System.out.format("Flake Persisted in %s\n", (l2 - l1) );
+    System.out.format("Flake Persisted in %s\n", (l2 - l1));
   }
 }

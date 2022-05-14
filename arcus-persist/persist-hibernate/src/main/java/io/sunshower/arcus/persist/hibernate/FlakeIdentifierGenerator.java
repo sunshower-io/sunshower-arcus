@@ -12,8 +12,7 @@ public final class FlakeIdentifierGenerator implements IdentifierGenerator {
 
   final Sequence<Identifier> sequence;
 
-  public FlakeIdentifierGenerator(
-      @NonNull Sequence<Identifier> sequence) {
+  public FlakeIdentifierGenerator(@NonNull Sequence<Identifier> sequence) {
     this.sequence = sequence;
   }
 

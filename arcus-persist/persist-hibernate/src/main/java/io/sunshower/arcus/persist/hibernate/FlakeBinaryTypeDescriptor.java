@@ -13,11 +13,9 @@ import org.hibernate.type.descriptor.jdbc.BasicBinder;
 import org.hibernate.type.descriptor.jdbc.BasicExtractor;
 import org.hibernate.type.descriptor.jdbc.JdbcType;
 
-
 public class FlakeBinaryTypeDescriptor implements JdbcType {
 
   public static final JdbcType INSTANCE = new FlakeBinaryTypeDescriptor();
-
 
   @Override
   public int getJdbcTypeCode() {
@@ -34,11 +32,9 @@ public class FlakeBinaryTypeDescriptor implements JdbcType {
     return new FlakeValueExtractor<>(javaTypeDescriptor, this);
   }
 
-
   private static final class FlakeValueBinder<X> extends BasicBinder<X> implements ValueBinder<X> {
 
-    FlakeValueBinder(final JavaType<X> typeDescriptor,
-        JdbcType sqlTypeDescriptor) {
+    FlakeValueBinder(final JavaType<X> typeDescriptor, JdbcType sqlTypeDescriptor) {
       super(typeDescriptor, sqlTypeDescriptor);
     }
 
@@ -79,5 +75,4 @@ public class FlakeBinaryTypeDescriptor implements JdbcType {
       return getJavaType().wrap(statement.getBytes(name), options);
     }
   }
-
 }

@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.Comparator;
+import java.util.Objects;
 import org.hibernate.HibernateException;
 import org.hibernate.dialect.Dialect;
 import org.hibernate.engine.jdbc.BinaryStream;
@@ -24,10 +25,12 @@ public class FlakeSQLTypeDescriptor extends AbstractClassJavaType<Identifier> {
     super(Identifier.class, IdentifierMutabilityPlan.instance);
   }
 
+  @Override
   public boolean areEqual(Identifier fst, Identifier snd) {
-    return fst == snd || fst != null && snd != null && fst.equals(snd);
+    return Objects.equals(fst, snd);
   }
 
+  @Override
   public int extractHashCode(Identifier id) {
     if (id == null) {
       return 0;
@@ -55,21 +58,17 @@ public class FlakeSQLTypeDescriptor extends AbstractClassJavaType<Identifier> {
     return 16;
   }
 
+  @Override
   public String toString(Identifier bytes) {
     return bytes.toString();
   }
 
+  @Override
   public String extractLoggableRepresentation(Identifier value) {
     return value == null ? super.extractLoggableRepresentation(null) : String.valueOf(value);
   }
 
-  public Identifier fromString(String string) {
-    if (string == null) {
-      return null;
-    }
-    return Identifier.valueOf(string);
-  }
-
+  @Override
   public Comparator<Identifier> getComparator() {
     return Identifier::compareTo;
   }
@@ -94,6 +93,7 @@ public class FlakeSQLTypeDescriptor extends AbstractClassJavaType<Identifier> {
     }
   }
 
+  @Override
   public <X> Identifier wrap(X value, WrapperOptions options) {
     if (value == null) {
       return null;

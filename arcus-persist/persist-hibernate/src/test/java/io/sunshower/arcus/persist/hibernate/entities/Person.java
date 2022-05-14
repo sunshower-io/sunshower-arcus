@@ -1,6 +1,5 @@
 package io.sunshower.arcus.persist.hibernate.entities;
 
-
 import io.sunshower.persistence.id.Identifier;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

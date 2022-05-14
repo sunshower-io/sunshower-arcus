@@ -20,9 +20,13 @@ public class FlakeGenerationTypeStrategy implements GenerationTypeStrategy {
   }
 
   @Override
-  public IdentifierGenerator createIdentifierGenerator(GenerationType generationType,
-      String generatorName, JavaType<?> javaType, Properties config,
-      GeneratorDefinitionResolver definitionResolver, ServiceRegistry serviceRegistry) {
+  public IdentifierGenerator createIdentifierGenerator(
+      GenerationType generationType,
+      String generatorName,
+      JavaType<?> javaType,
+      Properties config,
+      GeneratorDefinitionResolver definitionResolver,
+      ServiceRegistry serviceRegistry) {
     var generator = sequences.get(javaType.getJavaTypeClass());
     if (generator == null) {
       synchronized (sequences) {

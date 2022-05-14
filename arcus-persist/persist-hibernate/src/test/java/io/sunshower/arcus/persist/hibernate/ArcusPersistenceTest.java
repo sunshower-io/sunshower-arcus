@@ -9,7 +9,4 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ExtendWith(SpringExtension.class)
 @Retention(RetentionPolicy.RUNTIME)
 @ContextConfiguration(classes = TestPersistenceConfiguration.class)
-public @interface ArcusPersistenceTest {
-
-
-}
+public @interface ArcusPersistenceTest {}

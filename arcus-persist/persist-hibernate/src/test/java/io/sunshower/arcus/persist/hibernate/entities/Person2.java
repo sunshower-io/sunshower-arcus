@@ -14,14 +14,10 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name = "PEOPLE2")
 public class Person2 {
 
-
   @Id
   @Getter
   @GeneratedValue(generator = "UUID")
-  @GenericGenerator(
-      name = "UUID",
-      strategy = "org.hibernate.id.UUIDGenerator"
-  )
+  @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
   @Column(name = "id", updatable = false, nullable = false)
   private UUID id;
 
@@ -34,5 +30,4 @@ public class Person2 {
   @Setter
   @Column(name = "last_name")
   private String lastName;
-
 }
