@@ -13,6 +13,7 @@ dependencies {
 //
 //    api 'org.springframework.security:spring-security-core'
 
+    api 'jakarta.platform:jakarta.jakartaee-api'
 
     api 'org.springframework:spring-beans'
     api 'org.springframework:spring-context'
