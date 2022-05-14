@@ -1,5 +1,6 @@
 package io.sunshower.persist.condensation;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.sunshower.arcus.condensation.Alias;
 import io.sunshower.arcus.condensation.Attribute;
 import io.sunshower.arcus.condensation.Element;
@@ -10,6 +11,7 @@ import java.util.Map;
 import lombok.Setter;
 
 @RootElement
+@SuppressFBWarnings
 public class CondensationMappedDataSourceConfiguration implements DataSourceConfiguration {
 
   @Element(alias = @Alias(read = "scanned-packages", write = "scanned-packages"))
