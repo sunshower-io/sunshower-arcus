@@ -33,6 +33,10 @@
     <jmh-generator-annprocess.version>1.35</jmh-generator-annprocess.version>
     <junit-bom.version>5.8.2</junit-bom.version>
     <hibernate-core.version>6.0.1.Final</hibernate-core.version>
+    <flyway.version>8.5.10</flyway.version>
+    <jakarta.jakartaee-api.version>9.1.0</jakarta.jakartaee-api.version>
+    <jakarta.el.version>${jakarta.el-api.version}-M1</jakarta.el.version>
+    <jakarta.el-api.version>5.0.0</jakarta.el-api.version>
   </properties>
 
 
@@ -54,21 +58,34 @@
       </dependency>
 
       <dependency>
+        <groupId>org.flywaydb.flyway-test-extensions</groupId>
+        <artifactId>flyway-spring5-test</artifactId>
+        <version>7.0.0</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.flywaydb</groupId>
+        <artifactId>flyway-core</artifactId>
+        <version>${flyway.version}</version>
+      </dependency>
+
+      <dependency>
         <groupId>jakarta.platform</groupId>
         <artifactId>jakarta.jakartaee-api</artifactId>
-        <version>9.1.0</version>
+        <version>${jakarta.jakartaee-api.version}</version>
         <scope>provided</scope>
       </dependency>
 
       <dependency>
         <groupId>org.glassfish</groupId>
         <artifactId>jakarta.el</artifactId>
-        <version>5.0.0-M1</version>
+        <version>${jakarta.el.version}</version>
       </dependency>
       <dependency>
         <groupId>jakarta.el</groupId>
         <artifactId>jakarta.el-api</artifactId>
-        <version>5.0.0</version>
+        <version>${jakarta.el-api.version}</version>
       </dependency>
 
       <dependency>

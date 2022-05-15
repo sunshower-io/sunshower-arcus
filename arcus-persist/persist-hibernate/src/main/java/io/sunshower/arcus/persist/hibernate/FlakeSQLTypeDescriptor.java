@@ -49,6 +49,7 @@ public class FlakeSQLTypeDescriptor extends AbstractClassJavaType<Identifier> {
 
   /**
    * flake ids are always 16 bytes long
+   *
    * @param dialect
    * @param jdbcType
    * @return

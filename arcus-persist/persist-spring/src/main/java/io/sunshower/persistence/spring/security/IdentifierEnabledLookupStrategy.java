@@ -41,6 +41,7 @@ import org.springframework.security.acls.model.UnloadedSidException;
 import org.springframework.security.util.FieldUtils;
 import org.springframework.util.Assert;
 
+@SuppressWarnings({"PMD.AvoidDuplicateLiterals", "PMD.AvoidFieldNameMatchingMethodName"})
 public class IdentifierEnabledLookupStrategy implements LookupStrategy {
 
   public final static String DEFAULT_SELECT_CLAUSE =

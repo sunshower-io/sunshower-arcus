@@ -21,7 +21,8 @@ class CondensationMappedDataSourceConfigurationTest {
           + "  \"password\": \"hello\",\n"
           + "  \"mode\": \"WriteOnly\",\n"
           + "  \"additional-properties\": null,\n"
-          + "  \"connection-string\": null\n"
+          + "  \"connection-string\": null\n,"
+          + "  \"migration-locations\": null\n"
           + "}\n";
 
   @Test

@@ -1,3 +1,5 @@
+apply plugin: 'java-library'
+apply plugin: 'java-test-fixtures'
 dependencies {
 
 
@@ -20,24 +22,25 @@ dependencies {
      */
 
     [
+            'org.eclipse:yasson',
+            'org.glassfish:jakarta.el',
+            'jakarta.el:jakarta.el-api',
             'org.hibernate:hibernate-core',
             'org.hibernate:hibernate-entitymanager',
-            'org.springframework.data:spring-data-jpa'
+            'org.springframework.data:spring-data-jpa',
+            'org.hibernate.validator:hibernate-validator'
     ].each {
         implementation it
+        testFixturesApi it
     }
 
-    implementation 'org.hibernate.validator:hibernate-validator'
-    implementation 'jakarta.el:jakarta.el-api'
 
-    implementation 'org.eclipse:yasson'
-    implementation 'org.glassfish:jakarta.el'
 
     /**
      * test implementation dependencies
      */
-    testImplementation 'com.h2database:h2'
-    testImplementation 'org.springframework:spring-test'
+    testFixturesApi 'com.h2database:h2'
+    testFixturesApi 'org.springframework:spring-test'
 
-    testImplementation project(':arcus-persist:persist-condensation')
+    testFixturesApi project(':arcus-persist:persist-condensation')
 }
