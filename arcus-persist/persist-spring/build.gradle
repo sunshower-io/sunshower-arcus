@@ -7,4 +7,9 @@ dependencies {
     }
 
     api project(':arcus-persist:persist-api')
+    api project(':arcus-persist:persist-jpa')
+    api project(':arcus-persist:persist-hibernate')
+
+    testImplementation testFixtures(project(':arcus-persist:persist-flyway'))
+    testImplementation testFixtures(project(':arcus-persist:persist-hibernate'))
 }
