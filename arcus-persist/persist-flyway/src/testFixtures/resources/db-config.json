@@ -1,7 +1,7 @@
 {
   "scanned-packages": [
     "io.sunshower.arcus.persist.hibernate",
-    "io.sunshower.arcus.persist.hibernate.entities"
+    "io.sunshower.arcus.persist.flyway.entities"
   ],
   "driver-class": "org.h2.Driver",
   "username": null,
@@ -11,5 +11,9 @@
   "additional-properties": {
     "hibernate.dialect": "org.hibernate.dialect.H2Dialect",
     "hibernate.hbm2ddl.auto": "create-drop"
-  }
+  },
+  "migration-locations": [
+    "classpath:db/migration/h2"
+  ]
+
 }
