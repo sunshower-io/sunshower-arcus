@@ -118,6 +118,11 @@
                 <version>${arcus.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>io.sunshower.arcus.persist</groupId>
+                <artifactId>persist-flyway</artifactId>
+                <version>${arcus.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>io.sunshower.arcus.persist</groupId>
