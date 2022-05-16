@@ -12,11 +12,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class FlywayTestConfiguration implements ApplicationContextAware {
 
-
   @PostConstruct
-  public void setUp() {
-
-  }
+  public void setUp() {}
 
   @Override
   public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {

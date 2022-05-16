@@ -13,26 +13,23 @@ public class MultitenantedHierarchicalPermissionEvaluator extends AclPermissionE
     super(aclService);
   }
 
-
   @Override
-  public boolean hasPermission(Authentication authentication, Object domainObject,
-      Object permission) {
+  public boolean hasPermission(
+      Authentication authentication, Object domainObject, Object permission) {
     if (isAdmin(authentication)) {
       return true;
     }
     return super.hasPermission(authentication, domainObject, permission);
   }
 
-
   @Override
-  public boolean hasPermission(Authentication authentication, Serializable targetId,
-      String targetType, Object permission) {
+  public boolean hasPermission(
+      Authentication authentication, Serializable targetId, String targetType, Object permission) {
     if (isAdmin(authentication)) {
       return true;
     }
     return super.hasPermission(authentication, targetId, targetType, permission);
   }
-
 
   private boolean isAdmin(Authentication authentication) {
     val authorities = authentication.getAuthorities();

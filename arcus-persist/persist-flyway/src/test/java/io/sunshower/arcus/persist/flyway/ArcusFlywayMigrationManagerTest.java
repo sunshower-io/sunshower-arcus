@@ -1,6 +1,5 @@
 package io.sunshower.arcus.persist.flyway;
 
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -23,8 +22,7 @@ import org.springframework.test.context.ContextConfiguration;
 @ContextConfiguration(classes = {FlywayTestConfiguration.class, TestPersistenceConfiguration.class})
 class ArcusFlywayMigrationManagerTest {
 
-  @PersistenceContext
-  EntityManager entityManager;
+  @PersistenceContext EntityManager entityManager;
 
   @Test
   void ensureManagerIsInjected() {
@@ -32,8 +30,9 @@ class ArcusFlywayMigrationManagerTest {
   }
 
   @Test
-  void ensureDataSourceIsInjected(@Autowired DataSource dataSource, @Autowired
-      DataSourceConfiguration configuration) throws SQLException, InterruptedException {
+  void ensureDataSourceIsInjected(
+      @Autowired DataSource dataSource, @Autowired DataSourceConfiguration configuration)
+      throws SQLException, InterruptedException {
     dataSource.getConnection().prepareStatement("select count(*) from PEOPLE t").executeQuery();
   }
 

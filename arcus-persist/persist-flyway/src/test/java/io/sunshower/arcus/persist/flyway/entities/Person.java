@@ -17,5 +17,4 @@ public class Person {
   @Column(name = "id")
   @GeneratedValue(generator = "flake")
   private Identifier id;
-
 }

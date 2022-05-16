@@ -14,8 +14,8 @@ public class ArcusFlywayMigrationManager implements MigrationManager {
   private final DataSourceConfiguration configuration;
   private final Supplier<ClassLoader> classloaderSupplier;
 
-  public ArcusFlywayMigrationManager(Supplier<ClassLoader> classLoaderSupplier,
-      DataSourceConfiguration configuration) {
+  public ArcusFlywayMigrationManager(
+      Supplier<ClassLoader> classLoaderSupplier, DataSourceConfiguration configuration) {
     this.configuration = configuration;
     this.classloaderSupplier = classLoaderSupplier;
   }

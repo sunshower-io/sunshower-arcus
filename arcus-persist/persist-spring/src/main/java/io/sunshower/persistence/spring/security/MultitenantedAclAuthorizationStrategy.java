@@ -4,10 +4,9 @@ import org.springframework.security.acls.domain.AclAuthorizationStrategy;
 import org.springframework.security.acls.domain.AclAuthorizationStrategyImpl;
 import org.springframework.security.core.GrantedAuthority;
 
-public class MultitenantedAclAuthorizationStrategy extends AclAuthorizationStrategyImpl implements
-    AclAuthorizationStrategy {
+public class MultitenantedAclAuthorizationStrategy extends AclAuthorizationStrategyImpl
+    implements AclAuthorizationStrategy {
   public MultitenantedAclAuthorizationStrategy(GrantedAuthority root) {
     super(root);
   }
-
 }

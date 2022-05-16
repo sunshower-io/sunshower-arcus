@@ -44,32 +44,33 @@ import org.springframework.util.Assert;
 @SuppressWarnings({"PMD.AvoidDuplicateLiterals", "PMD.AvoidFieldNameMatchingMethodName"})
 public class IdentifierEnabledLookupStrategy implements LookupStrategy {
 
-  public final static String DEFAULT_SELECT_CLAUSE =
+  public static final String DEFAULT_SELECT_CLAUSE =
       "select acl_object_identity.object_id_identity, "
-      + "acl_entry.ace_order,  "
-      + "acl_object_identity.id as acl_id, "
-      + "acl_object_identity.parent_object, "
-      + "acl_object_identity.entries_inheriting, "
-      + "acl_entry.id as ace_id, "
-      + "acl_entry.mask,  "
-      + "acl_entry.granting,  "
-      + "acl_entry.audit_success, "
-      + "acl_entry.audit_failure,  "
-      + "acl_sid.principal as ace_principal, "
-      + "acl_sid.sid as ace_sid,  "
-      + "acli_sid.principal as acl_principal, "
-      + "acli_sid.sid as acl_sid, "
-      + "acl_class.class "
-      + "from acl_object_identity "
-      + "left join acl_sid acli_sid on acli_sid.id = acl_object_identity.owner_sid "
-      + "left join acl_class on acl_class.id = acl_object_identity.object_id_class   "
-      + "left join acl_entry on acl_object_identity.id = acl_entry.acl_object_identity "
-      + "left join acl_sid on acl_entry.sid = acl_sid.id  " + "where ( ";
-  public final static String DEFAULT_ORDER_BY_CLAUSE =
-      ") order by acl_object_identity.object_id_identity"
-      + " asc, acl_entry.ace_order asc";
-  private final static String DEFAULT_LOOKUP_KEYS_WHERE_CLAUSE = "(acl_object_identity.id = ?)";
-  private final static String DEFAULT_LOOKUP_IDENTITIES_WHERE_CLAUSE = "(acl_object_identity.object_id_identity = ? and acl_class.class = ?)";
+          + "acl_entry.ace_order,  "
+          + "acl_object_identity.id as acl_id, "
+          + "acl_object_identity.parent_object, "
+          + "acl_object_identity.entries_inheriting, "
+          + "acl_entry.id as ace_id, "
+          + "acl_entry.mask,  "
+          + "acl_entry.granting,  "
+          + "acl_entry.audit_success, "
+          + "acl_entry.audit_failure,  "
+          + "acl_sid.principal as ace_principal, "
+          + "acl_sid.sid as ace_sid,  "
+          + "acli_sid.principal as acl_principal, "
+          + "acli_sid.sid as acl_sid, "
+          + "acl_class.class "
+          + "from acl_object_identity "
+          + "left join acl_sid acli_sid on acli_sid.id = acl_object_identity.owner_sid "
+          + "left join acl_class on acl_class.id = acl_object_identity.object_id_class   "
+          + "left join acl_entry on acl_object_identity.id = acl_entry.acl_object_identity "
+          + "left join acl_sid on acl_entry.sid = acl_sid.id  "
+          + "where ( ";
+  public static final String DEFAULT_ORDER_BY_CLAUSE =
+      ") order by acl_object_identity.object_id_identity" + " asc, acl_entry.ace_order asc";
+  private static final String DEFAULT_LOOKUP_KEYS_WHERE_CLAUSE = "(acl_object_identity.id = ?)";
+  private static final String DEFAULT_LOOKUP_IDENTITIES_WHERE_CLAUSE =
+      "(acl_object_identity.object_id_identity = ? and acl_class.class = ?)";
 
   // ~ Instance fields
   // ================================================================================================
@@ -78,8 +79,7 @@ public class IdentifierEnabledLookupStrategy implements LookupStrategy {
   private final PermissionGrantingStrategy grantingStrategy;
   private final JdbcTemplate jdbcTemplate;
   private final Field fieldAces = FieldUtils.getField(AclImpl.class, "aces");
-  private final Field fieldAcl = FieldUtils.getField(AccessControlEntryImpl.class,
-      "acl");
+  private final Field fieldAcl = FieldUtils.getField(AccessControlEntryImpl.class, "acl");
   private PermissionFactory permissionFactory = new DefaultPermissionFactory();
   private int batchSize = 50;
   // SQL Customization fields
@@ -94,29 +94,33 @@ public class IdentifierEnabledLookupStrategy implements LookupStrategy {
   /**
    * Constructor accepting mandatory arguments
    *
-   * @param dataSource               to access the database
-   * @param aclCache                 the cache where fully-loaded elements can be stored
+   * @param dataSource to access the database
+   * @param aclCache the cache where fully-loaded elements can be stored
    * @param aclAuthorizationStrategy authorization strategy (required)
    */
   public IdentifierEnabledLookupStrategy(
       DataSource dataSource,
       AclCache aclCache,
       AclAuthorizationStrategy aclAuthorizationStrategy,
-      AuditLogger auditLogger
-  ) {
-    this(dataSource, aclCache, aclAuthorizationStrategy,
+      AuditLogger auditLogger) {
+    this(
+        dataSource,
+        aclCache,
+        aclAuthorizationStrategy,
         new DefaultPermissionGrantingStrategy(auditLogger));
   }
 
   /**
    * Creates a new instance
    *
-   * @param dataSource               to access the database
-   * @param aclCache                 the cache where fully-loaded elements can be stored
+   * @param dataSource to access the database
+   * @param aclCache the cache where fully-loaded elements can be stored
    * @param aclAuthorizationStrategy authorization strategy (required)
-   * @param grantingStrategy         the PermissionGrantingStrategy
+   * @param grantingStrategy the PermissionGrantingStrategy
    */
-  public IdentifierEnabledLookupStrategy(DataSource dataSource, AclCache aclCache,
+  public IdentifierEnabledLookupStrategy(
+      DataSource dataSource,
+      AclCache aclCache,
       AclAuthorizationStrategy aclAuthorizationStrategy,
       PermissionGrantingStrategy grantingStrategy) {
     Assert.notNull(dataSource, "DataSource required");
@@ -129,7 +133,6 @@ public class IdentifierEnabledLookupStrategy implements LookupStrategy {
     this.grantingStrategy = grantingStrategy;
     fieldAces.setAccessible(true);
     fieldAcl.setAccessible(true);
-
   }
 
   // ~ Methods
@@ -149,9 +152,11 @@ public class IdentifierEnabledLookupStrategy implements LookupStrategy {
 
     final String endSql = orderByClause;
 
-    StringBuilder sqlStringBldr = new StringBuilder(startSql.length()
-                                                    + endSql.length() + requiredRepetitions * (
-        repeatingSql.length() + 4));
+    StringBuilder sqlStringBldr =
+        new StringBuilder(
+            startSql.length()
+                + endSql.length()
+                + requiredRepetitions * (repeatingSql.length() + 4));
     sqlStringBldr.append(startSql);
 
     for (int i = 1; i <= requiredRepetitions; i++) {
@@ -193,18 +198,18 @@ public class IdentifierEnabledLookupStrategy implements LookupStrategy {
     }
   }
 
-  private void lookupPrimaryKeys(final Map<Serializable, Acl> acls,
-      final Set<Identifier> findNow, final List<Sid> sids) {
+  private void lookupPrimaryKeys(
+      final Map<Serializable, Acl> acls, final Set<Identifier> findNow, final List<Sid> sids) {
     Assert.notNull(acls, "ACLs are required");
     Assert.notEmpty(findNow, "Items to find now required");
 
     val sql = computeRepeatingSql(lookupPrimaryKeysWhereClause, findNow.size());
-    val parentsToLookup = jdbcTemplate.query(sql, (ps) -> setKeys(ps, findNow),
-        new ProcessResultSet(acls, sids));
+    val parentsToLookup =
+        jdbcTemplate.query(sql, (ps) -> setKeys(ps, findNow), new ProcessResultSet(acls, sids));
 
     // Lookup the parents, now that our JdbcTemplate has released the database
     // connection (SEC-547)
-    if (parentsToLookup.size() > 0) {
+    if (parentsToLookup != null && parentsToLookup.size() > 0) {
       lookupPrimaryKeys(acls, parentsToLookup, sids);
     }
   }
@@ -215,11 +220,9 @@ public class IdentifierEnabledLookupStrategy implements LookupStrategy {
       i++;
       ps.setBytes(i, toFind.getId());
     }
-
   }
 
-  public final Map<ObjectIdentity, Acl> readAclsById(List<ObjectIdentity> objects,
-      List<Sid> sids) {
+  public final Map<ObjectIdentity, Acl> readAclsById(List<ObjectIdentity> objects, List<Sid> sids) {
     Assert.isTrue(batchSize >= 1, "BatchSize must be >= 1");
     Assert.notEmpty(objects, "Objects to lookup required");
 
@@ -254,7 +257,7 @@ public class IdentifierEnabledLookupStrategy implements LookupStrategy {
           } else {
             throw new IllegalStateException(
                 "Error: SID-filtered element detected when implementation does not perform SID filtering "
-                + "- have you added something to the cache manually?");
+                    + "- have you added something to the cache manually?");
           }
         }
       }
@@ -265,11 +268,9 @@ public class IdentifierEnabledLookupStrategy implements LookupStrategy {
       }
 
       // Is it time to load from JDBC the currentBatchToLoad?
-      if ((currentBatchToLoad.size() == this.batchSize)
-          || ((i + 1) == objects.size())) {
+      if ((currentBatchToLoad.size() == this.batchSize) || ((i + 1) == objects.size())) {
         if (currentBatchToLoad.size() > 0) {
-          Map<ObjectIdentity, Acl> loadedBatch = lookupObjectIdentities(
-              currentBatchToLoad, sids);
+          Map<ObjectIdentity, Acl> loadedBatch = lookupObjectIdentities(currentBatchToLoad, sids);
 
           // Add loaded batch (all elements 100% initialized) to results
           result.putAll(loadedBatch);
@@ -290,12 +291,12 @@ public class IdentifierEnabledLookupStrategy implements LookupStrategy {
 
   /**
    * Looks up a batch of <code>ObjectIdentity</code>s directly from the database.
-   * <p>
-   * The caller is responsible for optimization issues, such as selecting the identities to lookup,
-   * ensuring the cache doesn't contain them already, and adding the returned elements to the cache
-   * etc.
-   * <p>
-   * This subclass is required to return fully valid <code>Acl</code>s, including
+   *
+   * <p>The caller is responsible for optimization issues, such as selecting the identities to
+   * lookup, ensuring the cache doesn't contain them already, and adding the returned elements to
+   * the cache etc.
+   *
+   * <p>This subclass is required to return fully valid <code>Acl</code>s, including
    * properly-configured parent ACLs.
    */
   private Map<ObjectIdentity, Acl> lookupObjectIdentities(
@@ -309,31 +310,33 @@ public class IdentifierEnabledLookupStrategy implements LookupStrategy {
 
     // Make the "acls" map contain all requested objectIdentities
     // (including markers to each parent in the hierarchy)
-    String sql = computeRepeatingSql(lookupObjectIdentitiesWhereClause,
-        objectIdentities.size());
+    String sql = computeRepeatingSql(lookupObjectIdentitiesWhereClause, objectIdentities.size());
 
-    Set<Identifier> parentsToLookup = jdbcTemplate.query(sql,
-        ps -> {
-          int i = 0;
-          for (ObjectIdentity oid : objectIdentities) {
-            // Determine prepared statement values for this iteration
-            String type = oid.getType();
+    Set<Identifier> parentsToLookup =
+        jdbcTemplate.query(
+            sql,
+            ps -> {
+              int i = 0;
+              for (ObjectIdentity oid : objectIdentities) {
+                // Determine prepared statement values for this iteration
+                String type = oid.getType();
 
-            // No need to check for nulls, as guaranteed non-null by
-            // ObjectIdentity.getIdentifier() interface contract
-            Identifier identifier = (Identifier) oid.getIdentifier();
+                // No need to check for nulls, as guaranteed non-null by
+                // ObjectIdentity.getIdentifier() interface contract
+                Identifier identifier = (Identifier) oid.getIdentifier();
 
-            ps.setBytes((2 * i) + 1, identifier.value());
-            // Inject values
-//							ps.setLong((2 * i) + 1, id);
-            ps.setString((2 * i) + 2, type);
-            i++;
-          }
-        }, new ProcessResultSet(acls, sids));
+                ps.setBytes((2 * i) + 1, identifier.value());
+                // Inject values
+                //							ps.setLong((2 * i) + 1, id);
+                ps.setString((2 * i) + 2, type);
+                i++;
+              }
+            },
+            new ProcessResultSet(acls, sids));
 
     // Lookup the parents, now that our JdbcTemplate has released the database
     // connection (SEC-547)
-    if (parentsToLookup.size() > 0) {
+    if (parentsToLookup != null && parentsToLookup.size() > 0) {
       lookupPrimaryKeys(acls, parentsToLookup, sids);
     }
 
@@ -341,8 +344,7 @@ public class IdentifierEnabledLookupStrategy implements LookupStrategy {
     Map<ObjectIdentity, Acl> resultMap = new HashMap<>();
 
     for (Acl inputAcl : acls.values()) {
-      Assert.isInstanceOf(AclImpl.class, inputAcl,
-          "Map should have contained an AclImpl");
+      Assert.isInstanceOf(AclImpl.class, inputAcl, "Map should have contained an AclImpl");
 
       Acl result = convert(acls, (Identifier) ((AclImpl) inputAcl).getId());
       resultMap.put(result.getObjectIdentity(), result);
@@ -353,10 +355,10 @@ public class IdentifierEnabledLookupStrategy implements LookupStrategy {
 
   /**
    * The final phase of converting the <code>Map</code> of <code>AclImpl</code> instances which
-   * contain <code>StubAclParent</code>s into proper, valid
-   * <code>AclImpl</code>s with correct ACL parents.
+   * contain <code>StubAclParent</code>s into proper, valid <code>AclImpl</code>s with correct ACL
+   * parents.
    *
-   * @param inputMap        the unconverted <code>AclImpl</code>s
+   * @param inputMap the unconverted <code>AclImpl</code>s
    * @param currentIdentity the current<code>Acl</code> that we wish to convert (this may be
    */
   private AclImpl convert(Map<Serializable, Acl> inputMap, Identifier currentIdentity) {
@@ -365,8 +367,7 @@ public class IdentifierEnabledLookupStrategy implements LookupStrategy {
 
     // Retrieve this Acl from the InputMap
     Acl uncastAcl = inputMap.get(currentIdentity);
-    Assert.isInstanceOf(AclImpl.class, uncastAcl,
-        "The inputMap contained a non-AclImpl");
+    Assert.isInstanceOf(AclImpl.class, uncastAcl, "The inputMap contained a non-AclImpl");
 
     AclImpl inputAcl = (AclImpl) uncastAcl;
 
@@ -379,9 +380,16 @@ public class IdentifierEnabledLookupStrategy implements LookupStrategy {
     }
 
     // Now we have the parent (if there is one), create the true AclImpl
-    AclImpl result = new AclImpl(inputAcl.getObjectIdentity(),
-        inputAcl.getId(), aclAuthorizationStrategy, grantingStrategy,
-        parent, null, inputAcl.isEntriesInheriting(), inputAcl.getOwner());
+    AclImpl result =
+        new AclImpl(
+            inputAcl.getObjectIdentity(),
+            inputAcl.getId(),
+            aclAuthorizationStrategy,
+            grantingStrategy,
+            parent,
+            null,
+            inputAcl.isEntriesInheriting(),
+            inputAcl.getOwner());
 
     // Copy the "aces" from the input to the destination
 
@@ -409,9 +417,8 @@ public class IdentifierEnabledLookupStrategy implements LookupStrategy {
   /**
    * Creates a particular implementation of {@link Sid} depending on the arguments.
    *
-   * @param sid         the name of the sid representing its unique identifier. In typical ACL
-   *                    database schema it's located in table {@code acl_sid} table, {@code sid}
-   *                    column.
+   * @param sid the name of the sid representing its unique identifier. In typical ACL database
+   *     schema it's located in table {@code acl_sid} table, {@code sid} column.
    * @param isPrincipal whether it's a user or granted authority like role
    * @return the instance of Sid with the {@code sidName} as an identifier
    */
@@ -425,8 +432,7 @@ public class IdentifierEnabledLookupStrategy implements LookupStrategy {
 
   /**
    * Sets the {@code PermissionFactory} instance which will be used to convert loaded permission
-   * data values to {@code Permission}s. A {@code DefaultPermissionFactory} will be used by
-   * default.
+   * data values to {@code Permission}s. A {@code DefaultPermissionFactory} will be used by default.
    *
    * @param permissionFactory
    */
@@ -448,27 +454,20 @@ public class IdentifierEnabledLookupStrategy implements LookupStrategy {
     this.selectClause = selectClause;
   }
 
-  /**
-   * The SQL for the where clause used in the <tt>lookupPrimaryKey</tt> method.
-   */
+  /** The SQL for the where clause used in the <code>lookupPrimaryKey</code> method. */
   public final void setLookupPrimaryKeysWhereClause(String lookupPrimaryKeysWhereClause) {
     this.lookupPrimaryKeysWhereClause = lookupPrimaryKeysWhereClause;
   }
 
-  /**
-   * The SQL for the where clause used in the <tt>lookupObjectIdentities</tt> method.
-   */
-  public final void setLookupObjectIdentitiesWhereClause(
-      String lookupObjectIdentitiesWhereClause) {
+  /** The SQL for the where clause used in the <code>lookupObjectIdentities</code> method. */
+  public final void setLookupObjectIdentitiesWhereClause(String lookupObjectIdentitiesWhereClause) {
     this.lookupObjectIdentitiesWhereClause = lookupObjectIdentitiesWhereClause;
   }
 
   // ~ Inner Classes
   // ==================================================================================================
 
-  /**
-   * The SQL for the "order by" clause used in both queries.
-   */
+  /** The SQL for the "order by" clause used in both queries. */
   public final void setOrderByClause(String orderByClause) {
     this.orderByClause = orderByClause;
   }
@@ -505,9 +504,9 @@ public class IdentifierEnabledLookupStrategy implements LookupStrategy {
       throw new UnsupportedOperationException("Stub only");
     }
 
-    public boolean isGranted(List<Permission> permission, List<Sid> sids,
-        boolean administrativeMode) throws NotFoundException,
-        UnloadedSidException {
+    public boolean isGranted(
+        List<Permission> permission, List<Sid> sids, boolean administrativeMode)
+        throws NotFoundException, UnloadedSidException {
       throw new UnsupportedOperationException("Stub only");
     }
 
@@ -561,15 +560,15 @@ public class IdentifierEnabledLookupStrategy implements LookupStrategy {
     }
 
     /**
-     * Accepts the current <code>ResultSet</code> row, and converts it into an
-     * <code>AclImpl</code> that contains a <code>StubAclParent</code>
+     * Accepts the current <code>ResultSet</code> row, and converts it into an <code>AclImpl</code>
+     * that contains a <code>StubAclParent</code>
      *
      * @param acls the Map we should add the converted Acl to
-     * @param rs   the ResultSet focused on a current row
+     * @param rs the ResultSet focused on a current row
      * @throws SQLException if something goes wrong converting values
      */
-    private void convertCurrentResultIntoObject(Map<Serializable, Acl> acls,
-        ResultSet rs) throws SQLException {
+    private void convertCurrentResultIntoObject(Map<Serializable, Acl> acls, ResultSet rs)
+        throws SQLException {
       Identifier id = fromBytes(rs.getBytes("acl_id"));
 
       // If we already have an ACL for this ID, just create the ACE
@@ -577,10 +576,9 @@ public class IdentifierEnabledLookupStrategy implements LookupStrategy {
 
       if (acl == null) {
         // Make an AclImpl and pop it into the Map
-        ObjectIdentity objectIdentity = new ObjectIdentityImpl(
-            rs.getString("class"),
-            fromBytes(rs.getBytes("object_id_identity"))
-        );
+        ObjectIdentity objectIdentity =
+            new ObjectIdentityImpl(
+                rs.getString("class"), fromBytes(rs.getBytes("object_id_identity")));
 
         Acl parentAcl = null;
         Identifier parentAclId = fromBytes(rs.getBytes("parent_object"));
@@ -590,13 +588,18 @@ public class IdentifierEnabledLookupStrategy implements LookupStrategy {
         }
 
         boolean entriesInheriting = rs.getBoolean("entries_inheriting");
-        Sid owner = createSid(
-            rs.getBoolean("acl_principal"),
-            rs.getString("acl_sid")
-        );
+        Sid owner = createSid(rs.getBoolean("acl_principal"), rs.getString("acl_sid"));
 
-        acl = new AclImpl(objectIdentity, id, aclAuthorizationStrategy,
-            grantingStrategy, parentAcl, null, entriesInheriting, owner);
+        acl =
+            new AclImpl(
+                objectIdentity,
+                id,
+                aclAuthorizationStrategy,
+                grantingStrategy,
+                parentAcl,
+                null,
+                entriesInheriting,
+                owner);
 
         acls.put(id, acl);
       }
@@ -605,12 +608,9 @@ public class IdentifierEnabledLookupStrategy implements LookupStrategy {
       // It is permissible to have no ACEs in an ACL (which is detected by a null
       // ACE_SID)
       if (rs.getString("ace_sid") != null) {
-//                Long aceId = new Long(rs.getLong("ace_id"));
+        //                Long aceId = new Long(rs.getLong("ace_id"));
         Identifier aceId = fromBytes(rs.getBytes("ace_id"));
-        Sid recipient = createSid(
-            rs.getBoolean("ace_principal"),
-            rs.getString("ace_sid")
-        );
+        Sid recipient = createSid(rs.getBoolean("ace_principal"), rs.getString("ace_sid"));
 
         int mask = rs.getInt("mask");
         Permission permission = permissionFactory.buildFromMask(mask);
@@ -618,14 +618,9 @@ public class IdentifierEnabledLookupStrategy implements LookupStrategy {
         boolean auditSuccess = rs.getBoolean("audit_success");
         boolean auditFailure = rs.getBoolean("audit_failure");
 
-        AccessControlEntryImpl ace = new AccessControlEntryImpl(
-            aceId, acl,
-            recipient,
-            permission,
-            granting,
-            auditSuccess,
-            auditFailure
-        );
+        AccessControlEntryImpl ace =
+            new AccessControlEntryImpl(
+                aceId, acl, recipient, permission, granting, auditSuccess, auditFailure);
 
         // Field acesField = FieldUtils.getField(AclImpl.class, "aces");
         List<AccessControlEntryImpl> aces = readAces((AclImpl) acl);
