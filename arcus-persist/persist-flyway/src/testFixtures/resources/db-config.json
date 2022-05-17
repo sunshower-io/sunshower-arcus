@@ -10,7 +10,7 @@
   "connection-string": "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1",
   "additional-properties": {
     "hibernate.dialect": "org.hibernate.dialect.H2Dialect",
-    "hibernate.hbm2ddl.auto": "create-drop"
+    "hibernate.hbm2ddl.auto": "validate"
   },
   "migration-locations": [
     "classpath:db/migration/h2"

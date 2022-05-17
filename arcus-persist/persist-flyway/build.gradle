@@ -5,7 +5,10 @@ dependencies {
 
     implementation 'org.flywaydb:flyway-core'
 
-    testImplementation testFixtures(project(':arcus-persist:persist-hibernate'))
+//    testImplementation testFixtures(project(':arcus-persist:persist-hibernate'))
+    testFixturesApi testFixtures(project(':arcus-persist:persist-hibernate'))
     testImplementation 'org.flywaydb.flyway-test-extensions:flyway-spring5-test'
+
+    testFixturesApi 'org.springframework:spring-orm'
 
 }

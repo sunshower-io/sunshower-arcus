@@ -5,8 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import io.sunshower.arcus.persist.flyway.entities.Person;
-import io.sunshower.arcus.persist.hibernate.ArcusPersistenceTest;
-import io.sunshower.arcus.persist.hibernate.TestPersistenceConfiguration;
 import io.sunshower.persistence.config.DataSourceConfiguration;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -15,11 +13,13 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 import lombok.val;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@ArcusPersistenceTest
-@ContextConfiguration(classes = {FlywayTestConfiguration.class, TestPersistenceConfiguration.class})
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = {FlywayTestConfiguration.class})
 class ArcusFlywayMigrationManagerTest {
 
   @PersistenceContext EntityManager entityManager;
