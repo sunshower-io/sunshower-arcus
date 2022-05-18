@@ -7,6 +7,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.sunshower.lang.common.encodings.Base58;
 import io.sunshower.lang.common.encodings.Encoding;
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.UUID;
@@ -79,6 +80,10 @@ public class Identifier implements Comparable<Identifier>, Serializable {
       return Arrays.equals(id, other.id);
     }
     return false;
+  }
+
+  public BigInteger toInteger() {
+    return new BigInteger(value());
   }
 
   @Override

@@ -1,21 +1,48 @@
 package io.sunshower.arcus.identicon;
 
+import io.sunshower.persistence.id.Identifiers;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.NoSuchElementException;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 import lombok.SneakyThrows;
 import lombok.val;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class JdenticonTest {
 
+
+
   static int count = 0;
+
+  @Test
+  void testFlake() {
+    val sequence = Identifiers.newSequence(true);
+    val matching = new File(locateFile(), "test/flake2");
+    matching.mkdirs();
+    for(int i = 0; i < 100; i++) {
+      val output = Jdenticon.toSvg(sequence.next().toInteger().toString(16));
+      writeFile(matching, "test-" + i, output);
+    }
+
+  }
+
+  @Test
+  void testUuid() {
+    val matching = new File(locateFile(), "test/porglers");
+    matching.mkdirs();
+    for(int i = 0; i < 100; i++) {
+      val output = Jdenticon.toSvg(UUID.randomUUID().toString());
+      writeFile(matching, "test-" + i, output);
+    }
+  }
 
   @Disabled("don't want to recreate the files")
   @ParameterizedTest

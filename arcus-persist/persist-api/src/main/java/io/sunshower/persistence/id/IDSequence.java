@@ -62,7 +62,6 @@ final class IDSequence implements Sequence<Identifier>, NodeAware, TimeBased {
   @SuppressFBWarnings
   private void increment() {
     currentTime = clock.millis();
-
     if (currentTime != previousTime) {
       sequence = 0;
       previousTime = currentTime;
@@ -76,7 +75,13 @@ final class IDSequence implements Sequence<Identifier>, NodeAware, TimeBased {
               previousTime = currentTime;
               return;
             } else {
-              synchronized (this) {
+
+              /**
+               * given that the sequenceLock is held for the entirety of this operation in practice,
+               * this is to prevent static analysis tools from complaining about this.  Lock-coarsening
+               * should elide this completely in practice.  Ditto for the synchronized block below
+               */
+              synchronized (sequenceLock) {
                 sequence++;
               }
             }
@@ -89,7 +94,7 @@ final class IDSequence implements Sequence<Identifier>, NodeAware, TimeBased {
               + "Can't guarantee uniqueness.  "
               + "Try using another sequence instance (with another clock)");
     } else {
-      synchronized (this) {
+      synchronized (sequenceLock) {
         sequence++;
       }
     }
