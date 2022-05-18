@@ -27,11 +27,12 @@
     <jeromq.version>0.3.5</jeromq.version>
     <bytebuddy.version>1.10.21</bytebuddy.version>
     <jsr-330.version>1</jsr-330.version>
-    <spring.version>5.3.15</spring.version>
+    <spring.version>6.0.0-M4</spring.version>
     <lombok.version>1.18.22</lombok.version>
     <findbugs-annotations.version>3.0.1</findbugs-annotations.version>
     <jmh-generator-annprocess.version>1.35</jmh-generator-annprocess.version>
     <junit-bom.version>5.8.2</junit-bom.version>
+    <hibernate-core.version>6.0.1.Final</hibernate-core.version>
   </properties>
 
 
@@ -44,6 +45,36 @@
         <artifactId>junit-pioneer</artifactId>
         <version>1.6.2</version>
         <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse</groupId>
+        <artifactId>yasson</artifactId>
+        <version>2.0.4</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>jakarta.platform</groupId>
+        <artifactId>jakarta.jakartaee-api</artifactId>
+        <version>9.1.0</version>
+        <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.glassfish</groupId>
+        <artifactId>jakarta.el</artifactId>
+        <version>5.0.0-M1</version>
+      </dependency>
+      <dependency>
+        <groupId>jakarta.el</groupId>
+        <artifactId>jakarta.el-api</artifactId>
+        <version>5.0.0</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.hibernate.validator</groupId>
+        <artifactId>hibernate-validator</artifactId>
+        <version>8.0.0.Alpha3</version>
       </dependency>
 
       <!-- benchmarks -->
@@ -92,7 +123,7 @@
       <dependency>
         <groupId>org.hibernate</groupId>
         <artifactId>hibernate-core</artifactId>
-        <version>5.4.29.Final</version>
+        <version>${hibernate-core.version}</version>
       </dependency>
 
 
@@ -168,33 +199,26 @@
 
 
       <dependency>
+        <groupId>com.h2database</groupId>
+        <artifactId>h2</artifactId>
+        <version>2.1.212</version>
+        <scope>test</scope>
+      </dependency>
+
+
+      <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-framework-bom</artifactId>
-        <version>5.3.14</version>
+        <version>${spring.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
 
-      <dependency>
-        <groupId>javax</groupId>
-        <artifactId>javaee-api</artifactId>
-        <version>8.0.1</version>
-        <scope>provided</scope>
-      </dependency>
 
-      <!--
-          API Dependencies
-      -->
       <dependency>
         <groupId>org.jboss.resteasy</groupId>
         <artifactId>jaxrs-api</artifactId>
         <version>3.0.12.Final</version>
-      </dependency>
-
-      <dependency>
-        <groupId>javax.inject</groupId>
-        <artifactId>javax.inject</artifactId>
-        <version>${jsr-330.version}</version>
       </dependency>
 
 

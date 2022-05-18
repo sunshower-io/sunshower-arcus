@@ -1,7 +1,7 @@
 dependencies {
 
-    implementation 'javax.inject:javax.inject'
 
+    api 'jakarta.el:jakarta.el-api'
     /**
      * API dependencies
      */

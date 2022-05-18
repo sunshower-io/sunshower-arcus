@@ -25,9 +25,17 @@
 
     <dependencyManagement>
         <dependencies>
+
+
             <dependency>
                 <groupId>io.sunshower.arcus</groupId>
                 <artifactId>arcus-identicon</artifactId>
+                <version>${arcus.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.sunshower.arcus</groupId>
+                <artifactId>tag-builder</artifactId>
                 <version>${arcus.version}</version>
             </dependency>
 

@@ -16,9 +16,16 @@ allprojects {
     apply plugin: 'io.spring.dependency-management'
 
     repositories {
+
+        maven {
+            url 'https://repo.spring.io/milestone'
+        }
+        maven {
+            url 'https://repo.spring.io/release'
+        }
+
         mavenLocal()
         mavenCentral()
-
         maven {
             url "https://maven.pkg.github.com/sunshower-io/sunshower-env"
             credentials {

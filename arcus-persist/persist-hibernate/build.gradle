@@ -27,10 +27,17 @@ dependencies {
         implementation it
     }
 
+    implementation 'org.hibernate.validator:hibernate-validator'
+    implementation 'jakarta.el:jakarta.el-api'
 
+    implementation 'org.eclipse:yasson'
+    implementation 'org.glassfish:jakarta.el'
 
     /**
      * test implementation dependencies
      */
+    testImplementation 'com.h2database:h2'
     testImplementation 'org.springframework:spring-test'
+
+    testImplementation project(':arcus-persist:persist-condensation')
 }

@@ -1,0 +1,6 @@
+
+dependencies {
+    api project(':arcus-persist:persist-api')
+    api project(':condensation:condensation-core')
+    implementation project(':condensation:condensation-json')
+}

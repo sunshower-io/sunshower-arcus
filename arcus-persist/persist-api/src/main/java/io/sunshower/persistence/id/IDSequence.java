@@ -78,8 +78,9 @@ final class IDSequence implements Sequence<Identifier>, NodeAware, TimeBased {
 
               /**
                * given that the sequenceLock is held for the entirety of this operation in practice,
-               * this is to prevent static analysis tools from complaining about this.  Lock-coarsening
-               * should elide this completely in practice.  Ditto for the synchronized block below
+               * this is to prevent static analysis tools from complaining about this.
+               * Lock-coarsening should elide this completely in practice. Ditto for the
+               * synchronized block below
                */
               synchronized (sequenceLock) {
                 sequence++;
