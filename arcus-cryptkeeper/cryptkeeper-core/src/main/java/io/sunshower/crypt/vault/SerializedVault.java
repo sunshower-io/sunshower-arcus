@@ -40,7 +40,10 @@ public class SerializedVault implements Vault {
   private transient VaultDescriptor vaultDescriptor;
 
   @Element private String icon;
-  @Element private Map<Identifier, SerializedEncryptedValue> encryptedValues;
+
+  @Element
+  @Convert(key = IdentifierConverter.class)
+  private Map<Identifier, SerializedEncryptedValue> encryptedValues;
 
   public SerializedVault() {
     this(Identifiers.newSequence().next());
