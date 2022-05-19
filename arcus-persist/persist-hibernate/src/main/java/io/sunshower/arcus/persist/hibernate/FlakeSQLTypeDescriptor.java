@@ -45,17 +45,17 @@ public class FlakeSQLTypeDescriptor extends AbstractTypeDescriptor<Identifier> {
     return hashCode;
   }
 
-//  /**
-//   * flake ids are always 16 bytes long
-//   *
-//   * @param dialect
-//   * @param jdbcType
-//   * @return
-//   */
-//  @Override
-//  public long getDefaultSqlLength(Dialect dialect, JavaTypeDescriptor<X> jdbcType) {
-//    return 16;
-//  }
+  //  /**
+  //   * flake ids are always 16 bytes long
+  //   *
+  //   * @param dialect
+  //   * @param jdbcType
+  //   * @return
+  //   */
+  //  @Override
+  //  public long getDefaultSqlLength(Dialect dialect, JavaTypeDescriptor<X> jdbcType) {
+  //    return 16;
+  //  }
 
   @Override
   public String toString(Identifier bytes) {
@@ -64,7 +64,7 @@ public class FlakeSQLTypeDescriptor extends AbstractTypeDescriptor<Identifier> {
 
   @Override
   public Identifier fromString(String string) {
-    if(string == null) {
+    if (string == null) {
       return null;
     }
     return Identifier.valueOf(string);

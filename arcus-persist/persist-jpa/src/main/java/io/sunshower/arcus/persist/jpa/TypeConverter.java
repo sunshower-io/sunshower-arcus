@@ -1,7 +1,7 @@
 package io.sunshower.arcus.persist.jpa;
 
-import jakarta.persistence.AttributeConverter;
-import jakarta.persistence.Converter;
+import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
 
 @Converter(autoApply = true)
 public class TypeConverter implements AttributeConverter<Class<?>, String> {

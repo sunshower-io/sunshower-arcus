@@ -14,7 +14,7 @@ public class Person {
 
   @Id
   @Getter
-  @Column(name = "id")
+  @Column(name = "id", columnDefinition = "binary(16)")
   @GeneratedValue(generator = "flake")
   private Identifier id;
 }

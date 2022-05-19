@@ -23,10 +23,8 @@ public class FlakeGenerationTypeStrategy implements IdentifierGenerator {
   public Serializable generate(SharedSessionContractImplementor session, Object object)
       throws HibernateException {
     synchronized (sequences) {
-
       val name = object.getClass().getName();
       return sequences.computeIfAbsent(name, e -> Identifiers.newSequence(true)).next();
     }
   }
-
 }

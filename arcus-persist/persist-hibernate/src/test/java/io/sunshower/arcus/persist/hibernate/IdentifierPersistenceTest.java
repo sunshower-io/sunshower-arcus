@@ -15,8 +15,7 @@ import org.junit.jupiter.api.Test;
 @ArcusPersistenceTest
 public class IdentifierPersistenceTest {
 
-  @PersistenceContext
-  private EntityManager entityManager;
+  @PersistenceContext private EntityManager entityManager;
 
   @Test
   void ensureEntityManagerIsConfigured() {

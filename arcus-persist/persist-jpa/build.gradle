@@ -23,8 +23,6 @@ dependencies {
 
     [
             'org.eclipse:yasson',
-            'org.glassfish:jakarta.el',
-            'jakarta.el:jakarta.el-api',
             'org.hibernate:hibernate-core',
             'org.hibernate:hibernate-entitymanager',
             'org.springframework.data:spring-data-jpa',

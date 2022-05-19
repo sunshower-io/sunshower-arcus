@@ -39,8 +39,8 @@ public class FlakeBinaryTypeDescriptor implements SqlTypeDescriptor {
 
   private static final class FlakeValueBinder<X> extends BasicBinder<X> implements ValueBinder<X> {
 
-    FlakeValueBinder(final JavaTypeDescriptor<X> typeDescriptor,
-        SqlTypeDescriptor sqlTypeDescriptor) {
+    FlakeValueBinder(
+        final JavaTypeDescriptor<X> typeDescriptor, SqlTypeDescriptor sqlTypeDescriptor) {
       super(typeDescriptor, sqlTypeDescriptor);
     }
 
@@ -61,11 +61,11 @@ public class FlakeBinaryTypeDescriptor implements SqlTypeDescriptor {
       super(descriptor, host);
     }
 
-//    @Override
-//    protected X doExtract(ResultSet rs, int paramIndex, WrapperOptions options)
-//        throws SQLException {
-//      return getJavaDescriptor().wrap(rs.getBytes(paramIndex), options);
-//    }
+    //    @Override
+    //    protected X doExtract(ResultSet rs, int paramIndex, WrapperOptions options)
+    //        throws SQLException {
+    //      return getJavaDescriptor().wrap(rs.getBytes(paramIndex), options);
+    //    }
 
     protected X doExtract(ResultSet rs, String name, WrapperOptions options) throws SQLException {
       return getJavaDescriptor().wrap(rs.getBytes(name), options);
