@@ -6,11 +6,11 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import io.sunshower.arcus.persist.flyway.entities.Person;
 import io.sunshower.persistence.config.DataSourceConfiguration;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.transaction.Transactional;
 import java.sql.SQLException;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
+import javax.transaction.Transactional;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

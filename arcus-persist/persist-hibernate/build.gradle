@@ -9,8 +9,8 @@ dependencies {
     [
             project(':arcus-lang'),
             project(':arcus-persist:persist-api'),
-            'org.springframework:spring-beans',
-            'org.springframework:spring-context',
+            'javax.persistence:javax.persistence-api',
+            'org.hibernate.validator:hibernate-validator'
 
     ].each{
         api it
@@ -22,16 +22,23 @@ dependencies {
      */
 
     [
-            'org.eclipse:yasson',
-            'org.glassfish:jakarta.el',
-            'jakarta.el:jakarta.el-api',
             'org.hibernate:hibernate-core',
             'org.hibernate:hibernate-entitymanager',
-            'org.springframework.data:spring-data-jpa',
             'org.hibernate.validator:hibernate-validator'
     ].each {
         implementation it
         testFixturesApi it
+    }
+
+
+    [
+
+            'org.springframework:spring-beans',
+            'org.springframework:spring-context',
+            'org.springframework.data:spring-data-jpa',
+    ].each {
+        testFixturesApi it
+        testImplementation it
     }
 
 
