@@ -33,16 +33,13 @@ public class SerializedVault implements Vault {
   @Convert(IdentifierConverter.class)
   private Identifier id;
 
-  @Getter
-  @Setter
-  private transient CharSequence password;
+  @Getter @Setter private transient CharSequence password;
 
   private transient boolean closed;
   private transient VaultManager vaultManager;
   private transient VaultDescriptor vaultDescriptor;
 
-  @Element
-  private String icon;
+  @Element private String icon;
 
   @Element
   @Convert(key = IdentifierConverter.class)
@@ -174,5 +171,4 @@ public class SerializedVault implements Vault {
   public Map<Identifier, SerializedEncryptedValue> getEncryptedValues() {
     return encryptedValues;
   }
-
 }

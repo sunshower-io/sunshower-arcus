@@ -59,9 +59,14 @@ public class FileBackedVaultManager extends AbstractVaultManager implements Vaul
     val oldVault = unlock(id, oldPassword);
     deleteVault(oldVault, oldPassword);
     val newSet = createEncryptionServiceSet(newPassword);
-    val newVault = createVault(oldVault.getName(), oldVault.getDescription(), oldVault.getId(),
-        newPassword,
-        newSet.getSalt(), newSet.getInitializationVector());
+    val newVault =
+        createVault(
+            oldVault.getName(),
+            oldVault.getDescription(),
+            oldVault.getId(),
+            newPassword,
+            newSet.getSalt(),
+            newSet.getInitializationVector());
 
     for (val encryptedValue : oldVault.getSecrets()) {
       newVault.addSecret(oldVault.getSecret(encryptedValue.getId()));
@@ -69,10 +74,13 @@ public class FileBackedVaultManager extends AbstractVaultManager implements Vaul
     flush(newVault);
   }
 
-
   @Override
   public Vault createVault(
-      String name, String description, Identifier id, CharSequence password, byte[] salt,
+      String name,
+      String description,
+      Identifier id,
+      CharSequence password,
+      byte[] salt,
       byte[] iv) {
     synchronized (lock) {
       val serializedVault = new SerializedVault(id);

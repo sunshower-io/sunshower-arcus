@@ -18,18 +18,19 @@ public interface VaultManager extends AutoCloseable {
   List<Vault> getOpenVaults();
 
   Vault createVault(
-      String name, String description, Identifier id, CharSequence password, byte[] salt,
+      String name,
+      String description,
+      Identifier id,
+      CharSequence password,
+      byte[] salt,
       byte[] iv);
 
-
   default Vault createVault(
-      String name, String description, CharSequence password, byte[] salt,
-      byte[] iv) {
+      String name, String description, CharSequence password, byte[] salt, byte[] iv) {
     return createVault(name, description, Identifiers.newSequence().next(), password, salt, iv);
   }
 
   Vault addVault(Vault vault, CharSequence password);
-
 
   Vault addSecret(Vault vault, Secret secret);
 
