@@ -77,6 +77,24 @@ class FileBackedVaultManagerTest {
         });
   }
 
+
+
+  @Test
+  void ensureChangingVaultPasswordWorks() {
+    var result = manager.addVault(vault, password);
+    val id =
+        result.addSecret(
+            new StringSecret(
+                "This is a cool secret", "Just a secret with a description", material));
+    assertEquals(1, result.getSecrets().size());
+
+    val newPassword = "awesome_new_password";
+    manager.setPassword(result.getId(), password,newPassword);
+    val newVault = manager.unlock(result.getId(), newPassword);
+    assertEquals(1, newVault.getSecrets().size());
+    assertEquals("This is a cool secret",  newVault.getSecret(id).getName());
+  }
+
   @Test
   void ensureLockingAndUnlockingVaultWorks() {
     var result = manager.addVault(vault, password);

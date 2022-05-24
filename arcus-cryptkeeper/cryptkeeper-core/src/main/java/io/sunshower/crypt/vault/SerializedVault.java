@@ -33,13 +33,16 @@ public class SerializedVault implements Vault {
   @Convert(IdentifierConverter.class)
   private Identifier id;
 
-  @Getter @Setter private transient CharSequence password;
+  @Getter
+  @Setter
+  private transient CharSequence password;
 
   private transient boolean closed;
   private transient VaultManager vaultManager;
   private transient VaultDescriptor vaultDescriptor;
 
-  @Element private String icon;
+  @Element
+  private String icon;
 
   @Element
   @Convert(key = IdentifierConverter.class)
@@ -114,7 +117,9 @@ public class SerializedVault implements Vault {
   public Identifier addSecret(Secret secret) {
     check();
     val encryptedValue = vaultManager.encrypt(this, secret);
-    encryptedValues.put(secret.getId(), new SerializedEncryptedValue(encryptedValue));
+    val value = new SerializedEncryptedValue(encryptedValue);
+    value.setId(secret.getId());
+    encryptedValues.put(secret.getId(), value);
     vaultManager.addSecret(this, secret);
     return secret.getId();
   }
@@ -165,4 +170,9 @@ public class SerializedVault implements Vault {
     }
     return result;
   }
+
+  public Map<Identifier, SerializedEncryptedValue> getEncryptedValues() {
+    return encryptedValues;
+  }
+
 }

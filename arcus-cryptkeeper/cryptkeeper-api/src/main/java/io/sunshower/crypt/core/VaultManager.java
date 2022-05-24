@@ -1,6 +1,7 @@
 package io.sunshower.crypt.core;
 
 import io.sunshower.persistence.id.Identifier;
+import io.sunshower.persistence.id.Identifiers;
 import java.util.Collection;
 import java.util.List;
 
@@ -10,13 +11,25 @@ public interface VaultManager extends AutoCloseable {
 
   Vault unlock(Identifier id, CharSequence password);
 
+  void setPassword(Identifier id, CharSequence oldPassword, CharSequence newPassword);
+
   void lock(Vault vault);
 
   List<Vault> getOpenVaults();
 
+  Vault createVault(
+      String name, String description, Identifier id, CharSequence password, byte[] salt,
+      byte[] iv);
+
+
+  default Vault createVault(
+      String name, String description, CharSequence password, byte[] salt,
+      byte[] iv) {
+    return createVault(name, description, Identifiers.newSequence().next(), password, salt, iv);
+  }
+
   Vault addVault(Vault vault, CharSequence password);
 
-  Vault createVault(String name, String description, CharSequence password, byte[] salt, byte[] iv);
 
   Vault addSecret(Vault vault, Secret secret);
 

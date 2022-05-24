@@ -11,7 +11,6 @@ import io.sunshower.crypt.core.Secret;
 import io.sunshower.crypt.core.Vault;
 import io.sunshower.crypt.core.VaultManager;
 import io.sunshower.persistence.id.Identifier;
-import io.sunshower.persistence.id.Identifiers;
 import java.io.File;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
@@ -56,10 +55,26 @@ public class FileBackedVaultManager extends AbstractVaultManager implements Vaul
   }
 
   @Override
+  public void setPassword(Identifier id, CharSequence oldPassword, CharSequence newPassword) {
+    val oldVault = unlock(id, oldPassword);
+    deleteVault(oldVault, oldPassword);
+    val newSet = createEncryptionServiceSet(newPassword);
+    val newVault = createVault(oldVault.getName(), oldVault.getDescription(), oldVault.getId(),
+        newPassword,
+        newSet.getSalt(), newSet.getInitializationVector());
+
+    for (val encryptedValue : oldVault.getSecrets()) {
+      newVault.addSecret(oldVault.getSecret(encryptedValue.getId()));
+    }
+    flush(newVault);
+  }
+
+
+  @Override
   public Vault createVault(
-      String name, String description, CharSequence password, byte[] salt, byte[] iv) {
+      String name, String description, Identifier id, CharSequence password, byte[] salt,
+      byte[] iv) {
     synchronized (lock) {
-      val id = Identifiers.newSequence().next();
       val serializedVault = new SerializedVault(id);
       serializedVault.setVaultManager(this);
 
