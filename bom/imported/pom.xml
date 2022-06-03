@@ -6,12 +6,12 @@
   <parent>
     <groupId>io.sunshower.arcus</groupId>
     <artifactId>bom</artifactId>
-    <version>1.41.45-SNAPSHOT</version>
+    <version>1.41.43-SNAPSHOT</version>
     <relativePath>../</relativePath>
   </parent>
   <groupId>io.sunshower.arcus</groupId>
   <artifactId>bom-imported</artifactId>
-  <version>1.41.45-SNAPSHOT</version>
+  <version>1.41.43-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Arcus Imported Bill-Of-Materials</name>
@@ -33,7 +33,11 @@
     <jmh-generator-annprocess.version>1.35</jmh-generator-annprocess.version>
     <junit-bom.version>5.8.2</junit-bom.version>
     <hibernate-core.version>5.6.9.Final</hibernate-core.version>
-    <hibernate-validator.version>6.2.3.Final</hibernate-validator.version>
+    <flyway.version>8.5.10</flyway.version>
+    <spring-security.version>5.7.0</spring-security.version>
+    <spring-boot.version>2.7</spring-boot.version>
+    <javax-inject.version>1</javax-inject.version>
+    <jpa.version>2.2</jpa.version>
   </properties>
 
 
@@ -41,6 +45,12 @@
 
     <dependencies>
 
+
+      <dependency>
+        <groupId>javax.inject</groupId>
+        <artifactId>javax.inject</artifactId>
+        <version>${javax-inject.version}</version>
+      </dependency>
       <dependency>
         <groupId>org.junit-pioneer</groupId>
         <artifactId>junit-pioneer</artifactId>
@@ -48,11 +58,37 @@
         <scope>test</scope>
       </dependency>
 
+      <dependency>
+        <groupId>javax.persistence</groupId>
+        <artifactId>javax.persistence-api</artifactId>
+        <version>${jpa.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.eclipse</groupId>
+        <artifactId>yasson</artifactId>
+        <version>2.0.4</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.flywaydb.flyway-test-extensions</groupId>
+        <artifactId>flyway-spring5-test</artifactId>
+        <version>7.0.0</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.flywaydb</groupId>
+        <artifactId>flyway-core</artifactId>
+        <version>${flyway.version}</version>
+      </dependency>
+
 
       <dependency>
         <groupId>org.hibernate.validator</groupId>
         <artifactId>hibernate-validator</artifactId>
-        <version>${hibernate-validator.version}</version>
+        <version>6.2.3.Final</version>
       </dependency>
 
       <!-- benchmarks -->
@@ -76,7 +112,6 @@
         <artifactId>hibernate-search-orm</artifactId>
         <version>5.11.8.Final</version>
       </dependency>
-      <!-- https://mvnrepository.com/artifact/com.google.code.findbugs/annotations -->
       <dependency>
         <groupId>com.google.code.findbugs</groupId>
         <artifactId>annotations</artifactId>
@@ -116,14 +151,14 @@
       <dependency>
         <groupId>org.hibernate</groupId>
         <artifactId>hibernate-entitymanager</artifactId>
-        <version>${hibernate-core.version}</version>
+        <version>5.4.29.Final</version>
       </dependency>
 
 
       <dependency>
         <groupId>org.springframework.security</groupId>
         <artifactId>spring-security-bom</artifactId>
-        <version>5.4.5</version>
+        <version>${spring-security.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -153,7 +188,7 @@
       <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-databind</artifactId>
-        <version>2.12.6.1</version>
+        <version>2.12.2</version>
       </dependency>
 
 
@@ -166,13 +201,13 @@
       <dependency>
         <groupId>org.apache.logging.log4j</groupId>
         <artifactId>log4j-core</artifactId>
-        <version>2.17.1</version>
+        <version>2.14.0</version>
       </dependency>
 
       <dependency>
         <groupId>org.apache.logging.log4j</groupId>
         <artifactId>log4j-api</artifactId>
-        <version>2.17.1</version>
+        <version>2.14.0</version>
       </dependency>
 
 
@@ -205,13 +240,6 @@
       -->
 
       <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>${junit.version}</version>
-        <scope>test</scope>
-      </dependency>
-
-      <dependency>
         <groupId>org.spockframework</groupId>
         <artifactId>spock-core</artifactId>
         <version>2.1-M2-groovy-3.0</version>
@@ -237,6 +265,12 @@
         <version>${spring.version}</version>
       </dependency>
 
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-dependencies</artifactId>
+        <version>${spring-boot.version}</version>
+      </dependency>
+
       <!--
           Library dependencies
       -->
@@ -253,6 +287,7 @@
         <artifactId>junit-bom</artifactId>
         <version>${junit-bom.version}</version>
         <type>pom</type>
+        <scope>import</scope>
       </dependency>
 
 

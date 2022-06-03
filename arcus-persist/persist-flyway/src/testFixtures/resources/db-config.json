@@ -1,0 +1,19 @@
+{
+  "scanned-packages": [
+    "io.sunshower.arcus.persist.hibernate",
+    "io.sunshower.arcus.persist.flyway.entities"
+  ],
+  "driver-class": "org.h2.Driver",
+  "username": null,
+  "password": null,
+  "mode": "Both",
+  "connection-string": "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1",
+  "additional-properties": {
+    "hibernate.dialect": "org.hibernate.dialect.H2Dialect",
+    "hibernate.hbm2ddl.auto": "validate"
+  },
+  "migration-locations": [
+    "classpath:db/migration/h2"
+  ]
+
+}

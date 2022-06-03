@@ -57,6 +57,7 @@ public class TestPersistenceConfiguration {
     adapter.setPrepareConnection(true);
     adapter.setShowSql(false);
     factorybean.setJpaVendorAdapter(adapter);
+
     return factorybean;
   }
 

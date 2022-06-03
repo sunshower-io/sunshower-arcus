@@ -1,42 +1,30 @@
 package io.sunshower.arcus.persist.hibernate;
 
+import io.sunshower.persistence.id.Identifier;
 import io.sunshower.persistence.id.Identifiers;
-import jakarta.persistence.GenerationType;
+import io.sunshower.persistence.id.Sequence;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
+import lombok.val;
+import org.hibernate.HibernateException;
+import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.id.IdentifierGenerator;
-import org.hibernate.id.factory.spi.GenerationTypeStrategy;
-import org.hibernate.id.factory.spi.GeneratorDefinitionResolver;
-import org.hibernate.service.ServiceRegistry;
-import org.hibernate.type.descriptor.java.JavaType;
 
-public class FlakeGenerationTypeStrategy implements GenerationTypeStrategy {
+public class FlakeGenerationTypeStrategy implements IdentifierGenerator {
 
-  private final Map<Class<?>, IdentifierGenerator> sequences;
+  private final Map<String, Sequence<Identifier>> sequences;
 
   public FlakeGenerationTypeStrategy() {
     sequences = new HashMap<>();
   }
 
   @Override
-  public IdentifierGenerator createIdentifierGenerator(
-      GenerationType generationType,
-      String generatorName,
-      JavaType<?> javaType,
-      Properties config,
-      GeneratorDefinitionResolver definitionResolver,
-      ServiceRegistry serviceRegistry) {
-    var generator = sequences.get(javaType.getJavaTypeClass());
-    if (generator == null) {
-      synchronized (sequences) {
-        generator = sequences.get(javaType.getJavaTypeClass());
-        if (generator == null) {
-          generator = new FlakeIdentifierGenerator(Identifiers.newSequence(true));
-          sequences.put(javaType.getJavaTypeClass(), generator);
-        }
-      }
+  public Serializable generate(SharedSessionContractImplementor session, Object object)
+      throws HibernateException {
+    synchronized (sequences) {
+      val name = object.getClass().getName();
+      return sequences.computeIfAbsent(name, e -> Identifiers.newSequence(true)).next();
     }
-    return generator;
   }
 }

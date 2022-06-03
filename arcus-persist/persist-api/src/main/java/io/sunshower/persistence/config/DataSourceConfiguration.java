@@ -39,6 +39,8 @@ public interface DataSourceConfiguration {
 
   Mode getMode();
 
+  List<String> getMigrationLocations();
+
   Map<String, String> getAdditionalProperties();
 
   enum Mode {

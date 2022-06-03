@@ -27,6 +27,8 @@ include(
         'arcus-persist:persist-api',
         'arcus-persist:persist-core',
         'arcus-persist:persist-jpa',
+        'arcus-persist:persist-spring',
+        'arcus-persist:persist-flyway',
         'arcus-persist:persist-hibernate',
         'arcus-persist:persist-condensation',
 

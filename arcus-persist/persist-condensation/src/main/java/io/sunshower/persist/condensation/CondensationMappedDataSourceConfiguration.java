@@ -6,8 +6,11 @@ import io.sunshower.arcus.condensation.Attribute;
 import io.sunshower.arcus.condensation.Element;
 import io.sunshower.arcus.condensation.RootElement;
 import io.sunshower.persistence.config.DataSourceConfiguration;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import lombok.Getter;
 import lombok.Setter;
 
 @RootElement
@@ -31,9 +34,28 @@ public class CondensationMappedDataSourceConfiguration implements DataSourceConf
   @Element(alias = @Alias(read = "additional-properties", write = "additional-properties"))
   private Map<String, String> additionalProperties;
 
-  @Attribute(alias = @Alias(read = "connection-string", write = "connection-string"))
   @Setter
+  @Attribute(alias = @Alias(read = "connection-string", write = "connection-string"))
   private String connectionString;
+
+  @Getter
+  @Attribute(alias = @Alias(read = "migration-locations", write = "migration-locations"))
+  private List<String> migrationLocations;
+
+  @Override
+  public Mode getMode() {
+    return mode;
+  }
+
+  @Override
+  public String getUsername() {
+    return username;
+  }
+
+  @Override
+  public String getPassword() {
+    return password;
+  }
 
   @Override
   public String getConnectionString() {
@@ -51,18 +73,8 @@ public class CondensationMappedDataSourceConfiguration implements DataSourceConf
   }
 
   @Override
-  public String getUsername() {
-    return username;
-  }
-
-  @Override
-  public String getPassword() {
-    return password;
-  }
-
-  @Override
-  public Mode getMode() {
-    return mode;
+  public List<String> getMigrationLocations() {
+    return migrationLocations != null ? migrationLocations : Collections.emptyList();
   }
 
   @Override
