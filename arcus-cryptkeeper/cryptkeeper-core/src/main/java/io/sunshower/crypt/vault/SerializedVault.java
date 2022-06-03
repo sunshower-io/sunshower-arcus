@@ -114,7 +114,9 @@ public class SerializedVault implements Vault {
   public Identifier addSecret(Secret secret) {
     check();
     val encryptedValue = vaultManager.encrypt(this, secret);
-    encryptedValues.put(secret.getId(), new SerializedEncryptedValue(encryptedValue));
+    val value = new SerializedEncryptedValue(encryptedValue);
+    value.setId(secret.getId());
+    encryptedValues.put(secret.getId(), value);
     vaultManager.addSecret(this, secret);
     return secret.getId();
   }
@@ -164,5 +166,9 @@ public class SerializedVault implements Vault {
           "No secret identified by '%s' found in this vault".formatted(id));
     }
     return result;
+  }
+
+  public Map<Identifier, SerializedEncryptedValue> getEncryptedValues() {
+    return encryptedValues;
   }
 }
