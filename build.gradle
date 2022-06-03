@@ -200,7 +200,6 @@ subprojects {
     }
 
 
-
     dependencies {
         compileOnly 'com.google.code.findbugs:annotations'
         testCompileOnly 'com.google.code.findbugs:annotations'
@@ -219,12 +218,17 @@ subprojects {
         [
                 'org.projectlombok:lombok'
         ].each { dependency ->
-            compileOnly(dependency)
-            testCompileOnly(dependency)
-            annotationProcessor(dependency)
-            testAnnotationProcessor(dependency)
-            benchmarksCompileOnly(dependency)
-            benchmarksAnnotationProcessor(dependency)
+            compileOnly dependency
+            testCompileOnly dependency
+            annotationProcessor dependency
+            testAnnotationProcessor dependency
+            benchmarksCompileOnly dependency
+            benchmarksAnnotationProcessor dependency
+
+            plugins.withType(JavaTestFixturesPlugin) {
+                testFixturesImplementation dependency
+                testFixturesAnnotationProcessor dependency
+            }
         }
 
 
@@ -238,19 +242,26 @@ subprojects {
                 'org.mockito:mockito-inline',
                 'org.junit-pioneer:junit-pioneer',
                 'org.junit.jupiter:junit-jupiter-params'
-        ].each {
-            testImplementation it
-            benchmarksImplementation it
+        ].each { dependency ->
+            testImplementation dependency
+            benchmarksImplementation dependency
+            plugins.withType(JavaTestFixturesPlugin) {
+                testFixturesImplementation dependency
+            }
         }
 
         [
                 'api',
                 'engine'
 
-        ].each { dep ->
+        ].each { dependency ->
 
-            testImplementation "org.junit.jupiter:junit-jupiter-$dep"
-            testImplementation "org.junit.platform:junit-platform-suite-$dep"
+            testImplementation "org.junit.jupiter:junit-jupiter-$dependency"
+            testImplementation "org.junit.platform:junit-platform-suite-$dependency"
+            plugins.withType(JavaTestFixturesPlugin) {
+                testFixturesImplementation "org.junit.jupiter:junit-jupiter-$dependency"
+                testFixturesImplementation "org.junit.platform:junit-platform-suite-$dependency"
+            }
         }
 
 

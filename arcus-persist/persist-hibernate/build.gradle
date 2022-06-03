@@ -1,3 +1,5 @@
+apply plugin: 'java-library'
+apply plugin: 'java-test-fixtures'
 dependencies {
 
 
@@ -7,8 +9,8 @@ dependencies {
     [
             project(':arcus-lang'),
             project(':arcus-persist:persist-api'),
-            'org.springframework:spring-beans',
-            'org.springframework:spring-context',
+            'javax.persistence:javax.persistence-api',
+            'org.hibernate.validator:hibernate-validator'
 
     ].each{
         api it
@@ -22,22 +24,30 @@ dependencies {
     [
             'org.hibernate:hibernate-core',
             'org.hibernate:hibernate-entitymanager',
-            'org.springframework.data:spring-data-jpa'
+            'org.hibernate.validator:hibernate-validator'
     ].each {
         implementation it
+        testFixturesApi it
     }
 
-    implementation 'org.hibernate.validator:hibernate-validator'
-    implementation 'jakarta.el:jakarta.el-api'
 
-    implementation 'org.eclipse:yasson'
-    implementation 'org.glassfish:jakarta.el'
+    [
+
+            'org.springframework:spring-beans',
+            'org.springframework:spring-context',
+            'org.springframework.data:spring-data-jpa',
+    ].each {
+        testFixturesApi it
+        testImplementation it
+    }
+
+
 
     /**
      * test implementation dependencies
      */
-    testImplementation 'com.h2database:h2'
-    testImplementation 'org.springframework:spring-test'
+    testFixturesApi 'com.h2database:h2'
+    testFixturesApi 'org.springframework:spring-test'
 
-    testImplementation project(':arcus-persist:persist-condensation')
+    testFixturesApi project(':arcus-persist:persist-condensation')
 }

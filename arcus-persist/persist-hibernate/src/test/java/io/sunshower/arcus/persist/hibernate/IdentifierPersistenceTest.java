@@ -6,9 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import io.sunshower.arcus.persist.hibernate.entities.Person;
 import io.sunshower.arcus.persist.hibernate.entities.Person2;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.transaction.Transactional;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 

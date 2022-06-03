@@ -118,6 +118,11 @@
                 <version>${arcus.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>io.sunshower.arcus.persist</groupId>
+                <artifactId>persist-flyway</artifactId>
+                <version>${arcus.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>io.sunshower.arcus.persist</groupId>
@@ -125,6 +130,17 @@
                 <version>${arcus.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>io.sunshower.arcus.persist</groupId>
+                <artifactId>persist-condensation</artifactId>
+                <version>${arcus.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.sunshower.arcus.persist</groupId>
+                <artifactId>persist-spring</artifactId>
+                <version>${arcus.version}</version>
+            </dependency>
 
             <!--
                 configuration subproject
@@ -213,7 +229,6 @@
                 <artifactId>test-lang</artifactId>
                 <version>${arcus.version}</version>
             </dependency>
-
 
 
 

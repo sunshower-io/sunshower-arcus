@@ -8,16 +8,14 @@ import java.sql.SQLException;
 import java.util.Comparator;
 import java.util.Objects;
 import org.hibernate.HibernateException;
-import org.hibernate.dialect.Dialect;
 import org.hibernate.engine.jdbc.BinaryStream;
 import org.hibernate.engine.jdbc.internal.BinaryStreamImpl;
 import org.hibernate.type.descriptor.WrapperOptions;
-import org.hibernate.type.descriptor.java.AbstractClassJavaType;
+import org.hibernate.type.descriptor.java.AbstractTypeDescriptor;
 import org.hibernate.type.descriptor.java.DataHelper;
 import org.hibernate.type.descriptor.java.MutableMutabilityPlan;
-import org.hibernate.type.descriptor.jdbc.JdbcType;
 
-public class FlakeSQLTypeDescriptor extends AbstractClassJavaType<Identifier> {
+public class FlakeSQLTypeDescriptor extends AbstractTypeDescriptor<Identifier> {
 
   public static final FlakeSQLTypeDescriptor INSTANCE = new FlakeSQLTypeDescriptor();
 
@@ -47,20 +45,29 @@ public class FlakeSQLTypeDescriptor extends AbstractClassJavaType<Identifier> {
     return hashCode;
   }
 
-  /**
-   * flake ids are always 16 bytes long
-   * @param dialect
-   * @param jdbcType
-   * @return
-   */
-  @Override
-  public long getDefaultSqlLength(Dialect dialect, JdbcType jdbcType) {
-    return 16;
-  }
+  //  /**
+  //   * flake ids are always 16 bytes long
+  //   *
+  //   * @param dialect
+  //   * @param jdbcType
+  //   * @return
+  //   */
+  //  @Override
+  //  public long getDefaultSqlLength(Dialect dialect, JavaTypeDescriptor<X> jdbcType) {
+  //    return 16;
+  //  }
 
   @Override
   public String toString(Identifier bytes) {
     return bytes.toString();
+  }
+
+  @Override
+  public Identifier fromString(String string) {
+    if (string == null) {
+      return null;
+    }
+    return Identifier.valueOf(string);
   }
 
   @Override
