@@ -1,6 +1,5 @@
 dependencies {
     api project(':arcus-lang')
-    api 'jakarta.platform:jakarta.jakartaee-api'
 
     api 'org.springframework:spring-beans'
     api 'org.springframework:spring-context'

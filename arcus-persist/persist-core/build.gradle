@@ -1,7 +1,6 @@
 dependencies {
 
 
-    api 'jakarta.el:jakarta.el-api'
     /**
      * API dependencies
      */

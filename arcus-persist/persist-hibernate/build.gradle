@@ -28,10 +28,7 @@ dependencies {
     }
 
     implementation 'org.hibernate.validator:hibernate-validator'
-    implementation 'jakarta.el:jakarta.el-api'
 
-    implementation 'org.eclipse:yasson'
-    implementation 'org.glassfish:jakarta.el'
 
     /**
      * test implementation dependencies

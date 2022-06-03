@@ -27,12 +27,13 @@
     <jeromq.version>0.3.5</jeromq.version>
     <bytebuddy.version>1.10.21</bytebuddy.version>
     <jsr-330.version>1</jsr-330.version>
-    <spring.version>6.0.0-M4</spring.version>
+    <spring.version>5.3.20</spring.version>
     <lombok.version>1.18.22</lombok.version>
     <findbugs-annotations.version>3.0.1</findbugs-annotations.version>
     <jmh-generator-annprocess.version>1.35</jmh-generator-annprocess.version>
     <junit-bom.version>5.8.2</junit-bom.version>
-    <hibernate-core.version>6.0.1.Final</hibernate-core.version>
+    <hibernate-core.version>5.6.9.Final</hibernate-core.version>
+    <hibernate-validator.version>6.2.3.Final</hibernate-validator.version>
   </properties>
 
 
@@ -46,35 +47,12 @@
         <version>1.6.2</version>
         <scope>test</scope>
       </dependency>
-      <dependency>
-        <groupId>org.eclipse</groupId>
-        <artifactId>yasson</artifactId>
-        <version>2.0.4</version>
-        <scope>test</scope>
-      </dependency>
 
-      <dependency>
-        <groupId>jakarta.platform</groupId>
-        <artifactId>jakarta.jakartaee-api</artifactId>
-        <version>9.1.0</version>
-        <scope>provided</scope>
-      </dependency>
-
-      <dependency>
-        <groupId>org.glassfish</groupId>
-        <artifactId>jakarta.el</artifactId>
-        <version>5.0.0-M1</version>
-      </dependency>
-      <dependency>
-        <groupId>jakarta.el</groupId>
-        <artifactId>jakarta.el-api</artifactId>
-        <version>5.0.0</version>
-      </dependency>
 
       <dependency>
         <groupId>org.hibernate.validator</groupId>
         <artifactId>hibernate-validator</artifactId>
-        <version>8.0.0.Alpha3</version>
+        <version>${hibernate-validator.version}</version>
       </dependency>
 
       <!-- benchmarks -->
@@ -138,7 +116,7 @@
       <dependency>
         <groupId>org.hibernate</groupId>
         <artifactId>hibernate-entitymanager</artifactId>
-        <version>5.4.29.Final</version>
+        <version>${hibernate-core.version}</version>
       </dependency>
 
 
