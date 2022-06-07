@@ -6,7 +6,7 @@
   <parent>
     <groupId>io.sunshower.arcus</groupId>
     <artifactId>bom</artifactId>
-    <version>1.41.43-SNAPSHOT</version>
+    <version>1.41.45-SNAPSHOT</version>
     <relativePath>../</relativePath>
   </parent>
   <groupId>io.sunshower.arcus</groupId>
