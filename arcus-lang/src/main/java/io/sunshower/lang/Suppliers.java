@@ -10,30 +10,25 @@ public class Suppliers {
 
   static final class MemoizingSupplier<T> implements Supplier<T> {
 
-    private volatile boolean set;
     private final Supplier<T> delegate;
-    private T value;
+    private volatile T value;
 
     MemoizingSupplier(final Supplier<T> delegate) {
       this.delegate = delegate;
     }
 
-
     @Override
     public T get() {
-      if (!set) {
+      var value = this.value;
+      if (value == null) {
         synchronized (this) {
-          if (!set) {
-            var value = this.value;
-            if (value == null) {
-              set = true;
-              this.value = value = delegate.get();
-            }
+          value = this.value;
+          if (value == null) {
+            this.value = value = delegate.get();
           }
         }
       }
       return value;
     }
   }
-
 }
