@@ -22,6 +22,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
@@ -31,6 +32,26 @@ import org.junit.jupiter.api.Test;
 
 public class ReflectTest {
 
+  @Test
+  void ensureGettingValueWorks() {
+
+    class A {
+      String name = "hello";
+    }
+    assertEquals(Optional.of("hello"), Reflect.fieldValue(A.class, new A(), "name"));
+
+  }
+
+  @Test
+  void ensureGettingValueWorksInHierarchyWorks() {
+
+    class A {
+      String name = "hello";
+    }
+    class B extends  A{}
+    assertEquals(Optional.of("hello"), Reflect.fieldValue(B.class, new B(), "name"));
+
+  }
   @Test
   void ensureCollectingPublicMethodsWorksDisjunction() {
 

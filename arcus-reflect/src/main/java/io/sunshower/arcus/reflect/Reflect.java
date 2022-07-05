@@ -14,18 +14,23 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 import javax.annotation.Nonnull;
 import lombok.val;
 
-/** utility class for Reflective operations */
+/**
+ * utility class for Reflective operations
+ */
 public class Reflect {
 
   static final String PARAMETERIZED_TYPE_METHOD_NAME = "parameterizedType";
 
-  /** can't create an instance */
+  /**
+   * can't create an instance
+   */
   private Reflect() {
     throw new RuntimeException("No reflect instances for you!");
   }
@@ -61,6 +66,30 @@ public class Reflect {
     } catch (Exception e) {
       return Option.none();
     }
+  }
+
+  @SuppressWarnings("unchecked")
+  public static <T, U> Optional<U> fieldValue(@Nonnull T instance, String fieldName) {
+    return fieldValue((Class<T>) instance.getClass(), instance, fieldName);
+  }
+
+  @SuppressWarnings("unchecked")
+  public static <T, U> Optional<U> fieldValue(Class<T> type, T instance, String fieldName) {
+    return collectOverHierarchy(type, type1 -> {
+      try {
+        val field = type1.getDeclaredField(fieldName);
+        field.trySetAccessible();
+        return Stream.of(field);
+      } catch (NoSuchFieldException ex) {
+        return Stream.empty();
+      }
+    }).findAny().flatMap(t -> {
+      try {
+        return Optional.of((U) t.get(instance));
+      } catch (IllegalAccessException e) {
+        return Optional.empty();
+      }
+    });
   }
 
   public static <R> R instantiate(
@@ -102,7 +131,7 @@ public class Reflect {
    * determine if classes are compatible accounting for boxing
    *
    * @param nextType the comparative class
-   * @param t the type to check for compatibility with nextType
+   * @param t        the type to check for compatibility with nextType
    * @return true if they're compatible, false otherwise
    */
   public static boolean isCompatible(Class<?> nextType, Class<?> t) {
@@ -158,7 +187,7 @@ public class Reflect {
    * instantiate a class using its default, no-arg constructor
    *
    * @param aClass the class to instantiate
-   * @param <R> the generic type of the class
+   * @param <R>    the generic type of the class
    * @return a new instance
    * @throws InstantiationException wrapping any thrown reflectiveoperation exception
    */
@@ -180,8 +209,8 @@ public class Reflect {
   }
 
   /**
-   * @param type the type to check for a matching method
-   * @param methodName the method name to check for
+   * @param type          the type to check for a matching method
+   * @param methodName    the method name to check for
    * @param argumentTypes the parameter types to check
    * @return true if a matching method is found
    */
@@ -212,8 +241,8 @@ public class Reflect {
   /**
    * return a method matching the provided criteria
    *
-   * @param host the host-class to search
-   * @param methodName the method-name
+   * @param host          the host-class to search
+   * @param methodName    the method-name
    * @param argumentTypes the argument-types
    * @return an option containing the matching method, or none if it does not exist
    */
@@ -244,8 +273,8 @@ public class Reflect {
   /**
    * Filter all of the methods from all of the types over the specified hierarchytraversalmode
    *
-   * @param type the base of the hierarchy
-   * @param mode the traversal mode
+   * @param type   the base of the hierarchy
+   * @param mode   the traversal mode
    * @param filter the method filter to apply
    * @return a list of methods matching the filter
    */
@@ -257,11 +286,11 @@ public class Reflect {
   }
 
   /**
-   * @param type the type to search for a matching method
-   * @param methodName the name of the method
+   * @param type          the type to search for a matching method
+   * @param methodName    the name of the method
    * @param argumentTypes the argument types of the method
-   * @param <T> the generic type of the class
-   * @param <U> the result-type of the method
+   * @param <T>           the generic type of the class
+   * @param <U>           the result-type of the method
    * @return an option containing a matching method-descriptor or none
    */
   public static <T, U> Option<MethodDescriptor<T, U>> getMethodDescriptor(
