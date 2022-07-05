@@ -39,7 +39,6 @@ public class ReflectTest {
       String name = "hello";
     }
     assertEquals(Optional.of("hello"), Reflect.fieldValue(A.class, new A(), "name"));
-
   }
 
   @Test
@@ -48,10 +47,10 @@ public class ReflectTest {
     class A {
       String name = "hello";
     }
-    class B extends  A{}
+    class B extends A {}
     assertEquals(Optional.of("hello"), Reflect.fieldValue(B.class, new B(), "name"));
-
   }
+
   @Test
   void ensureCollectingPublicMethodsWorksDisjunction() {
 
