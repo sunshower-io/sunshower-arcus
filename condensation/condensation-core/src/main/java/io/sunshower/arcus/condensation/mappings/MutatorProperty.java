@@ -114,7 +114,7 @@ public class MutatorProperty extends AbstractProperty<Mutator> {
     if (member.isAnnotationPresent(Convert.class)) {
       val type = member.getAnnotation(Convert.class);
       if (!Function.class.equals(type.key())) {
-        return getInstantiator().instantiate(type.key());
+        return getInstantiator().instantiate(type.value());
       }
     }
     return null;

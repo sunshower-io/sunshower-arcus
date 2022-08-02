@@ -1,7 +1,6 @@
 package io.sunshower.arcus.condensation;
 
 import io.sunshower.lang.tuple.Pair;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
