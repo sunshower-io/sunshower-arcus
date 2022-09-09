@@ -1,6 +1,7 @@
 package io.sunshower.arcus.condensation.mappings;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import io.sunshower.arcus.condensation.IgnoreUnmappedProperties;
 import io.sunshower.arcus.condensation.Property;
 import io.sunshower.arcus.condensation.Property.Mode;
 import io.sunshower.arcus.condensation.TypeDescriptor;
@@ -10,6 +11,7 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.function.Function;
 import lombok.NonNull;
 
@@ -20,6 +22,7 @@ public class ImmutableTypeDescriptor<T> implements TypeDescriptor<T> {
   private final List<Property<?>> properties;
   private final TypeInstantiator instantiator;
   private final Map<Mode, Map<String, Property<?>>> propertyCache;
+  private final boolean ignoreUnmappedProperties;
 
   public ImmutableTypeDescriptor(
       TypeInstantiator typeInstantiator, @NonNull Class<T> type, List<Property<?>> properties) {
@@ -27,6 +30,7 @@ public class ImmutableTypeDescriptor<T> implements TypeDescriptor<T> {
     this.instantiator = typeInstantiator;
     this.properties = Collections.unmodifiableList(properties);
     this.propertyCache = new EnumMap<>(Mode.class);
+    this.ignoreUnmappedProperties = type.isAnnotationPresent(IgnoreUnmappedProperties.class);
   }
 
   @Override
@@ -52,6 +56,8 @@ public class ImmutableTypeDescriptor<T> implements TypeDescriptor<T> {
     throw new IllegalStateException("shouldn't have reached here");
   }
 
+
+  static final Property<?> ABSENT_PROPERTY = new AbsentProperty<>();
   private Property<?> locate(
       Property.Mode mode, String name, Function<Property<?>, String> nameMapping) {
     return propertyCache
@@ -62,6 +68,8 @@ public class ImmutableTypeDescriptor<T> implements TypeDescriptor<T> {
                 properties.stream()
                     .filter(property -> n.equals(nameMapping.apply(property)))
                     .findAny()
+                    .or(() -> ignoreUnmappedProperties ? Optional.of(ABSENT_PROPERTY)
+                        : Optional.empty())
                     .orElseThrow(
                         () ->
                             new NoSuchElementException(
