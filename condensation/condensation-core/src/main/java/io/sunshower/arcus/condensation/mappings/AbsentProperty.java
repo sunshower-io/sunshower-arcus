@@ -47,9 +47,7 @@ public class AbsentProperty<E extends AccessibleObject> extends AbstractProperty
   }
 
   @Override
-  public <T, U> void set(U host, T value) {
-
-  }
+  public <T, U> void set(U host, T value) {}
 
   @Override
   public <T, U> T get(U host) {
@@ -75,7 +73,6 @@ public class AbsentProperty<E extends AccessibleObject> extends AbstractProperty
   public boolean isConvertable() {
     return false;
   }
-
 
   @Override
   public boolean isEnum() {

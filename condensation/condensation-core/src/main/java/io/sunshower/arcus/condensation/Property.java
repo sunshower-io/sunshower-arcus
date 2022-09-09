@@ -156,6 +156,7 @@ public interface Property<T extends AccessibleObject> {
   default boolean isEnum() {
     return getType().isEnum();
   }
+
   enum Mode {
     Read,
     Write,

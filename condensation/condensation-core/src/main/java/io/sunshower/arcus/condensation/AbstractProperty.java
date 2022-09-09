@@ -128,8 +128,6 @@ public abstract class AbstractProperty<T extends AccessibleObject> implements Pr
     return (R) value;
   }
 
-
-
   @Override
   public String getReadAlias() {
     return readAlias;

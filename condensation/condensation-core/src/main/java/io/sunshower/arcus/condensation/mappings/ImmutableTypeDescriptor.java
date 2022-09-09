@@ -56,8 +56,8 @@ public class ImmutableTypeDescriptor<T> implements TypeDescriptor<T> {
     throw new IllegalStateException("shouldn't have reached here");
   }
 
-
   static final Property<?> ABSENT_PROPERTY = new AbsentProperty<>();
+
   private Property<?> locate(
       Property.Mode mode, String name, Function<Property<?>, String> nameMapping) {
     return propertyCache
@@ -68,8 +68,11 @@ public class ImmutableTypeDescriptor<T> implements TypeDescriptor<T> {
                 properties.stream()
                     .filter(property -> n.equals(nameMapping.apply(property)))
                     .findAny()
-                    .or(() -> ignoreUnmappedProperties ? Optional.of(ABSENT_PROPERTY)
-                        : Optional.empty())
+                    .or(
+                        () ->
+                            ignoreUnmappedProperties
+                                ? Optional.of(ABSENT_PROPERTY)
+                                : Optional.empty())
                     .orElseThrow(
                         () ->
                             new NoSuchElementException(
