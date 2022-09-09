@@ -252,7 +252,7 @@ public class JsonTypeBinder implements TypeBinder<Type> {
       T result, SyntaxNode<Value<?, Type>, Token> child, Property<?> property) {
     if (isObject(child)) {
       val type = property.getType();
-      if (isMap(type)) {
+      if (property.isMap()) {
         property.set(result, readMap(type, property, child));
       } else {
         val instance = instantiate(type);
@@ -292,9 +292,6 @@ public class JsonTypeBinder implements TypeBinder<Type> {
     return result;
   }
 
-  private boolean isMap(Class<Object> type) {
-    return Map.class.isAssignableFrom(type);
-  }
 
   @SuppressWarnings({"unchecked", "rawtypes"})
   private <T> T read(Class<T> type, SyntaxNode<Value<?, Type>, Token> node, Discriminator snd) {
