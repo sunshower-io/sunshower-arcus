@@ -27,6 +27,9 @@ public class ReflectiveTypeInstantiator implements TypeInstantiator {
   @Override
   @SuppressWarnings("unchecked")
   public <T> T instantiate(Class<T> type, Pair<Class<?>, Object>... args) {
+    if (type == null) {
+      return null;
+    }
     if (Map.class.isAssignableFrom(type)) {
       return (T) new LinkedHashMap<>();
     } else if (List.class.isAssignableFrom(type)) {
