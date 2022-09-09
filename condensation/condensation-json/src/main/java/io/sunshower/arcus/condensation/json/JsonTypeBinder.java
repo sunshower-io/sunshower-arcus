@@ -292,7 +292,6 @@ public class JsonTypeBinder implements TypeBinder<Type> {
     return result;
   }
 
-
   @SuppressWarnings({"unchecked", "rawtypes"})
   private <T> T read(Class<T> type, SyntaxNode<Value<?, Type>, Token> node, Discriminator snd) {
     Class<? extends T> actualType;
