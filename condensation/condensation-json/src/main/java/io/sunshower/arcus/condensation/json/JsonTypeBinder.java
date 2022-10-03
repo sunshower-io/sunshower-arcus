@@ -84,6 +84,9 @@ public class JsonTypeBinder implements TypeBinder<Type> {
   @Override
   @SuppressWarnings("rawtypes")
   public <T> TypeDescriptor<T> descriptorFor(Class<T> type) {
+    if (type == null) {
+      return null;
+    }
     val actualType = actualType(type);
     return scanner.scan((Class) actualType, traverseHierarchy, scanInterfaces);
   }
@@ -209,6 +212,9 @@ public class JsonTypeBinder implements TypeBinder<Type> {
 
   private <T> void bind(Class<T> type, T result, SyntaxNode<Value<?, Type>, Token> node) {
     val currentDescriptor = descriptorFor(type);
+    if (currentDescriptor == null) {
+      return;
+    }
     for (val child : node.getChildren()) {
       switch (typeOf(child)) {
           /** at this point we're at the identifier */
@@ -252,7 +258,7 @@ public class JsonTypeBinder implements TypeBinder<Type> {
       T result, SyntaxNode<Value<?, Type>, Token> child, Property<?> property) {
     if (isObject(child)) {
       val type = property.getType();
-      if (isMap(type)) {
+      if (property.isMap()) {
         property.set(result, readMap(type, property, child));
       } else {
         val instance = instantiate(type);
@@ -290,10 +296,6 @@ public class JsonTypeBinder implements TypeBinder<Type> {
       }
     }
     return result;
-  }
-
-  private boolean isMap(Class<Object> type) {
-    return Map.class.isAssignableFrom(type);
   }
 
   @SuppressWarnings({"unchecked", "rawtypes"})

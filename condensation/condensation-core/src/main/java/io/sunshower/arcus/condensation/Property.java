@@ -153,6 +153,10 @@ public interface Property<T extends AccessibleObject> {
     return Map.class.isAssignableFrom(getType());
   }
 
+  default boolean isEnum() {
+    return getType().isEnum();
+  }
+
   enum Mode {
     Read,
     Write,

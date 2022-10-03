@@ -13,7 +13,7 @@ import lombok.val;
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public class FieldProperty extends AbstractProperty<Field> {
 
-  protected FieldProperty(
+  public FieldProperty(
       TypeInstantiator instantiator,
       Field member,
       Class<?> host,

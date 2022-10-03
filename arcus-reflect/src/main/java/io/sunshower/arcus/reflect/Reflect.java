@@ -14,6 +14,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
@@ -21,6 +22,7 @@ import javax.annotation.Nonnull;
 import lombok.val;
 
 /** utility class for Reflective operations */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public class Reflect {
 
   static final String PARAMETERIZED_TYPE_METHOD_NAME = "parameterizedType";
@@ -61,6 +63,35 @@ public class Reflect {
     } catch (Exception e) {
       return Option.none();
     }
+  }
+
+  @SuppressWarnings("unchecked")
+  public static <T, U> Optional<U> fieldValue(@Nonnull T instance, String fieldName) {
+    return fieldValue((Class<T>) instance.getClass(), instance, fieldName);
+  }
+
+  @SuppressWarnings("unchecked")
+  public static <T, U> Optional<U> fieldValue(Class<T> type, T instance, String fieldName) {
+    return collectOverHierarchy(
+            type,
+            type1 -> {
+              try {
+                val field = type1.getDeclaredField(fieldName);
+                field.trySetAccessible();
+                return Stream.of(field);
+              } catch (NoSuchFieldException ex) {
+                return Stream.empty();
+              }
+            })
+        .findAny()
+        .flatMap(
+            t -> {
+              try {
+                return Optional.of((U) t.get(instance));
+              } catch (IllegalAccessException e) {
+                return Optional.empty();
+              }
+            });
   }
 
   public static <R> R instantiate(

@@ -9,6 +9,7 @@ import io.sunshower.arcus.condensation.Condensation;
 import io.sunshower.arcus.condensation.Convert;
 import io.sunshower.arcus.condensation.Converter;
 import io.sunshower.arcus.condensation.Element;
+import io.sunshower.arcus.condensation.IgnoreUnmappedProperties;
 import io.sunshower.arcus.condensation.RootElement;
 import io.sunshower.arcus.condensation.mappings.ReflectiveTypeInstantiator;
 import io.sunshower.arcus.reflect.Reflect;
@@ -36,6 +37,39 @@ class CondensationTest {
   }
 
   @Test
+  void ensureUnmappedPropertiesWorks() {
+
+    @RootElement
+    @IgnoreUnmappedProperties
+    class Value {
+
+      @Attribute String name;
+    }
+
+    val source =
+        """
+            [{
+              "name": "Josiah",
+              "whatever": "cool"
+            },
+            {
+              "name": "Lisa"
+            }
+            ]
+            """;
+    register(Value.class, Value::new);
+    val v =
+        condensation.readAll(
+            Value.class,
+            ArrayList::new,
+            new ByteArrayInputStream(source.getBytes(StandardCharsets.UTF_8)));
+    assertEquals(2, v.size());
+
+    assertEquals(v.get(0).name, "Josiah");
+    assertEquals(v.get(1).name, "Lisa");
+  }
+
+  @Test
   @SneakyThrows
   void ensureReadingSimpleClassFromInputStreamWorksArrayWorks() {
 
@@ -47,14 +81,14 @@ class CondensationTest {
 
     val source =
         """
-        [{
-          "name": "Josiah"
-        },
-        {
-          "name": "Lisa"
-        }
-        ]
-        """;
+            [{
+              "name": "Josiah"
+            },
+            {
+              "name": "Lisa"
+            }
+            ]
+            """;
     register(Value.class, Value::new);
     val v =
         condensation.readAll(

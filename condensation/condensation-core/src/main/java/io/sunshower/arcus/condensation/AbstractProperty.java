@@ -122,7 +122,7 @@ public abstract class AbstractProperty<T extends AccessibleObject> implements Pr
     } else {
       return ((Converter<R, S>) converter).read(value);
     }
-    if (getType().isEnum()) {
+    if (isEnum()) {
       return (R) Enum.valueOf((Class) getType(), (String) value);
     }
     return (R) value;
