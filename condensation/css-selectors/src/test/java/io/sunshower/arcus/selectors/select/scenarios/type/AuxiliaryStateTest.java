@@ -56,18 +56,17 @@ public class AuxiliaryStateTest extends ScenarioTestCase {
     val root =
         parseString(
             "<html>\n"
-            + "  <body>\n"
-            + "    <ul>\n"
-            + "      <li>one</li>\n"
-            + "      <p>Hello</p>\n"
-            + "      <li>two</li>\n"
-            + "      <li>three</li>\n"
-            + "    </ul>\n"
-            + "  </body>\n"
-            + "</html>\n");
+                + "  <body>\n"
+                + "    <ul>\n"
+                + "      <li>one</li>\n"
+                + "      <p>Hello</p>\n"
+                + "      <li>two</li>\n"
+                + "      <li>three</li>\n"
+                + "    </ul>\n"
+                + "  </body>\n"
+                + "</html>\n");
 
     val node = at(eval("ul > p:nth-child(2)", root), 0);
     assertEquals(node.content(), "Hello");
-
   }
 }
