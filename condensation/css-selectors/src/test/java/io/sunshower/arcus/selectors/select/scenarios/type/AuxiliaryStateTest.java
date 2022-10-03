@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.val;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -47,5 +48,26 @@ public class AuxiliaryStateTest extends ScenarioTestCase {
     li.setState(Node.getAdapter().stateFor(value));
     val result = at(eval(state, root), 0);
     assertEquals(result, li);
+  }
+
+  @Test
+  void ensureNthChildWorksCorrectlyForHeterogeneousChildList() {
+
+    val root =
+        parseString(
+            "<html>\n"
+            + "  <body>\n"
+            + "    <ul>\n"
+            + "      <li>one</li>\n"
+            + "      <p>Hello</p>\n"
+            + "      <li>two</li>\n"
+            + "      <li>three</li>\n"
+            + "    </ul>\n"
+            + "  </body>\n"
+            + "</html>\n");
+
+    val node = at(eval("ul > p:nth-child(2)", root), 0);
+    assertEquals(node.content(), "Hello");
+
   }
 }
